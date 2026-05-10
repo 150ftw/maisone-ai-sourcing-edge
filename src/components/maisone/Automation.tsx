@@ -36,8 +36,17 @@ export function Automation() {
               transition={{ type: "spring", duration: 1 }}
               className="relative size-32 rounded-full glass-strong flex items-center justify-center glow-electric z-10"
             >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-electric/30 to-violet-glow/30 blur-2xl" />
-              <span className="relative font-serif text-2xl tracking-widest">M</span>
+              <div className="absolute -inset-8 rounded-full border border-electric/15" />
+              <div className="absolute -inset-16 rounded-full border border-electric/10" />
+              <motion.div
+                className="absolute -inset-24 rounded-full border border-dashed border-electric/20"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-electric/40 to-violet-glow/40 blur-2xl" />
+              <div className="relative size-24 rounded-full bg-gradient-to-br from-background to-card border border-border flex items-center justify-center">
+                <span className="font-serif text-3xl tracking-widest gradient-text">M</span>
+              </div>
             </motion.div>
 
             {/* Orbit */}

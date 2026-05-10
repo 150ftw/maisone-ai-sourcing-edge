@@ -29,15 +29,25 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
             <circle cx="0.5" cy="0.5" r="0.35" fill="currentColor" />
           </pattern>
           <mask id="continents">
-            {/* simplified continent blobs */}
             <rect width="200" height="100" fill="black" />
-            <ellipse cx="40" cy="42" rx="22" ry="14" fill="white" />
-            <ellipse cx="55" cy="60" rx="10" ry="18" fill="white" />
-            <ellipse cx="100" cy="38" rx="18" ry="10" fill="white" />
-            <ellipse cx="110" cy="55" rx="14" ry="20" fill="white" />
-            <ellipse cx="150" cy="40" rx="22" ry="14" fill="white" />
-            <ellipse cx="160" cy="65" rx="8" ry="10" fill="white" />
-            <ellipse cx="175" cy="55" rx="6" ry="6" fill="white" />
+            {/* North America */}
+            <path d="M 12,28 Q 20,22 32,24 L 42,30 L 44,42 L 36,52 L 24,54 L 14,46 Z" fill="white" />
+            {/* South America */}
+            <path d="M 38,56 Q 44,58 46,68 L 42,82 L 36,84 L 32,72 Z" fill="white" />
+            {/* Europe */}
+            <path d="M 92,26 Q 100,22 110,26 L 112,36 L 104,40 L 94,38 Z" fill="white" />
+            {/* UK */}
+            <ellipse cx="92" cy="28" rx="3" ry="3" fill="white" />
+            {/* Africa */}
+            <path d="M 96,42 Q 108,40 114,48 L 116,64 L 110,76 L 102,74 L 96,60 Z" fill="white" />
+            {/* Asia */}
+            <path d="M 112,22 Q 130,18 152,22 L 168,30 L 170,42 L 158,46 L 142,42 L 122,40 L 114,32 Z" fill="white" />
+            {/* SE Asia */}
+            <path d="M 152,52 Q 162,50 168,54 L 166,60 L 156,60 Z" fill="white" />
+            {/* Australia */}
+            <path d="M 158,68 Q 168,66 176,70 L 174,78 L 162,78 Z" fill="white" />
+            {/* Japan */}
+            <path d="M 166,32 Q 170,30 172,34 L 168,40 Z" fill="white" />
           </mask>
         </defs>
         <rect width="200" height="100" fill="url(#dots)" mask="url(#continents)" className="text-foreground" />
