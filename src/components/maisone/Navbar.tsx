@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Moon, Sun, Menu, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { useTheme } from "@/components/theme-provider";
 
@@ -60,12 +61,12 @@ export function Navbar() {
             >
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </button>
-            <a
-              href="#contact"
+            <Link
+              to="/book-demo"
               className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
             >
               Book Demo
-            </a>
+            </Link>
             <button
               onClick={() => setOpen(!open)}
               className="lg:hidden size-10 rounded-full glass flex items-center justify-center"

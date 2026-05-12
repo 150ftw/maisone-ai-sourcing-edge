@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 const tiers = [
   {
@@ -77,8 +78,8 @@ export function Pricing() {
                 ))}
               </ul>
 
-              <a
-                href="#contact"
+              <Link
+                to="/book-demo"
                 className={`mt-8 inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium transition-opacity ${
                   t.featured
                     ? "bg-background text-foreground hover:opacity-90"
@@ -86,7 +87,7 @@ export function Pricing() {
                 }`}
               >
                 {t.cta}
-              </a>
+              </Link>
             </motion.div>
           ))}
         </div>

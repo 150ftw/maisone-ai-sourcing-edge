@@ -1,9 +1,36 @@
-import { motion } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, Bell, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, ArrowDownRight, Bell, Search, Filter, MapPin, Package, Sparkles } from "lucide-react";
 
 const trend = [22, 30, 28, 42, 38, 55, 48, 65, 60, 72, 68, 84, 80, 92];
 
+type View = "Overview" | "Suppliers" | "Shipments" | "Inventory" | "Trends" | "Automation" | "Reports";
+
+const SUPPLIERS = [
+  { id: "JP-014", name: "Osaka Mill #042", region: "Japan", city: "Osaka", category: "Denim", lead: 21, rating: 4.9, otd: 96 },
+  { id: "JP-022", name: "Kyōto Atelier", region: "Japan", city: "Kyoto", category: "Silk", lead: 28, rating: 4.8, otd: 94 },
+  { id: "EU-088", name: "Milano Tessile", region: "Europe", city: "Milan", category: "Wool", lead: 24, rating: 4.7, otd: 92 },
+  { id: "EU-091", name: "Maison Lyon", region: "Europe", city: "Lyon", category: "Silk", lead: 30, rating: 4.6, otd: 89 },
+  { id: "UK-119", name: "Savile House", region: "United Kingdom", city: "London", category: "Tailoring", lead: 26, rating: 4.5, otd: 88 },
+  { id: "US-203", name: "Brooklyn Knit Co.", region: "United States", city: "New York", category: "Knitwear", lead: 19, rating: 4.7, otd: 93 },
+  { id: "US-217", name: "LA Leatherworks", region: "United States", city: "Los Angeles", category: "Leather", lead: 32, rating: 4.4, otd: 86 },
+];
+
+const SHIPMENTS = [
+  { id: "MS-7841", route: "Tokyo → London", eta: "Mar 14", status: "In transit", prog: 64 },
+  { id: "MS-7836", route: "Milan → New York", eta: "Mar 16", status: "Customs", prog: 82 },
+  { id: "MS-7822", route: "Paris → Los Angeles", eta: "Mar 18", status: "In transit", prog: 41 },
+  { id: "MS-7818", route: "Osaka → Berlin", eta: "Mar 20", status: "In transit", prog: 28 },
+  { id: "MS-7810", route: "London → New York", eta: "Mar 13", status: "Delivered", prog: 100 },
+];
+
+const NAV: View[] = ["Overview", "Suppliers", "Shipments", "Inventory", "Trends", "Automation", "Reports"];
+
 export function Dashboard() {
+  const [view, setView] = useState<View>("Overview");
+  const [query, setQuery] = useState("");
+  const [region, setRegion] = useState<string>("All");
+
   return (
     <section id="dashboard" className="relative py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
@@ -12,6 +39,7 @@ export function Dashboard() {
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             One console for every <span className="italic gradient-text">sourcing decision</span>.
           </h2>
+          <p className="mt-6 text-muted-foreground text-sm">Try the live preview — switch tabs, filter suppliers, search shipments.</p>
         </div>
 
         <motion.div
@@ -28,11 +56,17 @@ export function Dashboard() {
                 <span className="size-2.5 rounded-full bg-red-500/70" />
                 <span className="size-2.5 rounded-full bg-yellow-500/70" />
                 <span className="size-2.5 rounded-full bg-emerald-500/70" />
-                <span className="ml-4 text-xs text-muted-foreground">maisone.app / overview</span>
+                <span className="ml-4 text-xs text-muted-foreground">maisone.app / {view.toLowerCase()}</span>
               </div>
               <div className="hidden sm:flex items-center gap-3">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-xs text-muted-foreground">
-                  <Search className="size-3" /> Search suppliers, POs, shipments
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted text-xs">
+                  <Search className="size-3 text-muted-foreground" />
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search suppliers, POs, shipments"
+                    className="bg-transparent outline-none text-foreground placeholder:text-muted-foreground w-56"
+                  />
                 </div>
                 <Bell className="size-4 text-muted-foreground" />
                 <div className="size-7 rounded-full bg-gradient-to-br from-electric to-violet-glow" />
@@ -42,123 +76,375 @@ export function Dashboard() {
             <div className="grid grid-cols-12 gap-3 p-3">
               {/* sidebar */}
               <div className="hidden md:block col-span-2 space-y-1">
-                {["Overview", "Suppliers", "Shipments", "Inventory", "Trends", "Automation", "Reports"].map((l, i) => (
-                  <div key={l} className={`px-3 py-2 rounded-lg text-xs ${i === 0 ? "bg-accent text-foreground" : "text-muted-foreground"}`}>
+                {NAV.map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => setView(l)}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${
+                      view === l ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                    }`}
+                  >
                     {l}
-                  </div>
+                  </button>
                 ))}
               </div>
 
               {/* main */}
-              <div className="col-span-12 md:col-span-10 space-y-3">
-                {/* KPIs */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-                  {[
-                    { label: "Active Suppliers", value: "2,418", delta: "+12.6%", up: true },
-                    { label: "Open POs", value: "184", delta: "+4.2%", up: true },
-                    { label: "Avg Lead Time", value: "27d", delta: "-3.1d", up: true },
-                    { label: "On-time Rate", value: "94.7%", delta: "+1.8%", up: true },
-                  ].map((k) => (
-                    <div key={k.label} className="rounded-xl p-4 bg-background border border-border">
-                      <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{k.label}</p>
-                      <p className="text-2xl font-semibold mt-1 tabular-nums">{k.value}</p>
-                      <div className={`mt-1 inline-flex items-center gap-1 text-[11px] ${k.up ? "text-emerald-400" : "text-red-400"}`}>
-                        {k.up ? <ArrowUpRight className="size-3" /> : <ArrowDownRight className="size-3" />}
-                        {k.delta}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                  {/* Trend chart */}
-                  <div className="lg:col-span-2 rounded-xl p-5 bg-background border border-border">
-                    <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <p className="text-sm font-medium">Sourcing Volume</p>
-                        <p className="text-xs text-muted-foreground">Last 14 weeks · 4 regions</p>
-                      </div>
-                      <div className="flex gap-2 text-[10px] text-muted-foreground">
-                        {["JP", "UK", "EU", "US"].map((r) => (
-                          <span key={r} className="px-2 py-0.5 rounded-full bg-muted">{r}</span>
-                        ))}
-                      </div>
-                    </div>
-                    <svg viewBox="0 0 300 100" className="w-full h-32">
-                      <defs>
-                        <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
-                          <stop offset="0%" stopColor="oklch(0.65 0.22 255)" stopOpacity="0.4" />
-                          <stop offset="100%" stopColor="oklch(0.65 0.22 255)" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <motion.path
-                        initial={{ pathLength: 0 }}
-                        whileInView={{ pathLength: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5 }}
-                        d={`M ${trend.map((v, i) => `${(i / (trend.length - 1)) * 300} ${100 - v}`).join(" L ")}`}
-                        fill="none"
-                        stroke="oklch(0.65 0.22 255)"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d={`M 0 100 L ${trend.map((v, i) => `${(i / (trend.length - 1)) * 300} ${100 - v}`).join(" L ")} L 300 100 Z`}
-                        fill="url(#area)"
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Recommendations */}
-                  <div className="rounded-xl p-5 bg-background border border-border">
-                    <p className="text-sm font-medium mb-1">AI Recommendations</p>
-                    <p className="text-xs text-muted-foreground mb-4">Live · updated 2m ago</p>
-                    <div className="space-y-3">
-                      {[
-                        { t: "Switch denim to Osaka Mill #042", s: "−18% cost · +6d lead" },
-                        { t: "Pre-book Milan silk for Q3", s: "Trend confidence 87%" },
-                        { t: "Risk alert · Vendor LDN-119", s: "Compliance review" },
-                      ].map((r) => (
-                        <div key={r.t} className="flex items-start gap-3 text-xs">
-                          <div className="mt-1 size-1.5 rounded-full bg-electric" />
-                          <div>
-                            <p className="text-foreground">{r.t}</p>
-                            <p className="text-muted-foreground mt-0.5">{r.s}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Shipments table */}
-                <div className="rounded-xl bg-background border border-border overflow-hidden">
-                  <div className="px-5 py-3 border-b border-border flex items-center justify-between">
-                    <p className="text-sm font-medium">Active Shipments</p>
-                    <span className="text-[10px] text-muted-foreground">12 in transit</span>
-                  </div>
-                  <div className="divide-y divide-border text-xs">
-                    {[
-                      { id: "MS-7841", route: "Tokyo → London", eta: "Mar 14", status: "In transit", prog: 64 },
-                      { id: "MS-7836", route: "Milan → New York", eta: "Mar 16", status: "Customs", prog: 82 },
-                      { id: "MS-7822", route: "Paris → Los Angeles", eta: "Mar 18", status: "In transit", prog: 41 },
-                    ].map((s) => (
-                      <div key={s.id} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
-                        <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
-                        <span className="col-span-4">{s.route}</span>
-                        <span className="col-span-2 text-muted-foreground">{s.eta}</span>
-                        <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-electric to-cyan-glow" style={{ width: `${s.prog}%` }} />
-                        </div>
-                        <span className="col-span-1 text-right text-emerald-400">{s.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <div className="col-span-12 md:col-span-10 space-y-3 min-h-[480px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={view}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-3"
+                  >
+                    {view === "Overview" && <Overview query={query} />}
+                    {view === "Suppliers" && (
+                      <Suppliers query={query} region={region} setRegion={setRegion} />
+                    )}
+                    {view === "Shipments" && <Shipments query={query} />}
+                    {view === "Inventory" && <Inventory />}
+                    {view === "Trends" && <Trends />}
+                    {view === "Automation" && <AutomationView />}
+                    {view === "Reports" && <Reports />}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+function Overview({ query }: { query: string }) {
+  const filteredShip = SHIPMENTS.filter((s) =>
+    !query || s.id.toLowerCase().includes(query.toLowerCase()) || s.route.toLowerCase().includes(query.toLowerCase())
+  ).slice(0, 3);
+  return (
+    <>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {[
+          { label: "Active Suppliers", value: "2,418", delta: "+12.6%", up: true },
+          { label: "Open POs", value: "184", delta: "+4.2%", up: true },
+          { label: "Avg Lead Time", value: "27d", delta: "-3.1d", up: true },
+          { label: "On-time Rate", value: "94.7%", delta: "+1.8%", up: true },
+        ].map((k) => (
+          <div key={k.label} className="rounded-xl p-4 bg-background border border-border">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{k.label}</p>
+            <p className="text-2xl font-semibold mt-1 tabular-nums">{k.value}</p>
+            <div className={`mt-1 inline-flex items-center gap-1 text-[11px] ${k.up ? "text-emerald-400" : "text-red-400"}`}>
+              {k.up ? <ArrowUpRight className="size-3" /> : <ArrowDownRight className="size-3" />}
+              {k.delta}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="lg:col-span-2 rounded-xl p-5 bg-background border border-border">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="text-sm font-medium">Sourcing Volume</p>
+              <p className="text-xs text-muted-foreground">Last 14 weeks · 4 regions</p>
+            </div>
+            <div className="flex gap-2 text-[10px] text-muted-foreground">
+              {["JP", "UK", "EU", "US"].map((r) => (
+                <span key={r} className="px-2 py-0.5 rounded-full bg-muted">{r}</span>
+              ))}
+            </div>
+          </div>
+          <svg viewBox="0 0 300 100" className="w-full h-32">
+            <defs>
+              <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="oklch(0.65 0.22 255)" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="oklch(0.65 0.22 255)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <motion.path
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5 }}
+              d={`M ${trend.map((v, i) => `${(i / (trend.length - 1)) * 300} ${100 - v}`).join(" L ")}`}
+              fill="none"
+              stroke="oklch(0.65 0.22 255)"
+              strokeWidth="1.5"
+            />
+            <path
+              d={`M 0 100 L ${trend.map((v, i) => `${(i / (trend.length - 1)) * 300} ${100 - v}`).join(" L ")} L 300 100 Z`}
+              fill="url(#area)"
+            />
+          </svg>
+        </div>
+
+        <div className="rounded-xl p-5 bg-background border border-border">
+          <p className="text-sm font-medium mb-1">AI Recommendations</p>
+          <p className="text-xs text-muted-foreground mb-4">Live · updated 2m ago</p>
+          <div className="space-y-3">
+            {[
+              { t: "Switch denim to Osaka Mill #042", s: "−18% cost · +6d lead" },
+              { t: "Pre-book Milan silk for Q3", s: "Trend confidence 87%" },
+              { t: "Risk alert · Vendor LDN-119", s: "Compliance review" },
+            ].map((r) => (
+              <div key={r.t} className="flex items-start gap-3 text-xs">
+                <Sparkles className="size-3 text-electric mt-0.5" />
+                <div>
+                  <p className="text-foreground">{r.t}</p>
+                  <p className="text-muted-foreground mt-0.5">{r.s}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-xl bg-background border border-border overflow-hidden">
+        <div className="px-5 py-3 border-b border-border flex items-center justify-between">
+          <p className="text-sm font-medium">Active Shipments</p>
+          <span className="text-[10px] text-muted-foreground">{filteredShip.length} shown</span>
+        </div>
+        <div className="divide-y divide-border text-xs">
+          {filteredShip.map((s) => (
+            <div key={s.id} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+              <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+              <span className="col-span-4">{s.route}</span>
+              <span className="col-span-2 text-muted-foreground">{s.eta}</span>
+              <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-electric to-cyan-glow"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${s.prog}%` }}
+                  transition={{ duration: 1 }}
+                />
+              </div>
+              <span className="col-span-1 text-right text-emerald-400">{s.status}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Suppliers({ query, region, setRegion }: { query: string; region: string; setRegion: (r: string) => void }) {
+  const regions = ["All", "Japan", "United Kingdom", "Europe", "United States"];
+  const filtered = useMemo(
+    () =>
+      SUPPLIERS.filter(
+        (s) =>
+          (region === "All" || s.region === region) &&
+          (!query ||
+            s.name.toLowerCase().includes(query.toLowerCase()) ||
+            s.id.toLowerCase().includes(query.toLowerCase()) ||
+            s.category.toLowerCase().includes(query.toLowerCase()))
+      ),
+    [query, region]
+  );
+  return (
+    <>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Filter className="size-3" /> Region:
+          {regions.map((r) => (
+            <button
+              key={r}
+              onClick={() => setRegion(r)}
+              className={`px-3 py-1 rounded-full border text-[11px] ${region === r ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"}`}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+        <span className="text-[11px] text-muted-foreground">{filtered.length} verified suppliers</span>
+      </div>
+
+      <div className="rounded-xl bg-background border border-border overflow-hidden">
+        <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span className="col-span-2">ID</span>
+          <span className="col-span-3">Supplier</span>
+          <span className="col-span-2">Region</span>
+          <span className="col-span-2">Category</span>
+          <span className="col-span-1 text-right">Lead</span>
+          <span className="col-span-1 text-right">OTD</span>
+          <span className="col-span-1 text-right">★</span>
+        </div>
+        <div className="divide-y divide-border text-xs">
+          {filtered.length === 0 && (
+            <div className="px-5 py-8 text-center text-muted-foreground">No suppliers match your filters.</div>
+          )}
+          {filtered.map((s) => (
+            <motion.div
+              key={s.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid grid-cols-12 gap-4 px-5 py-3 items-center hover:bg-accent/30"
+            >
+              <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+              <span className="col-span-3">{s.name}</span>
+              <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5"><MapPin className="size-3" /> {s.city}</span>
+              <span className="col-span-2"><span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span></span>
+              <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
+              <span className="col-span-1 text-right tabular-nums text-emerald-400">{s.otd}%</span>
+              <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Shipments({ query }: { query: string }) {
+  const [status, setStatus] = useState<string>("All");
+  const filtered = SHIPMENTS.filter(
+    (s) =>
+      (status === "All" || s.status === status) &&
+      (!query || s.id.toLowerCase().includes(query.toLowerCase()) || s.route.toLowerCase().includes(query.toLowerCase()))
+  );
+  const statuses = ["All", "In transit", "Customs", "Delivered"];
+  return (
+    <>
+      <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground">
+        <Package className="size-3" /> Status:
+        {statuses.map((s) => (
+          <button
+            key={s}
+            onClick={() => setStatus(s)}
+            className={`px-3 py-1 rounded-full border text-[11px] ${status === s ? "bg-foreground text-background border-foreground" : "border-border hover:text-foreground"}`}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+      <div className="rounded-xl bg-background border border-border overflow-hidden">
+        <div className="divide-y divide-border text-xs">
+          {filtered.map((s) => (
+            <div key={s.id} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+              <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+              <span className="col-span-4">{s.route}</span>
+              <span className="col-span-2 text-muted-foreground">{s.eta}</span>
+              <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-electric to-cyan-glow"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${s.prog}%` }}
+                  transition={{ duration: 0.8 }}
+                />
+              </div>
+              <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-400" : s.status === "Customs" ? "text-amber-400" : "text-electric"}`}>{s.status}</span>
+            </div>
+          ))}
+          {filtered.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function Inventory() {
+  const items = [
+    { sku: "DEN-501", name: "Selvedge Denim · 14oz", stock: 2840, reorder: 1500 },
+    { sku: "SLK-220", name: "Mulberry Silk · Charmeuse", stock: 940, reorder: 1200 },
+    { sku: "WOL-118", name: "Merino Wool · Fine", stock: 3210, reorder: 2000 },
+    { sku: "LTR-077", name: "Italian Calf Leather", stock: 540, reorder: 600 },
+  ];
+  return (
+    <div className="rounded-xl bg-background border border-border overflow-hidden">
+      <div className="px-5 py-3 border-b border-border text-sm font-medium">Inventory levels</div>
+      <div className="divide-y divide-border text-xs">
+        {items.map((i) => {
+          const pct = Math.min(100, (i.stock / (i.reorder * 2)) * 100);
+          const low = i.stock < i.reorder;
+          return (
+            <div key={i.sku} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+              <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
+              <span className="col-span-4">{i.name}</span>
+              <span className="col-span-2 tabular-nums">{i.stock.toLocaleString()} u</span>
+              <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
+                <div className={`h-full ${low ? "bg-amber-400" : "bg-gradient-to-r from-electric to-cyan-glow"}`} style={{ width: `${pct}%` }} />
+              </div>
+              <span className={`col-span-1 text-right text-[11px] ${low ? "text-amber-400" : "text-emerald-400"}`}>{low ? "Reorder" : "Healthy"}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Trends() {
+  const cats = [
+    { c: "Denim", v: [30, 38, 45, 52, 60, 68, 74, 82] },
+    { c: "Silk", v: [50, 48, 55, 60, 58, 65, 72, 78] },
+    { c: "Knitwear", v: [20, 25, 32, 40, 48, 56, 60, 70] },
+  ];
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+      {cats.map((c) => (
+        <div key={c.c} className="rounded-xl p-5 bg-background border border-border">
+          <p className="text-sm font-medium">{c.c}</p>
+          <p className="text-xs text-muted-foreground mb-3">Demand · 8 weeks</p>
+          <svg viewBox="0 0 100 40" className="w-full h-20">
+            <motion.path
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              transition={{ duration: 1.4 }}
+              d={`M ${c.v.map((v, i) => `${(i / (c.v.length - 1)) * 100} ${40 - v / 2.5}`).join(" L ")}`}
+              fill="none"
+              stroke="oklch(0.65 0.22 255)"
+              strokeWidth="1.2"
+            />
+          </svg>
+          <p className="text-[11px] text-emerald-400 mt-2">+{c.v[c.v.length - 1] - c.v[0]}% trend</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AutomationView() {
+  const flows = [
+    { name: "Auto-RFQ to top 5 suppliers", runs: 1240, status: "Active" },
+    { name: "Sync POs → Zoho Books", runs: 836, status: "Active" },
+    { name: "WhatsApp shipment alerts", runs: 4120, status: "Active" },
+    { name: "Notion brief → AI sourcing", runs: 312, status: "Paused" },
+  ];
+  return (
+    <div className="rounded-xl bg-background border border-border overflow-hidden">
+      <div className="divide-y divide-border text-xs">
+        {flows.map((f) => (
+          <div key={f.name} className="flex items-center justify-between px-5 py-3">
+            <div>
+              <p className="text-foreground">{f.name}</p>
+              <p className="text-muted-foreground text-[11px] mt-0.5">{f.runs.toLocaleString()} runs · last 30d</p>
+            </div>
+            <span className={`text-[11px] ${f.status === "Active" ? "text-emerald-400" : "text-muted-foreground"}`}>{f.status}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Reports() {
+  const reports = [
+    { t: "Q1 Sourcing Performance", d: "Generated 02 Mar" },
+    { t: "Vendor Compliance Audit", d: "Generated 27 Feb" },
+    { t: "Lead-time Benchmark · EU", d: "Generated 18 Feb" },
+  ];
+  return (
+    <div className="grid sm:grid-cols-3 gap-3">
+      {reports.map((r) => (
+        <div key={r.t} className="rounded-xl p-5 bg-background border border-border">
+          <p className="text-sm font-medium">{r.t}</p>
+          <p className="text-xs text-muted-foreground mt-1">{r.d}</p>
+          <button className="mt-4 text-[11px] text-electric hover:underline">Open report →</button>
+        </div>
+      ))}
+    </div>
   );
 }

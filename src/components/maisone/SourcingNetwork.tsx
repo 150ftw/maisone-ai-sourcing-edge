@@ -1,16 +1,20 @@
 import { motion } from "framer-motion";
+import { WORLD_PATH } from "./world-path";
 
-// More accurate-looking dotted continents (procedural via mask)
 const HUBS = [
-  { name: "Tokyo", region: "Japan", x: 84, y: 38 },
-  { name: "Osaka", region: "Japan", x: 82, y: 40 },
-  { name: "London", region: "United Kingdom", x: 47, y: 32 },
-  { name: "Paris", region: "Europe", x: 48, y: 35 },
-  { name: "Milan", region: "Europe", x: 50, y: 37 },
-  { name: "Berlin", region: "Europe", x: 51, y: 32 },
-  { name: "New York", region: "United States", x: 27, y: 40 },
-  { name: "Los Angeles", region: "United States", x: 16, y: 44 },
-];
+  { name: "Tokyo", lat: 35.68, lon: 139.69 },
+  { name: "Osaka", lat: 34.69, lon: 135.5 },
+  { name: "London", lat: 51.5, lon: -0.12 },
+  { name: "Paris", lat: 48.85, lon: 2.35 },
+  { name: "Milan", lat: 45.46, lon: 9.19 },
+  { name: "Berlin", lat: 52.52, lon: 13.4 },
+  { name: "New York", lat: 40.71, lon: -74.0 },
+  { name: "Los Angeles", lat: 34.05, lon: -118.24 },
+].map((h) => ({
+  ...h,
+  x: ((h.lon + 180) / 360) * 100,
+  y: ((90 - h.lat) / 180) * 100,
+}));
 
 export function SourcingNetwork() {
   return (
@@ -30,39 +34,23 @@ export function SourcingNetwork() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,oklch(0.65_0.22_255/0.08),transparent_60%)] rounded-[2rem] pointer-events-none" />
 
           <div className="relative aspect-[2/1] w-full">
-            {/* dotted continents */}
-            <svg viewBox="0 0 200 100" className="absolute inset-0 w-full h-full opacity-50">
+            {/* accurate dotted continents */}
+            <svg viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full opacity-55">
               <defs>
-                <pattern id="net-dots" x="0" y="0" width="1.6" height="1.6" patternUnits="userSpaceOnUse">
-                  <circle cx="0.4" cy="0.4" r="0.32" fill="currentColor" />
+                <pattern id="net-dots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                  <circle cx="3" cy="3" r="2.2" fill="currentColor" />
                 </pattern>
-                <mask id="net-mask">
-                  <rect width="200" height="100" fill="black" />
-                  {/* North America */}
-                  <path d="M 12,28 Q 20,22 32,24 L 42,30 L 44,42 L 36,52 L 24,54 L 14,46 Z" fill="white" />
-                  {/* South America */}
-                  <path d="M 38,56 Q 44,58 46,68 L 42,82 L 36,84 L 32,72 Z" fill="white" />
-                  {/* Europe */}
-                  <path d="M 92,26 Q 100,22 110,26 L 112,36 L 104,40 L 94,38 Z" fill="white" />
-                  {/* Africa */}
-                  <path d="M 96,42 Q 108,40 114,48 L 116,64 L 110,76 L 102,74 L 96,60 Z" fill="white" />
-                  {/* Asia */}
-                  <path d="M 112,22 Q 130,18 152,22 L 168,30 L 170,42 L 158,46 L 142,42 L 122,40 L 114,32 Z" fill="white" />
-                  {/* SE Asia / Indonesia */}
-                  <path d="M 152,52 Q 162,50 168,54 L 166,60 L 156,60 Z" fill="white" />
-                  {/* Australia */}
-                  <path d="M 158,68 Q 168,66 176,70 L 174,78 L 162,78 Z" fill="white" />
-                  {/* Japan */}
-                  <path d="M 166,32 Q 170,30 172,34 L 168,40 Z" fill="white" />
-                  {/* UK */}
-                  <ellipse cx="92" cy="28" rx="3" ry="3" fill="white" />
-                </mask>
+                <clipPath id="net-land">
+                  <path d={WORLD_PATH} fillRule="evenodd" />
+                </clipPath>
               </defs>
-              <rect width="200" height="100" fill="url(#net-dots)" mask="url(#net-mask)" className="text-foreground" />
+              <g className="text-foreground" clipPath="url(#net-land)">
+                <rect width="2000" height="1000" fill="url(#net-dots)" />
+              </g>
             </svg>
 
             {/* arcs */}
-            <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+            <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
               <defs>
                 <linearGradient id="net-arc" x1="0" x2="1">
                   <stop offset="0%" stopColor="oklch(0.65 0.22 255)" />
@@ -74,10 +62,10 @@ export function SourcingNetwork() {
               </defs>
               {HUBS.map((a, i) =>
                 HUBS.slice(i + 1).map((b, j) => {
-                  const ax = a.x / 2, ay = a.y / 2;
-                  const bx = b.x / 2, by = b.y / 2;
+                  const ax = a.x, ay = a.y / 2;
+                  const bx = b.x, by = b.y / 2;
                   const mx = (ax + bx) / 2;
-                  const my = Math.min(ay, by) - Math.abs(bx - ax) * 0.25;
+                  const my = Math.min(ay, by) - Math.abs(bx - ax) * 0.18 - 4;
                   return (
                     <motion.path
                       key={`${i}-${j}`}
