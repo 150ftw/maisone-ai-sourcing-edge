@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp, Package } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
 
 export function Hero() {
@@ -32,13 +33,13 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#contact"
+            <Link
+              to="/book-demo"
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform"
             >
               Book Demo
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </Link>
             <a
               href="#dashboard"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full glass text-sm font-medium hover:bg-accent transition-colors"
