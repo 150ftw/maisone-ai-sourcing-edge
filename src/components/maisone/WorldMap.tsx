@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
+import { WORLD_PATH } from "./world-path";
 
-// Approximate equirectangular coords (longitude → x %, latitude → y %)
+// Equirectangular projection: x = (lon+180)/360, y = (90-lat)/180 (as 0..1)
 const toXY = (lat: number, lon: number) => ({
   x: ((lon + 180) / 360) * 100,
   y: ((90 - lat) / 180) * 100,
@@ -21,65 +22,51 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
   const points = HUBS.map((h) => ({ ...h, ...toXY(h.lat, h.lon) }));
 
   return (
-    <div className={`relative w-full ${compact ? "aspect-[2/1]" : "aspect-[16/9]"} overflow-hidden rounded-3xl`}>
-      {/* Dot-grid world silhouette */}
-      <svg viewBox="0 0 200 100" className="absolute inset-0 w-full h-full opacity-40">
+    <div className={`relative w-full ${compact ? "aspect-[2/1]" : "aspect-[2/1]"} overflow-hidden rounded-3xl`}>
+      {/* Accurate dotted world silhouette (equirectangular) */}
+      <svg viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full opacity-50">
         <defs>
-          <pattern id="dots" x="0" y="0" width="2" height="2" patternUnits="userSpaceOnUse">
-            <circle cx="0.5" cy="0.5" r="0.35" fill="currentColor" />
+          <pattern id="wm-dots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="2.2" fill="currentColor" />
           </pattern>
-          <mask id="continents">
-            <rect width="200" height="100" fill="black" />
-            {/* North America */}
-            <path d="M 12,28 Q 20,22 32,24 L 42,30 L 44,42 L 36,52 L 24,54 L 14,46 Z" fill="white" />
-            {/* South America */}
-            <path d="M 38,56 Q 44,58 46,68 L 42,82 L 36,84 L 32,72 Z" fill="white" />
-            {/* Europe */}
-            <path d="M 92,26 Q 100,22 110,26 L 112,36 L 104,40 L 94,38 Z" fill="white" />
-            {/* UK */}
-            <ellipse cx="92" cy="28" rx="3" ry="3" fill="white" />
-            {/* Africa */}
-            <path d="M 96,42 Q 108,40 114,48 L 116,64 L 110,76 L 102,74 L 96,60 Z" fill="white" />
-            {/* Asia */}
-            <path d="M 112,22 Q 130,18 152,22 L 168,30 L 170,42 L 158,46 L 142,42 L 122,40 L 114,32 Z" fill="white" />
-            {/* SE Asia */}
-            <path d="M 152,52 Q 162,50 168,54 L 166,60 L 156,60 Z" fill="white" />
-            {/* Australia */}
-            <path d="M 158,68 Q 168,66 176,70 L 174,78 L 162,78 Z" fill="white" />
-            {/* Japan */}
-            <path d="M 166,32 Q 170,30 172,34 L 168,40 Z" fill="white" />
-          </mask>
+          <clipPath id="wm-land">
+            <path d={WORLD_PATH} fillRule="evenodd" />
+          </clipPath>
         </defs>
-        <rect width="200" height="100" fill="url(#dots)" mask="url(#continents)" className="text-foreground" />
+        <g className="text-foreground" clipPath="url(#wm-land)">
+          <rect width="2000" height="1000" fill="url(#wm-dots)" />
+        </g>
       </svg>
 
       {/* Connection arcs between hubs */}
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
-        {points.map((a, i) =>
-          points.slice(i + 1).map((b, j) => {
-            const mx = (a.x + b.x) / 2;
-            const my = Math.min(a.y, b.y) - 8;
-            return (
-              <motion.path
-                key={`${i}-${j}`}
-                d={`M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}`}
-                stroke="url(#arc-grad)"
-                strokeWidth="0.15"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 0.5 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2, delay: (i + j) * 0.05 }}
-              />
-            );
-          })
-        )}
+      <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
         <defs>
           <linearGradient id="arc-grad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="oklch(0.65 0.22 255)" />
             <stop offset="100%" stopColor="oklch(0.62 0.24 290)" />
           </linearGradient>
         </defs>
+        {points.map((a, i) =>
+          points.slice(i + 1).map((b, j) => {
+            const ax = a.x, ay = a.y / 2;
+            const bx = b.x, by = b.y / 2;
+            const mx = (ax + bx) / 2;
+            const my = Math.min(ay, by) - Math.abs(bx - ax) * 0.18 - 4;
+            return (
+              <motion.path
+                key={`${i}-${j}`}
+                d={`M ${ax} ${ay} Q ${mx} ${my} ${bx} ${by}`}
+                stroke="url(#arc-grad)"
+                strokeWidth="0.15"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 0.55 }}
+                viewport={{ once: true }}
+                transition={{ duration: 2, delay: (i + j) * 0.05 }}
+              />
+            );
+          })
+        )}
       </svg>
 
       {/* Hub markers */}
