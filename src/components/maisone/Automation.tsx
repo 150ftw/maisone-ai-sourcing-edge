@@ -62,8 +62,8 @@ export function Automation() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 + i * 0.08 }}
-                  className="absolute"
-                  style={{ transform: `translate(${x}px, ${y}px)` }}
+                  className="absolute left-1/2 top-1/2"
+                  style={{ transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` }}
                 >
                   <div className="glass rounded-2xl px-4 py-3 flex items-center gap-2.5 hover:scale-105 transition-transform">
                     <n.icon className="size-4 text-electric" />
