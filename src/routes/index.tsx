@@ -9,10 +9,14 @@ import { GlobalPresence } from "@/components/maisone/GlobalPresence";
 import { Automation } from "@/components/maisone/Automation";
 import { AIAssistant } from "@/components/maisone/AIAssistant";
 import { Marketplace } from "@/components/maisone/Marketplace";
+import { SupplierProfile } from "@/components/maisone/SupplierProfile";
 import { Portals } from "@/components/maisone/Portals";
 import { Analytics } from "@/components/maisone/Analytics";
+import { TrendForecast } from "@/components/maisone/TrendForecast";
 import { SourcingNetwork } from "@/components/maisone/SourcingNetwork";
 import { HowItWorks } from "@/components/maisone/HowItWorks";
+import { CaseStudies } from "@/components/maisone/CaseStudies";
+import { TrustStrip } from "@/components/maisone/TrustStrip";
 import { Testimonials } from "@/components/maisone/Testimonials";
 import { Pricing } from "@/components/maisone/Pricing";
 import { Footer } from "@/components/maisone/Footer";
@@ -50,12 +54,16 @@ function Index() {
           <Dashboard />
           <AIAssistant />
           <Marketplace />
+          <SupplierProfile />
           <Portals />
           <Analytics />
+          <TrendForecast />
           <SourcingNetwork />
           <GlobalPresence />
           <Automation />
           <HowItWorks />
+          <CaseStudies />
+          <TrustStrip />
           <Testimonials />
           <Pricing />
         </main>
