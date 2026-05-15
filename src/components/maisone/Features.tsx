@@ -38,7 +38,7 @@ export function Features() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: (i % 4) * 0.08 }}
+              transition={{ delay: (i % 5) * 0.08 }}
               className="group relative bg-background p-8 hover:bg-accent/40 transition-colors"
             >
               <div className="size-11 rounded-xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
