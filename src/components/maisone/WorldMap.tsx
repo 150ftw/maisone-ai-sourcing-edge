@@ -8,14 +8,16 @@ const toXY = (lat: number, lon: number) => ({
 });
 
 export const HUBS = [
-  { name: "Tokyo", region: "Japan", lat: 35.68, lon: 139.69 },
-  { name: "Osaka", region: "Japan", lat: 34.69, lon: 135.5 },
-  { name: "London", region: "United Kingdom", lat: 51.5, lon: -0.12 },
-  { name: "Paris", region: "Europe", lat: 48.85, lon: 2.35 },
-  { name: "Milan", region: "Europe", lat: 45.46, lon: 9.19 },
-  { name: "Berlin", region: "Europe", lat: 52.52, lon: 13.4 },
   { name: "New York", region: "United States", lat: 40.71, lon: -74.0 },
   { name: "Los Angeles", region: "United States", lat: 34.05, lon: -118.24 },
+  { name: "London", region: "United Kingdom", lat: 51.5, lon: -0.12 },
+  { name: "Paris", region: "France", lat: 48.85, lon: 2.35 },
+  { name: "Milan", region: "Italy", lat: 45.46, lon: 9.19 },
+  { name: "Florence", region: "Italy", lat: 43.77, lon: 11.25 },
+  { name: "Mumbai", region: "India", lat: 19.07, lon: 72.87 },
+  { name: "Delhi", region: "India", lat: 28.61, lon: 77.21 },
+  { name: "Tokyo", region: "Japan", lat: 35.68, lon: 139.69 },
+  { name: "Buenos Aires", region: "Argentina", lat: -34.6, lon: -58.38 },
 ];
 
 export function WorldMap({ compact = false }: { compact?: boolean }) {

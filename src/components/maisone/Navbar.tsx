@@ -7,11 +7,11 @@ import { useTheme } from "@/components/theme-provider";
 
 const links = [
   { label: "Home", href: "#home" },
-  { label: "Features", href: "#features" },
-  { label: "Maisone AI", href: "#maisone-ai" },
-  { label: "Marketplace", href: "#marketplace" },
-  { label: "Network", href: "#network" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Categories", href: "#categories" },
+  { label: "Founders", href: "#founders" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export function Navbar() {

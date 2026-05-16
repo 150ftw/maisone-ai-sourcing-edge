@@ -1,7 +1,7 @@
 import { WorldMap, HUBS } from "./WorldMap";
 
 export function GlobalPresence() {
-  const regions = ["Japan", "United Kingdom", "Europe", "United States"];
+  const regions = ["United States", "United Kingdom", "France", "Italy", "India", "Japan", "Argentina"];
   return (
     <section id="solutions" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">

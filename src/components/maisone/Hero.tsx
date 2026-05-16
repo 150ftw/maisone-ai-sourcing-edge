@@ -18,18 +18,18 @@ export function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs tracking-[0.25em] uppercase text-muted-foreground mb-8">
             <Sparkles className="size-3 text-electric" />
-            AI Fashion Sourcing Intelligence
+            Global Sourcing & Manufacturing Partner
           </div>
 
           <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance">
-            Maisone — <span className="gradient-text italic">AI-Powered</span>
+            Global Fashion Sourcing &amp;
             <br />
-            Fashion Sourcing
+            <span className="gradient-text italic">Manufacturing</span> Partner
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            Connecting fashion brands with intelligent sourcing networks across
-            Japan, the United Kingdom, Europe, and the United States.
+            Maisone Global connects international fashion brands with premium apparel development,
+            ethical sourcing, artisanal craftsmanship, and scalable manufacturing solutions across Asia.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -37,15 +37,29 @@ export function Hero() {
               to="/book-demo"
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform"
             >
-              Book Demo
+              Book Consultation
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <a
-              href="#dashboard"
+              href="#services"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full glass text-sm font-medium hover:bg-accent transition-colors"
             >
-              Explore Platform
+              Explore Services
             </a>
+          </div>
+
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {[
+              { v: "18+ Years", l: "Industry Experience" },
+              { v: "Global", l: "Manufacturing Network" },
+              { v: "Ethical", l: "Transparent Supply Chains" },
+              { v: "Luxury", l: "Fashion Expertise" },
+            ].map((s) => (
+              <div key={s.l} className="glass rounded-2xl px-4 py-3 text-left">
+                <p className="font-serif text-lg">{s.v}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-1">{s.l}</p>
+              </div>
+            ))}
           </div>
         </motion.div>
 
