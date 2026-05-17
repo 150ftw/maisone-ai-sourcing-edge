@@ -53,7 +53,7 @@ export function Founders() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
               </div>
-              <div className="p-7">
+              <div className="p-6">
                 <h3 className="font-serif text-2xl">{f.name}</h3>
                 <p className="text-xs uppercase tracking-[0.25em] text-electric mt-1">{f.role}</p>
                 <p className="mt-5 text-sm text-muted-foreground leading-relaxed">{f.bio}</p>
