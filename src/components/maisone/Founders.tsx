@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import shashankImg from "@/assets/founder-shashank.jpg";
+import subahImg from "@/assets/founder-subah.jpg";
 
 const founders = [
   {
@@ -8,6 +10,7 @@ const founders = [
     brands: ["Valentino", "Balmain", "Stella McCartney", "Giorgio Armani", "Dolce & Gabbana"],
     initials: "SJ",
     hue: "from-stone-700/40 to-stone-900/60",
+    image: shashankImg,
   },
   {
     name: "Subah",
@@ -16,6 +19,7 @@ const founders = [
     brands: [],
     initials: "S",
     hue: "from-zinc-700/40 to-zinc-900/60",
+    image: subahImg,
   },
 ];
 
@@ -40,12 +44,14 @@ export function Founders() {
               transition={{ delay: i * 0.1 }}
               className="glass-strong rounded-3xl overflow-hidden"
             >
-              <div className={`relative aspect-[5/4] bg-gradient-to-br ${f.hue} grayscale`}>
-                <div className="absolute inset-0 grid-bg opacity-30" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="font-serif text-7xl text-foreground/80">{f.initials}</span>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
+              <div className={`relative aspect-[5/4] bg-gradient-to-br ${f.hue} overflow-hidden`}>
+                <img
+                  src={f.image}
+                  alt={`${f.name} — ${f.role}`}
+                  className="absolute inset-0 w-full h-full object-cover object-top grayscale"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
               </div>
               <div className="p-7">
                 <h3 className="font-serif text-2xl">{f.name}</h3>
