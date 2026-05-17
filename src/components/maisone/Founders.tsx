@@ -34,7 +34,7 @@ export function Founders() {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <div className="grid sm:grid-cols-2 gap-7 max-w-4xl mx-auto">
           {founders.map((f, i) => (
             <motion.div
               key={f.name}
@@ -44,14 +44,14 @@ export function Founders() {
               transition={{ delay: i * 0.1 }}
               className="glass-strong rounded-2xl overflow-hidden"
             >
-              <div className={`relative aspect-square bg-gradient-to-br ${f.hue} overflow-hidden`}>
+              <div className={`relative aspect-[4/5] bg-gradient-to-br ${f.hue} overflow-hidden`}>
                 <img
                   src={f.image}
                   alt={`${f.name} — ${f.role}`}
-                  className="absolute inset-0 w-full h-full object-cover object-top"
+                  className="absolute inset-0 w-full h-full object-cover object-top grayscale contrast-105 brightness-90"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/10" />
               </div>
               <div className="p-6">
                 <h3 className="font-serif text-2xl">{f.name}</h3>
