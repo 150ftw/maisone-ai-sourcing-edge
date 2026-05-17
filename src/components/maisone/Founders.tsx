@@ -44,7 +44,7 @@ export function Founders() {
               transition={{ delay: i * 0.1 }}
               className="glass-strong rounded-3xl overflow-hidden"
             >
-              <div className={`relative aspect-[3/4] bg-gradient-to-br ${f.hue} overflow-hidden`}>
+              <div className={`relative aspect-[4/5] bg-gradient-to-br ${f.hue} overflow-hidden`}>
                 <img
                   src={f.image}
                   alt={`${f.name} — ${f.role}`}
