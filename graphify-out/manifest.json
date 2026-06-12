@@ -1,0 +1,522 @@
+{
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\components.json": {
+    "mtime": 1781252765.179676,
+    "ast_hash": "d9a5358de725b840c808a17fa6638620",
+    "semantic_hash": "d9a5358de725b840c808a17fa6638620"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\eslint.config.js": {
+    "mtime": 1781252765.179676,
+    "ast_hash": "20097f0c1a669549b3a8d3a194c3c25d",
+    "semantic_hash": "20097f0c1a669549b3a8d3a194c3c25d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\package.json": {
+    "mtime": 1781252765.179676,
+    "ast_hash": "a7216a0e22be11294f611abdd877d34c",
+    "semantic_hash": "a7216a0e22be11294f611abdd877d34c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\tsconfig.json": {
+    "mtime": 1781252765.2723687,
+    "ast_hash": "662721996bc74d1469c21a681e37be5e",
+    "semantic_hash": "662721996bc74d1469c21a681e37be5e"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\vite.config.ts": {
+    "mtime": 1781252765.2723687,
+    "ast_hash": "19bc3e249bb70df99d581c900f1ab841",
+    "semantic_hash": "19bc3e249bb70df99d581c900f1ab841"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\.lovable\\project.json": {
+    "mtime": 1781252765.1746998,
+    "ast_hash": "7e2b347865ccaee1bde7f3764769872a",
+    "semantic_hash": "7e2b347865ccaee1bde7f3764769872a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\router.tsx": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "1399708ae830799467737d473ea53a30",
+    "semantic_hash": "1399708ae830799467737d473ea53a30"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\routeTree.gen.ts": {
+    "mtime": 1781256499.262495,
+    "ast_hash": "be1a982185aa27ffb3da3684d58de88e",
+    "semantic_hash": "be1a982185aa27ffb3da3684d58de88e"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\server.ts": {
+    "mtime": 1781252765.2692509,
+    "ast_hash": "66ee5567f7cf04dfe7e00f52f3b50564",
+    "semantic_hash": "66ee5567f7cf04dfe7e00f52f3b50564"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\start.ts": {
+    "mtime": 1781252765.2692509,
+    "ast_hash": "9194c218691e3dd0b8856096bb81c3b4",
+    "semantic_hash": "9194c218691e3dd0b8856096bb81c3b4"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\theme-provider.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "306853906fa660410be60aa2e341991d",
+    "semantic_hash": "306853906fa660410be60aa2e341991d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\About.tsx": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "f8eb6a18b0e525719e3d3b6e92c658a8",
+    "semantic_hash": "f8eb6a18b0e525719e3d3b6e92c658a8"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\AIAssistant.tsx": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "7f42162b501996a5580b11065c1e74ad",
+    "semantic_hash": "7f42162b501996a5580b11065c1e74ad"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Analytics.tsx": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "a13bab04ffeb6c04b124a81eb6961dff",
+    "semantic_hash": "a13bab04ffeb6c04b124a81eb6961dff"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Automation.tsx": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "3771a0122a1685d317f360fb7498c1d3",
+    "semantic_hash": "3771a0122a1685d317f360fb7498c1d3"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\CaseStudies.tsx": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "74194c0b921905ebdc1609d73b6bc74c",
+    "semantic_hash": "74194c0b921905ebdc1609d73b6bc74c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Challenges.tsx": {
+    "mtime": 1781252765.2083375,
+    "ast_hash": "56a13c78c202b7dc2ea0ab20c20efd6b",
+    "semantic_hash": "56a13c78c202b7dc2ea0ab20c20efd6b"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Dashboard.tsx": {
+    "mtime": 1781252765.2093441,
+    "ast_hash": "34c704409e94e5e541357de4538dfc4f",
+    "semantic_hash": "34c704409e94e5e541357de4538dfc4f"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\ExtraMile.tsx": {
+    "mtime": 1781252765.2093441,
+    "ast_hash": "6b7d1732afc3e35d41df13b649c82cd3",
+    "semantic_hash": "6b7d1732afc3e35d41df13b649c82cd3"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Features.tsx": {
+    "mtime": 1781252765.2093441,
+    "ast_hash": "8d60ace020380f7f331f7fd5f90d338a",
+    "semantic_hash": "8d60ace020380f7f331f7fd5f90d338a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Footer.tsx": {
+    "mtime": 1781252765.2093441,
+    "ast_hash": "6325ff6c069e4ab1f9aa406628e7d9f6",
+    "semantic_hash": "6325ff6c069e4ab1f9aa406628e7d9f6"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Founders.tsx": {
+    "mtime": 1781252765.2093441,
+    "ast_hash": "9b1bb7e1d826a92365fd3271a335f05a",
+    "semantic_hash": "9b1bb7e1d826a92365fd3271a335f05a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\GlobalPresence.tsx": {
+    "mtime": 1781252765.2141607,
+    "ast_hash": "033c95ba20c7835c11a0edc1bfc12558",
+    "semantic_hash": "033c95ba20c7835c11a0edc1bfc12558"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Hero.tsx": {
+    "mtime": 1781252765.2141607,
+    "ast_hash": "159c87b42a5f5b3f0975803738bbf7de",
+    "semantic_hash": "159c87b42a5f5b3f0975803738bbf7de"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\HowItWorks.tsx": {
+    "mtime": 1781252765.2141607,
+    "ast_hash": "b73a66cbb062082767f83661283aef46",
+    "semantic_hash": "b73a66cbb062082767f83661283aef46"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\HowWeWork.tsx": {
+    "mtime": 1781252765.2164335,
+    "ast_hash": "5e4c03075ba713bd3909472d4611ba9b",
+    "semantic_hash": "5e4c03075ba713bd3909472d4611ba9b"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Loader.tsx": {
+    "mtime": 1781252765.2169435,
+    "ast_hash": "f610fab900808fcb93a497d8403ab514",
+    "semantic_hash": "f610fab900808fcb93a497d8403ab514"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Logo.tsx": {
+    "mtime": 1781252765.2174513,
+    "ast_hash": "bbab0634c80f8c71b59fa4a1c0ec6155",
+    "semantic_hash": "bbab0634c80f8c71b59fa4a1c0ec6155"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Marketplace.tsx": {
+    "mtime": 1781252765.2174513,
+    "ast_hash": "b91796046af2b7ba2cbe5a0cecc7f1ee",
+    "semantic_hash": "b91796046af2b7ba2cbe5a0cecc7f1ee"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Navbar.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "c2d22519776c6dfd0a89e2f1ba0fa50c",
+    "semantic_hash": "c2d22519776c6dfd0a89e2f1ba0fa50c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Partners.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "d7d852326c9cfd27ed9b8f0fe2136a24",
+    "semantic_hash": "d7d852326c9cfd27ed9b8f0fe2136a24"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Portals.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "dd802c0e11931e434d807fe13d5ab3d1",
+    "semantic_hash": "dd802c0e11931e434d807fe13d5ab3d1"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Pricing.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "a89e13081f613d5ee7119691749ba048",
+    "semantic_hash": "a89e13081f613d5ee7119691749ba048"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\ProductCategories.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "4b7c684acc019274e8a1d3f4f6fa0b40",
+    "semantic_hash": "4b7c684acc019274e8a1d3f4f6fa0b40"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\QualityControl.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "189cc6b39007501ccf867e2ec60cfd79",
+    "semantic_hash": "189cc6b39007501ccf867e2ec60cfd79"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\SourcingNetwork.tsx": {
+    "mtime": 1781252765.2194755,
+    "ast_hash": "771623523a673015b578bdc01bdddca1",
+    "semantic_hash": "771623523a673015b578bdc01bdddca1"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\SupplierProfile.tsx": {
+    "mtime": 1781252765.224702,
+    "ast_hash": "eb5986ba1b6f673d24c6a17f9c0bcbc8",
+    "semantic_hash": "eb5986ba1b6f673d24c6a17f9c0bcbc8"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\Testimonials.tsx": {
+    "mtime": 1781252765.2251475,
+    "ast_hash": "7f42d7d64d70f93c970245181c7f886a",
+    "semantic_hash": "7f42d7d64d70f93c970245181c7f886a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\TrendForecast.tsx": {
+    "mtime": 1781252765.2251475,
+    "ast_hash": "1fbe82e5c4a77c635b5ba9a9fbb59e14",
+    "semantic_hash": "1fbe82e5c4a77c635b5ba9a9fbb59e14"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\TrustStrip.tsx": {
+    "mtime": 1781252765.2251475,
+    "ast_hash": "e6daa3d20976e62addcb8521dfa508c4",
+    "semantic_hash": "e6daa3d20976e62addcb8521dfa508c4"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\WhyMaisone.tsx": {
+    "mtime": 1781252765.2251475,
+    "ast_hash": "628f6113202ef5f7149e2f800cb23dc1",
+    "semantic_hash": "628f6113202ef5f7149e2f800cb23dc1"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\world-path.ts": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "d8453db2f7f14c045e1d533afb6d2b8e",
+    "semantic_hash": "d8453db2f7f14c045e1d533afb6d2b8e"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\maisone\\WorldMap.tsx": {
+    "mtime": 1781252765.2251475,
+    "ast_hash": "bbc6d28f077f2751fd275931fced1780",
+    "semantic_hash": "bbc6d28f077f2751fd275931fced1780"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\accordion.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "ce37963180fea4c5b9615b930afad90a",
+    "semantic_hash": "ce37963180fea4c5b9615b930afad90a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\alert-dialog.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "6ce59b995dca29004ff35c52113478db",
+    "semantic_hash": "6ce59b995dca29004ff35c52113478db"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\alert.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "5a6d7c9719435e87ba5605fb5e7b0dc9",
+    "semantic_hash": "5a6d7c9719435e87ba5605fb5e7b0dc9"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\aspect-ratio.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "14c12661aad8c80328c86a18b506c088",
+    "semantic_hash": "14c12661aad8c80328c86a18b506c088"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\avatar.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "1c3bd25e3806bbc82f9513b789b14a30",
+    "semantic_hash": "1c3bd25e3806bbc82f9513b789b14a30"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\badge.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "f712eba47d4263bea5f224eacc090cb0",
+    "semantic_hash": "f712eba47d4263bea5f224eacc090cb0"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\breadcrumb.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "53f1ec4c38907530050142e3afa85cc7",
+    "semantic_hash": "53f1ec4c38907530050142e3afa85cc7"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\button.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "95aab63d268813e24494b1d958de5858",
+    "semantic_hash": "95aab63d268813e24494b1d958de5858"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\calendar.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "96e6b176a517edb8b0facbb922a8c78c",
+    "semantic_hash": "96e6b176a517edb8b0facbb922a8c78c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\card.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "053803f00d677727a20ac1af41ee599c",
+    "semantic_hash": "053803f00d677727a20ac1af41ee599c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\carousel.tsx": {
+    "mtime": 1781252765.2295,
+    "ast_hash": "36dd085e09dbc3fe793c1708a6821204",
+    "semantic_hash": "36dd085e09dbc3fe793c1708a6821204"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\chart.tsx": {
+    "mtime": 1781252765.2393937,
+    "ast_hash": "e5bff896623339713c67d40cd8b8a74a",
+    "semantic_hash": "e5bff896623339713c67d40cd8b8a74a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\checkbox.tsx": {
+    "mtime": 1781252765.2404246,
+    "ast_hash": "bc80ca5f0cad47c8a942a5d3c95895d8",
+    "semantic_hash": "bc80ca5f0cad47c8a942a5d3c95895d8"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\collapsible.tsx": {
+    "mtime": 1781252765.2413096,
+    "ast_hash": "eda123bd06c97202f8cf1483e62d1580",
+    "semantic_hash": "eda123bd06c97202f8cf1483e62d1580"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\command.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "9eba05d7f5d3fcfd642d9affb10b75c7",
+    "semantic_hash": "9eba05d7f5d3fcfd642d9affb10b75c7"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\context-menu.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "69270233091977e4dc575681b1ba3e87",
+    "semantic_hash": "69270233091977e4dc575681b1ba3e87"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\dialog.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "c603531f47c6857b5802cf1d9e167e0b",
+    "semantic_hash": "c603531f47c6857b5802cf1d9e167e0b"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\drawer.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "ec99714627829d4a2ce0b03f3e2b3335",
+    "semantic_hash": "ec99714627829d4a2ce0b03f3e2b3335"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\dropdown-menu.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "1ae2005dbe29a013829fea9a6f1c67a6",
+    "semantic_hash": "1ae2005dbe29a013829fea9a6f1c67a6"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\form.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "5a003832fca7d213e5b805ec214d819c",
+    "semantic_hash": "5a003832fca7d213e5b805ec214d819c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\hover-card.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "82b2422c27dad853935c901f46966914",
+    "semantic_hash": "82b2422c27dad853935c901f46966914"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\input-otp.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "d2323e8455e70b784db91ae646529481",
+    "semantic_hash": "d2323e8455e70b784db91ae646529481"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\input.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "bc58ae801e789ef86349bf93809c3534",
+    "semantic_hash": "bc58ae801e789ef86349bf93809c3534"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\label.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "919969cdd3255dc8aaed6ea15dc75166",
+    "semantic_hash": "919969cdd3255dc8aaed6ea15dc75166"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\menubar.tsx": {
+    "mtime": 1781252765.242216,
+    "ast_hash": "ac230528a1a992f476ed8f5706a10763",
+    "semantic_hash": "ac230528a1a992f476ed8f5706a10763"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\navigation-menu.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "aaca5c27cd551ff9744fc89bd3044b41",
+    "semantic_hash": "aaca5c27cd551ff9744fc89bd3044b41"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\pagination.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "0e8f9422cf3b259d1cfa8ff36bf8363c",
+    "semantic_hash": "0e8f9422cf3b259d1cfa8ff36bf8363c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\popover.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "4db76837576da0621b5810d9bea6767f",
+    "semantic_hash": "4db76837576da0621b5810d9bea6767f"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\progress.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "77b2feba9a66fc89497a042b982bf7a1",
+    "semantic_hash": "77b2feba9a66fc89497a042b982bf7a1"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\radio-group.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "0a7af4a8f2e0243992af81c8e8c58860",
+    "semantic_hash": "0a7af4a8f2e0243992af81c8e8c58860"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\resizable.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "1f93a1a9c4b1e770e17a34dcf67e939b",
+    "semantic_hash": "1f93a1a9c4b1e770e17a34dcf67e939b"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\scroll-area.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "004b51b8d40b7518596df3be92da6a17",
+    "semantic_hash": "004b51b8d40b7518596df3be92da6a17"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\select.tsx": {
+    "mtime": 1781252765.2493722,
+    "ast_hash": "077d570384d4ae231dd4bf4b25909fd5",
+    "semantic_hash": "077d570384d4ae231dd4bf4b25909fd5"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\separator.tsx": {
+    "mtime": 1781252765.256093,
+    "ast_hash": "81c2922b4be835b7455accbff8ec0ecd",
+    "semantic_hash": "81c2922b4be835b7455accbff8ec0ecd"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\sheet.tsx": {
+    "mtime": 1781252765.256093,
+    "ast_hash": "491b02a12606645844c308fe85c2734b",
+    "semantic_hash": "491b02a12606645844c308fe85c2734b"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\sidebar.tsx": {
+    "mtime": 1781252765.2580092,
+    "ast_hash": "b3cbfec1edf2cdd652b7bd70e4a6b2c8",
+    "semantic_hash": "b3cbfec1edf2cdd652b7bd70e4a6b2c8"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\skeleton.tsx": {
+    "mtime": 1781252765.2583342,
+    "ast_hash": "07675852ac2c3e4380129369a31cb44d",
+    "semantic_hash": "07675852ac2c3e4380129369a31cb44d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\slider.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "f51437b9ee04349e8af16e6366c28fee",
+    "semantic_hash": "f51437b9ee04349e8af16e6366c28fee"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\sonner.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "bdd1b9b20e6cd7b6977d371849d4c1e9",
+    "semantic_hash": "bdd1b9b20e6cd7b6977d371849d4c1e9"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\switch.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "e36f4816956e06b38f81a563297acb8f",
+    "semantic_hash": "e36f4816956e06b38f81a563297acb8f"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\table.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "51562ced5e90e7352ed2694c903bd0d3",
+    "semantic_hash": "51562ced5e90e7352ed2694c903bd0d3"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\tabs.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "fa10a19c8fe9d457725fec9da0a12bed",
+    "semantic_hash": "fa10a19c8fe9d457725fec9da0a12bed"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\textarea.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "1b230007443ef12f365fbd94d443ea5c",
+    "semantic_hash": "1b230007443ef12f365fbd94d443ea5c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\toggle-group.tsx": {
+    "mtime": 1781252765.2593417,
+    "ast_hash": "e1a2ed5eafef66716f034692f9ad46f4",
+    "semantic_hash": "e1a2ed5eafef66716f034692f9ad46f4"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\toggle.tsx": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "465e435f8ca359dce972ee90e7b898cf",
+    "semantic_hash": "465e435f8ca359dce972ee90e7b898cf"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\components\\ui\\tooltip.tsx": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "6dd894a539d5f97a0615c049be79a355",
+    "semantic_hash": "6dd894a539d5f97a0615c049be79a355"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\hooks\\use-mobile.tsx": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "1bb3ebac7752b497a78d34e341975bbd",
+    "semantic_hash": "1bb3ebac7752b497a78d34e341975bbd"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\lib\\error-capture.ts": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "1d158c2d639c781546da5f816c39f48d",
+    "semantic_hash": "1d158c2d639c781546da5f816c39f48d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\lib\\error-page.ts": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "cc10be665a4bf6be668d0c29c207b92d",
+    "semantic_hash": "cc10be665a4bf6be668d0c29c207b92d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\lib\\utils.ts": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "e3f848f1b39f863e6164cf58b5a8e752",
+    "semantic_hash": "e3f848f1b39f863e6164cf58b5a8e752"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\routes\\book-demo.tsx": {
+    "mtime": 1781252765.2692509,
+    "ast_hash": "6115aea089d1c23bfeac5ce5bf8a0eea",
+    "semantic_hash": "6115aea089d1c23bfeac5ce5bf8a0eea"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\routes\\index.tsx": {
+    "mtime": 1781252765.2692509,
+    "ast_hash": "4916b4f1835a195648d5f080b171bc2d",
+    "semantic_hash": "4916b4f1835a195648d5f080b171bc2d"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\routes\\__root.tsx": {
+    "mtime": 1781252765.2639055,
+    "ast_hash": "40ab8ee1c919ef6e5455d708af4bc8df",
+    "semantic_hash": "40ab8ee1c919ef6e5455d708af4bc8df"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\.lovable\\plan.md": {
+    "mtime": 1781252765.1746998,
+    "ast_hash": "f1bd17e0f709b1581b08953722c26728",
+    "semantic_hash": "f1bd17e0f709b1581b08953722c26728"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\founder-shashank.jpg": {
+    "mtime": 1781252765.179676,
+    "ast_hash": "e1be0eeb220616368b395f23f685f1e8",
+    "semantic_hash": "e1be0eeb220616368b395f23f685f1e8"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\founder-subah.jpg": {
+    "mtime": 1781252765.184959,
+    "ast_hash": "d6ac24338e84f6e080d8c92e5a9ac23c",
+    "semantic_hash": "d6ac24338e84f6e080d8c92e5a9ac23c"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\hero-fashion.jpg": {
+    "mtime": 1781252765.184959,
+    "ast_hash": "ea903894a18268bc08a2ac21c05d40a2",
+    "semantic_hash": "ea903894a18268bc08a2ac21c05d40a2"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\logistics.jpg": {
+    "mtime": 1781252765.184959,
+    "ast_hash": "aaf8d4207fd704f5a1157b9e3cb5caf3",
+    "semantic_hash": "aaf8d4207fd704f5a1157b9e3cb5caf3"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\maisone-logo.png": {
+    "mtime": 1781252765.1980484,
+    "ast_hash": "cf35923d4dda5768eb97a38c9f6c5c9a",
+    "semantic_hash": "cf35923d4dda5768eb97a38c9f6c5c9a"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\manufacturing.jpg": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "2fcd171f1229e908a0308f7a592e5295",
+    "semantic_hash": "2fcd171f1229e908a0308f7a592e5295"
+  },
+  "C:\\Users\\Gauravv\\Downloads\\Maisone\\src\\assets\\textiles.jpg": {
+    "mtime": 1781252765.2007039,
+    "ast_hash": "cd193c9c18a6b14bfd1bdbe6074692db",
+    "semantic_hash": "cd193c9c18a6b14bfd1bdbe6074692db"
+  }
+}

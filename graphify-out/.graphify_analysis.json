@@ -1,0 +1,888 @@
+{
+  "communities": {
+    "0": [
+      "maisone_package_dependencies",
+      "maisone_package_dependencies_class_variance_authority",
+      "maisone_package_dependencies_cloudflare_vite_plugin",
+      "maisone_package_dependencies_clsx",
+      "maisone_package_dependencies_cmdk",
+      "maisone_package_dependencies_date_fns",
+      "maisone_package_dependencies_embla_carousel_react",
+      "maisone_package_dependencies_framer_motion",
+      "maisone_package_dependencies_hookform_resolvers",
+      "maisone_package_dependencies_input_otp",
+      "maisone_package_dependencies_lucide_react",
+      "maisone_package_dependencies_radix_ui_react_accordion",
+      "maisone_package_dependencies_radix_ui_react_alert_dialog",
+      "maisone_package_dependencies_radix_ui_react_aspect_ratio",
+      "maisone_package_dependencies_radix_ui_react_avatar",
+      "maisone_package_dependencies_radix_ui_react_checkbox",
+      "maisone_package_dependencies_radix_ui_react_collapsible",
+      "maisone_package_dependencies_radix_ui_react_context_menu",
+      "maisone_package_dependencies_radix_ui_react_dialog",
+      "maisone_package_dependencies_radix_ui_react_dropdown_menu",
+      "maisone_package_dependencies_radix_ui_react_hover_card",
+      "maisone_package_dependencies_radix_ui_react_label",
+      "maisone_package_dependencies_radix_ui_react_menubar",
+      "maisone_package_dependencies_radix_ui_react_navigation_menu",
+      "maisone_package_dependencies_radix_ui_react_popover",
+      "maisone_package_dependencies_radix_ui_react_progress",
+      "maisone_package_dependencies_radix_ui_react_radio_group",
+      "maisone_package_dependencies_radix_ui_react_scroll_area",
+      "maisone_package_dependencies_radix_ui_react_select",
+      "maisone_package_dependencies_radix_ui_react_separator",
+      "maisone_package_dependencies_radix_ui_react_slider",
+      "maisone_package_dependencies_radix_ui_react_slot",
+      "maisone_package_dependencies_radix_ui_react_switch",
+      "maisone_package_dependencies_radix_ui_react_tabs",
+      "maisone_package_dependencies_radix_ui_react_toggle",
+      "maisone_package_dependencies_radix_ui_react_toggle_group",
+      "maisone_package_dependencies_radix_ui_react_tooltip",
+      "maisone_package_dependencies_react",
+      "maisone_package_dependencies_react_day_picker",
+      "maisone_package_dependencies_react_dom",
+      "maisone_package_dependencies_react_hook_form",
+      "maisone_package_dependencies_react_resizable_panels",
+      "maisone_package_dependencies_recharts",
+      "maisone_package_dependencies_sonner",
+      "maisone_package_dependencies_tailwind_merge",
+      "maisone_package_dependencies_tailwindcss",
+      "maisone_package_dependencies_tailwindcss_vite",
+      "maisone_package_dependencies_tanstack_react_query",
+      "maisone_package_dependencies_tanstack_react_router",
+      "maisone_package_dependencies_tanstack_react_start",
+      "maisone_package_dependencies_tanstack_router_plugin",
+      "maisone_package_dependencies_tw_animate_css",
+      "maisone_package_dependencies_vaul",
+      "maisone_package_dependencies_vite_tsconfig_paths",
+      "maisone_package_dependencies_zod"
+    ],
+    "1": [
+      "hooks_use_mobile_useismobile",
+      "src_components_ui_input_tsx",
+      "src_components_ui_separator_tsx",
+      "src_components_ui_sheet_tsx",
+      "src_components_ui_sidebar_tsx",
+      "src_components_ui_tooltip_tsx",
+      "src_hooks_use_mobile_tsx",
+      "ui_input_input",
+      "ui_separator_separator",
+      "ui_sheet_sheetcontent",
+      "ui_sheet_sheetcontentprops",
+      "ui_sheet_sheetdescription",
+      "ui_sheet_sheetfooter",
+      "ui_sheet_sheetheader",
+      "ui_sheet_sheetoverlay",
+      "ui_sheet_sheettitle",
+      "ui_sheet_sheetvariants",
+      "ui_sidebar_sidebar",
+      "ui_sidebar_sidebarcontent",
+      "ui_sidebar_sidebarcontext",
+      "ui_sidebar_sidebarcontextprops",
+      "ui_sidebar_sidebarfooter",
+      "ui_sidebar_sidebargroup",
+      "ui_sidebar_sidebargroupaction",
+      "ui_sidebar_sidebargroupcontent",
+      "ui_sidebar_sidebargrouplabel",
+      "ui_sidebar_sidebarheader",
+      "ui_sidebar_sidebarinput",
+      "ui_sidebar_sidebarinset",
+      "ui_sidebar_sidebarmenu",
+      "ui_sidebar_sidebarmenuaction",
+      "ui_sidebar_sidebarmenubadge",
+      "ui_sidebar_sidebarmenubutton",
+      "ui_sidebar_sidebarmenubuttonvariants",
+      "ui_sidebar_sidebarmenuitem",
+      "ui_sidebar_sidebarmenuskeleton",
+      "ui_sidebar_sidebarmenusub",
+      "ui_sidebar_sidebarmenusubbutton",
+      "ui_sidebar_sidebarmenusubitem",
+      "ui_sidebar_sidebarprovider",
+      "ui_sidebar_sidebarrail",
+      "ui_sidebar_sidebarseparator",
+      "ui_sidebar_sidebartrigger",
+      "ui_sidebar_usesidebar",
+      "ui_tooltip_tooltipcontent"
+    ],
+    "2": [
+      "maisone_package_devdependencies",
+      "maisone_package_devdependencies_eslint",
+      "maisone_package_devdependencies_eslint_config_prettier",
+      "maisone_package_devdependencies_eslint_js",
+      "maisone_package_devdependencies_eslint_plugin_prettier",
+      "maisone_package_devdependencies_eslint_plugin_react_hooks",
+      "maisone_package_devdependencies_eslint_plugin_react_refresh",
+      "maisone_package_devdependencies_globals",
+      "maisone_package_devdependencies_lovable_dev_vite_tanstack_config",
+      "maisone_package_devdependencies_prettier",
+      "maisone_package_devdependencies_types_node",
+      "maisone_package_devdependencies_types_react",
+      "maisone_package_devdependencies_types_react_dom",
+      "maisone_package_devdependencies_typescript",
+      "maisone_package_devdependencies_typescript_eslint",
+      "maisone_package_devdependencies_vite",
+      "maisone_package_devdependencies_vitejs_plugin_react",
+      "maisone_package_name",
+      "maisone_package_private",
+      "maisone_package_scripts",
+      "maisone_package_scripts_build",
+      "maisone_package_scripts_build_dev",
+      "maisone_package_scripts_dev",
+      "maisone_package_scripts_format",
+      "maisone_package_scripts_lint",
+      "maisone_package_scripts_preview",
+      "maisone_package_sideeffects",
+      "maisone_package_type",
+      "package_json"
+    ],
+    "3": [
+      "components_theme_provider_theme",
+      "components_theme_provider_themecontext",
+      "components_theme_provider_themeprovider",
+      "components_theme_provider_usetheme",
+      "maisone_footer_footer",
+      "maisone_footer_offices",
+      "maisone_loader_loader",
+      "maisone_logo_logo",
+      "maisone_navbar_links",
+      "maisone_navbar_navbar",
+      "routes_book_demo_bookdemopage",
+      "routes_book_demo_field",
+      "routes_book_demo_form",
+      "routes_book_demo_reviewrow",
+      "routes_book_demo_select",
+      "routes_book_demo_steps",
+      "src_components_maisone_footer_tsx",
+      "src_components_maisone_loader_tsx",
+      "src_components_maisone_logo_tsx",
+      "src_components_maisone_navbar_tsx",
+      "src_components_theme_provider_tsx",
+      "src_routes_book_demo_tsx"
+    ],
+    "4": [
+      "routes_book_demo_route",
+      "routes_index_route",
+      "routes_root_errorcomponent",
+      "routes_root_notfoundcomponent",
+      "routes_root_rootcomponent",
+      "routes_root_rootshell",
+      "routes_root_route",
+      "src_router_getrouter",
+      "src_router_tsx",
+      "src_routes_root_tsx",
+      "src_routetree_gen_bookdemoroute",
+      "src_routetree_gen_fileroutesbyfullpath",
+      "src_routetree_gen_fileroutesbyid",
+      "src_routetree_gen_fileroutesbypath",
+      "src_routetree_gen_fileroutesbyto",
+      "src_routetree_gen_fileroutetypes",
+      "src_routetree_gen_indexroute",
+      "src_routetree_gen_register",
+      "src_routetree_gen_rootroutechildren",
+      "src_routetree_gen_routetree",
+      "src_routetree_gen_ts",
+      "src_start_startinstance"
+    ],
+    "5": [
+      "maisone_automation_automation",
+      "maisone_automation_nodes",
+      "maisone_features_features",
+      "maisone_founders_founders",
+      "maisone_howwework_howwework",
+      "maisone_howwework_phases",
+      "maisone_marketplace_marketplace",
+      "maisone_marketplace_products",
+      "maisone_pricing_pricing",
+      "maisone_pricing_tiers",
+      "maisone_productcategories_categories",
+      "maisone_productcategories_productcategories",
+      "routes_index_index",
+      "src_components_maisone_automation_tsx",
+      "src_components_maisone_features_tsx",
+      "src_components_maisone_founders_tsx",
+      "src_components_maisone_howwework_tsx",
+      "src_components_maisone_marketplace_tsx",
+      "src_components_maisone_pricing_tsx",
+      "src_components_maisone_productcategories_tsx",
+      "src_routes_index_tsx"
+    ],
+    "6": [
+      "maisone_tsconfig_compileroptions",
+      "maisone_tsconfig_compileroptions_allowimportingtsextensions",
+      "maisone_tsconfig_compileroptions_jsx",
+      "maisone_tsconfig_compileroptions_lib",
+      "maisone_tsconfig_compileroptions_module",
+      "maisone_tsconfig_compileroptions_moduleresolution",
+      "maisone_tsconfig_compileroptions_noemit",
+      "maisone_tsconfig_compileroptions_nofallthroughcasesinswitch",
+      "maisone_tsconfig_compileroptions_nouncheckedsideeffectimports",
+      "maisone_tsconfig_compileroptions_nounusedlocals",
+      "maisone_tsconfig_compileroptions_nounusedparameters",
+      "maisone_tsconfig_compileroptions_paths",
+      "maisone_tsconfig_compileroptions_skiplibcheck",
+      "maisone_tsconfig_compileroptions_strict",
+      "maisone_tsconfig_compileroptions_target",
+      "maisone_tsconfig_compileroptions_types",
+      "maisone_tsconfig_compileroptions_verbatimmodulesyntax",
+      "maisone_tsconfig_include",
+      "maisone_tsconfig_paths",
+      "tsconfig_json"
+    ],
+    "7": [
+      "components_json",
+      "maisone_components_aliases",
+      "maisone_components_aliases_components",
+      "maisone_components_aliases_hooks",
+      "maisone_components_aliases_lib",
+      "maisone_components_aliases_ui",
+      "maisone_components_aliases_utils",
+      "maisone_components_iconlibrary",
+      "maisone_components_registries",
+      "maisone_components_rsc",
+      "maisone_components_rtl",
+      "maisone_components_schema",
+      "maisone_components_style",
+      "maisone_components_tailwind",
+      "maisone_components_tailwind_basecolor",
+      "maisone_components_tailwind_css",
+      "maisone_components_tailwind_cssvariables",
+      "maisone_components_tailwind_prefix",
+      "maisone_components_tsx"
+    ],
+    "8": [
+      "src_components_ui_checkbox_tsx",
+      "src_components_ui_hover_card_tsx",
+      "src_components_ui_popover_tsx",
+      "src_components_ui_progress_tsx",
+      "src_components_ui_slider_tsx",
+      "src_components_ui_switch_tsx",
+      "src_components_ui_tabs_tsx",
+      "src_components_ui_textarea_tsx",
+      "src_lib_utils_ts",
+      "ui_checkbox_checkbox",
+      "ui_hover_card_hovercardcontent",
+      "ui_popover_popovercontent",
+      "ui_progress_progress",
+      "ui_slider_slider",
+      "ui_switch_switch",
+      "ui_tabs_tabscontent",
+      "ui_tabs_tabslist",
+      "ui_tabs_tabstrigger",
+      "ui_textarea_textarea"
+    ],
+    "9": [
+      "src_components_ui_menubar_tsx",
+      "ui_menubar_menubar",
+      "ui_menubar_menubarcheckboxitem",
+      "ui_menubar_menubarcontent",
+      "ui_menubar_menubargroup",
+      "ui_menubar_menubaritem",
+      "ui_menubar_menubarlabel",
+      "ui_menubar_menubarmenu",
+      "ui_menubar_menubarportal",
+      "ui_menubar_menubarradiogroup",
+      "ui_menubar_menubarradioitem",
+      "ui_menubar_menubarseparator",
+      "ui_menubar_menubarshortcut",
+      "ui_menubar_menubarsub",
+      "ui_menubar_menubarsubcontent",
+      "ui_menubar_menubarsubtrigger",
+      "ui_menubar_menubartrigger"
+    ],
+    "10": [
+      "src_components_ui_command_tsx",
+      "src_components_ui_dialog_tsx",
+      "ui_command_command",
+      "ui_command_commanddialog",
+      "ui_command_commandempty",
+      "ui_command_commandgroup",
+      "ui_command_commandinput",
+      "ui_command_commanditem",
+      "ui_command_commandlist",
+      "ui_command_commandseparator",
+      "ui_command_commandshortcut",
+      "ui_dialog_dialogcontent",
+      "ui_dialog_dialogdescription",
+      "ui_dialog_dialogfooter",
+      "ui_dialog_dialogheader",
+      "ui_dialog_dialogoverlay",
+      "ui_dialog_dialogtitle"
+    ],
+    "11": [
+      "src_components_ui_alert_dialog_tsx",
+      "src_components_ui_button_tsx",
+      "src_components_ui_calendar_tsx",
+      "ui_alert_dialog_alertdialogaction",
+      "ui_alert_dialog_alertdialogcancel",
+      "ui_alert_dialog_alertdialogcontent",
+      "ui_alert_dialog_alertdialogdescription",
+      "ui_alert_dialog_alertdialogfooter",
+      "ui_alert_dialog_alertdialogheader",
+      "ui_alert_dialog_alertdialogoverlay",
+      "ui_alert_dialog_alertdialogtitle",
+      "ui_button_button",
+      "ui_button_buttonprops",
+      "ui_button_buttonvariants",
+      "ui_calendar_calendar",
+      "ui_calendar_calendardaybutton"
+    ],
+    "12": [
+      "src_components_ui_context_menu_tsx",
+      "src_components_ui_input_otp_tsx",
+      "ui_context_menu_contextmenucheckboxitem",
+      "ui_context_menu_contextmenucontent",
+      "ui_context_menu_contextmenuitem",
+      "ui_context_menu_contextmenulabel",
+      "ui_context_menu_contextmenuradioitem",
+      "ui_context_menu_contextmenuseparator",
+      "ui_context_menu_contextmenushortcut",
+      "ui_context_menu_contextmenusubcontent",
+      "ui_context_menu_contextmenusubtrigger",
+      "ui_input_otp_inputotp",
+      "ui_input_otp_inputotpgroup",
+      "ui_input_otp_inputotpseparator",
+      "ui_input_otp_inputotpslot"
+    ],
+    "13": [
+      "lib_utils_cn",
+      "src_components_ui_pagination_tsx",
+      "src_components_ui_resizable_tsx",
+      "src_components_ui_skeleton_tsx",
+      "ui_pagination_pagination",
+      "ui_pagination_paginationcontent",
+      "ui_pagination_paginationellipsis",
+      "ui_pagination_paginationitem",
+      "ui_pagination_paginationlink",
+      "ui_pagination_paginationlinkprops",
+      "ui_pagination_paginationnext",
+      "ui_pagination_paginationprevious",
+      "ui_resizable_resizablehandle",
+      "ui_resizable_resizablepanelgroup",
+      "ui_skeleton_skeleton"
+    ],
+    "14": [
+      "src_components_ui_form_tsx",
+      "src_components_ui_label_tsx",
+      "ui_form_formcontrol",
+      "ui_form_formdescription",
+      "ui_form_formfield",
+      "ui_form_formfieldcontext",
+      "ui_form_formfieldcontextvalue",
+      "ui_form_formitem",
+      "ui_form_formitemcontext",
+      "ui_form_formitemcontextvalue",
+      "ui_form_formlabel",
+      "ui_form_formmessage",
+      "ui_form_useformfield",
+      "ui_label_label",
+      "ui_label_labelvariants"
+    ],
+    "15": [
+      "src_components_ui_carousel_tsx",
+      "ui_carousel_carousel",
+      "ui_carousel_carouselapi",
+      "ui_carousel_carouselcontent",
+      "ui_carousel_carouselcontext",
+      "ui_carousel_carouselcontextprops",
+      "ui_carousel_carouselitem",
+      "ui_carousel_carouselnext",
+      "ui_carousel_carouseloptions",
+      "ui_carousel_carouselplugin",
+      "ui_carousel_carouselprevious",
+      "ui_carousel_carouselprops",
+      "ui_carousel_usecarousel",
+      "ui_carousel_usecarouselparameters"
+    ],
+    "16": [
+      "lib_error_capture_consumelastcapturederror",
+      "lib_error_capture_record",
+      "lib_error_page_rendererrorpage",
+      "src_lib_error_capture_ts",
+      "src_lib_error_page_ts",
+      "src_server_brandederrorresponse",
+      "src_server_fetch",
+      "src_server_getserverentry",
+      "src_server_iscatastrophicssrerrorbody",
+      "src_server_normalizecatastrophicssrresponse",
+      "src_server_serverentry",
+      "src_server_ts",
+      "src_start_errormiddleware",
+      "src_start_ts"
+    ],
+    "17": [
+      "maisone_dashboard_automationview",
+      "maisone_dashboard_dashboard",
+      "maisone_dashboard_inventory",
+      "maisone_dashboard_nav",
+      "maisone_dashboard_overview",
+      "maisone_dashboard_reports",
+      "maisone_dashboard_shipments",
+      "maisone_dashboard_suppliers",
+      "maisone_dashboard_trend",
+      "maisone_dashboard_trends",
+      "maisone_dashboard_view",
+      "src_components_maisone_dashboard_tsx"
+    ],
+    "18": [
+      "maisone_globalpresence_globalpresence",
+      "maisone_hero_hero",
+      "maisone_sourcingnetwork_hubs",
+      "maisone_sourcingnetwork_sourcingnetwork",
+      "maisone_worldmap_hubs",
+      "maisone_worldmap_toxy",
+      "maisone_worldmap_worldmap",
+      "src_components_maisone_globalpresence_tsx",
+      "src_components_maisone_hero_tsx",
+      "src_components_maisone_sourcingnetwork_tsx",
+      "src_components_maisone_world_path_ts",
+      "src_components_maisone_worldmap_tsx"
+    ],
+    "19": [
+      "src_components_ui_chart_tsx",
+      "ui_chart_chartconfig",
+      "ui_chart_chartcontainer",
+      "ui_chart_chartcontext",
+      "ui_chart_chartcontextprops",
+      "ui_chart_chartlegendcontent",
+      "ui_chart_chartstyle",
+      "ui_chart_charttooltipcontent",
+      "ui_chart_getpayloadconfigfrompayload",
+      "ui_chart_themes",
+      "ui_chart_usechart"
+    ],
+    "20": [
+      "src_components_ui_dropdown_menu_tsx",
+      "ui_dropdown_menu_dropdownmenucheckboxitem",
+      "ui_dropdown_menu_dropdownmenucontent",
+      "ui_dropdown_menu_dropdownmenuitem",
+      "ui_dropdown_menu_dropdownmenulabel",
+      "ui_dropdown_menu_dropdownmenuradioitem",
+      "ui_dropdown_menu_dropdownmenuseparator",
+      "ui_dropdown_menu_dropdownmenushortcut",
+      "ui_dropdown_menu_dropdownmenusubcontent",
+      "ui_dropdown_menu_dropdownmenusubtrigger"
+    ],
+    "21": [
+      "src_components_ui_table_tsx",
+      "ui_table_table",
+      "ui_table_tablebody",
+      "ui_table_tablecaption",
+      "ui_table_tablecell",
+      "ui_table_tablefooter",
+      "ui_table_tablehead",
+      "ui_table_tableheader",
+      "ui_table_tablerow"
+    ],
+    "22": [
+      "maisone_supplierprofile_capacity",
+      "maisone_supplierprofile_certs",
+      "maisone_supplierprofile_clients",
+      "maisone_supplierprofile_months",
+      "maisone_supplierprofile_spec",
+      "maisone_supplierprofile_stat",
+      "maisone_supplierprofile_supplierprofile",
+      "src_components_maisone_supplierprofile_tsx"
+    ],
+    "23": [
+      "src_components_ui_select_tsx",
+      "ui_select_selectcontent",
+      "ui_select_selectitem",
+      "ui_select_selectlabel",
+      "ui_select_selectscrolldownbutton",
+      "ui_select_selectscrollupbutton",
+      "ui_select_selectseparator",
+      "ui_select_selecttrigger"
+    ],
+    "24": [
+      "src_components_ui_breadcrumb_tsx",
+      "ui_breadcrumb_breadcrumb",
+      "ui_breadcrumb_breadcrumbellipsis",
+      "ui_breadcrumb_breadcrumbitem",
+      "ui_breadcrumb_breadcrumblink",
+      "ui_breadcrumb_breadcrumblist",
+      "ui_breadcrumb_breadcrumbpage",
+      "ui_breadcrumb_breadcrumbseparator"
+    ],
+    "25": [
+      "src_components_ui_drawer_tsx",
+      "ui_drawer_drawer",
+      "ui_drawer_drawercontent",
+      "ui_drawer_drawerdescription",
+      "ui_drawer_drawerfooter",
+      "ui_drawer_drawerheader",
+      "ui_drawer_draweroverlay",
+      "ui_drawer_drawertitle"
+    ],
+    "26": [
+      "src_components_ui_navigation_menu_tsx",
+      "ui_navigation_menu_navigationmenu",
+      "ui_navigation_menu_navigationmenucontent",
+      "ui_navigation_menu_navigationmenuindicator",
+      "ui_navigation_menu_navigationmenulist",
+      "ui_navigation_menu_navigationmenutrigger",
+      "ui_navigation_menu_navigationmenutriggerstyle",
+      "ui_navigation_menu_navigationmenuviewport"
+    ],
+    "27": [
+      "maisone_trendforecast_data",
+      "maisone_trendforecast_forecast",
+      "maisone_trendforecast_panel",
+      "maisone_trendforecast_region",
+      "maisone_trendforecast_regions",
+      "maisone_trendforecast_trendforecast",
+      "src_components_maisone_trendforecast_tsx"
+    ],
+    "28": [
+      "src_components_ui_card_tsx",
+      "ui_card_card",
+      "ui_card_cardcontent",
+      "ui_card_carddescription",
+      "ui_card_cardfooter",
+      "ui_card_cardheader",
+      "ui_card_cardtitle"
+    ],
+    "29": [
+      "src_components_ui_toggle_group_tsx",
+      "src_components_ui_toggle_tsx",
+      "ui_toggle_group_togglegroup",
+      "ui_toggle_group_togglegroupcontext",
+      "ui_toggle_group_togglegroupitem",
+      "ui_toggle_toggle",
+      "ui_toggle_togglevariants"
+    ],
+    "30": [
+      "maisone_aiassistant_aiassistant",
+      "maisone_aiassistant_bubble",
+      "maisone_aiassistant_prompts",
+      "maisone_aiassistant_supplier",
+      "src_components_maisone_aiassistant_tsx"
+    ],
+    "31": [
+      "maisone_analytics_analytics",
+      "maisone_analytics_series",
+      "maisone_analytics_series2",
+      "maisone_analytics_sparkline",
+      "src_components_maisone_analytics_tsx"
+    ],
+    "32": [
+      "maisone_howitworks_automationworkflowvisual",
+      "maisone_howitworks_howitworks",
+      "maisone_howitworks_stepimage",
+      "maisone_howitworks_steps",
+      "src_components_maisone_howitworks_tsx"
+    ],
+    "33": [
+      "maisone_truststrip_compliance",
+      "maisone_truststrip_investors",
+      "maisone_truststrip_press",
+      "maisone_truststrip_truststrip",
+      "src_components_maisone_truststrip_tsx"
+    ],
+    "34": [
+      "src_components_ui_alert_tsx",
+      "ui_alert_alert",
+      "ui_alert_alertdescription",
+      "ui_alert_alerttitle",
+      "ui_alert_alertvariants"
+    ],
+    "35": [
+      "maisone_casestudies_casestudies",
+      "maisone_casestudies_studies",
+      "maisone_casestudies_study",
+      "src_components_maisone_casestudies_tsx"
+    ],
+    "36": [
+      "src_components_ui_avatar_tsx",
+      "ui_avatar_avatar",
+      "ui_avatar_avatarfallback",
+      "ui_avatar_avatarimage"
+    ],
+    "37": [
+      "src_components_ui_accordion_tsx",
+      "ui_accordion_accordioncontent",
+      "ui_accordion_accordionitem",
+      "ui_accordion_accordiontrigger"
+    ],
+    "38": [
+      "src_components_ui_badge_tsx",
+      "ui_badge_badge",
+      "ui_badge_badgeprops",
+      "ui_badge_badgevariants"
+    ],
+    "39": [
+      "lovable_project_json",
+      "lovable_project_schemaversion",
+      "lovable_project_template"
+    ],
+    "40": [
+      "maisone_extramile_cards",
+      "maisone_extramile_extramile",
+      "src_components_maisone_extramile_tsx"
+    ],
+    "41": [
+      "maisone_qualitycontrol_qualitycontrol",
+      "maisone_qualitycontrol_steps",
+      "src_components_maisone_qualitycontrol_tsx"
+    ],
+    "42": [
+      "maisone_testimonials_items",
+      "maisone_testimonials_testimonials",
+      "src_components_maisone_testimonials_tsx"
+    ],
+    "43": [
+      "maisone_about_about",
+      "maisone_about_specialties",
+      "src_components_maisone_about_tsx"
+    ],
+    "44": [
+      "maisone_challenges_challenges",
+      "maisone_challenges_pairs",
+      "src_components_maisone_challenges_tsx"
+    ],
+    "45": [
+      "maisone_whymaisone_cards",
+      "maisone_whymaisone_whymaisone",
+      "src_components_maisone_whymaisone_tsx"
+    ],
+    "46": [
+      "maisone_partners_countries",
+      "maisone_partners_partners",
+      "src_components_maisone_partners_tsx"
+    ],
+    "47": [
+      "maisone_portals_minibars",
+      "maisone_portals_portals",
+      "src_components_maisone_portals_tsx"
+    ],
+    "48": [
+      "src_components_ui_sonner_tsx",
+      "ui_sonner_toaster",
+      "ui_sonner_toasterprops"
+    ],
+    "49": [
+      "src_components_ui_scroll_area_tsx",
+      "ui_scroll_area_scrollarea",
+      "ui_scroll_area_scrollbar"
+    ],
+    "50": [
+      "src_components_ui_radio_group_tsx",
+      "ui_radio_group_radiogroup",
+      "ui_radio_group_radiogroupitem"
+    ],
+    "51": [
+      "eslint_config_js"
+    ],
+    "52": [
+      "vite_config_ts"
+    ],
+    "53": [
+      "src_components_ui_aspect_ratio_tsx"
+    ],
+    "54": [
+      "src_components_ui_collapsible_tsx"
+    ]
+  },
+  "cohesion": {
+    "0": 0.03636363636363636,
+    "1": 0.052525252525252523,
+    "2": 0.06896551724137931,
+    "3": 0.13852813852813853,
+    "4": 0.12987012987012986,
+    "5": 0.12857142857142856,
+    "6": 0.1,
+    "7": 0.10526315789473684,
+    "8": 0.10526315789473684,
+    "9": 0.11764705882352941,
+    "10": 0.125,
+    "11": 0.15833333333333333,
+    "12": 0.12380952380952381,
+    "13": 0.20952380952380953,
+    "14": 0.14285714285714285,
+    "15": 0.14285714285714285,
+    "16": 0.25274725274725274,
+    "17": 0.16666666666666666,
+    "18": 0.21212121212121213,
+    "19": 0.18181818181818182,
+    "20": 0.2,
+    "21": 0.2222222222222222,
+    "22": 0.25,
+    "23": 0.25,
+    "24": 0.25,
+    "25": 0.25,
+    "26": 0.25,
+    "27": 0.2857142857142857,
+    "28": 0.2857142857142857,
+    "29": 0.3333333333333333,
+    "30": 0.4,
+    "31": 0.4,
+    "32": 0.4,
+    "33": 0.4,
+    "34": 0.4,
+    "35": 0.5,
+    "36": 0.5,
+    "37": 0.5,
+    "38": 0.6666666666666666,
+    "39": 0.6666666666666666,
+    "40": 0.6666666666666666,
+    "41": 0.6666666666666666,
+    "42": 0.6666666666666666,
+    "43": 0.6666666666666666,
+    "44": 0.6666666666666666,
+    "45": 0.6666666666666666,
+    "46": 0.6666666666666666,
+    "47": 0.6666666666666666,
+    "48": 0.6666666666666666,
+    "49": 0.6666666666666666,
+    "50": 0.6666666666666666,
+    "51": 1.0,
+    "52": 1.0,
+    "53": 1.0,
+    "54": 1.0
+  },
+  "gods": [
+    {
+      "id": "lib_utils_cn",
+      "label": "cn()",
+      "degree": 69
+    },
+    {
+      "id": "maisone_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 17
+    },
+    {
+      "id": "maisone_package_scripts",
+      "label": "scripts",
+      "degree": 7
+    },
+    {
+      "id": "maisone_components_aliases",
+      "label": "aliases",
+      "degree": 6
+    },
+    {
+      "id": "maisone_logo_logo",
+      "label": "Logo()",
+      "degree": 6
+    },
+    {
+      "id": "ui_button_buttonvariants",
+      "label": "buttonVariants",
+      "degree": 6
+    },
+    {
+      "id": "maisone_components_tailwind",
+      "label": "tailwind",
+      "degree": 5
+    },
+    {
+      "id": "src_server_normalizecatastrophicssrresponse",
+      "label": "normalizeCatastrophicSsrResponse()",
+      "degree": 5
+    },
+    {
+      "id": "components_theme_provider_usetheme",
+      "label": "useTheme()",
+      "degree": 5
+    },
+    {
+      "id": "src_routetree_gen_fileroutesbypath",
+      "label": "FileRoutesByPath",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AlertDialogHeader()",
+      "target": "cn()",
+      "source_files": [
+        "src/components/ui/alert-dialog.tsx",
+        "src/lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `AlertDialogHeader()` unexpectedly reaches hub `cn()`"
+    },
+    {
+      "source": "AlertDialogFooter()",
+      "target": "cn()",
+      "source_files": [
+        "src/components/ui/alert-dialog.tsx",
+        "src/lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `AlertDialogFooter()` unexpectedly reaches hub `cn()`"
+    },
+    {
+      "source": "BreadcrumbSeparator()",
+      "target": "cn()",
+      "source_files": [
+        "src/components/ui/breadcrumb.tsx",
+        "src/lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `BreadcrumbSeparator()` unexpectedly reaches hub `cn()`"
+    },
+    {
+      "source": "BreadcrumbEllipsis()",
+      "target": "cn()",
+      "source_files": [
+        "src/components/ui/breadcrumb.tsx",
+        "src/lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `BreadcrumbEllipsis()` unexpectedly reaches hub `cn()`"
+    },
+    {
+      "source": "CalendarDayButton()",
+      "target": "cn()",
+      "source_files": [
+        "src/components/ui/calendar.tsx",
+        "src/lib/utils.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `CalendarDayButton()` unexpectedly reaches hub `cn()`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `cn()` connect `Community 13` to `Community 1`, `Community 8`, `Community 9`, `Community 10`, `Community 11`, `Community 12`, `Community 14`, `Community 15`, `Community 19`, `Community 20`, `Community 21`, `Community 23`, `Community 24`, `Community 25`, `Community 26`, `Community 28`, `Community 29`, `Community 34`, `Community 36`, `Community 37`, `Community 38`, `Community 49`, `Community 50`?",
+      "why": "High betweenness centrality (0.123) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `Community 0` to `Community 2`?",
+      "why": "High betweenness centrality (0.018) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `$schema`, `style`, `rsc` to the rest of the system?",
+      "why": "340 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.03636363636363636 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.052525252525252523 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 2` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 3` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.13852813852813853 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

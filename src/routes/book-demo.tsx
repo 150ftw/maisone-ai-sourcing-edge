@@ -1,9 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Sparkles, Loader2 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/book-demo")({
   head: () => ({
@@ -36,6 +37,8 @@ function BookDemoPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState<Form>({
     fullName: "",
     workEmail: "",
@@ -57,8 +60,38 @@ function BookDemoPage() {
     step === 2 ||
     step === 3;
 
-  const submit = () => {
-    setSubmitted(true);
+  const submit = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { error: insertError } = await supabase
+        .from("demo_requests")
+        .insert([
+          {
+            full_name: form.fullName,
+            work_email: form.workEmail,
+            company: form.company,
+            role: form.role,
+            company_size: form.companySize,
+            region: form.region,
+            category: form.category,
+            monthly_volume: form.monthlyVolume,
+            timeline: form.timeline,
+            message: form.message,
+            status: "Pending",
+          },
+        ]);
+
+      if (insertError) {
+        throw new Error(insertError.message);
+      }
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Failed to submit request:", err);
+      setError(err.message || "Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -205,10 +238,17 @@ function BookDemoPage() {
                     )}
                   </div>
 
+                  {error && (
+                    <div className="mb-6 rounded-xl bg-destructive/15 border border-destructive/30 p-4 text-xs text-destructive flex items-center justify-between">
+                      <span>{error}</span>
+                      <button onClick={() => setError(null)} className="hover:opacity-75">✕</button>
+                    </div>
+                  )}
+
                   <div className="mt-8 flex items-center justify-between">
                     <button
                       onClick={() => setStep((s) => Math.max(0, s - 1))}
-                      disabled={step === 0}
+                      disabled={step === 0 || loading}
                       className="text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 inline-flex items-center gap-2"
                     >
                       <ArrowLeft className="size-4" /> Back
@@ -224,9 +264,18 @@ function BookDemoPage() {
                     ) : (
                       <button
                         onClick={submit}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform"
+                        disabled={loading}
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform disabled:opacity-50"
                       >
-                        Submit request <ArrowRight className="size-4" />
+                        {loading ? (
+                          <>
+                            Submitting... <Loader2 className="size-4 animate-spin" />
+                          </>
+                        ) : (
+                          <>
+                            Submit request <ArrowRight className="size-4" />
+                          </>
+                        )}
                       </button>
                     )}
                   </div>
