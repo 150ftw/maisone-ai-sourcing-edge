@@ -21,7 +21,7 @@ const cards = [
 
 export function ExtraMile() {
   return (
-    <section id="extra-mile" className="relative py-32">
+    <section id="extra-mile" className="relative pt-16 pb-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
           <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— The Extra Mile</p>
