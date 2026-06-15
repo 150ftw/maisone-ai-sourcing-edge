@@ -141,6 +141,14 @@ function AdminPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   
+  // Stats summary State
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    contacted: 0,
+    completed: 0
+  });
+  
   // Pagination States
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -163,6 +171,29 @@ function AdminPage() {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Fetch Stats (real-time overview counts)
+  const fetchStats = async () => {
+    if (!session) return;
+    try {
+      const { data, error } = await supabase
+        .from("demo_requests")
+        .select("status");
+      if (error) throw error;
+      if (data) {
+        const counts = data.reduce((acc: any, curr: any) => {
+          acc.total++;
+          if (curr.status === "Pending") acc.pending++;
+          if (curr.status === "Contacted") acc.contacted++;
+          if (curr.status === "Completed") acc.completed++;
+          return acc;
+        }, { total: 0, pending: 0, contacted: 0, completed: 0 });
+        setStats(counts);
+      }
+    } catch (err) {
+      console.error("Failed to fetch stats:", err);
+    }
+  };
 
   // Fetch Requests (handles server-side filtering, searching, and pagination)
   const fetchRequests = async () => {
@@ -211,6 +242,7 @@ function AdminPage() {
   useEffect(() => {
     if (session) {
       fetchRequests();
+      fetchStats();
     }
   }, [session, page]);
 
@@ -263,6 +295,7 @@ function AdminPage() {
       if (selectedRequest?.id === id) {
         setSelectedRequest(prev => prev ? { ...prev, status } : null);
       }
+      fetchStats();
     } catch (err: any) {
       console.error("Failed to update status:", err);
       alert("Error updating status: " + err.message);
@@ -285,6 +318,7 @@ function AdminPage() {
       setSelectedRequest(null);
       // Re-fetch to keep correct count and pagination values
       fetchRequests();
+      fetchStats();
     } catch (err: any) {
       console.error("Failed to delete request:", err);
       alert("Error deleting request: " + err.message);
@@ -407,6 +441,34 @@ function AdminPage() {
                   >
                     <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
                   </button>
+                </div>
+              </div>
+
+              {/* Analytics Summary KPI Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+                  <div className="flex items-center justify-between text-muted-foreground mb-2">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Total Leads</span>
+                    <Layers className="size-4 text-electric" />
+                  </div>
+                  <div className="text-3xl font-serif">{stats.total}</div>
+                  <p className="text-[10px] text-muted-foreground/60 mt-1">All-time submissions</p>
+                </div>
+                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+                  <div className="flex items-center justify-between text-muted-foreground mb-2">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Pending Review</span>
+                    <ShieldAlert className="size-4 text-amber-400" />
+                  </div>
+                  <div className="text-3xl font-serif text-amber-400">{stats.pending}</div>
+                  <p className="text-[10px] text-muted-foreground/60 mt-1">Requires qualification</p>
+                </div>
+                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+                  <div className="flex items-center justify-between text-muted-foreground mb-2">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Qualified Leads</span>
+                    <Check className="size-4 text-emerald-400" />
+                  </div>
+                  <div className="text-3xl font-serif text-emerald-400">{stats.completed + stats.contacted}</div>
+                  <p className="text-[10px] text-muted-foreground/60 mt-1">Contacted or Completed</p>
                 </div>
               </div>
 
@@ -548,7 +610,7 @@ function AdminPage() {
 
                             {/* Sourcing Profile */}
                             <td className="px-6 py-5 min-w-[280px]">
-                              <div className="flex items-center gap-1.5 flex-nowrap whitespace-nowrap">
+                              <div className="flex flex-wrap gap-1.5 max-w-xs">
                                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.category}</span>
                                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.monthly_volume}</span>
                                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.timeline}</span>

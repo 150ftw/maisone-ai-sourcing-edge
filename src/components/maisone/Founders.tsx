@@ -7,25 +7,27 @@ const founders = [
     name: "Shashank Jain",
     role: "Co-Founder · Operations & Strategy",
     bio: "18+ years experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.",
-    brands: ["Valentino", "Balmain", "Stella McCartney", "Giorgio Armani", "Dolce & Gabbana"],
+    footerLabel: "Worked With",
+    tags: ["Valentino", "Balmain", "Stella McCartney", "Giorgio Armani", "Dolce & Gabbana"],
     initials: "SJ",
-    hue: "from-stone-700/40 to-stone-900/60",
+    hue: "from-stone-800/50 to-stone-900/80",
     image: shashankImg,
   },
   {
     name: "Subah",
     role: "Co-Founder · Creative & Client Partnerships",
     bio: "Specializes in design coordination, luxury product development, client engagement, and creative collaboration between brands and manufacturers.",
-    brands: [],
+    footerLabel: "Expertise",
+    tags: ["Design Coordination", "Luxury Product Dev", "Client Engagement", "Creative Sync"],
     initials: "S",
-    hue: "from-zinc-700/40 to-zinc-900/60",
+    hue: "from-zinc-800/50 to-zinc-900/80",
     image: subahImg,
   },
 ];
 
 export function Founders() {
   return (
-    <section id="founders" className="relative py-32">
+    <section id="founders" className="relative pt-32 pb-16">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
           <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Founders</p>
@@ -34,39 +36,51 @@ export function Founders() {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-7 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-stretch">
           {founders.map((f, i) => (
             <motion.div
               key={f.name}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="glass-strong rounded-2xl overflow-hidden"
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              className="group flex flex-col justify-between h-full glass-strong rounded-3xl overflow-hidden border border-white/5 hover:border-electric/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
-              <div className={`relative aspect-[4/5] bg-gradient-to-br ${f.hue} overflow-hidden`}>
-                <img
-                  src={f.image}
-                  alt={`${f.name} — ${f.role}`}
-                  className="absolute inset-0 w-full h-full object-cover object-top grayscale contrast-105 brightness-90"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/10" />
-              </div>
-              <div className="p-6">
-                <h3 className="font-serif text-2xl">{f.name}</h3>
-                <p className="text-xs uppercase tracking-[0.25em] text-electric mt-1">{f.role}</p>
-                <p className="mt-5 text-sm text-muted-foreground leading-relaxed">{f.bio}</p>
-                {f.brands.length > 0 && (
-                  <div className="mt-6 pt-6 border-t border-border">
-                    <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-3">Worked with</p>
-                    <div className="flex flex-wrap gap-2">
-                      {f.brands.map((b) => (
-                        <span key={b} className="text-xs px-3 py-1.5 rounded-full glass">{b}</span>
-                      ))}
-                    </div>
+              <div>
+                <div className={`relative h-64 sm:h-72 w-full bg-gradient-to-br ${f.hue} overflow-hidden`}>
+                  <img
+                    src={f.image}
+                    alt={`${f.name} — ${f.role}`}
+                    className="absolute inset-0 w-full h-full object-cover object-[center_18%] transition-all duration-700 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+                
+                <div className="p-8 pb-4">
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1 rounded-full bg-electric/10 text-electric border border-electric/20">
+                      {f.role}
+                    </span>
                   </div>
-                )}
+                  <h3 className="font-serif text-3xl text-foreground/90">{f.name}</h3>
+                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{f.bio}</p>
+                </div>
+              </div>
+
+              <div className="p-8 pt-4">
+                <div className="pt-6 border-t border-white/5">
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/60 mb-3">{f.footerLabel}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {f.tags.map((t) => (
+                      <span 
+                        key={t} 
+                        className="text-xs px-3 py-1.5 rounded-full border border-white/5 bg-white/[0.02] text-muted-foreground hover:bg-white/[0.05] hover:border-white/10 hover:text-foreground transition-all duration-300"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}

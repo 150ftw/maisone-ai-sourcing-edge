@@ -1,15 +1,15 @@
 import { motion } from "framer-motion";
 
 const categories = [
-  { name: "Luxury Knitted Garments", hue: "from-rose-500/25 to-amber-700/30" },
-  { name: "Fine Woven Apparel", hue: "from-sky-500/25 to-indigo-800/35" },
-  { name: "Premium Denim Collections", hue: "from-blue-700/35 to-indigo-900/40" },
-  { name: "Embroidered Garments", hue: "from-violet-500/25 to-fuchsia-700/30" },
-  { name: "Artisanal Leather Apparel", hue: "from-amber-700/30 to-stone-800/40" },
-  { name: "Premium Leather Bags", hue: "from-stone-500/25 to-amber-800/35" },
-  { name: "Curated Accessories", hue: "from-emerald-600/25 to-teal-800/30" },
-  { name: "Dresses & Knitwear", hue: "from-pink-500/25 to-rose-700/30" },
-  { name: "Tailored Shirts & Trousers", hue: "from-slate-500/30 to-zinc-800/40" },
+  { name: "Luxury Knitted Garments", image: "/images/categories/1.png", hue: "from-rose-500/30 to-amber-700/40" },
+  { name: "Fine Woven Apparel", image: "/images/categories/2.png", hue: "from-sky-500/30 to-indigo-800/40" },
+  { name: "Premium Denim Collections", image: "/images/categories/3.png", hue: "from-blue-700/40 to-indigo-900/50" },
+  { name: "Embroidered Garments", image: "/images/categories/4.png", hue: "from-violet-500/30 to-fuchsia-700/40" },
+  { name: "Artisanal Leather Apparel", image: "/images/categories/5.png", hue: "from-amber-700/40 to-stone-800/50" },
+  { name: "Premium Leather Bags", image: "/images/categories/6.png", hue: "from-stone-500/30 to-amber-800/40" },
+  { name: "Curated Accessories", image: "/images/categories/7.png", hue: "from-emerald-600/30 to-teal-800/40" },
+  { name: "Dresses & Knitwear", image: "/images/categories/8.png", hue: "from-pink-500/30 to-rose-700/40" },
+  { name: "Tailored Shirts & Trousers", image: "/images/categories/9.png", hue: "from-slate-500/40 to-zinc-800/50" },
 ];
 
 export function ProductCategories() {
@@ -33,12 +33,11 @@ export function ProductCategories() {
               transition={{ delay: (i % 3) * 0.08 }}
               className="group relative aspect-[4/5] rounded-3xl overflow-hidden glass-strong"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${c.hue}`} />
-              <div className="absolute inset-0 grid-bg opacity-25" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.18),transparent_60%)]" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-              <div className="absolute inset-x-6 bottom-6">
-                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-2">
+              <img src={c.image} alt={c.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <div className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-overlay opacity-60 group-hover:opacity-100 transition-opacity duration-700`} />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+              <div className="absolute inset-x-6 bottom-6 z-10 transform transition-transform duration-500 group-hover:-translate-y-2">
+                <p className="text-[10px] uppercase tracking-[0.25em] text-electric mb-2 opacity-80">
                   Category {String(i + 1).padStart(2, "0")}
                 </p>
                 <h3 className="font-serif text-2xl leading-tight text-balance">{c.name}</h3>

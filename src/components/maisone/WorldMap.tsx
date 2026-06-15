@@ -8,17 +8,31 @@ const toXY = (lat: number, lon: number) => ({
 });
 
 export const HUBS = [
-  { name: "New York", region: "United States", lat: 40.71, lon: -74.0 },
-  { name: "Los Angeles", region: "United States", lat: 34.05, lon: -118.24 },
-  { name: "London", region: "United Kingdom", lat: 51.5, lon: -0.12 },
-  { name: "Paris", region: "France", lat: 48.85, lon: 2.35 },
-  { name: "Milan", region: "Italy", lat: 45.46, lon: 9.19 },
-  { name: "Florence", region: "Italy", lat: 43.77, lon: 11.25 },
-  { name: "Mumbai", region: "India", lat: 19.07, lon: 72.87 },
-  { name: "Delhi", region: "India", lat: 28.61, lon: 77.21 },
-  { name: "Tokyo", region: "Japan", lat: 35.68, lon: 139.69 },
-  { name: "Buenos Aires", region: "Argentina", lat: -34.6, lon: -58.38 },
+  { name: "New York", region: "United States", lat: 40.71, lon: -74.0, align: "right" },
+  { name: "Los Angeles", region: "United States", lat: 34.05, lon: -118.24, align: "left" },
+  { name: "London", region: "United Kingdom", lat: 51.5, lon: -0.12, align: "top" },
+  { name: "Paris", region: "France", lat: 48.85, lon: 2.35, align: "left" },
+  { name: "Milan", region: "Italy", lat: 45.46, lon: 9.19, align: "bottom" },
+  { name: "Florence", region: "Italy", lat: 43.77, lon: 11.25, align: "right" },
+  { name: "Mumbai", region: "India", lat: 19.07, lon: 72.87, align: "left" },
+  { name: "Delhi", region: "India", lat: 28.61, lon: 77.21, align: "right" },
+  { name: "Tokyo", region: "Japan", lat: 35.68, lon: 139.69, align: "right" },
+  { name: "Buenos Aires", region: "Argentina", lat: -34.6, lon: -58.38, align: "right" },
 ];
+
+const getLabelStyle = (align?: string) => {
+  switch (align) {
+    case "top":
+      return { bottom: "10px", left: "50%", transform: "translateX(-50%)" };
+    case "bottom":
+      return { top: "10px", left: "50%", transform: "translateX(-50%)" };
+    case "left":
+      return { right: "10px", top: "50%", transform: "translateY(-50%)" };
+    case "right":
+    default:
+      return { left: "10px", top: "50%", transform: "translateY(-50%)" };
+  }
+};
 
 export function WorldMap({ compact = false }: { compact?: boolean }) {
   const points = HUBS.map((h) => ({ ...h, ...toXY(h.lat, h.lon) }));
@@ -39,7 +53,7 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
           <rect width="2000" height="1000" fill="url(#wm-dots)" />
         </g>
       </svg>
-
+ 
       {/* Connection arcs between hubs */}
       <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
         <defs>
@@ -48,15 +62,20 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
             <stop offset="100%" stopColor="oklch(0.62 0.24 290)" />
           </linearGradient>
         </defs>
-        {points.map((a, i) =>
-          points.slice(i + 1).map((b, j) => {
+        {(() => {
+          const sortedPoints = [...points].sort((a, b) => a.lon - b.lon);
+          return sortedPoints.map((a, i) => {
+            if (i === sortedPoints.length - 1) return null;
+            const b = sortedPoints[i + 1];
             const ax = a.x, ay = a.y / 2;
             const bx = b.x, by = b.y / 2;
             const mx = (ax + bx) / 2;
-            const my = Math.min(ay, by) - Math.abs(bx - ax) * 0.18 - 4;
+            const dx = Math.abs(bx - ax);
+            const arcHeight = Math.max(1.2, Math.min(6, dx * 0.15));
+            const my = Math.min(ay, by) - arcHeight;
             return (
               <motion.path
-                key={`${i}-${j}`}
+                key={i}
                 d={`M ${ax} ${ay} Q ${mx} ${my} ${bx} ${by}`}
                 stroke="url(#arc-grad)"
                 strokeWidth="0.15"
@@ -64,11 +83,11 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
                 initial={{ pathLength: 0, opacity: 0 }}
                 whileInView={{ pathLength: 1, opacity: 0.55 }}
                 viewport={{ once: true }}
-                transition={{ duration: 2, delay: (i + j) * 0.05 }}
+                transition={{ duration: 2, delay: i * 0.15 }}
               />
             );
-          })
-        )}
+          });
+        })()}
       </svg>
 
       {/* Hub markers */}
@@ -86,7 +105,10 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
             <div className="absolute inset-0 size-3 rounded-full bg-electric animate-pulse-glow" />
             <div className="relative size-2 rounded-full bg-electric ring-2 ring-background" />
             {!compact && (
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 whitespace-nowrap">
+              <div 
+                className="absolute whitespace-nowrap"
+                style={getLabelStyle(p.align)}
+              >
                 <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/70">{p.name}</span>
               </div>
             )}
