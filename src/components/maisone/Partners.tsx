@@ -1,7 +1,6 @@
 const countries = ["USA", "ITALY", "PARIS", "ARGENTINA", "JAPAN", "UK", "INDIA"];
 
 export function Partners() {
-  const loop = [...countries, ...countries, ...countries];
   return (
     <section id="partners" className="relative py-24 border-y border-border">
       <div className="mx-auto max-w-7xl px-6 mb-10">
@@ -11,13 +10,19 @@ export function Partners() {
         </h2>
       </div>
 
-      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-        <div className="flex gap-16 animate-marquee whitespace-nowrap">
-          {loop.map((c, i) => (
-            <span key={i} className="font-serif text-3xl sm:text-4xl tracking-[0.3em] text-foreground/60">
-              {c}
-              <span className="mx-16 text-electric/40">◆</span>
-            </span>
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pb-8 pt-4">
+        <div className="flex items-center animate-marquee w-max hover:[animation-play-state:paused]">
+          {[...Array(3)].map((_, listIdx) => (
+            <div key={listIdx} className="flex items-center shrink-0">
+              {countries.map((c, idx) => (
+                <div key={`${listIdx}-${idx}`} className="group flex items-center gap-16 pr-16 cursor-default select-none transition-all duration-500 hover:scale-[1.05]">
+                  <span className="font-serif text-4xl sm:text-6xl tracking-[0.3em] text-foreground/60 group-hover:text-electric transition-colors duration-500 drop-shadow-sm whitespace-nowrap">
+                    {c}
+                  </span>
+                  <span className="text-2xl text-electric/40 group-hover:text-electric transition-colors duration-500 drop-shadow-sm">◆</span>
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       </div>

@@ -39,62 +39,68 @@
 :root {
   --radius: 0.75rem;
 
-  /* Light luxury */
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.12 0.01 260);
-  --card: oklch(0.985 0 0);
-  --card-foreground: oklch(0.12 0.01 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.12 0.01 260);
-  --primary: oklch(0.12 0.01 260);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.96 0.005 260);
-  --secondary-foreground: oklch(0.15 0.01 260);
-  --muted: oklch(0.96 0.005 260);
-  --muted-foreground: oklch(0.45 0.01 260);
-  --accent: oklch(0.95 0.01 260);
-  --accent-foreground: oklch(0.15 0.01 260);
+  /* Ivory / Taupe / Gold palette - LIGHT MODE */
+  --background: #F6F4F0;
+  --foreground: #2C2C2C;
+  --card: #FFFFFF;
+  --card-foreground: #2C2C2C;
+  --popover: #FFFFFF;
+  --popover-foreground: #2C2C2C;
+  --primary: #2C2C2C;
+  --primary-foreground: #F6F4F0;
+  --secondary: #E5E1D8;
+  --secondary-foreground: #2C2C2C;
+  --muted: #E5E1D8;
+  --muted-foreground: #9B8E7D;
+  --accent: #C2A46D;
+  --accent-foreground: #2C2C2C;
   --destructive: oklch(0.58 0.24 27);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.005 260);
-  --input: oklch(0.92 0.005 260);
-  --ring: oklch(0.6 0.15 250);
+  --destructive-foreground: #F6F4F0;
+  --border: rgba(183, 176, 166, 0.45);
+  --input: rgba(183, 176, 166, 0.25);
+  --ring: #C2A46D;
 
-  --electric: oklch(0.65 0.22 255);
-  --violet-glow: oklch(0.62 0.24 290);
-  --cyan-glow: oklch(0.82 0.16 210);
-  --silver: oklch(0.78 0.005 260);
+  --electric: #C2A46D;
+  --violet-glow: #9B8E7D;
+  --cyan-glow: #B7B0A6;
+  --silver: #B7B0A6;
 
-  --gradient-aurora: linear-gradient(135deg, oklch(0.65 0.22 255) 0%, oklch(0.62 0.24 290) 50%, oklch(0.82 0.16 210) 100%);
-  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, oklch(0.65 0.22 255 / 0.18), transparent 60%);
-  --shadow-glow: 0 0 60px -10px oklch(0.65 0.22 255 / 0.4);
-  --shadow-soft: 0 30px 80px -20px oklch(0.12 0.01 260 / 0.15);
+  --gradient-aurora: linear-gradient(135deg, #C2A46D 0%, #9B8E7D 50%, #B7B0A6 100%);
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(194, 164, 109, 0.15), transparent 60%);
+  --shadow-glow: 0 0 60px -10px rgba(194, 164, 109, 0.3);
+  --shadow-soft: 0 30px 80px -20px rgba(44, 44, 44, 0.08);
 }
 
 .dark {
-  --background: oklch(0.09 0.005 260);
-  --foreground: oklch(0.97 0.005 260);
-  --card: oklch(0.13 0.008 260);
-  --card-foreground: oklch(0.97 0.005 260);
-  --popover: oklch(0.13 0.008 260);
-  --popover-foreground: oklch(0.97 0.005 260);
-  --primary: oklch(0.97 0.005 260);
-  --primary-foreground: oklch(0.09 0.005 260);
-  --secondary: oklch(0.17 0.01 260);
-  --secondary-foreground: oklch(0.97 0.005 260);
-  --muted: oklch(0.17 0.01 260);
-  --muted-foreground: oklch(0.65 0.015 260);
-  --accent: oklch(0.18 0.015 260);
-  --accent-foreground: oklch(0.97 0.005 260);
+  /* Ivory / Taupe / Gold palette - DARK MODE */
+  --background: #2C2C2C;
+  --foreground: #F6F4F0;
+  --card: #363636;
+  --card-foreground: #F6F4F0;
+  --popover: #363636;
+  --popover-foreground: #F6F4F0;
+  --primary: #F6F4F0;
+  --primary-foreground: #2C2C2C;
+  --secondary: #424242;
+  --secondary-foreground: #F6F4F0;
+  --muted: #424242;
+  --muted-foreground: #B7B0A6;
+  --accent: #C2A46D;
+  --accent-foreground: #2C2C2C;
   --destructive: oklch(0.65 0.2 27);
-  --destructive-foreground: oklch(0.97 0.005 260);
-  --border: oklch(0.97 0.005 260 / 0.08);
-  --input: oklch(0.97 0.005 260 / 0.12);
-  --ring: oklch(0.65 0.22 255);
+  --destructive-foreground: #F6F4F0;
+  --border: rgba(183, 176, 166, 0.25);
+  --input: rgba(183, 176, 166, 0.15);
+  --ring: #C2A46D;
 
-  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, oklch(0.65 0.22 255 / 0.25), transparent 60%);
-  --shadow-glow: 0 0 80px -10px oklch(0.65 0.22 255 / 0.5);
-  --shadow-soft: 0 30px 80px -20px oklch(0 0 0 / 0.5);
+  --electric: #C2A46D;
+  --violet-glow: #9B8E7D;
+  --cyan-glow: #B7B0A6;
+  --silver: #B7B0A6;
+
+  --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(194, 164, 109, 0.25), transparent 60%);
+  --shadow-glow: 0 0 80px -10px rgba(194, 164, 109, 0.25);
+  --shadow-soft: 0 30px 80px -20px rgba(0, 0, 0, 0.45);
 }
 
 @layer base {

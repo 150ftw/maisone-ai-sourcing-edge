@@ -74,7 +74,47 @@ export function About() {
             </div>
           ))}
         </div>
+
+        {/* Partners Marquee */}
+        <div className="mt-28 pt-12 border-t border-border/50">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground text-center mb-10">— Trusted by Brands in</p>
+          <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pb-12 pt-4">
+            <div className="flex items-center animate-marquee w-max hover:[animation-play-state:paused]">
+              {[...Array(3)].map((_, listIdx) => (
+                <div key={listIdx} className="flex gap-24 items-center shrink-0 pr-24">
+                  {PARTNERS.map((p, idx) => (
+                    <div key={`${listIdx}-${idx}`} className="group relative flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-all duration-500 hover:scale-[1.05] cursor-default select-none">
+                      <div className="flex items-center gap-3">
+                        {p.hasIcon && (
+                          <span className="text-2xl text-muted-foreground group-hover:text-electric transition-colors">✦</span>
+                        )}
+                        <span className="text-3xl sm:text-5xl tracking-wide text-foreground group-hover:text-electric transition-colors duration-500 drop-shadow-sm whitespace-nowrap" style={p.style}>
+                          {p.name}
+                        </span>
+                      </div>
+                      <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center w-max opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0 pointer-events-none">
+                        {p.sub && (
+                          <span className="text-[9px] sm:text-[10px] tracking-[0.2em] text-muted-foreground uppercase font-medium mb-1">{p.sub}</span>
+                        )}
+                        <span className="text-[10px] sm:text-xs tracking-[0.25em] text-electric font-bold uppercase">{p.country}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
+
+const PARTNERS = [
+  { name: "alice + olivia", sub: "BY STACEY BENDET", country: "USA", style: { fontFamily: "Inter, sans-serif", fontWeight: 300, letterSpacing: "0.05em" } },
+  { name: "GIUSEPPE DI MORABITO", sub: "MILANO", country: "ITALY", style: { fontFamily: "Cormorant Garamond, serif", fontWeight: 600, letterSpacing: "0.12em" } },
+  { name: "ba&sh", sub: "PARIS", country: "FRANCE", style: { fontFamily: "Inter, sans-serif", fontWeight: 700, letterSpacing: "-0.01em" } },
+  { name: "RETROFÊTE", sub: "", country: "USA", style: { fontFamily: "Inter, sans-serif", fontWeight: 800, letterSpacing: "0.15em" } },
+  { name: "MONO", sub: "", country: "ARGENTINA", style: { fontFamily: "Inter, sans-serif", fontWeight: 900, letterSpacing: "0.08em" }, hasIcon: true },
+  { name: "FAF", sub: "", country: "JAPAN", style: { fontFamily: "Georgia, serif", fontWeight: 700, letterSpacing: "0.05em", fontStyle: "italic" } }
+];
