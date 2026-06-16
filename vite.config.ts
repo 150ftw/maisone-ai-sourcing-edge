@@ -8,9 +8,19 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({
+      server: { entry: "server" },
+    }),
     react(),
     tsConfigPaths(),
-    nitro({ preset: "vercel" }),
+    nitro({
+      preset: "vercel",
+      output: {
+        dir: ".vercel/output",
+        serverDir: ".vercel/output/functions/__server.func",
+        publicDir: ".vercel/output/static",
+      },
+    }),
   ],
 });
+

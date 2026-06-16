@@ -1,17 +1,33 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { createFileRoute, Link, useNavigate, Outlet, redirect, useLocation } from "@tanstack/react-router";
+import { useState, useEffect, createContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, LogOut, Loader2, Search, Filter, 
   Trash2, Mail, Building2, User, Globe, Layers,
   Calendar, MessageSquare, ShieldAlert, Sparkles, Check, RefreshCw,
-  ChevronLeft, ChevronRight, X
+  ChevronLeft, ChevronRight, X, Plus, ChevronDown
 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
 import { supabase } from "@/lib/supabase";
+import { Overview, Suppliers, Shipments, Inventory, Trends, SUPPLIERS, DEFAULT_INVENTORY, SHIPMENTS } from "@/components/maisone/Dashboard";
 
 export const Route = createFileRoute("/admin")({
+  beforeLoad: async ({ location }) => {
+    // If the path is exactly /admin/login, bypass the auth guard here to avoid infinite redirect loop
+    if (location.pathname === "/admin/login") {
+      return;
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      throw redirect({
+        to: "/admin/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   head: () => ({
     meta: [
       { title: "Admin Portal — Maisone" },
@@ -21,7 +37,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminPage,
 });
 
-type DemoRequest = {
+export type DemoRequest = {
   id: string;
   created_at: string;
   full_name: string;
@@ -37,7 +53,9 @@ type DemoRequest = {
   status: string;
 };
 
-function StatusDropdown({ currentStatus, onChange }: { currentStatus: string; onChange: (status: string) => void }) {
+export const AdminContext = createContext<any>(null);
+
+export function StatusDropdown({ currentStatus, onChange }: { currentStatus: string; onChange: (status: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const statuses = ["Pending", "Contacted", "Completed", "Archived"];
 
@@ -123,23 +141,845 @@ function StatusDropdown({ currentStatus, onChange }: { currentStatus: string; on
   );
 }
 
+export function ShipmentStatusDropdown({ currentStatus, onChange }: { currentStatus: string; onChange: (status: string) => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const statuses = ["In transit", "Customs", "Delivered"];
+
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case "Delivered":
+        return {
+          bg: "bg-emerald-500/10 hover:bg-emerald-500/20",
+          text: "text-emerald-400",
+          border: "border-emerald-500/20",
+          dot: "bg-emerald-400"
+        };
+      case "Customs":
+        return {
+          bg: "bg-amber-500/10 hover:bg-amber-500/20",
+          text: "text-amber-400",
+          border: "border-amber-500/20",
+          dot: "bg-amber-400"
+        };
+      default: // "In transit"
+        return {
+          bg: "bg-blue-500/10 hover:bg-blue-500/20",
+          text: "text-blue-400",
+          border: "border-blue-500/20",
+          dot: "bg-blue-400"
+        };
+    }
+  };
+
+  const current = getStatusStyles(currentStatus);
+
+  return (
+    <div className="relative inline-block text-left">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`inline-flex items-center justify-between gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full border transition-all cursor-pointer ${current.bg} ${current.text} ${current.border}`}
+      >
+        <span className={`size-1.5 rounded-full ${current.dot}`} />
+        {currentStatus}
+        <ChevronDown className={`size-3 opacity-60 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
+          <div className="absolute left-0 mt-2 w-36 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
+            {statuses.map((status) => {
+              const styles = getStatusStyles(status);
+              return (
+                <button
+                  key={status}
+                  type="button"
+                  onClick={() => {
+                    onChange(status);
+                    setIsOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-2.5 text-xs flex items-center gap-2 hover:bg-white/5 transition-colors cursor-pointer ${styles.text}`}
+                >
+                  <span className={`size-1.5 rounded-full ${styles.dot}`} />
+                  {status}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function CustomSelect({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: string[] }) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all text-xs text-white cursor-pointer focus:outline-none"
+      >
+        <span>{value}</span>
+        <ChevronDown className={`size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
+          <div className="absolute left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0f0f12] py-1 shadow-2xl z-40 overflow-hidden">
+            {options.map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => {
+                  onChange(opt);
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2.5 text-xs hover:bg-white/5 transition-colors cursor-pointer ${value === opt ? "text-white font-medium bg-white/[0.02]" : "text-muted-foreground hover:text-white"}`}
+              >
+                {opt}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function TableSkeleton() {
+  return (
+    <div className="w-full rounded-2xl border border-white/5 glass overflow-hidden">
+      <div className="border-b border-white/5 p-4 flex gap-4 bg-white/[0.01]">
+        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+      </div>
+      <div className="divide-y divide-white/5">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="p-4 flex gap-4 items-center">
+            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+type AdminTab = "overview" | "demo_requests" | "suppliers" | "shipments" | "inventory" | "trends";
+
+const ADMIN_TABS = [
+  { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
+  { id: "demo_requests" as const, to: "/admin/demo-requests" as const, label: "Demo Requests", icon: Mail },
+  { id: "suppliers" as const, to: "/admin/suppliers" as const, label: "Suppliers", icon: Building2 },
+  { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
+  { id: "inventory" as const, to: "/admin/inventory" as const, label: "Inventory", icon: Layers },
+  { id: "trends" as const, to: "/admin/trends" as const, label: "Trends", icon: Sparkles },
+];export function SuppliersWrapper() {
+  const [region, setRegion] = useState("All");
+  const [query, setQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [suppliersList, setSuppliersList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Form states
+  const [name, setName] = useState("");
+  const [city, setCity] = useState("");
+  const [regionVal, setRegionVal] = useState("Japan");
+  const [category, setCategory] = useState("Denim");
+  const [lead, setLead] = useState("");
+  const [otd, setOtd] = useState("");
+  const [rating, setRating] = useState("");
+
+  const fetchSuppliers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("suppliers")
+        .select("id:supplier_id, name, region, city, category, lead:lead_time, rating, otd")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setSuppliersList(data || []);
+    } catch (err) {
+      console.error("Failed to fetch suppliers:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSuppliers();
+  }, []);
+
+  const handleAddSupplier = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newSupplier = {
+      supplier_id: `SUP-${Math.floor(100 + Math.random() * 900)}`,
+      name: name.trim() || "New Supplier",
+      region: regionVal,
+      city: city.trim() || "Unknown",
+      category,
+      lead_time: Number(lead) || 14,
+      otd: Number(otd) || 95,
+      rating: Number(rating) || 4.5
+    };
+
+    try {
+      const { error } = await supabase.from("suppliers").insert([newSupplier]);
+      if (error) throw error;
+      await fetchSuppliers();
+
+      // Reset and close
+      setName("");
+      setCity("");
+      setRegionVal("Japan");
+      setCategory("Denim");
+      setLead("");
+      setOtd("");
+      setRating("");
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error("Failed to add supplier:", err);
+      alert("Error adding supplier: " + err.message);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search suppliers, categories..."
+            className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+          />
+        </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+        >
+          <Plus className="size-4" /> Add Supplier
+        </button>
+      </div>
+
+      {loading ? (
+        <TableSkeleton />
+      ) : (
+        <Suppliers query={query} region={region} setRegion={setRegion} data={suppliersList} />
+      )}
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+              >
+                <X className="size-4" />
+              </button>
+
+              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">Add Supplier</h2>
+
+              <form onSubmit={handleAddSupplier} className="space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Supplier Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="e.g. Kyoto Atelier"
+                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">City</label>
+                    <input
+                      type="text"
+                      required
+                      value={city}
+                      onChange={e => setCity(e.target.value)}
+                      placeholder="e.g. Kyoto"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Region</label>
+                    <CustomSelect value={regionVal} onChange={setRegionVal} options={["Japan", "United Kingdom", "Europe", "United States"]} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Category</label>
+                    <CustomSelect value={category} onChange={setCategory} options={["Denim", "Silk", "Wool", "Tailoring", "Leather", "Knitwear"]} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Lead Time (Days)</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      value={lead}
+                      onChange={e => setLead(e.target.value)}
+                      placeholder="e.g. 21"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">OTD Rate (%)</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      value={otd}
+                      onChange={e => setOtd(e.target.value)}
+                      placeholder="e.g. 96"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Rating (1-5)</label>
+                    <input
+                      type="text"
+                      required
+                      value={rating}
+                      onChange={e => setRating(e.target.value)}
+                      placeholder="e.g. 4.9"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  Save Supplier
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function InventoryWrapper() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inventoryList, setInventoryList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Form states
+  const [sku, setSku] = useState("");
+  const [name, setName] = useState("");
+  const [stock, setStock] = useState("");
+  const [reorder, setReorder] = useState("");
+
+  const fetchInventory = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("inventory")
+        .select("sku, name, stock, reorder")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setInventoryList(data || []);
+    } catch (err) {
+      console.error("Failed to fetch inventory:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInventory();
+  }, []);
+
+  const handleAddItem = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newItem = {
+      sku: sku.trim() || `SKU-${Math.floor(100 + Math.random() * 900)}`,
+      name: name.trim() || "New Item",
+      stock: Number(stock) || 0,
+      reorder: Number(reorder) || 0
+    };
+
+    try {
+      const { error } = await supabase.from("inventory").insert([newItem]);
+      if (error) throw error;
+      await fetchInventory();
+      
+      // Reset and close
+      setSku("");
+      setName("");
+      setStock("");
+      setReorder("");
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error("Failed to add inventory item:", err);
+      alert("Error adding item: " + err.message);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-serif text-3xl tracking-tight">Inventory Portal</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">Manage stock levels, reorder limits, and add item logs.</p>
+        </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <Plus className="size-4" /> Add Item
+        </button>
+      </div>
+
+      {loading ? (
+        <TableSkeleton />
+      ) : (
+        <Inventory data={inventoryList} />
+      )}
+
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+              >
+                <X className="size-4" />
+              </button>
+
+              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">Add Inventory Item</h2>
+
+              <form onSubmit={handleAddItem} className="space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">SKU / Code</label>
+                  <input
+                    type="text"
+                    required
+                    value={sku}
+                    onChange={e => setSku(e.target.value)}
+                    placeholder="e.g. COT-412"
+                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Item Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="e.g. Organic Pima Cotton"
+                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Current Stock</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      value={stock}
+                      onChange={e => setStock(e.target.value)}
+                      placeholder="e.g. 2500"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Reorder Level</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      required
+                      value={reorder}
+                      onChange={e => setReorder(e.target.value)}
+                      placeholder="e.g. 1000"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  Save Item
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function ShipmentsWrapper() {
+  const [query, setQuery] = useState("");
+  const [selectedShipment, setSelectedShipment] = useState<any>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [shipmentsList, setShipmentsList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Form states
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
+  const [eta, setEta] = useState("");
+  const [statusVal, setStatusVal] = useState("In transit");
+
+  const fetchShipments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("shipments")
+        .select("id:shipment_id, route, eta, status, prog:progress")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setShipmentsList(data || []);
+    } catch (err) {
+      console.error("Failed to fetch shipments:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchShipments();
+  }, []);
+
+  const handleAddShipment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const calculatedProgress = statusVal === "Delivered" ? 100 : statusVal === "Customs" ? 80 : 30;
+    const newShipment = {
+      shipment_id: `MS-${Math.floor(10000 + Math.random() * 90000)}`,
+      route: `${origin.trim()} → ${destination.trim()}`,
+      eta: eta.trim() || "Mar 20",
+      status: statusVal,
+      progress: calculatedProgress
+    };
+
+    try {
+      const { error } = await supabase.from("shipments").insert([newShipment]);
+      if (error) throw error;
+      await fetchShipments();
+      
+      // Reset and close
+      setOrigin("");
+      setDestination("");
+      setEta("");
+      setStatusVal("In transit");
+      setIsAddModalOpen(false);
+    } catch (err: any) {
+      console.error("Failed to add shipment:", err);
+      alert("Error adding shipment: " + err.message);
+    }
+  };
+
+  const handleUpdateShipmentStatus = async (id: string, newStatus: string) => {
+    const nextProg = newStatus === "Delivered" ? 100 : newStatus === "Customs" ? 80 : 30;
+
+    try {
+      const { error } = await supabase
+        .from("shipments")
+        .update({ status: newStatus, progress: nextProg })
+        .eq("shipment_id", id);
+      if (error) throw error;
+      
+      await fetchShipments();
+
+      // Update selectedShipment to reflect changes in details modal
+      setSelectedShipment((prev: any) => prev ? { ...prev, status: newStatus, prog: nextProg } : null);
+    } catch (err: any) {
+      console.error("Failed to update shipment status:", err);
+      alert("Error updating status: " + err.message);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="font-serif text-3xl tracking-tight">Shipments Portal</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">Track cargo, routes, estimated arrival times, and customs clearance status.</p>
+        </div>
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <div className="relative flex-1 md:max-w-xs">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search shipments, routes..."
+              className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
+            />
+          </div>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          >
+            <Plus className="size-4" /> Add Shipment
+          </button>
+        </div>
+      </div>
+
+      {loading ? (
+        <TableSkeleton />
+      ) : (
+        <Shipments query={query} onSelect={setSelectedShipment} data={shipmentsList} />
+      )}
+
+      <AnimatePresence>
+        {selectedShipment && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedShipment(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setSelectedShipment(null)}
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+              >
+                <X className="size-4" />
+              </button>
+
+              <div className="space-y-6">
+                <div>
+                  <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">Shipment Tracker</span>
+                  <h2 className="font-serif text-3xl mt-3 text-white">{selectedShipment.id}</h2>
+                  <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
+                    <Globe className="size-3.5 text-muted-foreground" />
+                    {selectedShipment.route}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 border-t border-b border-white/5 py-4">
+                  <div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">ETA</span>
+                    <span className="text-sm font-medium text-white mt-1 block">{selectedShipment.eta}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground block mb-1">Status</span>
+                    <div className="mt-1">
+                      <ShipmentStatusDropdown
+                        currentStatus={selectedShipment.status}
+                        onChange={(status) => handleUpdateShipmentStatus(selectedShipment.id, status)}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Progress</span>
+                    <span className="text-sm font-medium text-white mt-1 block">{selectedShipment.prog}%</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Transit Code</span>
+                    <span className="text-sm font-medium text-muted-foreground mt-1 block">TRK-{selectedShipment.id.split('-')[1] || selectedShipment.id}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">Live Progress Bar</h4>
+                  <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-electric to-cyan-glow transition-all duration-500" 
+                      style={{ width: `${selectedShipment.prog}%` }} 
+                    />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {isAddModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsAddModalOpen(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+            >
+              <button
+                onClick={() => setIsAddModalOpen(false)}
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+              >
+                <X className="size-4" />
+              </button>
+
+              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">Add Shipment</h2>
+
+              <form onSubmit={handleAddShipment} className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Origin City</label>
+                    <input
+                      type="text"
+                      required
+                      value={origin}
+                      onChange={e => setOrigin(e.target.value)}
+                      placeholder="e.g. Tokyo"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Destination City</label>
+                    <input
+                      type="text"
+                      required
+                      value={destination}
+                      onChange={e => setDestination(e.target.value)}
+                      placeholder="e.g. London"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">ETA</label>
+                    <input
+                      type="text"
+                      required
+                      value={eta}
+                      onChange={e => setEta(e.target.value)}
+                      placeholder="e.g. Mar 24"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Status</label>
+                    <CustomSelect value={statusVal} onChange={setStatusVal} options={["In transit", "Customs", "Delivered"]} />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  Save Shipment
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export function OverviewWrapper() {
+  const [query, setQuery] = useState("");
+  const [shipmentsList, setShipmentsList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchShipments = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("shipments")
+        .select("id:shipment_id, route, eta, status, prog:progress")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      setShipmentsList(data || []);
+    } catch (err) {
+      console.error("Failed to fetch overview shipments:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchShipments();
+  }, []);
+
+  return (
+    <div className="space-y-4 animate-in fade-in duration-300">
+      <div className="relative max-w-md">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search active shipments..."
+          className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+        />
+      </div>
+      {loading ? (
+        <TableSkeleton />
+      ) : (
+        <Overview query={query} data={shipmentsList} />
+      )}
+    </div>
+  );
+}
+
 function AdminPage() {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  // State hooks (placed at the top to satisfy rules of hooks)
   const [session, setSession] = useState<any>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  
-  // Auth Form States
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginLoading, setLoginLoading] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
-
-  // Dashboard States
-  const [requests, setRequests] = useState<DemoRequest[]>([]);
-  const [reqLoading, setReqLoading] = useState(false);
-  const [reqError, setReqError] = useState<string | null>(null);
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
   
   // Stats summary State
   const [stats, setStats] = useState({
@@ -148,14 +988,6 @@ function AdminPage() {
     contacted: 0,
     completed: 0
   });
-  
-  // Pagination States
-  const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const PAGE_SIZE = 10;
-
-  // Selected Request Modal State
-  const [selectedRequest, setSelectedRequest] = useState<DemoRequest | null>(null);
 
   useEffect(() => {
     // Check initial session
@@ -195,138 +1027,19 @@ function AdminPage() {
     }
   };
 
-  // Fetch Requests (handles server-side filtering, searching, and pagination)
-  const fetchRequests = async () => {
-    if (!session) return;
-    setReqLoading(true);
-    setReqError(null);
-    try {
-      let query = supabase
-        .from("demo_requests")
-        .select("*", { count: "exact" });
-
-      // Apply server-side status filter
-      if (statusFilter !== "All") {
-        query = query.eq("status", statusFilter);
-      }
-
-      // Apply server-side search filter
-      if (search.trim()) {
-        query = query.or(
-          `full_name.ilike.%${search.trim()}%,company.ilike.%${search.trim()}%,work_email.ilike.%${search.trim()}%,role.ilike.%${search.trim()}%`
-        );
-      }
-
-      // Pagination calculation
-      const from = (page - 1) * PAGE_SIZE;
-      const to = from + PAGE_SIZE - 1;
-
-      query = query
-        .range(from, to)
-        .order("created_at", { ascending: false });
-
-      const { data, count, error } = await query;
-
-      if (error) throw error;
-      setRequests(data || []);
-      setTotalCount(count || 0);
-    } catch (err: any) {
-      console.error("Failed to fetch requests:", err);
-      setReqError(err.message || "Failed to retrieve inquiries.");
-    } finally {
-      setReqLoading(false);
-    }
-  };
-
   // Re-fetch triggers
   useEffect(() => {
     if (session) {
-      fetchRequests();
       fetchStats();
     }
-  }, [session, page]);
-
-  // Debounced search & status filter triggers (resetting to page 1)
-  useEffect(() => {
-    if (!session) return;
-    const delayDebounceFn = setTimeout(() => {
-      setPage(1);
-      fetchRequests();
-    }, 400); // 400ms debounce
-    return () => clearTimeout(delayDebounceFn);
-  }, [search, statusFilter]);
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(true);
-    setLoginError(null);
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      if (error) throw error;
-    } catch (err: any) {
-      console.error(err);
-      setLoginError(err.message || "Invalid email or password.");
-    } finally {
-      setLoginLoading(false);
-    }
-  };
+  }, [session]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setRequests([]);
-    setPage(1);
-    setTotalCount(0);
+    navigate({ to: "/" });
   };
 
-  const updateRequestStatus = async (id: string, status: string) => {
-    try {
-      const { error } = await supabase
-        .from("demo_requests")
-        .update({ status })
-        .eq("id", id);
-
-      if (error) throw error;
-      
-      // Update local state
-      setRequests(prev => prev.map(req => req.id === id ? { ...req, status } : req));
-      if (selectedRequest?.id === id) {
-        setSelectedRequest(prev => prev ? { ...prev, status } : null);
-      }
-      fetchStats();
-    } catch (err: any) {
-      console.error("Failed to update status:", err);
-      alert("Error updating status: " + err.message);
-    }
-  };
-
-  const deleteRequest = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this request permanently?")) return;
-    
-    try {
-      const { error } = await supabase
-        .from("demo_requests")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-      
-      // Remove from state
-      setRequests(prev => prev.filter(req => req.id !== id));
-      setSelectedRequest(null);
-      // Re-fetch to keep correct count and pagination values
-      fetchRequests();
-      fetchStats();
-    } catch (err: any) {
-      console.error("Failed to delete request:", err);
-      alert("Error deleting request: " + err.message);
-    }
-  };
-
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-
+  // Always block render until we know auth state — prevents flash of login or admin content
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#07070a] text-white">
@@ -335,481 +1048,81 @@ function AdminPage() {
     );
   }
 
+  // Skip the admin layout entirely if rendering the login route
+  if (pathname === "/admin/login") {
+    return <Outlet />;
+  }
+
   return (
     <ThemeProvider>
-      <div className="relative min-h-screen noise overflow-x-hidden bg-[#07070a] text-white">
-        <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
-        
-        {/* Header */}
-        <header className="relative z-10 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-white/5 bg-[#07070a]/80 backdrop-blur-md sticky top-0">
-          <div className="flex items-center gap-3">
-            <Link to="/"><Logo /></Link>
-            <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">Admin</span>
-          </div>
-          {session ? (
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-white/10 px-4 py-2 rounded-full hover:bg-white/5 transition-all cursor-pointer"
-            >
-              <LogOut className="size-4" /> Sign Out
-            </button>
-          ) : (
-            <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-              <ArrowLeft className="size-4" /> Back to site
-            </Link>
-          )}
-        </header>
-
-        {/* Main Content */}
-        <main className="relative z-10 mx-auto max-w-7xl px-6 py-12">
-          {!session ? (
-            /* Admin Login Panel */
-            <div className="max-w-md mx-auto my-12">
-              <motion.div 
-                initial={{ opacity: 0, y: 15 }} 
-                animate={{ opacity: 1, y: 0 }}
-                className="glass-strong rounded-3xl p-8 border border-white/10"
-              >
-                <div className="text-center mb-8">
-                  <div className="mx-auto size-12 rounded-full bg-electric/10 flex items-center justify-center mb-4">
-                    <Sparkles className="size-6 text-electric" />
-                  </div>
-                  <h1 className="font-serif text-3xl mb-2">Atelier Access</h1>
-                  <p className="text-sm text-muted-foreground">Sign in to manage and review platform demo requests.</p>
-                </div>
-
-                <form onSubmit={handleLogin} className="space-y-4">
-                  <div>
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Work Email</label>
-                    <input 
-                      type="email" 
-                      required
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      placeholder="admin@maisone.com" 
-                      className="mt-2 w-full rounded-xl bg-black/50 border border-white/10 px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Password</label>
-                    <input 
-                      type="password" 
-                      required
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                      placeholder="••••••••" 
-                      className="mt-2 w-full rounded-xl bg-black/50 border border-white/10 px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
-                    />
-                  </div>
-
-                  {loginError && (
-                    <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-xs text-red-400 flex items-center gap-2">
-                      <ShieldAlert className="size-4 shrink-0" />
-                      <span>{loginError}</span>
-                    </div>
-                  )}
-
-                  <button 
-                    type="submit" 
-                    disabled={loginLoading}
-                    className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 cursor-pointer"
-                  >
-                    {loginLoading ? (
-                      <Loader2 className="size-4 animate-spin" />
-                    ) : (
-                      "Sign In"
-                    )}
-                  </button>
-                </form>
-              </motion.div>
+      <AdminContext.Provider value={{ session, stats, fetchStats }}>
+        <div className="relative min-h-screen noise overflow-x-hidden bg-[#07070a] text-white">
+          <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
+          
+          {/* Header */}
+          <header className="relative z-10 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-white/5 bg-[#07070a]/80 backdrop-blur-md sticky top-0">
+            <div className="flex items-center gap-3">
+              <Link to="/"><Logo /></Link>
+              <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium font-semibold">Admin</span>
             </div>
-          ) : (
-            /* Admin Dashboard Panel */
-            <div className="space-y-8">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                  <h1 className="font-serif text-4xl tracking-tight">Demo Inquiries</h1>
-                  <p className="text-sm text-muted-foreground mt-1">Review, qualify, and update status of brand requests.</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={fetchRequests}
-                    disabled={reqLoading}
-                    className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 disabled:opacity-50 transition-colors cursor-pointer"
-                    title="Refresh Data"
-                  >
-                    <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Analytics Summary KPI Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
-                  <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Total Leads</span>
-                    <Layers className="size-4 text-electric" />
-                  </div>
-                  <div className="text-3xl font-serif">{stats.total}</div>
-                  <p className="text-[10px] text-muted-foreground/60 mt-1">All-time submissions</p>
-                </div>
-                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
-                  <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Pending Review</span>
-                    <ShieldAlert className="size-4 text-amber-400" />
-                  </div>
-                  <div className="text-3xl font-serif text-amber-400">{stats.pending}</div>
-                  <p className="text-[10px] text-muted-foreground/60 mt-1">Requires qualification</p>
-                </div>
-                <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
-                  <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Qualified Leads</span>
-                    <Check className="size-4 text-emerald-400" />
-                  </div>
-                  <div className="text-3xl font-serif text-emerald-400">{stats.completed + stats.contacted}</div>
-                  <p className="text-[10px] text-muted-foreground/60 mt-1">Contacted or Completed</p>
-                </div>
-              </div>
-
-              {/* Controls bar */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
-                {/* Search */}
-                <div className="md:col-span-2 relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                  <input
-                    type="text"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    placeholder="Search by name, company, email..."
-                    className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
-                  />
-                </div>
-
-                {/* Filter */}
-                <div className="relative">
-                  <Filter className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-                  <select
-                    value={statusFilter}
-                    onChange={e => setStatusFilter(e.target.value)}
-                    className="w-full rounded-xl bg-[#07070a] border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer"
-                  >
-                    <option value="All">All Statuses</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Contacted">Contacted</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Archived">Archived</option>
-                  </select>
-                </div>
-
-                {/* Metrics */}
-                <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
-                  Showing <span className="font-semibold text-foreground mx-1">{requests.length}</span> of {totalCount} total inquiries
-                </div>
-              </div>
-
-              {/* Request Listing */}
-              {reqError && (
-                <div className="rounded-2xl bg-red-500/10 border border-red-500/20 p-6 text-red-400 flex flex-col items-center justify-center text-center">
-                  <ShieldAlert className="size-10 mb-3" />
-                  <h3 className="font-semibold text-lg mb-1">Database Error</h3>
-                  <p className="text-sm text-red-400/80 max-w-md">{reqError}</p>
-                </div>
-              )}
-
-              {reqLoading && requests.length === 0 ? (
-                /* Shimmer Skeleton Loader Rows */
-                <div className="overflow-x-auto rounded-3xl border border-white/5 glass">
-                  <table className="w-full border-collapse text-left text-sm">
-                    <thead>
-                      <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
-                        <th className="px-6 py-4">Brand / Company</th>
-                        <th className="px-6 py-4">Contact</th>
-                        <th className="px-6 py-4">Sourcing Profile</th>
-                        <th className="px-6 py-4">Message</th>
-                        <th className="px-6 py-4">Status</th>
-                        <th className="px-6 py-4 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                      {[1, 2, 3].map((i) => (
-                        <tr key={i} className="animate-pulse">
-                          <td className="px-6 py-5">
-                            <div className="h-4 bg-white/5 rounded w-28 mb-2" />
-                            <div className="h-3 bg-white/5 rounded w-20" />
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="h-4 bg-white/5 rounded w-32 mb-2" />
-                            <div className="h-3 bg-white/5 rounded w-40" />
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="flex gap-2 mb-2">
-                              <div className="h-4 bg-white/5 rounded-full w-12" />
-                              <div className="h-4 bg-white/5 rounded-full w-16" />
-                            </div>
-                            <div className="h-3 bg-white/5 rounded w-24" />
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="h-10 bg-white/5 rounded-xl w-full" />
-                          </td>
-                          <td className="px-6 py-5">
-                            <div className="h-6 bg-white/5 rounded-full w-20" />
-                          </td>
-                          <td className="px-6 py-5 text-right">
-                            <div className="h-8 bg-white/5 rounded-full w-8 ml-auto" />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : requests.length === 0 ? (
-                <div className="glass rounded-3xl py-20 text-center border border-white/5">
-                  <p className="text-muted-foreground">No inquiries found matching criteria.</p>
-                </div>
-              ) : (
-                <>
-                  <div className="overflow-x-auto lg:overflow-visible rounded-3xl border border-white/5 glass">
-                    <table className="w-full border-collapse text-left text-sm">
-                      <thead>
-                        <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
-                          <th className="px-6 py-4">Brand / Company</th>
-                          <th className="px-6 py-4">Contact</th>
-                          <th className="px-6 py-4">Sourcing Profile</th>
-                          <th className="px-6 py-4">Message</th>
-                          <th className="px-6 py-4">Status</th>
-                          <th className="px-6 py-4 text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-white/5">
-                        {requests.map((req) => (
-                          <tr key={req.id} className="hover:bg-white/[0.01] transition-colors group">
-                            {/* Company / Role */}
-                            <td className="px-6 py-5 vertical-align-top">
-                              <div className="font-medium text-foreground text-base">{req.company}</div>
-                              <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
-                                <Building2 className="size-3 shrink-0" />
-                                <span>{req.company_size} • {req.region}</span>
-                              </div>
-                            </td>
-
-                            {/* Contact Details */}
-                            <td className="px-6 py-5">
-                              <div className="font-medium text-foreground flex items-center gap-1.5">
-                                <User className="size-3.5 text-muted-foreground shrink-0" />
-                                {req.full_name}
-                              </div>
-                              <div className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1.5">
-                                <Mail className="size-3.5 text-muted-foreground shrink-0" />
-                                <a href={`mailto:${req.work_email}`} className="hover:underline hover:text-foreground transition-colors">{req.work_email}</a>
-                              </div>
-                              <div className="text-[10px] text-muted-foreground/60 mt-1 flex items-center gap-1">
-                                <span>Role: {req.role}</span>
-                              </div>
-                            </td>
-
-                            {/* Sourcing Profile */}
-                            <td className="px-6 py-5 min-w-[280px]">
-                              <div className="flex flex-wrap gap-1.5 max-w-xs">
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.category}</span>
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.monthly_volume}</span>
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-foreground/90 border border-white/5">{req.timeline}</span>
-                              </div>
-                              <div className="text-[10px] text-muted-foreground/60 mt-2">
-                                Received: {new Date(req.created_at).toLocaleDateString()}
-                              </div>
-                            </td>
-
-                            {/* Message Clamping & Modal Trigger */}
-                            <td className="px-6 py-5 max-w-xs">
-                              {req.message ? (
-                                <div className="space-y-1">
-                                  <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-white/5">
-                                    {req.message}
-                                  </p>
-                                  <button 
-                                    onClick={() => setSelectedRequest(req)}
-                                    className="text-[10px] text-electric hover:underline font-medium cursor-pointer"
-                                  >
-                                    View Full Details
-                                  </button>
-                                </div>
-                              ) : (
-                                <span className="text-xs text-muted-foreground/50 italic">No message provided</span>
-                              )}
-                            </td>
-
-                            {/* Status Dropdown */}
-                            <td className="px-6 py-5">
-                              <StatusDropdown
-                                currentStatus={req.status}
-                                onChange={(status) => updateRequestStatus(req.id, status)}
-                              />
-                            </td>
-
-                            {/* Actions */}
-                            <td className="px-6 py-5 text-right">
-                              <button
-                                onClick={() => deleteRequest(req.id)}
-                                className="p-2 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
-                                title="Delete request"
-                              >
-                                <Trash2 className="size-4" />
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  {/* Pagination Controls */}
-                  {totalPages > 1 && (
-                    <div className="flex items-center justify-between mt-6 border-t border-white/5 pt-6 text-sm">
-                      <button
-                        onClick={() => setPage(p => Math.max(1, p - 1))}
-                        disabled={page === 1}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
-                      >
-                        <ChevronLeft className="size-4" /> Previous
-                      </button>
-                      
-                      <div className="text-xs text-muted-foreground">
-                        Page <span className="text-white font-semibold">{page}</span> of {totalPages}
-                      </div>
-
-                      <button
-                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                        disabled={page === totalPages}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
-                      >
-                        Next <ChevronRight className="size-4" />
-                      </button>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
-        </main>
-
-        {/* Detailed Modal Overlay */}
-        <AnimatePresence>
-          {selectedRequest && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-              {/* Blur backdrop */}
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedRequest(null)}
-                className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-              />
-
-              {/* Modal Card */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
+            {session ? (
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-white/10 px-4 py-2 rounded-full hover:bg-white/5 transition-all cursor-pointer"
               >
-                {/* Close Button */}
-                <button
-                  onClick={() => setSelectedRequest(null)}
-                  className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
-                >
-                  <X className="size-4" />
-                </button>
+                <LogOut className="size-4" /> Sign Out
+              </button>
+            ) : (
+              <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                <ArrowLeft className="size-4" /> Back to site
+              </Link>
+            )}
+          </header>
 
-                {/* Content */}
-                <div className="space-y-6">
-                  <div>
-                    <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">Inquiry Details</span>
-                    <h2 className="font-serif text-3xl mt-3 text-white">{selectedRequest.company}</h2>
-                    <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
-                      <Globe className="size-3.5 text-muted-foreground" />
-                      {selectedRequest.region} • {selectedRequest.company_size} employees
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 border-t border-b border-white/5 py-4">
-                    <div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Contact Name</span>
-                      <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
-                        <User className="size-3.5 text-muted-foreground" />
-                        {selectedRequest.full_name}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Role</span>
-                      <span className="text-sm font-medium text-white mt-1 block">{selectedRequest.role}</span>
-                    </div>
-                    <div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Email</span>
-                      <a href={`mailto:${selectedRequest.work_email}`} className="text-sm font-medium text-electric hover:underline mt-1 block flex items-center gap-1.5">
-                        <Mail className="size-3.5" />
-                        {selectedRequest.work_email}
-                      </a>
-                    </div>
-                    <div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Received Date</span>
-                      <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
-                        <Calendar className="size-3.5 text-muted-foreground" />
-                        {new Date(selectedRequest.created_at).toLocaleString()}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2.5">Sourcing Profile</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                        <span className="text-[9px] text-muted-foreground block uppercase">Category</span>
-                        <span className="font-semibold mt-0.5 block">{selectedRequest.category}</span>
-                      </div>
-                      <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                        <span className="text-[9px] text-muted-foreground block uppercase">Volume</span>
-                        <span className="font-semibold mt-0.5 block">{selectedRequest.monthly_volume}</span>
-                      </div>
-                      <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                        <span className="text-[9px] text-muted-foreground block uppercase">Timeline</span>
-                        <span className="font-semibold mt-0.5 block">{selectedRequest.timeline}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
-                      <MessageSquare className="size-3.5" />
-                      Client Message
-                    </h4>
-                    <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
-                      {selectedRequest.message || "No additional message was provided."}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-white/5 pt-5">
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Status:</span>
-                      <StatusDropdown
-                        currentStatus={selectedRequest.status}
-                        onChange={(status) => updateRequestStatus(selectedRequest.id, status)}
-                      />
-                    </div>
-
-                    <button
-                      onClick={() => deleteRequest(selectedRequest.id)}
-                      className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/10 transition-colors cursor-pointer"
+          {/* Main Content */}
+          <main className="relative z-10 mx-auto max-w-7xl px-6 py-12">
+            <div className="grid grid-cols-12 gap-8 items-start">
+              {/* Sidebar navigation */}
+              <div className="col-span-12 md:col-span-2 space-y-1">
+                {ADMIN_TABS.map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <Link
+                      key={tab.id}
+                      to={tab.to}
+                      activeOptions={{ exact: true }}
+                      activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
+                      inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-white/5" }}
+                      className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
                     >
-                      <Trash2 className="size-3.5" /> Delete Request
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
+                      <Icon className="size-3.5 shrink-0 mr-2" />
+                      <span>{tab.label}</span>
+                      {tab.id === "demo_requests" && stats.pending > 0 && (
+                        <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      )}
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Main content pane */}
+              <div className="col-span-12 md:col-span-10 min-h-[500px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={pathname}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Outlet />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
-          )}
-        </AnimatePresence>
-      </div>
+          </main>
+        </div>
+      </AdminContext.Provider>
     </ThemeProvider>
   );
 }

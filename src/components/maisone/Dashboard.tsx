@@ -1,12 +1,12 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ArrowDownRight, Bell, Search, Filter, MapPin, Package, Sparkles } from "lucide-react";
 
 const trend = [22, 30, 28, 42, 38, 55, 48, 65, 60, 72, 68, 84, 80, 92];
 
-type View = "Overview" | "Suppliers" | "Shipments" | "Inventory" | "Trends" | "Automation" | "Reports";
+type View = "Overview" | "Suppliers" | "Shipments" | "Inventory" | "Trends";
 
-const SUPPLIERS = [
+export const SUPPLIERS = [
   { id: "JP-014", name: "Osaka Mill #042", region: "Japan", city: "Osaka", category: "Denim", lead: 21, rating: 4.9, otd: 96 },
   { id: "JP-022", name: "Kyōto Atelier", region: "Japan", city: "Kyoto", category: "Silk", lead: 28, rating: 4.8, otd: 94 },
   { id: "EU-088", name: "Milano Tessile", region: "Europe", city: "Milan", category: "Wool", lead: 24, rating: 4.7, otd: 92 },
@@ -14,17 +14,30 @@ const SUPPLIERS = [
   { id: "UK-119", name: "Savile House", region: "United Kingdom", city: "London", category: "Tailoring", lead: 26, rating: 4.5, otd: 88 },
   { id: "US-203", name: "Brooklyn Knit Co.", region: "United States", city: "New York", category: "Knitwear", lead: 19, rating: 4.7, otd: 93 },
   { id: "US-217", name: "LA Leatherworks", region: "United States", city: "Los Angeles", category: "Leather", lead: 32, rating: 4.4, otd: 86 },
+  { id: "JP-045", name: "Tokyo Weaves", region: "Japan", city: "Tokyo", category: "Knitwear", lead: 15, rating: 4.9, otd: 97 },
+  { id: "EU-102", name: "Barcelona Cotton", region: "Europe", city: "Barcelona", category: "Denim", lead: 22, rating: 4.6, otd: 91 },
+  { id: "UK-130", name: "Manchester Textiles", region: "United Kingdom", city: "Manchester", category: "Wool", lead: 20, rating: 4.4, otd: 87 },
+  { id: "US-240", name: "Portland Craft Mill", region: "United States", city: "Portland", category: "Tailoring", lead: 25, rating: 4.8, otd: 95 },
+  { id: "JP-060", name: "Nara Silks", region: "Japan", city: "Nara", category: "Silk", lead: 27, rating: 4.7, otd: 93 },
+  { id: "EU-120", name: "Parisian Atelier", region: "Europe", city: "Paris", category: "Leather", lead: 29, rating: 4.8, otd: 90 }
 ];
 
-const SHIPMENTS = [
+export const SHIPMENTS = [
   { id: "MS-7841", route: "Tokyo → London", eta: "Mar 14", status: "In transit", prog: 64 },
   { id: "MS-7836", route: "Milan → New York", eta: "Mar 16", status: "Customs", prog: 82 },
   { id: "MS-7822", route: "Paris → Los Angeles", eta: "Mar 18", status: "In transit", prog: 41 },
   { id: "MS-7818", route: "Osaka → Berlin", eta: "Mar 20", status: "In transit", prog: 28 },
   { id: "MS-7810", route: "London → New York", eta: "Mar 13", status: "Delivered", prog: 100 },
+  { id: "MS-7808", route: "Barcelona → Tokyo", eta: "Mar 22", status: "In transit", prog: 15 },
+  { id: "MS-7805", route: "Manchester → Milan", eta: "Mar 15", status: "Delivered", prog: 100 },
+  { id: "MS-7801", route: "New York → Paris", eta: "Mar 25", status: "In transit", prog: 10 },
+  { id: "MS-7798", route: "Portland → London", eta: "Mar 24", status: "In transit", prog: 30 },
+  { id: "MS-7795", route: "Los Angeles → Kyoto", eta: "Mar 17", status: "Customs", prog: 75 },
+  { id: "MS-7790", route: "Lyon → Tokyo", eta: "Mar 26", status: "In transit", prog: 5 },
+  { id: "MS-7788", route: "Berlin → New York", eta: "Mar 19", status: "Delivered", prog: 100 }
 ];
 
-const NAV: View[] = ["Overview", "Suppliers", "Shipments", "Inventory", "Trends", "Automation", "Reports"];
+const NAV: View[] = ["Overview", "Suppliers", "Shipments", "Inventory", "Trends"];
 
 export function Dashboard() {
   const [view, setView] = useState<View>("Overview");
@@ -80,9 +93,8 @@ export function Dashboard() {
                   <button
                     key={l}
                     onClick={() => setView(l)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${
-                      view === l ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                    }`}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${view === l ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                      }`}
                   >
                     {l}
                   </button>
@@ -107,8 +119,6 @@ export function Dashboard() {
                     {view === "Shipments" && <Shipments query={query} />}
                     {view === "Inventory" && <Inventory />}
                     {view === "Trends" && <Trends />}
-                    {view === "Automation" && <AutomationView />}
-                    {view === "Reports" && <Reports />}
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -120,10 +130,38 @@ export function Dashboard() {
   );
 }
 
-function Overview({ query }: { query: string }) {
-  const filteredShip = SHIPMENTS.filter((s) =>
+export function Overview({ query, data }: { query: string; data?: any[] }) {
+  const [shipmentsList, setShipmentsList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("MAISONE_SHIPMENTS");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    return SHIPMENTS;
+  });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem("MAISONE_SHIPMENTS");
+      if (saved) {
+        setShipmentsList(JSON.parse(saved));
+      }
+    };
+    window.addEventListener("maisone-data-update", handleUpdate);
+    return () => window.removeEventListener("maisone-data-update", handleUpdate);
+  }, []);
+
+  const listToUse = data ?? shipmentsList;
+
+  const filteredShip = listToUse.filter((s: any) =>
     !query || s.id.toLowerCase().includes(query.toLowerCase()) || s.route.toLowerCase().includes(query.toLowerCase())
-  ).slice(0, 3);
+  ).slice(0, 5);
+
   return (
     <>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -144,8 +182,8 @@ function Overview({ query }: { query: string }) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div className="lg:col-span-2 rounded-xl p-5 bg-background border border-border">
+      <div className="grid grid-cols-1 gap-3">
+        <div className="rounded-xl p-5 bg-background border border-border">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm font-medium">Sourcing Volume</p>
@@ -180,26 +218,6 @@ function Overview({ query }: { query: string }) {
             />
           </svg>
         </div>
-
-        <div className="rounded-xl p-5 bg-background border border-border">
-          <p className="text-sm font-medium mb-1">AI Recommendations</p>
-          <p className="text-xs text-muted-foreground mb-4">Live · updated 2m ago</p>
-          <div className="space-y-3">
-            {[
-              { t: "Switch denim to Osaka Mill #042", s: "−18% cost · +6d lead" },
-              { t: "Pre-book Milan silk for Q3", s: "Trend confidence 87%" },
-              { t: "Risk alert · Vendor LDN-119", s: "Compliance review" },
-            ].map((r) => (
-              <div key={r.t} className="flex items-start gap-3 text-xs">
-                <Sparkles className="size-3 text-electric mt-0.5" />
-                <div>
-                  <p className="text-foreground">{r.t}</p>
-                  <p className="text-muted-foreground mt-0.5">{r.s}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       <div className="rounded-xl bg-background border border-border overflow-hidden">
@@ -208,7 +226,7 @@ function Overview({ query }: { query: string }) {
           <span className="text-[10px] text-muted-foreground">{filteredShip.length} shown</span>
         </div>
         <div className="divide-y divide-border text-xs">
-          {filteredShip.map((s) => (
+          {filteredShip.map((s: any) => (
             <div key={s.id} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
               <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
               <span className="col-span-4">{s.route}</span>
@@ -230,20 +248,57 @@ function Overview({ query }: { query: string }) {
   );
 }
 
-function Suppliers({ query, region, setRegion }: { query: string; region: string; setRegion: (r: string) => void }) {
+export function Suppliers({ query, region, setRegion, data }: { query: string; region: string; setRegion: (r: string) => void; data?: any[] }) {
   const regions = ["All", "Japan", "United Kingdom", "Europe", "United States"];
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
+
+  const [suppliersList, setSuppliersList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("MAISONE_SUPPLIERS");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    return SUPPLIERS;
+  });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem("MAISONE_SUPPLIERS");
+      if (saved) {
+        setSuppliersList(JSON.parse(saved));
+      }
+    };
+    window.addEventListener("maisone-data-update", handleUpdate);
+    return () => window.removeEventListener("maisone-data-update", handleUpdate);
+  }, []);
+
+  const listToUse = data ?? suppliersList;
+
   const filtered = useMemo(
     () =>
-      SUPPLIERS.filter(
-        (s) =>
+      listToUse.filter(
+        (s: any) =>
           (region === "All" || s.region === region) &&
           (!query ||
             s.name.toLowerCase().includes(query.toLowerCase()) ||
             s.id.toLowerCase().includes(query.toLowerCase()) ||
             s.category.toLowerCase().includes(query.toLowerCase()))
       ),
-    [query, region]
+    [listToUse, query, region]
   );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = useMemo(() => {
+    const from = (page - 1) * PAGE_SIZE;
+    return filtered.slice(from, from + PAGE_SIZE);
+  }, [filtered, page]);
+
   return (
     <>
       <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -252,7 +307,10 @@ function Suppliers({ query, region, setRegion }: { query: string; region: string
           {regions.map((r) => (
             <button
               key={r}
-              onClick={() => setRegion(r)}
+              onClick={() => {
+                setRegion(r);
+                setPage(1);
+              }}
               className={`px-3 py-1 rounded-full border text-[11px] ${region === r ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"}`}
             >
               {r}
@@ -273,10 +331,10 @@ function Suppliers({ query, region, setRegion }: { query: string; region: string
           <span className="col-span-1 text-right">★</span>
         </div>
         <div className="divide-y divide-border text-xs">
-          {filtered.length === 0 && (
+          {paginated.length === 0 && (
             <div className="px-5 py-8 text-center text-muted-foreground">No suppliers match your filters.</div>
           )}
-          {filtered.map((s) => (
+          {paginated.map((s: any) => (
             <motion.div
               key={s.id}
               initial={{ opacity: 0 }}
@@ -294,17 +352,78 @@ function Suppliers({ query, region, setRegion }: { query: string; region: string
           ))}
         </div>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-2 text-xs">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Previous
+          </button>
+
+          <div className="text-[10px] text-muted-foreground">
+            Page <span className="text-foreground font-semibold">{page}</span> of {totalPages}
+          </div>
+
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }
 
-function Shipments({ query }: { query: string }) {
+export function Shipments({ query, onSelect, data }: { query: string; onSelect?: (shipment: any) => void; data?: any[] }) {
   const [status, setStatus] = useState<string>("All");
-  const filtered = SHIPMENTS.filter(
-    (s) =>
-      (status === "All" || s.status === status) &&
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
+
+  const [shipmentsList, setShipmentsList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("MAISONE_SHIPMENTS");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    return SHIPMENTS;
+  });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem("MAISONE_SHIPMENTS");
+      if (saved) {
+        setShipmentsList(JSON.parse(saved));
+      }
+    };
+    window.addEventListener("maisone-data-update", handleUpdate);
+    return () => window.removeEventListener("maisone-data-update", handleUpdate);
+  }, []);
+
+  const listToUse = data ?? shipmentsList;
+
+  const filtered = listToUse.filter(
+    (s: any) =>
+      (status === "All" || s.status.toLowerCase() === status.toLowerCase()) &&
       (!query || s.id.toLowerCase().includes(query.toLowerCase()) || s.route.toLowerCase().includes(query.toLowerCase()))
   );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const paginated = useMemo(() => {
+    const from = (page - 1) * PAGE_SIZE;
+    return filtered.slice(from, from + PAGE_SIZE);
+  }, [filtered, page]);
+
   const statuses = ["All", "In transit", "Customs", "Delivered"];
   return (
     <>
@@ -313,7 +432,10 @@ function Shipments({ query }: { query: string }) {
         {statuses.map((s) => (
           <button
             key={s}
-            onClick={() => setStatus(s)}
+            onClick={() => {
+              setStatus(s);
+              setPage(1);
+            }}
             className={`px-3 py-1 rounded-full border text-[11px] ${status === s ? "bg-foreground text-background border-foreground" : "border-border hover:text-foreground"}`}
           >
             {s}
@@ -321,9 +443,20 @@ function Shipments({ query }: { query: string }) {
         ))}
       </div>
       <div className="rounded-xl bg-background border border-border overflow-hidden">
+        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground bg-white/[0.01]">
+          <span className="col-span-2">ID</span>
+          <span className="col-span-4">Route / Cargo</span>
+          <span className="col-span-2">ETA</span>
+          <span className="col-span-3">Progress</span>
+          <span className="col-span-1 text-right">Status</span>
+        </div>
         <div className="divide-y divide-border text-xs">
-          {filtered.map((s) => (
-            <div key={s.id} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+          {paginated.map((s: any) => (
+            <div
+              key={s.id}
+              onClick={() => onSelect?.(s)}
+              className={`grid grid-cols-12 gap-4 px-5 py-3 items-center transition-colors ${onSelect ? "hover:bg-accent/30 cursor-pointer" : ""}`}
+            >
               <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
               <span className="col-span-4">{s.route}</span>
               <span className="col-span-2 text-muted-foreground">{s.eta}</span>
@@ -338,45 +471,142 @@ function Shipments({ query }: { query: string }) {
               <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-400" : s.status === "Customs" ? "text-amber-400" : "text-electric"}`}>{s.status}</span>
             </div>
           ))}
-          {filtered.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
+          {paginated.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
         </div>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-2 text-xs">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Previous
+          </button>
+
+          <div className="text-[10px] text-muted-foreground">
+            Page <span className="text-foreground font-semibold">{page}</span> of {totalPages}
+          </div>
+
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }
 
-function Inventory() {
-  const items = [
-    { sku: "DEN-501", name: "Selvedge Denim · 14oz", stock: 2840, reorder: 1500 },
-    { sku: "SLK-220", name: "Mulberry Silk · Charmeuse", stock: 940, reorder: 1200 },
-    { sku: "WOL-118", name: "Merino Wool · Fine", stock: 3210, reorder: 2000 },
-    { sku: "LTR-077", name: "Italian Calf Leather", stock: 540, reorder: 600 },
-  ];
+export const DEFAULT_INVENTORY = [
+  { sku: "DEN-501", name: "Selvedge Denim · 14oz", stock: 2840, reorder: 1500 },
+  { sku: "SLK-220", name: "Mulberry Silk · Charmeuse", stock: 940, reorder: 1200 },
+  { sku: "WOL-118", name: "Merino Wool · Fine", stock: 3210, reorder: 2000 },
+  { sku: "LTR-077", name: "Italian Calf Leather", stock: 540, reorder: 600 },
+  { sku: "KNT-304", name: "Cashmere Yarn · Grade A", stock: 1500, reorder: 1000 },
+  { sku: "COT-412", name: "Organic Cotton · Pima", stock: 4200, reorder: 3000 },
+  { sku: "LIN-156", name: "Pure Belgian Linen", stock: 850, reorder: 1000 },
+  { sku: "NYL-089", name: "Recycled Nylon · Ripstop", stock: 1200, reorder: 800 },
+  { sku: "PLR-215", name: "Polyester Fleece · Grid", stock: 2100, reorder: 1500 },
+  { sku: "VIS-102", name: "Viscose Rayon · EcoVero", stock: 650, reorder: 1200 },
+  { sku: "TNC-305", name: "Tencel Lyocell · Fine", stock: 3100, reorder: 2000 },
+  { sku: "EMP-045", name: "Hemp Canvas · Heavy", stock: 450, reorder: 500 },
+];
+
+export function Inventory({ data }: { data?: any[] }) {
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
+
+  const [inventoryList, setInventoryList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("MAISONE_INVENTORY");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    return DEFAULT_INVENTORY;
+  });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      const saved = localStorage.getItem("MAISONE_INVENTORY");
+      if (saved) {
+        setInventoryList(JSON.parse(saved));
+      }
+    };
+    window.addEventListener("maisone-data-update", handleUpdate);
+    return () => window.removeEventListener("maisone-data-update", handleUpdate);
+  }, []);
+
+  const listToUse = data ?? inventoryList;
+
+  const totalPages = Math.max(1, Math.ceil(listToUse.length / PAGE_SIZE));
+  const paginated = useMemo(() => {
+    const from = (page - 1) * PAGE_SIZE;
+    return listToUse.slice(from, from + PAGE_SIZE);
+  }, [listToUse, page]);
+
   return (
-    <div className="rounded-xl bg-background border border-border overflow-hidden">
-      <div className="px-5 py-3 border-b border-border text-sm font-medium">Inventory levels</div>
-      <div className="divide-y divide-border text-xs">
-        {items.map((i) => {
-          const pct = Math.min(100, (i.stock / (i.reorder * 2)) * 100);
-          const low = i.stock < i.reorder;
-          return (
-            <div key={i.sku} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
-              <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
-              <span className="col-span-4">{i.name}</span>
-              <span className="col-span-2 tabular-nums">{i.stock.toLocaleString()} u</span>
-              <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
-                <div className={`h-full ${low ? "bg-amber-400" : "bg-gradient-to-r from-electric to-cyan-glow"}`} style={{ width: `${pct}%` }} />
+    <div className="space-y-4">
+      <div className="rounded-xl bg-background border border-border overflow-hidden">
+        <div className="px-5 py-3 border-b border-border text-sm font-medium">Inventory levels</div>
+        <div className="grid grid-cols-12 gap-4 px-5 py-2 border-b border-border bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+          <div className="col-span-2">SKU</div>
+          <div className="col-span-5">Product Name</div>
+          <div className="col-span-3">Stock Level</div>
+          <div className="col-span-2 text-right">Status</div>
+        </div>
+        <div className="divide-y divide-border text-xs">
+          {paginated.map((i: any) => {
+            const low = i.stock < i.reorder;
+            return (
+              <div key={i.sku} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+                <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
+                <span className="col-span-5">{i.name}</span>
+                <span className="col-span-3 tabular-nums">{i.stock.toLocaleString()} u</span>
+                <span className={`col-span-2 text-right text-[11px] ${low ? "text-amber-400" : "text-emerald-400"}`}>{low ? "Reorder" : "Healthy"}</span>
               </div>
-              <span className={`col-span-1 text-right text-[11px] ${low ? "text-amber-400" : "text-emerald-400"}`}>{low ? "Reorder" : "Healthy"}</span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between text-xs">
+          <button
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Previous
+          </button>
+
+          <div className="text-[10px] text-muted-foreground">
+            Page <span className="text-foreground font-semibold">{page}</span> of {totalPages}
+          </div>
+
+          <button
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-background text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-function Trends() {
+export function Trends() {
   const cats = [
     { c: "Denim", v: [30, 38, 45, 52, 60, 68, 74, 82] },
     { c: "Silk", v: [50, 48, 55, 60, 58, 65, 72, 78] },
@@ -406,7 +636,7 @@ function Trends() {
   );
 }
 
-function AutomationView() {
+export function AutomationView() {
   const flows = [
     { name: "Auto-RFQ to top 5 suppliers", runs: 1240, status: "Active" },
     { name: "Sync POs → Zoho Books", runs: 836, status: "Active" },
@@ -430,7 +660,7 @@ function AutomationView() {
   );
 }
 
-function Reports() {
+export function Reports() {
   const reports = [
     { t: "Q1 Sourcing Performance", d: "Generated 02 Mar" },
     { t: "Vendor Compliance Audit", d: "Generated 27 Feb" },

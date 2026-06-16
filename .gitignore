@@ -36,3 +36,6 @@ dist-ssr
 
 # Graphify outputs
 graphify-out/
+
+# Vercel output
+.vercel/
