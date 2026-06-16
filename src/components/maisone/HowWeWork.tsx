@@ -55,8 +55,8 @@ export function HowWeWork() {
                 className="relative group"
               >
                 {/* Step number bubble */}
-                <div className="relative z-10 size-10 rounded-full bg-[#07070a] border border-electric/50 flex items-center justify-center mb-6 mx-auto lg:mx-0 group-hover:border-electric transition-colors duration-300">
-                  <span className="font-serif text-xs gradient-text">{p.n}</span>
+                <div className="relative z-10 size-12 rounded-full glass-strong border border-white/10 flex items-center justify-center mb-6 mx-auto lg:mx-0 transition-colors duration-300">
+                  <span className="font-serif text-sm text-muted-foreground">{p.n}</span>
                 </div>
 
                 {/* Card */}
