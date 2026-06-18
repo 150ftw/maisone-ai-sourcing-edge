@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MessageSquare } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Loader } from "@/components/maisone/Loader";
 import { Navbar } from "@/components/maisone/Navbar";
@@ -13,17 +14,18 @@ import { QualityControl } from "@/components/maisone/QualityControl";
 import { Dashboard } from "@/components/maisone/Dashboard";
 import { GlobalPresence } from "@/components/maisone/GlobalPresence";
 import { AIAssistant } from "@/components/maisone/AIAssistant";
+
 import { Marketplace } from "@/components/maisone/Marketplace";
-import { Analytics } from "@/components/maisone/Analytics";
+
 import { TrendForecast } from "@/components/maisone/TrendForecast";
-import { HowItWorks } from "@/components/maisone/HowItWorks";
+
 import { CaseStudies } from "@/components/maisone/CaseStudies";
-import { TrustStrip } from "@/components/maisone/TrustStrip";
+
 import { Founders } from "@/components/maisone/Founders";
 import { ExtraMile } from "@/components/maisone/ExtraMile";
 import { Partners } from "@/components/maisone/Partners";
 import { Testimonials } from "@/components/maisone/Testimonials";
-import { Pricing } from "@/components/maisone/Pricing";
+
 import { Footer } from "@/components/maisone/Footer";
 
 export const Route = createFileRoute("/")({
@@ -65,17 +67,24 @@ function Index() {
           <Dashboard />
           <AIAssistant />
           <Marketplace />
-          <Analytics />
+
           <TrendForecast />
           <GlobalPresence />
-          <HowItWorks />
+
           <CaseStudies />
-          <TrustStrip />
+
           <Founders />
           <ExtraMile />
           <Partners />
           <Testimonials />
-          <Pricing />
+          
+          {/* Floating AI Assistant Button */}
+          <a
+            href="/assistant"
+            className="fixed bottom-6 right-6 z-50 size-14 rounded-full bg-electric text-background flex items-center justify-center shadow-2xl hover:scale-110 transition-transform shadow-electric/20 group"
+          >
+            <MessageSquare className="size-6 group-hover:scale-110 transition-transform" />
+          </a>
         </main>
         <Footer />
       </div>

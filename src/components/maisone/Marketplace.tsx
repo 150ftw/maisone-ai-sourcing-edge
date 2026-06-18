@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { Star, MapPin } from "lucide-react";
 
 const PRODUCTS = [
-  { cat: "Denim Jackets", image: "https://images.unsplash.com/photo-1611312449412-6cefac5dc3e4?auto=format&fit=crop&w=800&q=80", supplier: "Osaka Mill #042", country: "Japan", moq: "300", price: "$22–$28", lead: "4 wks", hue: "from-blue-500/30 to-indigo-700/30" },
-  { cat: "Hoodies", image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=80", supplier: "Maison Côté Sud", country: "France", moq: "250", price: "$38–$48", lead: "5 wks", hue: "from-stone-400/30 to-amber-700/20" },
-  { cat: "Streetwear", image: "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=800&q=80", supplier: "LA Knit Studio", country: "United States", moq: "200", price: "$28–$42", lead: "4 wks", hue: "from-rose-500/20 to-violet-700/30" },
-  { cat: "Leather Goods", image: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=80", supplier: "Sartoria Veneto", country: "Italy", moq: "150", price: "$58–$120", lead: "6 wks", hue: "from-amber-700/30 to-stone-900/40" },
-  { cat: "Knitwear", image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=800&q=80", supplier: "Berlin Loopback Co.", country: "Germany", moq: "300", price: "$32–$54", lead: "5 wks", hue: "from-emerald-600/20 to-cyan-700/20" },
-  { cat: "Accessories", image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=800&q=80", supplier: "Atelier Camden", country: "United Kingdom", moq: "500", price: "$8–$24", lead: "3 wks", hue: "from-cyan-500/20 to-blue-700/30" },
+  { cat: "Premium T-Shirts", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80", supplier: "Cotton Basics Ltd.", country: "Vietnam", moq: "500", price: "$2.50–$4.00", lead: "3 wks", hue: "from-blue-500/30 to-indigo-700/30" },
+  { cat: "Embroidered Caps", image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80", supplier: "Headwear Global", country: "Bangladesh", moq: "300", price: "$1.80–$3.50", lead: "4 wks", hue: "from-stone-400/30 to-amber-700/20" },
+  { cat: "Summer Dresses", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=80", supplier: "Luxe Apparel Co.", country: "India", moq: "100", price: "$9.00–$14.50", lead: "4 wks", hue: "from-rose-500/20 to-violet-700/30" },
+  { cat: "Heavyweight Hoodies", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80", supplier: "Urban Fleece", country: "Turkey", moq: "250", price: "$6.50–$9.50", lead: "3 wks", hue: "from-emerald-600/20 to-cyan-700/20" },
 ];
 
 export function Marketplace() {
@@ -24,7 +22,7 @@ export function Marketplace() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {PRODUCTS.map((p, i) => (
             <motion.article
               key={p.cat}
@@ -73,7 +71,7 @@ export function Marketplace() {
                   </div>
                 </div>
                 <button className="w-full text-xs py-2.5 rounded-full glass border border-border hover:border-electric/50 transition-colors">
-                  Request Quote
+                  Connect with Supplier
                 </button>
               </div>
             </motion.article>

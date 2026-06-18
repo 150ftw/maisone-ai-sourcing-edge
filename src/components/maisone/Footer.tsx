@@ -1,26 +1,8 @@
 import { Logo } from "./Logo";
 import { ArrowUpRight, Mail, MessageCircle, MapPin } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
-const contacts = [
-  {
-    region: "Italy",
-    name: "Charlène Le Ray",
-    phone: "+39 346 956 5469",
-  },
-  {
-    region: "Japan / Asia",
-    name: "Hada",
-    phone: "+81 70-9284-5568",
-    email: "Hada@maisone.in",
-  },
-  {
-    region: "India",
-    people: [
-      { name: "Shashank", phone: "+91 9873820888", email: "Shashank@maisone.in" },
-      { name: "Subah", phone: "+91 9811855070", email: "Subah@maisone.in" },
-    ]
-  }
-];
+
 
 export function Footer() {
   return (
@@ -58,11 +40,11 @@ export function Footer() {
 
         {/* Contact strip */}
         <div className="grid md:grid-cols-3 gap-4 py-12 border-b border-border">
-          <a href="mailto:shashank@maisone.in" className="glass-strong rounded-2xl p-5 flex items-center gap-4 hover:border-electric/40 transition-colors">
+          <a href="mailto:info@maisone.com" className="glass-strong rounded-2xl p-5 flex items-center gap-4 hover:border-electric/40 transition-colors">
             <div className="size-10 rounded-xl bg-electric/15 flex items-center justify-center"><Mail className="size-4 text-electric" /></div>
             <div>
               <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Email</p>
-              <p className="text-sm mt-0.5">shashank@maisone.in</p>
+              <p className="text-sm mt-0.5">info@maisone.com</p>
             </div>
           </a>
           <a href="https://wa.me/919873820888" className="glass-strong rounded-2xl p-5 flex items-center gap-4 hover:border-electric/40 transition-colors">
@@ -96,49 +78,28 @@ export function Footer() {
                 </p>
               </div>
               <div className="text-xs text-muted-foreground">
-                <p>hello@maisone.in</p>
+                <p>info@maisone.com</p>
               </div>
             </div>
           </div>
 
-          <div className="col-span-2">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-5">Regional Contacts</p>
-            <div className="space-y-4">
-              {contacts.map((c, idx) => (
-                <div key={idx} className="text-xs border-l border-white/10 pl-3">
-                  <p className="font-semibold text-white tracking-wider mb-1 uppercase text-[10px]">{c.region}</p>
-                  {c.people ? (
-                    <div className="space-y-2.5 mt-1.5">
-                      {c.people.map((p, pIdx) => (
-                        <div key={pIdx}>
-                          <p className="text-foreground font-medium">{p.name}</p>
-                          <p className="text-muted-foreground text-[11px]">Phone: {p.phone}</p>
-                          <p className="text-muted-foreground text-[11px]">Email: {p.email}</p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="mt-1">
-                      <p className="text-foreground font-medium">{c.name}</p>
-                      <p className="text-muted-foreground text-[11px]">Phone: {c.phone}</p>
-                      {c.email && <p className="text-muted-foreground text-[11px]">Email: {c.email}</p>}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+
 
           {[
-            { title: "Company", links: ["About", "How We Work", "Founders", "Case Studies"] },
-            { title: "Legal", links: ["Privacy", "Terms", "Compliance", "Sustainability"] },
+            { title: "Company", links: [{name: "About", to: "#"}, {name: "How We Work", to: "#"}, {name: "Founders", to: "#"}, {name: "Case Studies", to: "#"}] },
+            { title: "Suppliers", links: [{name: "Join Network", to: "/supplier-request"}] },
+            { title: "Legal", links: [{name: "Privacy", to: "#"}, {name: "Terms", to: "#"}, {name: "Compliance", to: "#"}, {name: "Sustainability", to: "#"}] },
           ].map((c) => (
             <div key={c.title} className="col-span-1">
               <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-5">{c.title}</p>
               <ul className="space-y-3">
                 {c.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm hover:text-electric transition-colors">{l}</a>
+                  <li key={l.name}>
+                    {l.to.startsWith("/") ? (
+                      <Link to={l.to} className="text-sm hover:text-electric transition-colors">{l.name}</Link>
+                    ) : (
+                      <a href={l.to} className="text-sm hover:text-electric transition-colors">{l.name}</a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -149,7 +110,7 @@ export function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border text-xs text-muted-foreground gap-4">
           <p>© {new Date().getFullYear()} Maisone Global. All rights reserved.</p>
           <div className="flex gap-5">
-            {["Instagram", "LinkedIn", "X", "Vimeo"].map((s) => (
+            {["Instagram", "LinkedIn", "Facebook"].map((s) => (
               <a key={s} href="#" className="hover:text-foreground transition-colors">{s}</a>
             ))}
           </div>

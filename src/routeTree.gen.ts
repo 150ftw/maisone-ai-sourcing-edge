@@ -9,19 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SupplierRequestRouteImport } from './routes/supplier-request'
 import { Route as BookDemoRouteImport } from './routes/book-demo'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminSuppliersRouteImport } from './routes/admin/suppliers'
+import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/supplier-requests'
 import { Route as AdminShipmentsRouteImport } from './routes/admin/shipments'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminInventoryRouteImport } from './routes/admin/inventory'
 import { Route as AdminDemoRequestsRouteImport } from './routes/admin/demo-requests'
 
+const SupplierRequestRoute = SupplierRequestRouteImport.update({
+  id: '/supplier-request',
+  path: '/supplier-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BookDemoRoute = BookDemoRouteImport.update({
   id: '/book-demo',
   path: '/book-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -42,6 +55,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
   id: '/suppliers',
   path: '/suppliers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSupplierRequestsRoute = AdminSupplierRequestsRouteImport.update({
+  id: '/supplier-requests',
+  path: '/supplier-requests',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminShipmentsRoute = AdminShipmentsRouteImport.update({
@@ -68,21 +86,27 @@ const AdminDemoRequestsRoute = AdminDemoRequestsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
+  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
+  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -90,11 +114,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
+  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -103,32 +130,41 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/assistant'
     | '/book-demo'
+    | '/supplier-request'
     | '/admin/demo-requests'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
+    | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/book-demo'
+    | '/supplier-request'
     | '/admin/demo-requests'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
+    | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/assistant'
     | '/book-demo'
+    | '/supplier-request'
     | '/admin/demo-requests'
     | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
+    | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -136,16 +172,32 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AssistantRoute: typeof AssistantRoute
   BookDemoRoute: typeof BookDemoRoute
+  SupplierRequestRoute: typeof SupplierRequestRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/supplier-request': {
+      id: '/supplier-request'
+      path: '/supplier-request'
+      fullPath: '/supplier-request'
+      preLoaderRoute: typeof SupplierRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/book-demo': {
       id: '/book-demo'
       path: '/book-demo'
       fullPath: '/book-demo'
       preLoaderRoute: typeof BookDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -174,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/suppliers'
       fullPath: '/admin/suppliers'
       preLoaderRoute: typeof AdminSuppliersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/supplier-requests': {
+      id: '/admin/supplier-requests'
+      path: '/supplier-requests'
+      fullPath: '/admin/supplier-requests'
+      preLoaderRoute: typeof AdminSupplierRequestsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/shipments': {
@@ -212,6 +271,7 @@ interface AdminRouteChildren {
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminShipmentsRoute: typeof AdminShipmentsRoute
+  AdminSupplierRequestsRoute: typeof AdminSupplierRequestsRoute
   AdminSuppliersRoute: typeof AdminSuppliersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -221,6 +281,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminShipmentsRoute: AdminShipmentsRoute,
+  AdminSupplierRequestsRoute: AdminSupplierRequestsRoute,
   AdminSuppliersRoute: AdminSuppliersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
@@ -230,7 +291,9 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AssistantRoute: AssistantRoute,
   BookDemoRoute: BookDemoRoute,
+  SupplierRequestRoute: SupplierRequestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

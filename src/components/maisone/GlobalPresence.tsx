@@ -12,8 +12,7 @@ export function GlobalPresence() {
               Four continents. <span className="italic gradient-text">One network.</span>
             </h2>
             <p className="mt-6 text-muted-foreground max-w-md">
-              Maisone operates curated sourcing hubs in the world's most influential
-              fashion capitals — verified, compliant, and continuously benchmarked.
+              Maisone empowers your brand with a dynamic network of dedicated on-the-ground agents across the world's most influential fashion capitals — delivering deep local expertise, verified compliance, and continuous benchmarking.
             </p>
 
             <div className="mt-10 space-y-4">
@@ -33,7 +32,7 @@ export function GlobalPresence() {
             <WorldMap compact />
             <div className="grid grid-cols-3 gap-4 mt-6 text-center">
               {[
-                { v: "8", l: "Hubs" },
+                { v: "8", l: "Key Regions" },
                 { v: "2.4K+", l: "Vendors" },
                 { v: "94%", l: "On-time" },
               ].map((s) => (

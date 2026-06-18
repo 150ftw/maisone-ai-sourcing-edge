@@ -55,9 +55,9 @@ export type DemoRequest = {
 
 export const AdminContext = createContext<any>(null);
 
-export function StatusDropdown({ currentStatus, onChange }: { currentStatus: string; onChange: (status: string) => void }) {
+export function StatusDropdown({ currentStatus, onChange, options = ["Pending", "Contacted", "Completed", "Archived"] }: { currentStatus: string; onChange: (status: string) => void; options?: string[] }) {
   const [isOpen, setIsOpen] = useState(false);
-  const statuses = ["Pending", "Contacted", "Completed", "Archived"];
+  const statuses = options;
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -76,11 +76,19 @@ export function StatusDropdown({ currentStatus, onChange }: { currentStatus: str
           dot: "bg-blue-400"
         };
       case "Completed":
+      case "Approved":
         return {
           bg: "bg-emerald-500/10 hover:bg-emerald-500/20",
           text: "text-emerald-400",
           border: "border-emerald-500/20",
           dot: "bg-emerald-400"
+        };
+      case "Rejected":
+        return {
+          bg: "bg-red-500/10 hover:bg-red-500/20",
+          text: "text-red-400",
+          border: "border-red-500/20",
+          dot: "bg-red-400"
         };
       default:
         return {
@@ -314,11 +322,12 @@ export function OverviewSkeleton() {
   );
 }
 
-type AdminTab = "overview" | "demo_requests" | "suppliers" | "shipments" | "inventory" | "trends";
+type AdminTab = "overview" | "demo_requests" | "supplier_requests" | "suppliers" | "shipments" | "inventory" | "trends";
 
 const ADMIN_TABS = [
   { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
   { id: "demo_requests" as const, to: "/admin/demo-requests" as const, label: "Demo Requests", icon: Mail },
+  { id: "supplier_requests" as const, to: "/admin/supplier-requests" as const, label: "Supplier Requests", icon: Mail },
   { id: "suppliers" as const, to: "/admin/suppliers" as const, label: "Suppliers", icon: Building2 },
   { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
   { id: "inventory" as const, to: "/admin/inventory" as const, label: "Inventory", icon: Layers },

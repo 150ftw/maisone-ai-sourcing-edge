@@ -28,8 +28,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            Maisone Global connects international fashion brands with premium apparel development,
-            ethical sourcing, artisanal craftsmanship, and scalable manufacturing solutions across Asia.
+            Connecting visionary fashion brands with world-class production. We deliver premium development, ethical sourcing, and scalable manufacturing worldwide.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -138,17 +137,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Trust strip */}
-        <div className="mt-24 text-center">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">
-            Trusted by fashion houses across four continents
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 opacity-60">
-            {["MAISON KYŌ", "ATELIER LDN", "STUDIO MILANO", "NORTH/PARIS", "HOUSE OF NY"].map((b) => (
-              <span key={b} className="font-serif text-lg tracking-[0.2em]">{b}</span>
-            ))}
-          </div>
-        </div>
+
       </div>
     </section>
   );

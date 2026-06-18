@@ -6,12 +6,13 @@ import { Logo } from "./Logo";
 import { useTheme } from "@/components/theme-provider";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Categories", href: "#categories" },
-  { label: "Founders", href: "#founders" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Categories", href: "/#categories" },
+  { label: "Founders", href: "/#founders" },
+  { label: "Contact", href: "/#contact" },
+  { label: "AI Assistant", href: "/assistant" },
 ];
 
 export function Navbar() {
@@ -61,6 +62,12 @@ export function Navbar() {
             >
               {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
             </button>
+            <Link
+              to="/supplier-request"
+              className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full border border-border bg-background/50 text-foreground hover:bg-secondary/50 transition-colors"
+            >
+              Join as Supplier
+            </Link>
             <Link
               to="/book-demo"
               className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"

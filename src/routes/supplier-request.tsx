@@ -1,39 +1,35 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Factory, Loader2 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
 import { supabase } from "@/lib/supabase";
 
-export const Route = createFileRoute("/book-demo")({
+export const Route = createFileRoute("/supplier-request")({
   head: () => ({
     meta: [
-      { title: "Book a Demo — Maisone" },
-      { name: "description", content: "Schedule a private demo of Maisone's AI fashion sourcing platform." },
-      { property: "og:title", content: "Book a Demo — Maisone" },
-      { property: "og:description", content: "Schedule a private demo of Maisone's AI fashion sourcing platform." },
+      { title: "Join as a Supplier — Maisone" },
+      { name: "description", content: "Apply to become a verified manufacturing partner on Maisone." },
     ],
   }),
-  component: BookDemoPage,
+  component: SupplierRequestPage,
 });
 
 type Form = {
   fullName: string;
   workEmail: string;
-  company: string;
-  role: string;
-  companySize: string;
+  factoryName: string;
   region: string;
-  category: string;
-  monthlyVolume: string;
-  timeline: string;
+  categories: string[];
+  moq: string;
+  leadTime: string;
   message: string;
 };
 
-const STEPS = ["Your details", "Sourcing needs"];
+const STEPS = ["Factory details", "Capabilities"];
 
-function BookDemoPage() {
+function SupplierRequestPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -42,20 +38,18 @@ function BookDemoPage() {
   const [form, setForm] = useState<Form>({
     fullName: "",
     workEmail: "",
-    company: "",
-    role: "",
-    companySize: "11–50",
-    region: "Europe",
-    category: "Apparel",
-    monthlyVolume: "1k–10k units",
-    timeline: "1–3 months",
+    factoryName: "",
+    region: "India",
+    categories: ["Apparel"],
+    moq: "100–500 units",
+    leadTime: "4–6 weeks",
     message: "",
   });
 
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
 
   const canNext =
-    (step === 0 && form.fullName.trim() && form.workEmail.includes("@") && form.company.trim()) ||
+    (step === 0 && form.fullName.trim() && form.workEmail.includes("@") && form.factoryName.trim()) ||
     step === 1;
 
   const submit = async () => {
@@ -63,18 +57,16 @@ function BookDemoPage() {
     setError(null);
     try {
       const { error: insertError } = await supabase
-        .from("demo_requests")
+        .from("supplier_requests")
         .insert([
           {
             full_name: form.fullName,
             work_email: form.workEmail,
-            company: form.company,
-            role: form.role,
-            company_size: form.companySize,
+            factory_name: form.factoryName,
             region: form.region,
-            category: form.category,
-            monthly_volume: form.monthlyVolume,
-            timeline: form.timeline,
+            categories: form.categories,
+            moq: form.moq,
+            lead_time: form.leadTime,
             message: form.message,
             status: "Pending",
           },
@@ -107,21 +99,20 @@ function BookDemoPage() {
           {/* Left intro */}
           <aside className="lg:col-span-2 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-              <Sparkles className="size-3 text-electric" /> Request
+              <Factory className="size-3 text-electric" /> Partner Network
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-balance">
-              Meet the team behind <span className="italic gradient-text">Maisone</span>.
+              Join the <span className="italic gradient-text">Maisone</span> global supply network.
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              A 30-minute walkthrough tailored to your sourcing roadmap — covering supplier
-              intelligence, real-time logistics, and the AI sourcing console.
+              Connect directly with premium fashion brands and designers looking for verified, high-quality manufacturers.
             </p>
             <ul className="space-y-3 text-sm">
               {[
-                "Live walkthrough of the sourcing console",
-                "Personalised supplier shortlist for your category",
-                "Q&A with a senior sourcing strategist",
-                "No commitment — your data stays private",
+                "Direct access to pre-vetted fashion brands",
+                "Streamlined communication and project management",
+                "Guaranteed secure payments",
+                "Showcase your capabilities globally",
               ].map((b) => (
                 <li key={b} className="flex items-start gap-3">
                   <span className="mt-1 size-4 rounded-full bg-electric/15 flex items-center justify-center">
@@ -145,10 +136,9 @@ function BookDemoPage() {
                   <div className="mx-auto size-14 rounded-full bg-electric/15 flex items-center justify-center mb-6">
                     <Check className="size-6 text-electric" />
                   </div>
-                  <h2 className="font-serif text-3xl mb-3">Request received</h2>
+                  <h2 className="font-serif text-3xl mb-3">Application Received</h2>
                   <p className="text-muted-foreground max-w-sm mx-auto">
-                    Thank you, {form.fullName.split(" ")[0] || "there"}. A Maisone strategist
-                    will reach out at <span className="text-foreground">{form.workEmail}</span> within one business day.
+                    Thank you, {form.fullName.split(" ")[0] || "there"}. Our sourcing team will review your application and contact you at <span className="text-foreground">{form.workEmail}</span> shortly.
                   </p>
                   <button
                     onClick={() => navigate({ to: "/" })}
@@ -179,34 +169,29 @@ function BookDemoPage() {
                     {step === 0 && (
                       <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <Field label="Full name" value={form.fullName} onChange={(v) => set("fullName", v)} placeholder="Yuki Tanaka" />
-                          <Field label="Work email" type="email" value={form.workEmail} onChange={(v) => set("workEmail", v)} placeholder="you@brand.com" />
+                          <Field label="Contact name" value={form.fullName} onChange={(v) => set("fullName", v)} placeholder="Takeshi Kaneshiro" />
+                          <Field label="Work email" type="email" value={form.workEmail} onChange={(v) => set("workEmail", v)} placeholder="contact@factory.com" />
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <Field label="Company" value={form.company} onChange={(v) => set("company", v)} placeholder="Maison Kyō" />
-                          <Field label="Your role" value={form.role} onChange={(v) => set("role", v)} placeholder="Head of Sourcing" />
-                        </div>
-                        <Select label="Company size" value={form.companySize} onChange={(v) => set("companySize", v)}
-                          options={["1–10", "11–50", "51–200", "201–1000", "1000+"]} />
-                        <Select label="Primary region" value={form.region} onChange={(v) => set("region", v)}
-                          options={["Japan", "United Kingdom", "Europe", "United States", "Global"]} />
+                        <Field label="Factory name" value={form.factoryName} onChange={(v) => set("factoryName", v)} placeholder="Osaka Denim Mill" />
+                        <Select label="Region" value={form.region} onChange={(v) => set("region", v)}
+                          options={["India", "China", "Vietnam", "Japan", "Portugal", "Italy", "Turkey", "Other"]} />
                       </>
                     )}
                     {step === 1 && (
                       <>
-                        <Select label="Category" value={form.category} onChange={(v) => set("category", v)}
+                        <MultiSelect label="Primary Category" value={form.categories} onChange={(v) => set("categories", v)}
                           options={["Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"]} />
-                        <Select label="Monthly volume" value={form.monthlyVolume} onChange={(v) => set("monthlyVolume", v)}
-                          options={["< 1k units", "1k–10k units", "10k–50k units", "50k–250k units", "250k+ units"]} />
-                        <Select label="Sourcing timeline" value={form.timeline} onChange={(v) => set("timeline", v)}
-                          options={["Immediate", "< 1 month", "1–3 months", "3–6 months", "Exploring"]} />
+                        <Select label="Minimum Order Quantity (MOQ)" value={form.moq} onChange={(v) => set("moq", v)}
+                          options={["< 100 units", "100–500 units", "500–1000 units", "1000+ units"]} />
+                        <Select label="Average Lead Time" value={form.leadTime} onChange={(v) => set("leadTime", v)}
+                          options={["2–4 weeks", "4–6 weeks", "6–8 weeks", "8+ weeks"]} />
                         <div>
-                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Anything else?</label>
+                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Additional Capabilities</label>
                           <textarea
                             value={form.message}
                             onChange={(e) => set("message", e.target.value)}
                             rows={3}
-                            placeholder="Tell us about your sourcing priorities…"
+                            placeholder="Tell us about your certifications, special techniques, or machinery..."
                             className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
                           />
                         </div>
@@ -249,7 +234,7 @@ function BookDemoPage() {
                           </>
                         ) : (
                           <>
-                            Submit request <ArrowRight className="size-4" />
+                            Submit application <ArrowRight className="size-4" />
                           </>
                         )}
                       </button>
@@ -302,11 +287,33 @@ function Select({ label, value, onChange, options }: { label: string; value: str
   );
 }
 
-function ReviewRow({ k, v }: { k: string; v: string }) {
+function MultiSelect({ label, value, onChange, options }: { label: string; value: string[]; onChange: (v: string[]) => void; options: string[] }) {
   return (
-    <div className="flex items-start justify-between gap-6 py-2 border-b border-border last:border-0">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{k}</span>
-      <span className="text-right text-foreground/90 max-w-[60%]">{v}</span>
+    <div>
+      <label className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</label>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {options.map((o) => {
+          const isSelected = value.includes(o);
+          return (
+            <button
+              key={o}
+              type="button"
+              onClick={() => {
+                if (isSelected) {
+                  onChange(value.filter((v) => v !== o));
+                } else {
+                  onChange([...value, o]);
+                }
+              }}
+              className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${
+                isSelected ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

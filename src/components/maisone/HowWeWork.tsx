@@ -55,16 +55,16 @@ export function HowWeWork() {
                 className="relative group"
               >
                 {/* Step number bubble */}
-                <div className="relative z-10 size-12 rounded-full glass-strong border border-white/10 flex items-center justify-center mb-6 mx-auto lg:mx-0 transition-colors duration-300">
-                  <span className="font-serif text-sm text-muted-foreground">{p.n}</span>
+                <div className="relative z-10 size-12 rounded-full glass border border-border flex items-center justify-center mb-6 mx-auto lg:mx-0 transition-colors duration-300">
+                  <span className="font-serif text-sm text-foreground">{p.n}</span>
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 h-full transition-all duration-300 group-hover:border-white/15 group-hover:bg-white/[0.04]">
+                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 h-full transition-all duration-300 group-hover:border-electric/30 shadow-sm group-hover:shadow-md">
                   {/* Subtle top-left glow on hover */}
-                  <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                  <h3 className="font-serif text-lg leading-snug text-white mb-3">{p.title}</h3>
+                  <h3 className="font-serif text-lg leading-snug text-foreground mb-3">{p.title}</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
 
                   {/* Bottom accent line */}
