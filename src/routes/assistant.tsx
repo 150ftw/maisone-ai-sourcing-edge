@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
@@ -135,6 +135,19 @@ function AssistantRoute() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    // Autoscroll to bottom when messages or loading state changes
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [messages, isLoading])
+
+  const showCTA = messages.length > 2 && messages[messages.length - 1].role === 'ai' && (
+    /thank|bye|goodbye|done|exit|finish|wrap|great|perfect|awesome/i.test(messages[messages.length - 2]?.content || '') ||
+    /demo|admin|contact/i.test(messages[messages.length - 1]?.content || '')
+  )
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -178,7 +191,7 @@ function AssistantRoute() {
           <div className="relative glass-strong rounded-3xl border border-electric/20 overflow-hidden flex flex-col h-[650px] shadow-2xl">
 
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-background/20">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth bg-background/20">
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] ${msg.role === 'user' ? '' : 'w-full'} `}>
@@ -196,6 +209,37 @@ function AssistantRoute() {
                   </div>
                 </div>
               ))}
+              {showCTA && (
+                <div className="flex justify-start animate-fade-in">
+                  <div className="max-w-[85%] w-full">
+                    <div className="glass-strong border border-electric/30 rounded-2xl p-6 shadow-xl space-y-4 bg-gradient-to-br from-electric/5 via-violet-glow/5 to-transparent">
+                      <div className="flex items-center gap-3">
+                        <div className="size-8 rounded-full bg-gradient-to-br from-electric to-violet-glow flex items-center justify-center shadow-md">
+                          <span className="font-serif text-sm text-white">M</span>
+                        </div>
+                        <div>
+                          <h4 className="font-serif text-base font-semibold tracking-wide text-foreground">Ready to take the next step?</h4>
+                          <p className="text-xs text-muted-foreground mt-1">Connect with a Maisone Admin for custom sourcing advisory and supplier introductions.</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-3">
+                        <Link
+                          to="/book-demo"
+                          className="px-5 py-2.5 rounded-full bg-foreground text-background text-xs font-semibold hover:scale-105 transition-transform"
+                        >
+                          Book a Demo
+                        </Link>
+                        <a
+                          href="mailto:admin@maisone.ai"
+                          className="px-5 py-2.5 rounded-full glass border border-border text-foreground text-xs font-semibold hover:scale-105 transition-transform"
+                        >
+                          Contact Admin
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-center gap-2">
