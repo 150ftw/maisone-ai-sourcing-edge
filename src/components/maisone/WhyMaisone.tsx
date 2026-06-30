@@ -72,7 +72,7 @@ export function WhyMaisone() {
             </p>
           </div>
           <a
-            href="/supplier-request"
+            href="/book-demo"
             className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap"
           >
             Launch Your Brand
