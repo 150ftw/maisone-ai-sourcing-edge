@@ -8,14 +8,14 @@ const PRODUCTS = [
   { cat: "Heavyweight Hoodies", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80", supplier: "Urban Fleece", country: "Turkey", moq: "250", price: "$6.50–$9.50", lead: "3 wks", hue: "from-emerald-600/20 to-cyan-700/20" },
 ];
 
-export function Marketplace() {
+export function Catalog() {
   return (
-    <section id="marketplace" className="relative py-32">
+    <section id="catalog" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Marketplace</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Catalog</p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            A curated <span className="italic gradient-text">sourcing marketplace</span>.
+            A curated <span className="italic gradient-text">sourcing catalog</span>.
           </h2>
           <p className="mt-6 text-muted-foreground max-w-xl">
             Live catalogs from verified ateliers with transparent MOQs, pricing bands and lead times.
@@ -58,21 +58,18 @@ export function Marketplace() {
                 </div>
                 <div className="grid grid-cols-3 gap-3 pt-3 border-t border-border">
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground">MOQ</p>
-                    <p className="text-sm tabular-nums mt-0.5">{p.moq}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Min MOQ</p>
+                    <p className="text-sm font-medium mt-0.5">{p.moq} pcs</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Unit</p>
-                    <p className="text-sm tabular-nums mt-0.5">{p.price}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Est Price</p>
+                    <p className="text-sm font-medium mt-0.5">{p.price}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Lead</p>
-                    <p className="text-sm tabular-nums mt-0.5">{p.lead}</p>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider">Lead Time</p>
+                    <p className="text-sm font-medium mt-0.5">{p.lead}</p>
                   </div>
                 </div>
-                <button className="w-full text-xs py-2.5 rounded-full glass border border-border hover:border-electric/50 transition-colors">
-                  Connect with Supplier
-                </button>
               </div>
             </motion.article>
           ))}

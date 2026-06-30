@@ -13,7 +13,7 @@ import { Dashboard } from "@/components/maisone/Dashboard";
 import { GlobalPresence } from "@/components/maisone/GlobalPresence";
 import { AIAssistant } from "@/components/maisone/AIAssistant";
 
-import { Marketplace } from "@/components/maisone/Marketplace";
+import { Catalog } from "@/components/maisone/Catalog";
 
 import { TrendForecast } from "@/components/maisone/TrendForecast";
 
@@ -62,7 +62,7 @@ function Index() {
           <QualityControl />
           <Dashboard />
           <AIAssistant />
-          <Marketplace />
+           <Catalog />
 
           <TrendForecast />
           <GlobalPresence />
