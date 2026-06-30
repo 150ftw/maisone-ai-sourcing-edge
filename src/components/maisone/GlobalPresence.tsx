@@ -1,7 +1,17 @@
 import { WorldMap, HUBS } from "./WorldMap";
 
+const REGION_HUBS: Record<string, string[]> = {
+  "United States": ["New York", "Los Angeles"],
+  "United Kingdom": ["London"],
+  "France": ["Paris"],
+  "Italy": ["Milan", "Florence"],
+  "India": ["New Delhi"],
+  "China": ["Shanghai"],
+  "Japan": ["Tokyo"],
+};
+
 export function GlobalPresence() {
-  const regions = ["United States", "United Kingdom", "France", "Italy", "Japan"];
+  const regions = ["United States", "United Kingdom", "France", "Italy", "India", "China", "Japan"];
   return (
     <section id="solutions" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -12,12 +22,12 @@ export function GlobalPresence() {
               Four continents. <span className="italic gradient-text">One network.</span>
             </h2>
             <p className="mt-6 text-muted-foreground max-w-md">
-              Maisone empowers your brand with a dynamic network of dedicated on-the-ground agents across the world's most influential fashion capitals — delivering deep local expertise, verified compliance, and continuous benchmarking.
+              We currently source in all these countries, connecting your brand with a dynamic network of dedicated on-the-ground agents across the world's most influential fashion capitals — delivering deep local expertise, verified compliance, and continuous benchmarking.
             </p>
 
             <div className="mt-10 space-y-4">
               {regions.map((r) => {
-                const hubs = HUBS.filter((h) => h.region === r).map((h) => h.name);
+                const hubs = REGION_HUBS[r] || [];
                 return (
                   <div key={r} className="flex items-baseline justify-between border-b border-border pb-4">
                     <span className="font-serif text-2xl">{r}</span>

@@ -322,7 +322,7 @@ export function OverviewSkeleton() {
   );
 }
 
-type AdminTab = "overview" | "demo_requests" | "supplier_requests" | "suppliers" | "shipments" | "inventory" | "trends";
+type AdminTab = "overview" | "demo_requests" | "supplier_requests" | "suppliers" | "shipments" | "trends";
 
 const ADMIN_TABS = [
   { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
@@ -330,7 +330,6 @@ const ADMIN_TABS = [
   { id: "supplier_requests" as const, to: "/admin/supplier-requests" as const, label: "Supplier Requests", icon: Mail },
   { id: "suppliers" as const, to: "/admin/suppliers" as const, label: "Suppliers", icon: Building2 },
   { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
-  { id: "inventory" as const, to: "/admin/inventory" as const, label: "Inventory", icon: Layers },
 ];export function SuppliersWrapper() {
   const [region, setRegion] = useState("All");
   const [query, setQuery] = useState("");

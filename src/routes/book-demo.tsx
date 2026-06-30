@@ -189,7 +189,7 @@ function BookDemoPage() {
                         <Select label="Company size" value={form.companySize} onChange={(v) => set("companySize", v)}
                           options={["1–10", "11–50", "51–200", "201–1000", "1000+"]} />
                         <Select label="Primary region" value={form.region} onChange={(v) => set("region", v)}
-                          options={["Japan", "United Kingdom", "Europe", "United States", "Global"]} />
+                          options={["Japan", "United Kingdom", "Europe", "United States", "India", "China", "Global"]} />
                       </>
                     )}
                     {step === 1 && (

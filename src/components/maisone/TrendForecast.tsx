@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, Sparkles, Activity } from "lucide-react";
 
-type Region = "Global" | "Japan" | "United Kingdom" | "Europe" | "United States";
+type Region = "Japan" | "United Kingdom" | "Europe" | "United States" | "India" | "China";
 
 type Forecast = {
   fabrics: { name: string; score: number; signal: string }[];
@@ -11,25 +11,6 @@ type Forecast = {
 };
 
 const DATA: Record<Region, Forecast> = {
-  Global: {
-    fabrics: [
-      { name: "Recycled Selvedge", score: 94, signal: "Runway · Resort '26" },
-      { name: "Brushed Loopback", score: 88, signal: "Retail sell-through" },
-      { name: "Tech Wool", score: 81, signal: "Social · +132% MoM" },
-      { name: "Organic Pima", score: 76, signal: "Editorial mentions" },
-    ],
-    colors: [
-      { name: "Indigo Noir", hex: "#1c2545", pantone: "19-3933", score: 92 },
-      { name: "Atelier Cream", hex: "#ece3d2", pantone: "12-0710", score: 87 },
-      { name: "Ember Clay", hex: "#b85c3a", pantone: "17-1456", score: 79 },
-      { name: "Verdant Sage", hex: "#7a8f6a", pantone: "16-0421", score: 73 },
-    ],
-    silhouettes: [
-      { name: "Oversized Tailoring", score: 89, note: "Cross-gender" },
-      { name: "Cropped Outerwear", score: 84, note: "FW '26" },
-      { name: "Fluid Knitwear", score: 78, note: "Resort" },
-    ],
-  },
   Japan: {
     fabrics: [
       { name: "Natural Indigo", score: 96, signal: "Okayama mills · capacity tight" },
@@ -106,12 +87,50 @@ const DATA: Record<Region, Forecast> = {
       { name: "Varsity Jacket", score: 78, note: "Drop culture" },
     ],
   },
+  India: {
+    fabrics: [
+      { name: "Khadi Cotton", score: 92, signal: "Handloom revival" },
+      { name: "Organic Silk", score: 86, signal: "Export demand" },
+      { name: "Linen Blend", score: 80, signal: "Summer collections" },
+      { name: "Mulberry Silk", score: 74, signal: "Luxury market" },
+    ],
+    colors: [
+      { name: "Saffron Glow", hex: "#f4c430", pantone: "14-1064", score: 91 },
+      { name: "Deep Ochre", hex: "#b37400", pantone: "17-1048", score: 83 },
+      { name: "Royal Indigo", hex: "#1e3d59", pantone: "19-4025", score: 80 },
+      { name: "Lotus Pink", hex: "#ff7b90", pantone: "15-2216", score: 72 },
+    ],
+    silhouettes: [
+      { name: "Flowing Kurta Cut", score: 88, note: "Contemporary wear" },
+      { name: "Relaxed Caftan", score: 82, note: "Resort" },
+      { name: "Draped Tunic", score: 79, note: "SS '26" },
+    ],
+  },
+  China: {
+    fabrics: [
+      { name: "Technical Silk", score: 94, signal: "Hangzhou high-tech mills" },
+      { name: "Recycled Polyester", score: 89, signal: "Green manufacturing" },
+      { name: "Jacquard Brocade", score: 81, signal: "Cultural fusion trends" },
+      { name: "Bamboo Viscose", score: 76, signal: "Sustainable demand" },
+    ],
+    colors: [
+      { name: "Imperial Red", hex: "#b81d24", pantone: "19-1763", score: 93 },
+      { name: "Jade Green", hex: "#00a86b", pantone: "16-5421", score: 85 },
+      { name: "Shanghai Sumi", hex: "#111111", pantone: "19-4305", score: 82 },
+      { name: "Yellow River Gold", hex: "#d4af37", pantone: "15-0955", score: 70 },
+    ],
+    silhouettes: [
+      { name: "Mandarin Collar Shirt", score: 89, note: "Minimalist fashion" },
+      { name: "Asymmetrical Dress", score: 83, note: "SS '26" },
+      { name: "Wide-sleeve Outerwear", score: 78, note: "FW '26" },
+    ],
+  },
 };
 
-const REGIONS: Region[] = ["Global", "Japan", "United Kingdom", "Europe", "United States"];
+const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];
 
 export function TrendForecast() {
-  const [region, setRegion] = useState<Region>("Global");
+  const [region, setRegion] = useState<Region>("Japan");
   const data = DATA[region];
 
   return (

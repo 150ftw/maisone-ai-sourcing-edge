@@ -28,7 +28,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            Connecting visionary fashion brands with world-class production. We deliver premium development, ethical sourcing, and scalable manufacturing worldwide.
+            A premier sourcing house connecting fashion brands with their ideal factories — a complete, one-stop ecosystem for global production.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -62,13 +62,24 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Map + floating cards */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3 }}
           className="relative mt-20"
         >
+          <div className="flex flex-col items-center justify-center gap-2 mb-10">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-electric/10 border border-electric/30 text-[10px] tracking-[0.25em] uppercase text-electric font-semibold">
+              <span className="relative size-1.5 flex shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-electric opacity-75" />
+                <span className="relative inline-flex rounded-full size-1.5 bg-electric" />
+              </span>
+              Live Sourcing Network
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl tracking-tight text-center text-foreground mt-2">
+              We currently source in all these <span className="italic gradient-text font-serif">countries</span>
+            </h3>
+          </div>
           <div className="glass-strong rounded-3xl p-6 sm:p-10 text-foreground/80">
             <WorldMap />
           </div>

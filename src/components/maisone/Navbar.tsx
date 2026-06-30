@@ -72,7 +72,7 @@ export function Navbar() {
               to="/book-demo"
               className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
             >
-              Book Demo
+              Inquire about us
             </Link>
             <button
               onClick={() => setOpen(!open)}

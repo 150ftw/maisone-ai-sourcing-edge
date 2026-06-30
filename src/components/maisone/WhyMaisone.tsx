@@ -53,6 +53,31 @@ export function WhyMaisone() {
             </motion.div>
           ))}
         </div>
+
+        {/* Startup & Low MOQ Callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-16 glass rounded-3xl p-8 border border-electric/20 bg-electric/[0.02] flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+        >
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-electric/10 border border-electric/20 text-[9px] tracking-[0.2em] uppercase text-electric font-semibold mb-3">
+              Startup Friendly
+            </span>
+            <h3 className="font-serif text-2xl mb-2 text-foreground">Supporting emerging labels &amp; lower MOQs</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We believe in nurturing the next generation of fashion. Maisone proudly supports small startups, independent designers, and growing companies with low minimum order quantities (MOQs) to help scale your vision sustainably.
+            </p>
+          </div>
+          <a
+            href="/supplier-request"
+            className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap"
+          >
+            Launch Your Brand
+          </a>
+        </motion.div>
       </div>
     </section>
   );

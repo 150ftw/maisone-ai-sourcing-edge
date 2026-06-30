@@ -8,13 +8,13 @@ const toXY = (lat: number, lon: number) => ({
 });
 
 export const HUBS = [
-  { name: "New York", region: "United States", lat: 40.71, lon: -74.0, align: "right" },
-  { name: "Los Angeles", region: "United States", lat: 34.05, lon: -118.24, align: "left" },
-  { name: "London", region: "United Kingdom", lat: 51.5, lon: -0.12, align: "top" },
-  { name: "Paris", region: "France", lat: 48.85, lon: 2.35, align: "left" },
-  { name: "Milan", region: "Italy", lat: 45.46, lon: 9.19, align: "bottom" },
-  { name: "Florence", region: "Italy", lat: 43.77, lon: 11.25, align: "right" },
-  { name: "Tokyo", region: "Japan", lat: 35.68, lon: 139.69, align: "right" },
+  { name: "United States", region: "United States", lat: 39.09, lon: -98.71, align: "top" },
+  { name: "United Kingdom", region: "United Kingdom", lat: 54.0, lon: -2.5, align: "top" },
+  { name: "France", region: "France", lat: 46.22, lon: 2.21, align: "left" },
+  { name: "Italy", region: "Italy", lat: 42.5, lon: 12.5, align: "right" },
+  { name: "India", region: "India", lat: 21.0, lon: 78.0, align: "left" },
+  { name: "China", region: "China", lat: 33.0, lon: 104.0, align: "bottom" },
+  { name: "Japan", region: "Japan", lat: 36.0, lon: 138.0, align: "right" },
 ];
 
 const getLabelStyle = (align?: string) => {
@@ -25,6 +25,14 @@ const getLabelStyle = (align?: string) => {
       return { top: "10px", left: "50%", transform: "translateX(-50%)" };
     case "left":
       return { right: "10px", top: "50%", transform: "translateY(-50%)" };
+    case "top-left":
+      return { bottom: "10px", right: "10px" };
+    case "top-right":
+      return { bottom: "10px", left: "10px" };
+    case "bottom-left":
+      return { top: "10px", right: "10px" };
+    case "bottom-right":
+      return { top: "10px", left: "10px" };
     case "right":
     default:
       return { left: "10px", top: "50%", transform: "translateY(-50%)" };

@@ -19,7 +19,6 @@ import { Route as AdminSuppliersRouteImport } from './routes/admin/suppliers'
 import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/supplier-requests'
 import { Route as AdminShipmentsRouteImport } from './routes/admin/shipments'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminInventoryRouteImport } from './routes/admin/inventory'
 import { Route as AdminDemoRequestsRouteImport } from './routes/admin/demo-requests'
 
 const SupplierRequestRoute = SupplierRequestRouteImport.update({
@@ -72,11 +71,6 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminInventoryRoute = AdminInventoryRouteImport.update({
-  id: '/inventory',
-  path: '/inventory',
-  getParentRoute: () => AdminRoute,
-} as any)
 const AdminDemoRequestsRoute = AdminDemoRequestsRouteImport.update({
   id: '/demo-requests',
   path: '/demo-requests',
@@ -90,7 +84,6 @@ export interface FileRoutesByFullPath {
   '/book-demo': typeof BookDemoRoute
   '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
-  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
@@ -103,7 +96,6 @@ export interface FileRoutesByTo {
   '/book-demo': typeof BookDemoRoute
   '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
-  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
@@ -118,7 +110,6 @@ export interface FileRoutesById {
   '/book-demo': typeof BookDemoRoute
   '/supplier-request': typeof SupplierRequestRoute
   '/admin/demo-requests': typeof AdminDemoRequestsRoute
-  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
@@ -134,7 +125,6 @@ export interface FileRouteTypes {
     | '/book-demo'
     | '/supplier-request'
     | '/admin/demo-requests'
-    | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
@@ -147,7 +137,6 @@ export interface FileRouteTypes {
     | '/book-demo'
     | '/supplier-request'
     | '/admin/demo-requests'
-    | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
@@ -161,7 +150,6 @@ export interface FileRouteTypes {
     | '/book-demo'
     | '/supplier-request'
     | '/admin/demo-requests'
-    | '/admin/inventory'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
@@ -249,13 +237,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/inventory': {
-      id: '/admin/inventory'
-      path: '/inventory'
-      fullPath: '/admin/inventory'
-      preLoaderRoute: typeof AdminInventoryRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/demo-requests': {
       id: '/admin/demo-requests'
       path: '/demo-requests'
@@ -268,7 +249,6 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminDemoRequestsRoute: typeof AdminDemoRequestsRoute
-  AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminShipmentsRoute: typeof AdminShipmentsRoute
   AdminSupplierRequestsRoute: typeof AdminSupplierRequestsRoute
@@ -278,7 +258,6 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDemoRequestsRoute: AdminDemoRequestsRoute,
-  AdminInventoryRoute: AdminInventoryRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminShipmentsRoute: AdminShipmentsRoute,
   AdminSupplierRequestsRoute: AdminSupplierRequestsRoute,
