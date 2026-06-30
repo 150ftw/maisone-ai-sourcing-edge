@@ -337,20 +337,32 @@ const ADMIN_TABS = [
   const [suppliersList, setSuppliersList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Editing state
+  const [editingSupplier, setEditingSupplier] = useState<any | null>(null);
+
   // Form states
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [regionVal, setRegionVal] = useState("Japan");
-  const [category, setCategory] = useState("Denim");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [lead, setLead] = useState("");
   const [otd, setOtd] = useState("");
   const [rating, setRating] = useState("");
+  const [contactNo, setContactNo] = useState("");
+  const [ownerDetails, setOwnerDetails] = useState("");
+  const [emailId, setEmailId] = useState("");
+
+  const categoriesList = [
+    "Denim", "Silk", "Wool", "Tailoring", "Leather", 
+    "Knitwear", "Accessories", "Cap", "Circular Knits", 
+    "Contemporary Ready to Wear", "Couture"
+  ];
 
   const fetchSuppliers = async () => {
     try {
       const { data, error } = await supabase
         .from("suppliers")
-        .select("id:supplier_id, name, region, city, category, lead:lead_time, rating, otd")
+        .select("id:supplier_id, name, region, city, category, lead:lead_time, rating, otd, contact_no, owner_details, email_id")
         .order("created_at", { ascending: false });
       if (error) throw error;
       setSuppliersList(data || []);
@@ -365,36 +377,109 @@ const ADMIN_TABS = [
     fetchSuppliers();
   }, []);
 
-  const handleAddSupplier = async (e: React.FormEvent) => {
+  const openAddModal = () => {
+    setEditingSupplier(null);
+    setName("");
+    setCity("");
+    setRegionVal("Japan");
+    setSelectedCategories([]);
+    setLead("");
+    setOtd("");
+    setRating("");
+    setContactNo("");
+    setOwnerDetails("");
+    setEmailId("");
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (supplier: any) => {
+    setEditingSupplier(supplier);
+    setName(supplier.name);
+    setCity(supplier.city);
+    setRegionVal(supplier.region);
+    setSelectedCategories(supplier.category ? supplier.category.split(", ") : []);
+    setLead(String(supplier.lead));
+    setOtd(String(supplier.otd));
+    setRating(String(supplier.rating));
+    setContactNo(supplier.contact_no || "");
+    setOwnerDetails(supplier.owner_details || "");
+    setEmailId(supplier.email_id || "");
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteSupplier = async (supplierId: string) => {
+    if (!confirm("Are you sure you want to delete this supplier permanently?")) return;
+    try {
+      const { error } = await supabase
+        .from("suppliers")
+        .delete()
+        .eq("supplier_id", supplierId);
+      if (error) throw error;
+      await fetchSuppliers();
+    } catch (err: any) {
+      console.error("Failed to delete supplier:", err);
+      alert("Error deleting supplier: " + err.message);
+    }
+  };
+
+  const handleSaveSupplier = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newSupplier = {
-      supplier_id: `SUP-${Math.floor(100 + Math.random() * 900)}`,
-      name: name.trim() || "New Supplier",
+
+    if (selectedCategories.length === 0) {
+      alert("Please select at least one category.");
+      return;
+    }
+
+    const payload = {
+      name: name.trim(),
       region: regionVal,
-      city: city.trim() || "Unknown",
-      category,
+      city: city.trim(),
+      category: selectedCategories.join(", "),
       lead_time: Number(lead) || 14,
       otd: Number(otd) || 95,
-      rating: Number(rating) || 4.5
+      rating: Number(rating) || 4.5,
+      contact_no: contactNo.trim() || null,
+      owner_details: ownerDetails.trim() || null,
+      email_id: emailId.trim() || null
     };
 
     try {
-      const { error } = await supabase.from("suppliers").insert([newSupplier]);
-      if (error) throw error;
-      await fetchSuppliers();
+      if (editingSupplier) {
+        // Update existing supplier
+        const { error } = await supabase
+          .from("suppliers")
+          .update(payload)
+          .eq("supplier_id", editingSupplier.id);
+        if (error) throw error;
+      } else {
+        // Calculate sequential supplier_id
+        let maxNum = 0;
+        suppliersList.forEach(s => {
+          const idStr = s.id || s.supplier_id;
+          if (idStr && typeof idStr === "string" && idStr.startsWith("SUP-")) {
+            const num = parseInt(idStr.replace("SUP-", ""), 10);
+            if (!isNaN(num) && num > maxNum) {
+              maxNum = num;
+            }
+          }
+        });
+        const nextNum = maxNum + 1;
+        const nextId = `SUP-${String(nextNum).padStart(3, "0")}`;
 
-      // Reset and close
-      setName("");
-      setCity("");
-      setRegionVal("Japan");
-      setCategory("Denim");
-      setLead("");
-      setOtd("");
-      setRating("");
+        const newSupplier = {
+          supplier_id: nextId,
+          ...payload
+        };
+
+        const { error } = await supabase.from("suppliers").insert([newSupplier]);
+        if (error) throw error;
+      }
+
+      await fetchSuppliers();
       setIsModalOpen(false);
     } catch (err: any) {
-      console.error("Failed to add supplier:", err);
-      alert("Error adding supplier: " + err.message);
+      console.error("Failed to save supplier:", err);
+      alert("Error saving supplier: " + err.message);
     }
   };
 
@@ -412,7 +497,7 @@ const ADMIN_TABS = [
           />
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={openAddModal}
           className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> Add Supplier
@@ -422,7 +507,14 @@ const ADMIN_TABS = [
       {loading ? (
         <TableSkeleton />
       ) : (
-        <Suppliers query={query} region={region} setRegion={setRegion} data={suppliersList} />
+        <Suppliers 
+          query={query} 
+          region={region} 
+          setRegion={setRegion} 
+          data={suppliersList} 
+          onEdit={openEditModal}
+          onDelete={handleDeleteSupplier}
+        />
       )}
 
       <AnimatePresence>
@@ -439,7 +531,7 @@ const ADMIN_TABS = [
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
             >
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -448,9 +540,11 @@ const ADMIN_TABS = [
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">Add Supplier</h2>
+              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
+                {editingSupplier ? "Edit Supplier" : "Add Supplier"}
+              </h2>
 
-              <form onSubmit={handleAddSupplier} className="space-y-5">
+              <form onSubmit={handleSaveSupplier} className="space-y-5">
                 <div className="space-y-1.5">
                   <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Supplier Name</label>
                   <input
@@ -479,11 +573,37 @@ const ADMIN_TABS = [
                     <CustomSelect value={regionVal} onChange={setRegionVal} options={["Japan", "United Kingdom", "Europe", "United States", "India", "China"]} />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Category</label>
-                    <CustomSelect value={category} onChange={setCategory} options={["Denim", "Silk", "Wool", "Tailoring", "Leather", "Knitwear"]} />
+                
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium block">Categories (Select Multiple)</label>
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {categoriesList.map((cat) => {
+                      const isSelected = selectedCategories.includes(cat);
+                      return (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCategories(prev => 
+                              prev.includes(cat) 
+                                ? prev.filter(c => c !== cat) 
+                                : [...prev, cat]
+                            );
+                          }}
+                          className={`px-3 py-1.5 rounded-full text-[10px] border font-medium transition-all duration-200 cursor-pointer ${
+                            isSelected 
+                              ? "bg-electric border-electric text-background shadow-md shadow-electric/25 font-bold" 
+                              : "bg-white/[0.02] border-white/10 text-muted-foreground hover:text-white hover:border-white/20"
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      );
+                    })}
                   </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Lead Time (Days)</label>
                     <input
@@ -497,8 +617,6 @@ const ADMIN_TABS = [
                       className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">OTD Rate (%)</label>
                     <input
@@ -512,6 +630,9 @@ const ADMIN_TABS = [
                       className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Rating (1-5)</label>
                     <input
@@ -523,13 +644,46 @@ const ADMIN_TABS = [
                       className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Owner Details</label>
+                    <input
+                      type="text"
+                      value={ownerDetails}
+                      onChange={e => setOwnerDetails(e.target.value)}
+                      placeholder="e.g. Kenji Tanaka (Founder)"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Contact No</label>
+                    <input
+                      type="text"
+                      value={contactNo}
+                      onChange={e => setContactNo(e.target.value)}
+                      placeholder="e.g. +81 90-1234-5678"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Email ID</label>
+                    <input
+                      type="email"
+                      value={emailId}
+                      onChange={e => setEmailId(e.target.value)}
+                      placeholder="e.g. tanaka@kyotoatelier.jp"
+                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    />
+                  </div>
                 </div>
 
                 <button
                   type="submit"
                   className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
-                  Save Supplier
+                  {editingSupplier ? "Update Supplier" : "Save Supplier"}
                 </button>
               </form>
             </motion.div>

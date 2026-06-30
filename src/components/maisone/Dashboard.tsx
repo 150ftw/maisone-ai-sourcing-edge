@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ArrowDownRight, Bell, Search, Filter, MapPin, Package, Sparkles } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight, Bell, Search, Filter, MapPin, Package, Sparkles, User, Phone, Mail, Pencil, Trash2 } from "lucide-react";
 
 const trend = [22, 30, 28, 42, 38, 55, 48, 65, 60, 72, 68, 84, 80, 92];
 
@@ -248,9 +248,24 @@ export function Overview({ query, data }: { query: string; data?: any[] }) {
   );
 }
 
-export function Suppliers({ query, region, setRegion, data }: { query: string; region: string; setRegion: (r: string) => void; data?: any[] }) {
+export function Suppliers({ 
+  query, 
+  region, 
+  setRegion, 
+  data,
+  onEdit,
+  onDelete
+}: { 
+  query: string; 
+  region: string; 
+  setRegion: (r: string) => void; 
+  data?: any[];
+  onEdit?: (supplier: any) => void;
+  onDelete?: (id: string) => void;
+}) {
   const regions = ["All", "Japan", "United Kingdom", "Europe", "United States", "India", "China"];
   const [page, setPage] = useState(1);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const PAGE_SIZE = 10;
 
   const [suppliersList, setSuppliersList] = useState(() => {
@@ -321,35 +336,126 @@ export function Suppliers({ query, region, setRegion, data }: { query: string; r
       </div>
 
       <div className="rounded-xl bg-background border border-border overflow-hidden">
-        <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
+        <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
           <span className="col-span-2">ID</span>
           <span className="col-span-3">Supplier</span>
           <span className="col-span-2">Region</span>
           <span className="col-span-2">Category</span>
           <span className="col-span-1 text-right">Lead</span>
-          <span className="col-span-1 text-right">OTD</span>
+          <span className="col-span-1 text-right">OTD Rate</span>
           <span className="col-span-1 text-right">★</span>
         </div>
         <div className="divide-y divide-border text-xs">
           {paginated.length === 0 && (
-            <div className="px-5 py-8 text-center text-muted-foreground">No suppliers match your filters.</div>
+            <div className="px-6 py-8 text-center text-muted-foreground">No suppliers match your filters.</div>
           )}
-          {paginated.map((s: any) => (
-            <motion.div
-              key={s.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="grid grid-cols-12 gap-4 px-5 py-3 items-center hover:bg-accent/30"
-            >
-              <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
-              <span className="col-span-3">{s.name}</span>
-              <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5"><MapPin className="size-3" /> {s.city}</span>
-              <span className="col-span-2"><span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span></span>
-              <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
-              <span className="col-span-1 text-right tabular-nums text-emerald-400">{s.otd}%</span>
-              <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
-            </motion.div>
-          ))}
+          {paginated.map((s: any) => {
+            const isExpanded = expandedId === s.id;
+            return (
+              <div key={s.id} className="border-b border-border/20 last:border-0">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  onClick={() => setExpandedId(isExpanded ? null : s.id)}
+                  className={`grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-accent/30 cursor-pointer transition-colors ${
+                    isExpanded ? "bg-accent/25" : ""
+                  }`}
+                >
+                  <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+                  <span className="col-span-3 font-medium text-white">{s.name}</span>
+                  <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5">
+                    <MapPin className="size-3" /> {s.city}
+                  </span>
+                  <span className="col-span-2">
+                    <span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span>
+                  </span>
+                  <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
+                  <span className="col-span-1 text-right tabular-nums text-emerald-400">{s.otd}%</span>
+                  <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
+                </motion.div>
+
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden bg-white/[0.01]"
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 px-8 py-6 border-t border-border/30 text-xs bg-white/[0.005]">
+                        <div className="flex gap-3.5">
+                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                            <User className="size-4 text-electric" />
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">Owner Details</span>
+                            <span className="text-white font-medium block text-[13px]">{s.owner_details || "—"}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-3.5">
+                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                            <Phone className="size-4 text-electric" />
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">Contact Number</span>
+                            <span className="text-white font-medium block text-[13px]">{s.contact_no || "—"}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-3.5">
+                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                            <Mail className="size-4 text-electric" />
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">Email Address</span>
+                            {s.email_id ? (
+                              <a
+                                href={`mailto:${s.email_id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-electric hover:underline font-medium block text-[13px] transition-colors"
+                              >
+                                {s.email_id}
+                              </a>
+                            ) : (
+                              <span className="text-muted-foreground block text-[13px]">—</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Admin action buttons */}
+                      {(onEdit || onDelete) && (
+                        <div className="px-8 pb-6 flex justify-end gap-3 border-t border-border/10 pt-4 bg-white/[0.01]">
+                          {onEdit && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit(s);
+                              }}
+                              className="px-4 py-2 rounded-xl border border-white/10 hover:border-electric/50 hover:bg-electric/5 transition-all text-white font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                            >
+                              <Pencil className="size-3.5 text-muted-foreground group-hover:text-white" /> Edit Details
+                            </button>
+                          )}
+                          {onDelete && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(s.id);
+                              }}
+                              className="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                            >
+                              <Trash2 className="size-3.5" /> Delete
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
       </div>
 
