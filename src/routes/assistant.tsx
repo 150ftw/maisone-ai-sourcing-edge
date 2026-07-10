@@ -3,6 +3,8 @@ import { createServerFn } from '@tanstack/react-start'
 import { useState, useRef, useEffect } from 'react'
 import { ArrowLeft, Search, Package, Layers, Headphones } from 'lucide-react'
 import { supabase } from '../lib/supabase'
+import * as fs from 'fs'
+import * as path from 'path'
 
 interface ChatMessage {
   role: 'user' | 'ai'
@@ -18,6 +20,15 @@ const sendChatFn = createServerFn({ method: 'POST' })
 
     if (!apiKey) {
       throw new Error('Missing KIMI_API_KEY environment variable.')
+    }
+
+    // Read the official company knowledge base
+    let companyInfo = ""
+    try {
+      const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
+      companyInfo = fs.readFileSync(filePath, 'utf-8')
+    } catch (e) {
+      console.warn("Could not read company_info.md:", e)
     }
 
     // Fetch real-time data from Supabase to provide as context
@@ -57,10 +68,13 @@ OFFICIAL PRODUCT CATEGORIES ON MAISONE:
 - Accessories
 
 STRICT BEHAVIOR RULES:
-1. Base your answers ONLY on the official categories listed above and the verified database records from Supabase provided below.
-2. DO NOT hallucinate, make up, or invent suppliers, categories, stock levels, or details that are not explicitly present in the data below.
+1. Base your answers ONLY on the official categories listed above, the official company information from company_info.md, and the verified database records from Supabase provided below.
+2. DO NOT hallucinate, make up, or invent suppliers, categories, stock levels, plans, founders, or details that are not explicitly present in the data below.
 3. If the user asks about a product category, supplier, or material not mentioned in the official list or database records, politely explain that Maisone does not currently support it and only list what is officially supported.
 4. Keep answers concise, high-end, premium, and professional.
+
+OFFICIAL MAISONE INFORMATION:
+${companyInfo}
 
 REAL-TIME DATABASE CONTEXT:${dbContext}`,
       },
