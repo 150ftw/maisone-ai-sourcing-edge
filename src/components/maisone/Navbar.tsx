@@ -23,11 +23,11 @@ export function Navbar() {
   return (
     <>
       {/* Extreme Top Right Utility Bar */}
-      <div className="fixed top-4 right-6 z-55 flex items-center gap-2">
+      <div className="fixed top-4 right-6 z-55 flex items-center gap-3 glass-strong rounded-2xl px-4 py-2 border border-white/5 shadow-xl transition-all">
         <button
           onClick={toggle}
           aria-label="Toggle theme"
-          className="size-9 rounded-full glass-strong flex items-center justify-center hover:scale-105 transition-all border border-white/10"
+          className="size-9 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center hover:scale-105 transition-all border border-white/10"
         >
           {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
         </button>
