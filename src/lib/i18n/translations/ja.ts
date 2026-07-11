@@ -14,6 +14,8 @@ export const ja = {
     joinAsSupplier: "サプライヤーとして参加",
     inquireAboutUs: "お問い合わせ",
     backToHome: "ホームに戻る",
+    theme: "テーマ",
+    language: "言語",
   },
 
   // ── ヒーローセクション ──

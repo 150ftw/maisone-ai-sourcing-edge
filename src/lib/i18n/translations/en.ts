@@ -14,6 +14,8 @@ export const en = {
     joinAsSupplier: "Join as Supplier",
     inquireAboutUs: "Inquire about us",
     backToHome: "Back to Home",
+    theme: "Theme",
+    language: "Language",
   },
 
   // ── Hero Section ──
