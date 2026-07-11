@@ -25,14 +25,16 @@ function FoundersPage() {
   const bios = [
     {
       name: "Shashank Jain",
-      role: t("founders.coFounder") + " · Operations & Strategy",
+      role: t("founders.coFounder"),
+      roleDetail: t("foundersPageRoute.shashankRoleDetail"),
       quote: t("foundersPageRoute.shashankQuote"),
       bio: t("foundersPageRoute.shashankBio"),
       image: shashankImg
     },
     {
       name: "Subah",
-      role: t("founders.coFounder") + " · Creative & Client Partnerships",
+      role: t("founders.coFounder"),
+      roleDetail: t("foundersPageRoute.subahRoleDetail"),
       quote: t("foundersPageRoute.subahQuote"),
       bio: t("foundersPageRoute.subahBio"),
       image: subahImg
@@ -67,8 +69,8 @@ function FoundersPage() {
                     <img src={f.image} alt={f.name} className="w-full h-full object-cover object-[center_20%] transition-all duration-500" />
                     <div className="absolute bottom-4 left-4">
                       <div className="text-[9px] uppercase tracking-widest font-semibold bg-black/85 border border-white/10 px-3 py-1.5 rounded-xl text-electric flex flex-col gap-0.5">
-                        <span>{t("founders.coFounder")}</span>
-                        <span className="text-white/80 text-[8px] tracking-wider">{f.role.split(" · ")[1]}</span>
+                        <span>{f.role}</span>
+                        <span className="text-white/80 text-[8px] tracking-wider">{f.roleDetail}</span>
                       </div>
                     </div>
                   </div>

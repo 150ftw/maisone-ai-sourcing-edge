@@ -461,8 +461,10 @@ export const en = {
     manifestoP1: "We built Maisone Global because the old sourcing system is broken. Brands shouldn't have to choose between profitability and ethics, and artisans shouldn't have to compromise their craft for low-cost mass production.",
     manifestoP2: "By digitizing capacity logs and using AI-based trend forecasting, we help brands plan and manufacture exactly what they need. This eliminates excess inventory, reduces waste, and allows us to pay workers living wages. We believe in supply chains that respect both the creator and the environment.",
     shashankQuote: "True sustainability begins by optimizing the first link of the chain. By aligning demand signals with capacity, we can respect both the makers and the earth.",
+    shashankRoleDetail: "Operations & Strategy",
     shashankBio: "Shashank brings over 18 years of expertise in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing. Throughout his career, he has collaborated with premier global design houses including Valentino, Balmain, Stella McCartney, Giorgio Armani, and Dolce & Gabbana. At Maisone, he directs global operations and maps sustainable supply loops.",
     subahQuote: "Fashion is a dialogue between creative vision and technical execution. Maisone translates that dialogue into transparent, beautifully crafted collections.",
+    subahRoleDetail: "Creative & Client Partnerships",
     subahBio: "Subah specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
   },
 };

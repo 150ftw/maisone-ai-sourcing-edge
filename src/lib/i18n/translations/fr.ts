@@ -372,8 +372,10 @@ export const fr = {
     manifestoP1: "Nous avons créé Maisone Global parce que l'ancien système de sourcing est cassé. Les marques ne devraient pas avoir à choisir entre rentabilité et éthique, et les artisans ne devraient pas avoir à compromettre leur savoir-faire pour une production de masse à bas coût.",
     manifestoP2: "En numérisant les registres de capacité et en utilisant des prévisions de tendances basées sur l'IA, nous aidons les marques à planifier et à fabriquer exactement ce dont elles ont besoin. Cela élimine les stocks excédentaires, réduit les déchets et nous permet de verser des salaires décents aux travailleurs. Nous croyons en des chaînes d'approvisionnement qui respectent à la fois le créateur et l'environnement.",
     shashankQuote: "La véritable durabilité commence par l'optimisation du premier maillon de la chaîne. En alignant les signaux de demande sur la capacité, nous pouvons respecter à la fois les fabricants et la terre.",
+    shashankRoleDetail: "Opérations et Stratégie",
     shashankBio: "Shashank apporte plus de 18 ans d'expertise dans le sourcing de mode de luxe, l'ingénierie textile et la gestion de la chaîne d'approvisionnement mondiale. Tout au long de sa carrière, il a collaboré avec des maisons de mode internationales emblématiques comme Valentino, Balmain, Stella McCartney, Giorgio Armani et Dolce & Gabbana. Chez Maisone, il dirige les opérations mondiales et cartographie les boucles d'approvisionnement durables.",
     subahQuote: "La mode est un dialogue entre la vision créative et l'exécution technique. Maisone traduit ce dialogue en collections transparentes et superbement conçues.",
+    subahRoleDetail: "Partenariats Créatifs et Clients",
     subahBio: "Subah est spécialisée dans la coordination du design, le développement de produits de luxe, l'engagement client et les collaborations créatives. Elle fait le lien entre les maisons de design internationales et les fabricants spécialisés. Son expertise garantit que les concepts créatifs sont exécutés avec une précision technique absolue et une intégrité matérielle totale.",
   },
 };

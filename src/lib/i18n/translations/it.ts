@@ -372,8 +372,10 @@ export const it = {
     manifestoP1: "Abbiamo costruito Maisone Global perché il vecchio sistema di sourcing è rotto. I marchi non dovrebbero scegliere tra redditività ed etica, e gli artigiani non dovrebbero scendere a compromessi sulla loro arte per una produzione di massa a basso costo.",
     manifestoP2: "Digitalizzando i registri di capacità e utilizzando la previsione delle tendenze basata sull'AI, aiutiamo i marchi a pianificare e produrre esattamente ciò di cui hanno bisogno. Ciò elimina l'inventario in eccesso, riduce gli sprechi e ci consente di pagare ai lavoratori salari dignitosi. Crediamo in catene di fornitura che rispettino sia il creatore che l'ambiente.",
     shashankQuote: "La vera sostenibilità inizia ottimizzando il primo anello della catena. Allineando i segnali di domanda con la capacità, possiamo rispettare sia i produttori che la terra.",
+    shashankRoleDetail: "Operazioni e Strategia",
     shashankBio: "Shashank offre oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica. Nel corso della sua carriera ha collaborato con le principali case di design mondiali tra cui Valentino, Balmain, Stella McCartney, Giorgio Armani e Dolce & Gabbana. In Maisone dirige le operazioni globali e mappa i circuiti di fornitura sostenibili.",
     subahQuote: "La moda è un dialogo tra visione creativa ed esecuzione tecnica. Maisone traduce quel dialogo in collezioni trasparenti e splendidamente realizzate.",
+    subahRoleDetail: "Collaborazioni Creative e Clienti",
     subahBio: "Subah è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
   },
 };
