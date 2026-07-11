@@ -33,7 +33,7 @@ export function Navbar() {
         <div className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all ${
           scrolled ? "glass-strong" : ""
         }`}>
-          <a href="#home"><Logo /></a>
+          <Logo />
 
           <nav className="hidden lg:flex items-center gap-8">
             <a href="/#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.home")}</a>
