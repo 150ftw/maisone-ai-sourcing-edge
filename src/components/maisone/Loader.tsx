@@ -23,8 +23,8 @@ export function Loader() {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center gap-6"
           >
-            <Logo className="h-16 w-16" showText={false} />
-            <div className="w-32 h-px bg-border overflow-hidden">
+            <Logo className="h-40 w-40" showText={false} />
+            <div className="w-72 h-[2px] bg-border overflow-hidden">
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
@@ -32,7 +32,7 @@ export function Loader() {
                 className="h-full w-full bg-gradient-to-r from-transparent via-electric to-transparent"
               />
             </div>
-            <p className="text-[10px] uppercase tracking-[0.4em] text-muted-foreground">Maisone Global</p>
+            <p className="text-sm uppercase tracking-[0.6em] text-muted-foreground mt-4">Maisone Global</p>
           </motion.div>
         </motion.div>
       )}

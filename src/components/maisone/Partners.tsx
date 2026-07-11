@@ -1,4 +1,12 @@
-const countries = ["USA", "ITALY", "PARIS", "ARGENTINA", "JAPAN", "UK", "INDIA"];
+const countries = [
+  { name: "United States", code: "USA", cities: ["New York", "Los Angeles"] },
+  { name: "United Kingdom", code: "UK", cities: ["London"] },
+  { name: "France", code: "FRANCE", cities: ["Paris"] },
+  { name: "Italy", code: "ITALY", cities: ["Milan", "Florence"] },
+  { name: "India", code: "INDIA", cities: ["New Delhi"] },
+  { name: "China", code: "CHINA", cities: ["Shanghai"] },
+  { name: "Japan", code: "JAPAN", cities: ["Tokyo"] },
+];
 
 export function Partners() {
   return (
@@ -10,15 +18,24 @@ export function Partners() {
         </h2>
       </div>
 
-      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pb-8 pt-4">
+      <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)] pb-36 pt-4">
         <div className="flex items-center animate-marquee w-max hover:[animation-play-state:paused]">
           {[...Array(3)].map((_, listIdx) => (
             <div key={listIdx} className="flex items-center shrink-0">
               {countries.map((c, idx) => (
                 <div key={`${listIdx}-${idx}`} className="group flex items-center gap-16 pr-16 cursor-default select-none transition-all duration-500 hover:scale-[1.05]">
-                  <span className="font-serif text-4xl sm:text-6xl tracking-[0.3em] text-foreground/60 group-hover:text-electric transition-colors duration-500 drop-shadow-sm whitespace-nowrap">
-                    {c}
-                  </span>
+                  <div className="relative flex flex-col items-center">
+                    <span className="font-serif text-4xl sm:text-6xl tracking-[0.3em] text-foreground/60 group-hover:text-electric transition-colors duration-500 drop-shadow-sm whitespace-nowrap">
+                      {c.code}
+                    </span>
+                    <div className="absolute top-full mt-3 flex flex-col items-center opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none">
+                      {c.cities.map((city, cIdx) => (
+                        <span key={cIdx} className="text-lg sm:text-xl tracking-wider text-electric/90 whitespace-nowrap font-serif italic">
+                          {city}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                   <span className="text-2xl text-electric/40 group-hover:text-electric transition-colors duration-500 drop-shadow-sm">◆</span>
                 </div>
               ))}

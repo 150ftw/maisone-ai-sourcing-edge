@@ -5,7 +5,8 @@ import {
   ArrowLeft, LogOut, Loader2, Search, Filter, 
   Trash2, Mail, Building2, User, Globe, Layers,
   Calendar, MessageSquare, ShieldAlert, Sparkles, Check, RefreshCw,
-  ChevronLeft, ChevronRight, X, Plus, ChevronDown, TrendingUp, Activity
+  ChevronLeft, ChevronRight, X, Plus, ChevronDown, TrendingUp, Activity,
+  BookOpen
 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
@@ -325,7 +326,7 @@ export function OverviewSkeleton() {
   );
 }
 
-type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "shipments" | "trends";
+type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "shipments" | "trends" | "blogs";
 
 const ADMIN_TABS = [
   { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
@@ -334,6 +335,7 @@ const ADMIN_TABS = [
   { id: "suppliers" as const, to: "/admin/suppliers" as const, label: "Suppliers", icon: Building2 },
   { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
   { id: "trends" as const, to: "/admin/trends" as const, label: "Trend Forecasts", icon: TrendingUp },
+  { id: "blogs" as const, to: "/admin/blogs" as const, label: "Blog Section", icon: BookOpen },
 ];
 const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];export function SuppliersWrapper() {
   const [region, setRegion] = useState("All");

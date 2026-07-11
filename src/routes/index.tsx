@@ -9,17 +9,13 @@ import { WhyMaisone } from "@/components/maisone/WhyMaisone";
 import { HowWeWork } from "@/components/maisone/HowWeWork";
 import { ProductCategories } from "@/components/maisone/ProductCategories";
 import { Dashboard } from "@/components/maisone/Dashboard";
-import { GlobalPresence } from "@/components/maisone/GlobalPresence";
-import { AIAssistant } from "@/components/maisone/AIAssistant";
-
-import { TrendForecast } from "@/components/maisone/TrendForecast";
-
-import { CaseStudies } from "@/components/maisone/CaseStudies";
-
 import { Founders } from "@/components/maisone/Founders";
 import { ExtraMile } from "@/components/maisone/ExtraMile";
 import { Partners } from "@/components/maisone/Partners";
 import { Testimonials } from "@/components/maisone/Testimonials";
+import { AIAssistant } from "@/components/maisone/AIAssistant";
+import { Blogs } from "@/components/maisone/Blogs";
+import { TrendForecast } from "@/components/maisone/TrendForecast";
 
 import { Footer } from "@/components/maisone/Footer";
 import { useEffect } from "react";
@@ -118,11 +114,9 @@ function Index() {
           <ProductCategories />
           <Dashboard />
           <AIAssistant />
-
           <TrendForecast />
-          <GlobalPresence />
 
-          <CaseStudies />
+          <Blogs />
 
           <Founders />
           <ExtraMile />

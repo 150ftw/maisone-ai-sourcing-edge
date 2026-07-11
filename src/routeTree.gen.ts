@@ -9,22 +9,61 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as SupplierRequestRouteImport } from './routes/supplier-request'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
+import { Route as FoundersRouteImport } from './routes/founders'
+import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as BookDemoRouteImport } from './routes/book-demo'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as BlogBlogIdRouteImport } from './routes/blog.$blogId'
 import { Route as AdminTrendsRouteImport } from './routes/admin/trends'
 import { Route as AdminSuppliersRouteImport } from './routes/admin/suppliers'
 import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/supplier-requests'
 import { Route as AdminShipmentsRouteImport } from './routes/admin/shipments'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminInquiriesRouteImport } from './routes/admin/inquiries'
+import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SustainabilityRoute = SustainabilityRouteImport.update({
+  id: '/sustainability',
+  path: '/sustainability',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupplierRequestRoute = SupplierRequestRouteImport.update({
   id: '/supplier-request',
   path: '/supplier-request',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowWeWorkRoute = HowWeWorkRouteImport.update({
+  id: '/how-we-work',
+  path: '/how-we-work',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoundersRoute = FoundersRouteImport.update({
+  id: '/founders',
+  path: '/founders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComplianceRoute = ComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookDemoRoute = BookDemoRouteImport.update({
@@ -42,6 +81,11 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -51,6 +95,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const BlogBlogIdRoute = BlogBlogIdRouteImport.update({
+  id: '/blog/$blogId',
+  path: '/blog/$blogId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminTrendsRoute = AdminTrendsRouteImport.update({
   id: '/trends',
@@ -82,108 +131,217 @@ const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
   path: '/inquiries',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminBlogsRoute = AdminBlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/compliance': typeof ComplianceRoute
+  '/founders': typeof FoundersRoute
+  '/how-we-work': typeof HowWeWorkRoute
+  '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
+  '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
+  '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/trends': typeof AdminTrendsRoute
+  '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/compliance': typeof ComplianceRoute
+  '/founders': typeof FoundersRoute
+  '/how-we-work': typeof HowWeWorkRoute
+  '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
+  '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
+  '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/trends': typeof AdminTrendsRoute
+  '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
+  '/compliance': typeof ComplianceRoute
+  '/founders': typeof FoundersRoute
+  '/how-we-work': typeof HowWeWorkRoute
+  '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
+  '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
+  '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/trends': typeof AdminTrendsRoute
+  '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/admin'
     | '/assistant'
     | '/book-demo'
+    | '/compliance'
+    | '/founders'
+    | '/how-we-work'
+    | '/privacy'
     | '/supplier-request'
+    | '/sustainability'
+    | '/terms'
+    | '/admin/blogs'
     | '/admin/inquiries'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin/trends'
+    | '/blog/$blogId'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/assistant'
     | '/book-demo'
+    | '/compliance'
+    | '/founders'
+    | '/how-we-work'
+    | '/privacy'
     | '/supplier-request'
+    | '/sustainability'
+    | '/terms'
+    | '/admin/blogs'
     | '/admin/inquiries'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin/trends'
+    | '/blog/$blogId'
     | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/admin'
     | '/assistant'
     | '/book-demo'
+    | '/compliance'
+    | '/founders'
+    | '/how-we-work'
+    | '/privacy'
     | '/supplier-request'
+    | '/sustainability'
+    | '/terms'
+    | '/admin/blogs'
     | '/admin/inquiries'
     | '/admin/login'
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
     | '/admin/trends'
+    | '/blog/$blogId'
     | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
   AssistantRoute: typeof AssistantRoute
   BookDemoRoute: typeof BookDemoRoute
+  ComplianceRoute: typeof ComplianceRoute
+  FoundersRoute: typeof FoundersRoute
+  HowWeWorkRoute: typeof HowWeWorkRoute
+  PrivacyRoute: typeof PrivacyRoute
   SupplierRequestRoute: typeof SupplierRequestRoute
+  SustainabilityRoute: typeof SustainabilityRoute
+  TermsRoute: typeof TermsRoute
+  BlogBlogIdRoute: typeof BlogBlogIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sustainability': {
+      id: '/sustainability'
+      path: '/sustainability'
+      fullPath: '/sustainability'
+      preLoaderRoute: typeof SustainabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/supplier-request': {
       id: '/supplier-request'
       path: '/supplier-request'
       fullPath: '/supplier-request'
       preLoaderRoute: typeof SupplierRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-we-work': {
+      id: '/how-we-work'
+      path: '/how-we-work'
+      fullPath: '/how-we-work'
+      preLoaderRoute: typeof HowWeWorkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/founders': {
+      id: '/founders'
+      path: '/founders'
+      fullPath: '/founders'
+      preLoaderRoute: typeof FoundersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compliance': {
+      id: '/compliance'
+      path: '/compliance'
+      fullPath: '/compliance'
+      preLoaderRoute: typeof ComplianceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-demo': {
@@ -207,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -220,6 +385,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/blog/$blogId': {
+      id: '/blog/$blogId'
+      path: '/blog/$blogId'
+      fullPath: '/blog/$blogId'
+      preLoaderRoute: typeof BlogBlogIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/trends': {
       id: '/admin/trends'
@@ -263,10 +435,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInquiriesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/blogs': {
+      id: '/admin/blogs'
+      path: '/blogs'
+      fullPath: '/admin/blogs'
+      preLoaderRoute: typeof AdminBlogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminBlogsRoute: typeof AdminBlogsRoute
   AdminInquiriesRoute: typeof AdminInquiriesRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminShipmentsRoute: typeof AdminShipmentsRoute
@@ -277,6 +457,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminBlogsRoute: AdminBlogsRoute,
   AdminInquiriesRoute: AdminInquiriesRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminShipmentsRoute: AdminShipmentsRoute,
@@ -290,10 +471,18 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   AssistantRoute: AssistantRoute,
   BookDemoRoute: BookDemoRoute,
+  ComplianceRoute: ComplianceRoute,
+  FoundersRoute: FoundersRoute,
+  HowWeWorkRoute: HowWeWorkRoute,
+  PrivacyRoute: PrivacyRoute,
   SupplierRequestRoute: SupplierRequestRoute,
+  SustainabilityRoute: SustainabilityRoute,
+  TermsRoute: TermsRoute,
+  BlogBlogIdRoute: BlogBlogIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

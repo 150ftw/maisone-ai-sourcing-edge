@@ -1,18 +1,9 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import { Moon, Sun, Menu, X, ChevronDown } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { useTheme } from "@/components/theme-provider";
-
-const links = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
-  { label: "Categories", href: "/#categories" },
-  { label: "Founders", href: "/#founders" },
-  { label: "AI Assistant", href: "/assistant" },
-];
 
 export function Navbar() {
   const { theme, toggle } = useTheme();
@@ -42,15 +33,41 @@ export function Navbar() {
           <a href="#home"><Logo /></a>
 
           <nav className="hidden lg:flex items-center gap-8">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </a>
-            ))}
+            <a href="/#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Home</a>
+            <a href="/#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
+            <a href="/#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Services</a>
+            <a href="/#categories" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Categories</a>
+
+            {/* Platform Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground transition-colors py-2 cursor-pointer">
+                <span>Platform</span>
+                <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
+                <a
+                  href="/#dashboard"
+                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                >
+                  Console
+                </a>
+                <a
+                  href="/#maisone-ai"
+                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                >
+                  Maisone AI
+                </a>
+                <a
+                  href="/#trends"
+                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                >
+                  AI Trend Forecast
+                </a>
+              </div>
+            </div>
+
+            <a href="/#founders" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Founders</a>
+            <a href="/#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -88,19 +105,43 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             className="lg:hidden mt-2 glass-strong rounded-2xl p-4 flex flex-col gap-3"
           >
-            {links.map((l) => (
+            <a href="/#home" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">Home</a>
+            <a href="/#about" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">About</a>
+            <a href="/#services" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">Services</a>
+            <a href="/#categories" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">Categories</a>
+
+            {/* Mobile Platform Links */}
+            <div className="flex flex-col gap-1.5 pl-3 border-l border-border/50 my-1">
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60 px-2 py-1">Platform</p>
               <a
-                key={l.href}
-                href={l.href}
+                href="/#dashboard"
                 onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground hover:text-foreground py-2"
+                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
               >
-                {l.label}
+                Console
               </a>
-            ))}
+              <a
+                href="/#maisone-ai"
+                onClick={() => setOpen(false)}
+                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
+              >
+                Maisone AI
+              </a>
+              <a
+                href="/#trends"
+                onClick={() => setOpen(false)}
+                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
+              >
+                AI Trend Forecast
+              </a>
+            </div>
+
+            <a href="/#founders" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">Founders</a>
+            <a href="/#blog" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">Blog</a>
           </motion.div>
         )}
       </div>
     </motion.header>
   );
 }
+

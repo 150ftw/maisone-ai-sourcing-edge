@@ -7,7 +7,7 @@ This document contains the verified facts, services, pricing, operations, produc
 ## 1. Company Overview
 
 *   **Name:** Maisone Global (or simply "Maisone")
-*   **Description:** A next-generation fashion sourcing house and strategic partner connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia, Europe, the UK, and the USA.
+*   **Description:** A next-generation fashion sourcing house (founded in Gurgaon, India) and strategic partner connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia, Europe, the UK, and the USA.
 *   **Mission:** To simplify the fashion manufacturing journey for global brands through sourcing, development, compliance, and quality systems.
 *   **Vision:** To become the world's most trusted fashion sourcing partner by building transparent, ethical, and intelligently structured supply chains.
 

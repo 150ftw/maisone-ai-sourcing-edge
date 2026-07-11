@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Layers, ShieldCheck, Handshake, Sparkles } from "lucide-react";
+import abstractBg from "@/assets/fashion_abstract_1_1783761906196.png";
 
 const cards = [
   {
@@ -60,23 +61,28 @@ export function WhyMaisone() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="mt-16 glass rounded-3xl p-8 border border-electric/20 bg-electric/[0.02] flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          className="mt-16 glass rounded-3xl overflow-hidden border border-electric/20 bg-electric/[0.02] flex flex-col md:flex-row items-stretch justify-between gap-0"
         >
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-electric/10 border border-electric/20 text-[9px] tracking-[0.2em] uppercase text-electric font-semibold mb-3">
+          <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-electric/10 border border-electric/20 w-fit text-[9px] tracking-[0.2em] uppercase text-electric font-semibold mb-6">
               Startup Friendly
             </span>
-            <h3 className="font-serif text-2xl mb-2 text-foreground">Supporting emerging labels &amp; lower MOQs</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <h3 className="font-serif text-3xl mb-4 text-foreground">Supporting emerging labels &amp; lower MOQs</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-8">
               We believe in nurturing the next generation of fashion. Maisone proudly supports small startups, independent designers, and growing companies with low minimum order quantities (MOQs) to help scale your vision sustainably.
             </p>
+            <a
+              href="/book-demo"
+              className="px-6 py-3 w-fit rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap"
+            >
+              Launch Your Brand
+            </a>
           </div>
-          <a
-            href="/book-demo"
-            className="px-6 py-3 rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap"
-          >
-            Launch Your Brand
-          </a>
+          <div className="md:w-1/2 relative min-h-[300px]">
+            <img src={abstractBg} alt="Luxury abstract fabric" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent md:block hidden w-1/4" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent md:hidden block h-1/4 bottom-0" />
+          </div>
         </motion.div>
       </div>
     </section>

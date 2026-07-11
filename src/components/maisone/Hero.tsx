@@ -1,15 +1,136 @@
-import { motion } from "framer-motion";
+import { motion, useSpring } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp, Package } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
+import { useRef, useEffect, useState } from "react";
+import heroBg from "@/assets/hero_fashion_bg_1783761896741.png";
+
+const LUXURY_YARNS = [
+  "var(--electric)",
+  "var(--violet-glow)",
+  "#FF4B4B", // Ruby Red
+  "#00D2FF", // Cyan
+  "#8A2BE2", // Purple
+  "#FF1493", // Deep Pink
+  "#00FA9A", // Emerald
+  "#FFB6C1", // Light Pink
+  "#FFD700", // Gold
+];
+
+const THREAD_PATHS = [
+  "M5,15 Q10,-5 20,15 T35,5",
+  "M15,5 Q35,15 15,35 T5,25",
+  "M5,20 C15,0 35,40 25,10",
+  "M20,5 C0,15 40,25 20,35",
+  "M10,10 Q-5,25 15,30 T25,-10",
+  "M15,25 C-5,0 45,0 15,-10"
+];
+
+const HoverThreadText = ({ text, className = "" }: { text: string; className?: string }) => {
+  const containerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: Event) => {
+      if (!containerRef.current) return;
+      const customEvent = e as CustomEvent;
+      const { x, y } = customEvent.detail;
+      const radius = 55; // Reduced radius for smaller blob
+      
+      const spans = containerRef.current.children;
+      for (let i = 0; i < spans.length; i++) {
+        const span = spans[i] as HTMLSpanElement;
+        // Skip spaces
+        if (span.innerHTML === "&nbsp;") continue;
+        
+        const rect = span.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        
+        const dist = Math.hypot(x - cx, y - cy);
+        if (dist < radius) {
+          span.classList.add("fabric-text-active");
+          span.classList.add("thread-active");
+        } else {
+          span.classList.remove("fabric-text-active");
+          span.classList.remove("thread-active");
+        }
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (!containerRef.current) return;
+      const spans = containerRef.current.children;
+      for (let i = 0; i < spans.length; i++) {
+        const span = spans[i] as HTMLSpanElement;
+        span.classList.remove("fabric-text-active");
+        span.classList.remove("thread-active");
+      }
+    };
+
+    window.addEventListener("hero-mousemove", handleMouseMove);
+    window.addEventListener("hero-mouseleave", handleMouseLeave);
+    
+    return () => {
+      window.removeEventListener("hero-mousemove", handleMouseMove);
+      window.removeEventListener("hero-mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  return (
+    <span className="inline-block relative" ref={containerRef}>
+      {text.split("").map((char, i) => {
+        const isSpace = char === " ";
+        // Deterministic randomness
+        const c1 = LUXURY_YARNS[(i * 3 + 1) % LUXURY_YARNS.length];
+        const c2 = LUXURY_YARNS[(i * 7 + 5) % LUXURY_YARNS.length];
+        const p1 = THREAD_PATHS[(i * 2 + 1) % THREAD_PATHS.length];
+        const p2 = THREAD_PATHS[(i * 5 + 3) % THREAD_PATHS.length];
+
+        return (
+          <span
+            key={i}
+            className={`group inline-block relative cursor-none py-2 -my-2 px-1 -mx-1 ${!isSpace ? "fabric-text-hover" : ""} ${className}`}
+            style={{
+              "--yarn-1": c1,
+              "--yarn-2": c2,
+            } as React.CSSProperties}
+          >
+            {isSpace ? "\u00A0" : char}
+            {!isSpace && (
+              <>
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]" viewBox="0 0 40 40" fill="none" stroke={c1} strokeWidth="2" strokeLinecap="round">
+                  <path d={p1} className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-700 ease-out" />
+                </svg>
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]" viewBox="0 0 40 40" fill="none" stroke={c2} strokeWidth="1" strokeLinecap="round">
+                  <path d={p2} className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-1000 ease-out delay-75" />
+                </svg>
+              </>
+            )}
+          </span>
+        );
+      })}
+    </span>
+  );
+};
 
 export function Hero() {
-  return (
-    <section id="home" className="relative pt-36 pb-24 overflow-hidden">
-      <div className="absolute inset-0 hero-aura pointer-events-none" />
-      <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+  const [isHoveringHero, setIsHoveringHero] = useState(false);
+  const cursorX = useSpring(0, { stiffness: 400, damping: 40 });
+  const cursorY = useSpring(0, { stiffness: 400, damping: 40 });
 
-      <div className="relative mx-auto max-w-7xl px-6">
+  return (
+    <section id="home" className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden">
+      {/* Creative Parallax Background */}
+      <div className="absolute inset-0 z-0">
+        <div 
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity transition-transform duration-[20s] ease-linear scale-110"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-6 z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -21,10 +142,36 @@ export function Hero() {
             Global Sourcing & Manufacturing Partner
           </div>
 
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance">
-            Global Fashion Sourcing &amp;
+          <h1 
+            className={`font-serif text-5xl sm:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
+            onMouseMove={(e) => {
+              cursorX.set(e.clientX);
+              cursorY.set(e.clientY);
+              window.dispatchEvent(new CustomEvent("hero-mousemove", { detail: { x: e.clientX, y: e.clientY } }));
+            }}
+            onMouseEnter={() => setIsHoveringHero(true)}
+            onMouseLeave={() => {
+              setIsHoveringHero(false);
+              window.dispatchEvent(new CustomEvent("hero-mouseleave"));
+            }}
+          >
+            {/* Custom Blob Cursor - localized to the text */}
+            {isHoveringHero && (
+              <motion.div
+                className="fixed top-0 left-0 w-24 h-24 rounded-full border border-electric/30 bg-electric/10 pointer-events-none z-50 flex items-center justify-center shadow-[0_0_20px_rgba(194,164,109,0.3)]"
+                style={{
+                  x: cursorX,
+                  y: cursorY,
+                  translateX: "-50%",
+                  translateY: "-50%"
+                }}
+              />
+            )}
+
+            <HoverThreadText text="Global Fashion Sourcing &" />
             <br />
-            <span className="gradient-text italic">Manufacturing</span> Partner
+            <HoverThreadText text="Manufacturing" className="gradient-text italic hover:[-webkit-text-stroke:1px_var(--violet-glow)]" />
+            <HoverThreadText text=" Partner" />
           </h1>
 
           <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">

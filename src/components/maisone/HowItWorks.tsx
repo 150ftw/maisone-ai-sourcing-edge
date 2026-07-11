@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Bot, CheckCircle2, FileText, Factory, PackageCheck } from "lucide-react";
 import textiles from "@/assets/textiles.jpg";
-import manufacturing from "@/assets/manufacturing.jpg";
-import logistics from "@/assets/logistics.jpg";
+import factoryImg from "@/assets/sourcing_factory_1783761919092.png";
 
 const steps = [
   {
@@ -15,13 +14,13 @@ const steps = [
     n: "02",
     title: "Automate Sourcing",
     desc: "RFQs, samples, negotiations and POs orchestrated end-to-end with full audit trail and human checkpoints.",
-    img: manufacturing,
+    img: "",
   },
   {
     n: "03",
     title: "Scale Operations",
     desc: "Real-time tracking, demand forecasting and supplier risk monitoring keep every collection on time.",
-    img: logistics,
+    img: factoryImg,
   },
 ];
 

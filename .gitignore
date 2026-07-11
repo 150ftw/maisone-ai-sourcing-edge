@@ -39,3 +39,6 @@ graphify-out/
 
 # Vercel output
 .vercel/
+
+# NPM Cache
+npm_cache/

@@ -47,20 +47,21 @@ export function Founders() {
               className="group flex flex-col justify-between h-full glass-strong rounded-3xl overflow-hidden border border-white/5 hover:border-electric/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
             >
               <div>
-                <div className={`relative h-64 sm:h-72 w-full bg-gradient-to-br ${f.hue} overflow-hidden`}>
+                <div className={`relative h-64 sm:h-72 w-full overflow-hidden bg-white/5`}>
                   <img
                     src={f.image}
                     alt={`${f.name} — ${f.role}`}
-                    className="absolute inset-0 w-full h-full object-cover object-[center_18%] transition-all duration-700 ease-out group-hover:scale-105"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_20%] transition-all duration-700 ease-out"
                     loading="lazy"
                   />
                 </div>
                 
                 <div className="p-8 pb-4">
                   <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1 rounded-full bg-electric/10 text-electric border border-electric/20">
-                      {f.role}
-                    </span>
+                  <div className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl bg-electric/10 text-electric border border-electric/20 flex flex-col gap-0.5">
+                    <span>Co-Founder</span>
+                    <span className="text-white/80 text-[8px] tracking-wider">{f.role.split(" · ")[1]}</span>
+                  </div>
                   </div>
                   <h3 className="font-serif text-3xl text-foreground/90">{f.name}</h3>
                   <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{f.bio}</p>
