@@ -21,87 +21,92 @@ export function Navbar() {
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "py-3" : "py-5"
-      }`}
-    >
-      <div className={`mx-auto max-w-7xl px-6 ${scrolled ? "" : ""}`}>
-        <div className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all ${
-          scrolled ? "glass-strong" : ""
-        }`}>
-          <Logo />
+    <>
+      {/* Extreme Top Right Utility Bar */}
+      <div className="fixed top-4 right-6 z-55 flex items-center gap-2">
+        <button
+          onClick={toggle}
+          aria-label="Toggle theme"
+          className="size-9 rounded-full glass-strong flex items-center justify-center hover:scale-105 transition-all border border-white/10"
+        >
+          {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+        </button>
+        <LanguageToggle />
+      </div>
 
-          <nav className="hidden lg:flex items-center gap-8">
-            <a href="/#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.home")}</a>
-            <a href="/#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.about")}</a>
-            <a href="/#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.services")}</a>
-            <a href="/#categories" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.categories")}</a>
+      <motion.header
+        initial={{ y: -30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled ? "py-3" : "py-5"
+        }`}
+      >
+        <div className={`mx-auto max-w-7xl px-6 ${scrolled ? "" : ""}`}>
+          <div className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all ${
+            scrolled ? "glass-strong" : ""
+          }`}>
+            <Logo />
 
-            {/* Platform Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground transition-colors py-2 cursor-pointer">
-                <span>{t("nav.platform")}</span>
-                <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
-              </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
-                <a
-                  href="/#dashboard"
-                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                >
-                  {t("nav.console")}
-                </a>
-                <a
-                  href="/#maisone-ai"
-                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                >
-                  {t("nav.maisoneAi")}
-                </a>
-                <a
-                  href="/#trends"
-                  className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                >
-                  {t("nav.aiTrendForecast")}
-                </a>
+            <nav className="hidden lg:flex items-center gap-8">
+              <a href="/#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.home")}</a>
+              <a href="/#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.about")}</a>
+              <a href="/#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.services")}</a>
+              <a href="/#categories" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.categories")}</a>
+
+              {/* Platform Dropdown */}
+              <div className="relative group">
+                <button className="flex items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground transition-colors py-2 cursor-pointer">
+                  <span>{t("nav.platform")}</span>
+                  <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
+                </button>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
+                  <a
+                    href="/#dashboard"
+                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                  >
+                    {t("nav.console")}
+                  </a>
+                  <a
+                    href="/#maisone-ai"
+                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                  >
+                    {t("nav.maisoneAi")}
+                  </a>
+                  <a
+                    href="/#trends"
+                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                  >
+                    {t("nav.aiTrendForecast")}
+                  </a>
+                </div>
               </div>
+
+              <a href="/#founders" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.founders")}</a>
+              <a href="/#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.blog")}</a>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <Link
+                to="/supplier-request"
+                className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full border border-border bg-background/50 text-foreground hover:bg-secondary/50 transition-colors"
+              >
+                {t("nav.joinAsSupplier")}
+              </Link>
+              <Link
+                to="/book-demo"
+                className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
+              >
+                {t("nav.inquireAboutUs")}
+              </Link>
+              <button
+                onClick={() => setOpen(!open)}
+                className="lg:hidden size-10 rounded-full glass flex items-center justify-center"
+              >
+                {open ? <X className="size-4" /> : <Menu className="size-4" />}
+              </button>
             </div>
-
-            <a href="/#founders" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.founders")}</a>
-            <a href="/#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.blog")}</a>
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={toggle}
-              aria-label="Toggle theme"
-              className="size-10 rounded-full glass flex items-center justify-center hover:scale-105 transition-transform"
-            >
-              {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
-            </button>
-            <LanguageToggle />
-            <Link
-              to="/supplier-request"
-              className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full border border-border bg-background/50 text-foreground hover:bg-secondary/50 transition-colors"
-            >
-              {t("nav.joinAsSupplier")}
-            </Link>
-            <Link
-              to="/book-demo"
-              className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
-            >
-              {t("nav.inquireAboutUs")}
-            </Link>
-            <button
-              onClick={() => setOpen(!open)}
-              className="lg:hidden size-10 rounded-full glass flex items-center justify-center"
-            >
-              {open ? <X className="size-4" /> : <Menu className="size-4" />}
-            </button>
           </div>
-        </div>
 
         {open && (
           <motion.div
@@ -165,6 +170,7 @@ export function Navbar() {
         )}
       </div>
     </motion.header>
+    </>
   );
 }
 
