@@ -44,7 +44,7 @@ export function About() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-8">— {t("about.label")} —</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-8">{t("about.label")} —</p>
           </motion.div>
           
           <motion.h2 
