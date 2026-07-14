@@ -171,12 +171,12 @@ export function InteractiveFolderGallery({
 
           <div className="absolute bottom-10 z-10 flex justify-center">
             {photos.map((photo, i) => {
-              const offset = i - 2;
+              const offset = i - (photos.length - 1) / 2;
 
-              const stackY = offset * -10 - 40;
-              const stackX = offset * 30;
-              const stackRotate = offset * 8;
-              const stackScale = 1 - Math.abs(offset) * 0.03;
+              const stackY = -40 - Math.abs(offset) * 8;
+              const stackX = offset * 42;
+              const stackRotate = offset * 10;
+              const stackScale = 1 - Math.abs(offset) * 0.025;
 
               const openY = -110;
               const openX = offset * 130;

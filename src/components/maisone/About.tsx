@@ -48,11 +48,11 @@ export function About() {
       {/* Background Images Layer (Faint) */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[250%] h-[70vh] pointer-events-none z-0 overflow-hidden opacity-20">
         <div ref={bgImagesRef} className="w-full h-full flex items-center justify-around gap-8 px-8">
-          <img src="/Collection/Contemporary Ready to wear/1399681e-c6eb-40fb-9159-77081a1a4713.jpg" alt="" className="w-48 md:w-80 aspect-[3/4] object-cover rounded-2xl shadow-xl shadow-black/20" />
+          <img src="/Collection/Contemporary Ready to wear/a8bd5aab-32c3-41b9-aa9e-3069ce14c649.JPG" alt="" className="w-48 md:w-80 aspect-[3/4] object-cover rounded-2xl shadow-xl shadow-black/20" />
           <img src="/Collection/Couture/db93e3bb-ff5c-4138-8d35-350e20b2ee21.jpg" alt="" className="w-48 md:w-80 aspect-square object-cover rounded-2xl mt-32 shadow-xl shadow-black/20" />
-          <img src="/Collection/Contemporary Ready to wear/bed6d090-e826-4b04-8bd1-aafab870e449.jpg" alt="" className="w-48 md:w-80 aspect-[4/5] object-cover rounded-2xl mb-20 shadow-xl shadow-black/20" />
+          <img src="/Collection/Contemporary Ready to wear/e68f411a-661f-4aa7-994c-a0e1862d2849 3.jpg" alt="" className="w-48 md:w-80 aspect-[4/5] object-cover rounded-2xl mb-20 shadow-xl shadow-black/20" />
           <img src="/Collection/Denim/8a7d1d6b-9b2d-4f30-bc67-9a13ec8ed07a.png" alt="" className="w-48 md:w-80 aspect-[3/4] object-cover rounded-2xl mt-12 shadow-xl shadow-black/20" />
-          <img src="/Collection/Contemporary Ready to wear/1399681e-c6eb-40fb-9159-77081a1a4713.jpg" alt="" className="w-48 md:w-80 aspect-[3/4] object-cover rounded-2xl hidden lg:block shadow-xl shadow-black/20" />
+          <img src="/Collection/Contemporary Ready to wear/d39b0b24-051a-4216-8007-0ff7dae8c983 2.jpg" alt="" className="w-48 md:w-80 aspect-[3/4] object-cover rounded-2xl hidden lg:block shadow-xl shadow-black/20" />
           <img src="/Collection/Couture/db93e3bb-ff5c-4138-8d35-350e20b2ee21.jpg" alt="" className="w-48 md:w-80 aspect-square object-cover rounded-2xl mb-32 hidden xl:block shadow-xl shadow-black/20" />
         </div>
       </div>

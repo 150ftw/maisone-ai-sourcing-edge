@@ -12,22 +12,20 @@ const categories = [
   {
     name: "Accessories",
     images: [
-      "/Collection/Accessories/0e00bd82-b031-48e1-b502-2f4dffcf8e07.png",
-      "/Collection/Accessories/2b2eb367-df33-4f0a-a36c-68d9d3514450.png",
-      "/Collection/Accessories/3a4297fb-f28b-4f54-b6b7-4a105b51da46.png",
-      "/Collection/Accessories/abb3c3dc-0560-44d6-a42a-8bbb33009dc5.jpg",
-      "/Collection/Accessories/b46593f6-880c-4be5-97b7-1a7febe2f08d.png",
-      "/Collection/Accessories/c8533f33-8838-4e81-82b9-bfd906f7fa31.jpg",
-      "/Collection/Accessories/eb92f048-b69c-4eb7-89d4-2abedeb0b789.jpg"
+      "/Collection/Accessories/4b3bf434-00a4-4370-af69-50ed0580b876.JPG",
+      "/Collection/Accessories/734b3628-afe6-4e31-aca8-f3d77e1307f4.JPG",
+      "/Collection/Accessories/7ae47efa-fd39-45a9-8053-63d363fa416d.JPG",
+      "/Collection/Accessories/8e3df532-8f74-43d2-bbf7-0efb2c99110d.JPG"
     ],
     hue: "from-amber-700/40 to-stone-800/50"
   },
   {
     name: "Cap",
     images: [
-      "/Collection/Cap/44370349-2f4c-4ed1-81c5-13a244c9b3f5.png",
-      "/Collection/Cap/8ef9dd0a-cffb-4456-8493-08c86fabf1d0.png",
-      "/Collection/Cap/9046fc65-a921-4bd8-8b39-41bfdd573df0.png"
+      "/Collection/Cap/BEAF6079-040E-4CD1-9EEF-4382DCA8176D.PNG",
+      "/Collection/Cap/E023E362-5001-4F7E-BBBF-B0F00AAC5612.PNG",
+      "/Collection/Cap/E0CD412C-E506-4D3F-B379-9141D7ACAC53.PNG",
+      "/Collection/Cap/E4F91B06-8970-4836-A860-375D49FEFB79.PNG"
     ],
     hue: "from-sky-700/40 to-slate-800/50"
   },
@@ -50,15 +48,10 @@ const categories = [
   {
     name: "Contemporary Ready to Wear",
     images: [
-      "/Collection/Contemporary Ready to wear/07b5fee6-250e-41c7-b35d-b4d046084860.png",
-      "/Collection/Contemporary Ready to wear/122359e6-72f9-486b-99ec-01e842f63093.png",
-      "/Collection/Contemporary Ready to wear/1399681e-c6eb-40fb-9159-77081a1a4713.jpg",
-      "/Collection/Contemporary Ready to wear/39beb263-9fce-4d4f-b92d-5816f3bdcc73.png",
-      "/Collection/Contemporary Ready to wear/77c8f070-160d-44cf-acd6-54450d3854dc.png",
-      "/Collection/Contemporary Ready to wear/ac14b9b9-764a-4b4d-a016-348ffdcc6b5c.png",
-      "/Collection/Contemporary Ready to wear/afe7306f-8852-46e5-aec0-bd775fcc6615.png",
-      "/Collection/Contemporary Ready to wear/bed6d090-e826-4b04-8bd1-aafab870e449.jpg",
-      "/Collection/Contemporary Ready to wear/f0374c2b-809e-405d-994b-41ce329b23fc.png"
+      "/Collection/Contemporary Ready to wear/a8bd5aab-32c3-41b9-aa9e-3069ce14c649.JPG",
+      "/Collection/Contemporary Ready to wear/d39b0b24-051a-4216-8007-0ff7dae8c983 2.jpg",
+      "/Collection/Contemporary Ready to wear/d39b0b24-051a-4216-8007-0ff7dae8c983 3.jpg",
+      "/Collection/Contemporary Ready to wear/e68f411a-661f-4aa7-994c-a0e1862d2849 3.jpg"
     ],
     hue: "from-violet-500/30 to-fuchsia-700/40"
   },
@@ -67,37 +60,27 @@ const categories = [
     images: [
       "/Collection/Couture/a857cc2e-9ddc-447a-ac21-72eddeedb8e9.png",
       "/Collection/Couture/bfdc6f98-0ed9-4337-980a-0db0946f02e0.png",
-      "/Collection/Couture/db93e3bb-ff5c-4138-8d35-350e20b2ee21.jpg",
-      "/Collection/Couture/e0678264-e479-4495-a213-3b770d7739f3.png",
-      "/Collection/Couture/f9157e3c-272c-4ecc-b57f-e01c9f151182.png",
-      "/Collection/Couture/fe03754b-cf51-4e93-aa67-5ef9f2005e5d.png"
+      "/Collection/Couture/db93e3bb-ff5c-4138-8d35-350e20b2ee21.jpg"
     ],
     hue: "from-slate-500/40 to-zinc-800/50"
   },
   {
     name: "Denim",
     images: [
-      "/Collection/Denim/1479053d-c9a1-4177-a23e-67e2389a0991.png",
-      "/Collection/Denim/68cf250d-2029-4855-bfda-6c48f0bce3a5.png",
       "/Collection/Denim/8a7d1d6b-9b2d-4f30-bc67-9a13ec8ed07a.png",
       "/Collection/Denim/a5483b4a-5676-46a8-8ba2-6b27a93487c1.png",
-      "/Collection/Denim/fd5b1bbe-14d2-477a-99a9-1297d1001495.png"
+      "/Collection/Denim/e68f411a-661f-4aa7-994c-a0e1862d2849 2.jpg",
+      "/Collection/Denim/e68f411a-661f-4aa7-994c-a0e1862d2849.jpg"
     ],
     hue: "from-blue-700/40 to-indigo-900/50"
   },
   {
     name: "Flat Knits",
     images: [
-      "/Collection/Flat Knits/18290e7a-af54-4e5c-b779-405380f0c8c3.png",
-      "/Collection/Flat Knits/191811fc-1215-44af-be4b-ab50c58ef7e5.png",
-      "/Collection/Flat Knits/1f6706c0-2758-4393-aaa3-da241d40ae37.png",
-      "/Collection/Flat Knits/3f5a5075-3445-48ff-8b26-1bd187eb0699.png",
-      "/Collection/Flat Knits/6640d1b6-db97-4803-8f27-8a891155b7bc.png",
-      "/Collection/Flat Knits/9fb4ccf8-186b-4ce4-9741-cd60f8fae3b0.png",
-      "/Collection/Flat Knits/baa97763-0b6d-4070-8981-d9836238d1a3.png",
-      "/Collection/Flat Knits/c38fb3da-2369-4ca3-8167-75dd68b9355e.png",
-      "/Collection/Flat Knits/cad51d5c-a4f8-40f9-8aa4-47a7ed264b58.png",
-      "/Collection/Flat Knits/f70e450a-0e70-40e8-ac8f-01842a246143.png"
+      "/Collection/Flat Knits/50e30627-3abb-4ecc-8c6a-9ba0b34333ea 2.jpg",
+      "/Collection/Flat Knits/50e30627-3abb-4ecc-8c6a-9ba0b34333ea.jpg",
+      "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983 4.jpg",
+      "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983.jpg"
     ],
     hue: "from-rose-500/30 to-amber-700/40"
   },
