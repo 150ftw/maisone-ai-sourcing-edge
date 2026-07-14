@@ -14,12 +14,11 @@ import { Founders } from "@/components/maisone/Founders";
 import { ExtraMile } from "@/components/maisone/ExtraMile";
 import { Partners } from "@/components/maisone/Partners";
 import { Testimonials } from "@/components/maisone/Testimonials";
-import { AIAssistant } from "@/components/maisone/AIAssistant";
 import { Blogs } from "@/components/maisone/Blogs";
 import { TrendForecast } from "@/components/maisone/TrendForecast";
 
 import { Footer } from "@/components/maisone/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -44,8 +43,56 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const playNotificationSound = () => {
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    
+    const playTone = (freq: number, start: number, duration: number) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, start);
+      
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.08, start + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.start(start);
+      osc.stop(start + duration);
+    };
+
+    // Gentle two-tone notification chime
+    playTone(830.61, ctx.currentTime, 0.45); // Ab5
+    playTone(1046.50, ctx.currentTime + 0.12, 0.55); // C6
+  } catch (e) {
+    console.error("Audio playback error:", e);
+  }
+};
+
 function Index() {
   const { t } = useLanguage();
+  const [showAIPopup, setShowAIPopup] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: any;
+    const handleGlobalClick = () => {
+      timeoutId = setTimeout(() => {
+        setShowAIPopup(true);
+        playNotificationSound();
+      }, 5000);
+    };
+    window.addEventListener("click", handleGlobalClick, { once: true });
+    return () => {
+      window.removeEventListener("click", handleGlobalClick);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -116,7 +163,6 @@ function Index() {
           <HowWeWork />
           <ProductCategories />
           <Dashboard />
-          <AIAssistant />
           <TrendForecast />
 
           <Blogs />
@@ -128,8 +174,13 @@ function Index() {
           
           {/* Floating AI Assistant Button */}
           <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
-            <span className="bg-card/95 text-foreground border border-electric/40 px-6 py-3 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md whitespace-nowrap relative animate-float flex items-center">
-              {t("index.talkWith")} <span className="font-serif italic text-electric ml-2 tracking-wide text-base">Maisone AI</span>
+            <span className={`bg-card/95 text-foreground border border-electric/40 px-6 py-3 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md relative animate-float flex flex-col items-start transition-all duration-500 origin-right ${
+              showAIPopup ? "scale-100 opacity-100 translate-x-0" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
+            }`}>
+              <span className="text-xs text-muted-foreground font-normal leading-tight">{t("index.gotDoubts")}</span>
+              <span className="flex items-center mt-1 whitespace-nowrap">
+                {t("index.talkWith")} <span className="font-serif italic text-electric ml-2 tracking-wide text-base">Maisone AI</span>
+              </span>
               <span className="absolute top-1/2 -translate-y-1/2 -right-1.5 size-3 rotate-45 bg-card/95 border-r border-t border-electric/40" />
             </span>
             <a

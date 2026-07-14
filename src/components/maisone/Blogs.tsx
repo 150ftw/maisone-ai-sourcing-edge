@@ -283,7 +283,7 @@ export function Blogs() {
                     />
                     <div className="absolute top-4 left-4">
                       <span className="text-[9px] uppercase tracking-widest font-semibold bg-black/85 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full text-electric">
-                        {blog.category}
+                        {t(`blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any) || blog.category}
                       </span>
                     </div>
                   </div>
@@ -293,13 +293,13 @@ export function Blogs() {
                     <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
                       <span className="flex items-center gap-1.5 font-bold"><User className="size-3 text-electric/80" /> {blog.author}</span>
                       <span>•</span>
-                      <span>{blog.read_time}</span>
+                      <span>{blog.read_time.split(" ")[0]} {t("blogs.minRead")}</span>
                     </div>
                     <h3 className="font-serif text-xl sm:text-2xl text-white tracking-tight group-hover:text-electric transition-colors line-clamp-2">
-                      {blog.title}
+                      {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                     </h3>
                     <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-3">
-                      {blog.content}
+                      {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content) : blog.content}
                     </p>
                   </div>
                   <Link

@@ -288,6 +288,8 @@ export const fr = {
   footer: {
     tagline: "Bâtie sur la confiance, la transparence et l'artisanat.",
     headOffice: "Siège social",
+    addressLine1: "Plot 140, Udyog Vihar Industrial Area,",
+    addressLine2: "Phase VI, Sector 37, Gurgaon - 122001",
     company: "Entreprise",
     suppliers: "Fournisseurs",
     legal: "Juridique",
@@ -305,6 +307,7 @@ export const fr = {
 
   // ── Floating Button ──
   index: {
+    gotDoubts: "Des doutes?",
     talkWith: "Parlez avec notre",
   },
 
@@ -377,5 +380,78 @@ export const fr = {
     subahQuote: "La mode est un dialogue entre la vision créative et l'exécution technique. Maisone traduit ce dialogue en collections transparentes et superbement conçues.",
     subahRoleDetail: "Partenariats Créatifs et Clients",
     subahBio: "Subah est spécialisée dans la coordination du design, le développement de produits de luxe, l'engagement client et les collaborations créatives. Elle fait le lien entre les maisons de design internationales et les fabricants spécialisés. Son expertise garantit que les concepts créatifs sont exécutés avec une précision technique absolue et une intégrité matérielle totale.",
+  },
+
+  // ── Blogs Section ──
+  blogs: {
+    label: "— Analyses & Histoires",
+    heading: "Les dernières nouvelles du",
+    headingHighlight: "Journal Maisone",
+    headingEnd: ".",
+    readMore: "Lire plus",
+    readArticle: "Lire l'article",
+    minRead: "min de lecture",
+    categories: {
+      sustainability: "Durabilité",
+      supplyChain: "Chaîne d'Approvisionnement",
+      technology: "Technologie",
+      design: "Design",
+      trends: "Tendances",
+    },
+    mockBlogs: {
+      "local-blog-0": {
+        title: "L'avenir de l'approvisionnement éthique de la mode en 2026 : un modèle pour la production circulaire",
+        content: "Introduction : Le changement de paradigme dans l'approvisionnement de vêtements\n\nAlors que nous naviguons en 2026, le paysage mondial de la mode subit sa transformation la plus profonde depuis la révolution industrielle. Le modèle traditionnel, linéaire \"prendre-fabriquer-jeter\" est agressivement démantelé, remplacé par un paradigme circulaire où la transparence, la responsabilité et la restauration environnementale sont les principaux piliers du succès.\n\nDans ce plan d'action complet, nous décrivons les changements fondamentaux qui définissent la fabrication éthique de vêtements en 2026, et comment les maisons de mode avant-gardistes se positionnent pour un avenir durable.\n\nLe mandat du passeport numérique de produit (DPP)\n\nL'un des principaux moteurs de la circularité en 2026 est l'adoption généralisée des passeports numériques de produits (DPP). Soutenus par des réglementations strictes de l'Union européenne et par la demande croissante des consommateurs en Amérique du Nord et en Asie, les DPP exigent que les marques documentent chaque étape du cycle de vie d'un vêtement.\n\nDes fermes de coton biologique de la région du Gujarat en Inde aux usines de tissage d'Osaka et aux chaînes de montage finales, chaque participant de la chaîne d'approvisionnement doit télécharger des données vérifiables. Les consommateurs peuvent simplement scanner un code QR intégré à l'étiquette d'entretien du vêtement pour retracer :\n1. Les coordonnées géographiques exactes où la fibre brute a été récoltée.\n2. Les certifications chimiques spécifiques des colorants utilisés.\n3. L'empreinte équivalente en carbone de l'étape de transport.\n4. Des instructions détaillées sur le recyclage, y compris la composition chimique pour les centres de recyclage circulaires.\n\nProduction en boucle fermée et teinture sans eau\n\nLa conservation de l'eau est le défi le plus critique du traitement textile moderne. En 2026, les usines haut de gamme de notre réseau mondial ont mis en place des systèmes de filtration en boucle fermée et des technologies révolutionnaires de teinture sans eau.\n\nConclusion : L'approvisionnement pour la prochaine génération\n\nS'approvisionner de manière éthique en 2026 n'est pas seulement une stratégie marketing ou une exigence de conformité - c'est un mécanisme de survie. Les marques qui prospéreront seront celles qui considéreront leurs fabricants non pas comme des vendeurs jetables, mais comme des partenaires stratégiques dans un écosystème en boucle fermée et régénérateur."
+      },
+      "local-blog-1": {
+        title: "Naviguer dans les chaînes d'approvisionnement mondiales du textile : Guide de la marque sur la logistique et l'ingénierie tarifaire",
+        content: "Introduction : La nouvelle ère de la gestion de la chaîne d'approvisionnement\n\nLa gestion de la chaîne d'approvisionnement d'une marque de mode a toujours été un exercice d'équilibre, mais en 2026, le paysage géopolitique et environnemental mondial l'a transformé en un jeu complexe et à enjeux élevés.\n\nPour les responsables des achats, le succès exige de passer d'une logistique réactive à une conception de chaîne d'approvisionnement proactive et résiliente. Ce guide détaille les stratégies essentielles que les marques utilisent pour naviguer dans le transport mondial, atténuer les risques et optimiser les empreintes de fabrication.\n\nDécouplage des délais de livraison : la stratégie du stock tampon\n\nHistoriquement, la mode fonctionnait sur un modèle \"Just-In-Time\" (JIT), visant à recevoir les matériaux exactement au moment où les lignes de production étaient prêtes à démarrer. Cependant, les retards d'expédition et les goulots d'étranglement aux frontières ont rendu le JIT très risqué.\n\nEn 2026, les plus grandes marques de mode utilisent une stratégie de \"stock tampon\" pour les matériaux de base. En identifiant les tissus et les fils qui sont utilisés sur plusieurs saisons et collections, les marques achètent des fibres brutes en vrac pendant les périodes de faible demande du marché.\n\nIngénierie tarifaire et règles d'origine\n\nAvec l'évolution rapide des politiques commerciales mondiales, l'ingénierie tarifaire est devenue un outil essentiel pour les équipes d'approvisionnement. L'ingénierie tarifaire implique de concevoir des produits spécifiquement pour bénéficier de droits de douane inférieurs en fonction des accords commerciaux régionaux.\n\nConclusion\n\nLa chaîne d'approvisionnement moderne n'est pas seulement une nécessité logistique ; c'est un avantage concurrentiel. En découplant les délais de livraison, en concevant des produits pour des tarifs favorables et en tirant parti de la technologie de suivi en temps réel, les marques de mode peuvent naviguer dans les complexités du commerce mondial avec confiance et agilité."
+      },
+      "local-blog-2": {
+        title: "L'intelligence artificielle dans la fabrication de vêtements : Au-delà du battage médiatique",
+        content: "Introduction : L'IA passe du concept à la ligne de production\n\nPendant des années, l'industrie de la mode a discuté de l'intelligence artificielle comme d'un concept futuriste. Cependant, en 2026, la véritable révolution se déroule silencieusement en coulisses. L'IA est désormais profondément ancrée au cœur même de la fabrication de vêtements, modifiant fondamentalement la façon dont les vêtements sont conçus, approvisionnés et produits.\n\nConception générative et prototypage rapide\n\nLe processus de conception traditionnel était notoirement lent. Un designer dessinait un concept, les modélistes rédigeaient des dossiers techniques, et les usines créaient des échantillons physiques. Cette boucle nécessitait souvent 3 à 4 itérations avant qu'un design ne soit finalisé, ce qui prenait des mois et générait un gaspillage de tissu important.\n\nAujourd'hui, des modèles d'IA générative spécifiquement entraînés sur des données de mode historiques et la physique textile transforment ce flux de travail. Ces rendus sont mappés directement aux patrons d'usine, ce qui signifie qu'une fois un design approuvé, le fichier numérique peut être envoyé directement aux machines de découpe de tissu informatisées. Cela réduit les cycles d'échantillonnage de plusieurs semaines à moins de 48 heures.\n\nRationalisation des pré-achats de matières premières\n\nL'approvisionnement en tissus est souvent la phase la plus longue de la production de mode. L'IA optimise cela en analysant la capacité des fournisseurs et les stocks de matières premières en temps réel.\n\nSi l'IA prédit une prochaine hausse de la demande pour les vêtements d'extérieur en laine, le système d'approvisionnement vérifie automatiquement les niveaux de stock de laine actuels sur l'ensemble du réseau de fournisseurs pré-approuvés de la marque.\n\nConclusion : La fusion de l'art et de l'algorithme\n\nLa prévision des tendances par l'IA ne consiste pas à remplacer le concepteur humain ; il s'agit de les autonomiser. En éliminant les devinettes de la prévision des tendances et de l'allocation des stocks, l'IA permet aux directeurs créatifs de se concentrer sur l'artisanat, la narration et le design de haute qualité."
+      }
+    },
+  },
+    supplierRequest: {
+      "pageTitle": "Demande de fournisseur",
+      "pageSubtitle": "Rejoignez notre réseau mondial de fabricants et d'artisans de premier plan.",
+      "contactPerson": "Personne à contacter",
+      "email": "E-mail professionnel",
+      "companyName": "Nom de l'usine / de l'entreprise",
+      "country": "Pays d'exploitation",
+      "specialization": "Spécialisations principales",
+      "moq": "Quantité minimum de commande (MOQ)",
+      "capacity": "Capacité de production mensuelle",
+      "message": "Détails supplémentaires (Certifications, Clients clés)",
+      "submit": "Soumettre la demande",
+      "thankYou": "Demande reçue",
+      "thankYouText": "Notre équipe d'approvisionnement examinera votre demande et vous contactera dans les 48 heures pour planifier un entretien de conformité initial.",
+      "returnHome": "Retour à l'accueil"
+  },
+    bookDemo: {
+      "pageTitle": "Réserver une consultation",
+      "pageSubtitle": "Discutez de vos besoins en approvisionnement avec notre équipe d'experts.",
+      "step1": "Vos coordonnées",
+      "step2": "Besoins en approvisionnement",
+      "fullName": "Nom complet",
+      "workEmail": "E-mail professionnel",
+      "company": "Nom de l'entreprise",
+      "role": "Votre rôle",
+      "companySize": "Taille de l'entreprise",
+      "region": "Région cible",
+      "category": "Catégorie principale",
+      "monthlyVolume": "Volume mensuel estimé",
+      "timeline": "Délai prévu",
+      "message": "Message ou exigences spécifiques",
+      "messagePlaceholder": "Parlez-nous de vos défis actuels...",
+      "back": "Retour",
+      "next": "Étape suivante",
+      "submit": "Réserver",
+      "submitting": "Soumission...",
+      "thankYou": "Demande reçue",
+      "thankYouText": "Merci de votre intérêt. Un spécialiste de l'approvisionnement vous contactera sous peu pour planifier votre consultation.",
+      "returnHome": "Retour à l'accueil",
+      "errorGeneric": "Une erreur s'est produite. Veuillez réessayer."
   },
 };

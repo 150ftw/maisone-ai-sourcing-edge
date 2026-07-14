@@ -20,8 +20,8 @@ export function Footer() {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-1">{t("footer.headOffice")}</p>
                 <p className="text-xs text-foreground/80 leading-relaxed">
-                  Plot 140, Udyog Vihar Industrial Area,<br />
-                  Phase VI, Sector 37, Gurgaon - 122001
+                  {t("footer.addressLine1")}<br />
+                  {t("footer.addressLine2")}
                 </p>
               </div>
               <div className="text-xs text-muted-foreground">

@@ -95,12 +95,6 @@ export function Navbar() {
                     {t("nav.console")}
                   </a>
                   <a
-                    href="/#maisone-ai"
-                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                  >
-                    {t("nav.maisoneAi")}
-                  </a>
-                  <a
                     href="/#trends"
                     className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
                   >
@@ -155,13 +149,6 @@ export function Navbar() {
                 className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
               >
                 {t("nav.console")}
-              </a>
-              <a
-                href="/#maisone-ai"
-                onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
-              >
-                {t("nav.maisoneAi")}
               </a>
               <a
                 href="/#trends"

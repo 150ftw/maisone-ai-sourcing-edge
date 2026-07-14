@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/lib/i18n";
+import { SettingsMenu } from "@/components/maisone/SettingsMenu";
 
 export const Route = createFileRoute("/supplier-request")({
   head: () => ({
@@ -90,11 +91,18 @@ function SupplierRequestPage() {
     <ThemeProvider>
       <div className="relative min-h-screen noise overflow-x-hidden">
         <div className="absolute inset-0 hero-aura pointer-events-none" />
+        
+        <div className="fixed right-6 top-6 z-50">
+          <SettingsMenu />
+        </div>
+
         <header className="relative z-10 mx-auto max-w-6xl px-6 py-6 flex items-center justify-between">
           <Link to="/"><Logo /></Link>
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="size-4" /> {t("nav.backToHome")}
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="size-4" /> {t("nav.backToHome")}
+            </Link>
+          </div>
         </header>
 
         <main className="relative z-10 mx-auto max-w-6xl px-6 pb-24 pt-6 grid lg:grid-cols-5 gap-10">

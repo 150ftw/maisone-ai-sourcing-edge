@@ -288,6 +288,8 @@ export const it = {
   footer: {
     tagline: "Costruito sulla fiducia, sulla trasparenza e sull'artigianato.",
     headOffice: "Sede principale",
+    addressLine1: "Plot 140, Udyog Vihar Industrial Area,",
+    addressLine2: "Phase VI, Sector 37, Gurgaon - 122001",
     company: "Azienda",
     suppliers: "Fornitori",
     legal: "Legale",
@@ -305,6 +307,7 @@ export const it = {
 
   // ── Floating Button ──
   index: {
+    gotDoubts: "Hai dei dubbi?",
     talkWith: "Parla con la nostra",
   },
 
@@ -377,5 +380,78 @@ export const it = {
     subahQuote: "La moda è un dialogo tra visione creativa ed esecuzione tecnica. Maisone traduce quel dialogo in collezioni trasparenti e splendidamente realizzate.",
     subahRoleDetail: "Collaborazioni Creative e Clienti",
     subahBio: "Subah è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
+  },
+
+  // ── Blogs Section ──
+  blogs: {
+    label: "— Approfondimenti e Storie",
+    heading: "Le ultime dal",
+    headingHighlight: "Giornale di Maisone",
+    headingEnd: ".",
+    readMore: "Leggi di più",
+    readArticle: "Leggi l'articolo",
+    minRead: "minuti di lettura",
+    categories: {
+      sustainability: "Sostenibilità",
+      supplyChain: "Catena di Approvvigionamento",
+      technology: "Tecnologia",
+      design: "Design",
+      trends: "Tendenze",
+    },
+    mockBlogs: {
+      "local-blog-0": {
+        title: "Il futuro dell'approvvigionamento etico della moda nel 2026: Un modello per la produzione circolare",
+        content: "Introduzione: Il cambio di paradigma nell'approvvigionamento dell'abbigliamento\n\nMentre navighiamo nel 2026, il panorama della moda globale sta subendo la sua trasformazione più profonda dalla Rivoluzione Industriale. Il modello tradizionale e lineare \"prendi-produci-getta\" viene aggressivamente smantellato, sostituito da un paradigma circolare in cui la trasparenza, la responsabilità e il ripristino ambientale sono i pilastri principali del successo.\n\nIn questo progetto completo, delineiamo i cambiamenti fondamentali che definiscono la produzione etica di abbigliamento nel 2026 e come le case di moda lungimiranti si stanno posizionando per un futuro sostenibile.\n\nIl mandato del passaporto digitale dei prodotti (DPP)\n\nUno dei principali motori della circolarità nel 2026 è l'adozione diffusa dei Digital Product Passports (DPP). Supportati da rigide normative dell'Unione Europea e dalla crescente domanda dei consumatori in Nord America e in Asia, i DPP richiedono ai marchi di documentare ogni fase del ciclo di vita di un capo.\n\nDalle fattorie di cotone organico nella regione del Gujarat in India ai mulini di tessitura di Osaka e alle linee di assemblaggio finali, ogni partecipante alla catena di approvvigionamento deve caricare dati verificabili.\n\nProduzione a ciclo chiuso e tintura senza acqua\n\nLa conservazione dell'acqua è la sfida più critica nella moderna lavorazione dei tessuti. Nel 2026, le fabbriche premium della nostra rete globale hanno implementato sistemi di filtrazione a circuito chiuso e rivoluzionarie tecnologie di tintura senza acqua.\n\nConclusione: L'approvvigionamento per la prossima generazione\n\nL'approvvigionamento etico nel 2026 non è solo una strategia di marketing o un requisito di conformità, ma è un meccanismo di sopravvivenza. I marchi che prospereranno saranno quelli che considereranno i loro produttori non come venditori usa e getta, ma come partner strategici in un ecosistema a ciclo chiuso e rigenerativo."
+      },
+      "local-blog-1": {
+        title: "Navigare nelle catene di approvvigionamento tessili globali: Guida per i marchi alla logistica e all'ingegneria tariffaria",
+        content: "Introduzione: La nuova era della gestione della catena di approvvigionamento\n\nLa gestione della catena di approvvigionamento di un marchio di moda è sempre stata un atto di bilanciamento, ma nel 2026 il panorama geopolitico e ambientale globale l'ha trasformata in un gioco complesso e ad alto rischio.\n\nPer i responsabili degli acquisti, il successo richiede il passaggio da una logistica reattiva a una progettazione proattiva e resiliente della catena di approvvigionamento. Questa guida descrive in dettaglio le strategie essenziali che i marchi utilizzano per navigare nelle spedizioni globali, mitigare i rischi e ottimizzare le impronte di produzione.\n\nDisaccoppiamento dei tempi di consegna: La strategia del Buffer Stock\n\nStoricamente, la moda operava su un modello \"Just-In-Time\" (JIT), mirando a ricevere i materiali esattamente quando le linee di produzione erano pronte a girare. Tuttavia, i ritardi nelle spedizioni e i colli di bottiglia alle frontiere hanno reso il JIT altamente rischioso.\n\nNel 2026, i migliori marchi di moda utilizzano una strategia di \"buffer stock\" per i materiali di base. Identificando tessuti e filati che vengono utilizzati in più stagioni e collezioni, i marchi acquistano fibre grezze sfuse durante i periodi di bassa domanda del mercato.\n\nIngegneria tariffaria e regole di origine\n\nCon il rapido cambiamento delle politiche commerciali globali, l'ingegneria tariffaria è diventata uno strumento essenziale per i team di approvvigionamento. L'ingegneria tariffaria prevede la progettazione di prodotti in modo specifico per beneficiare di dazi inferiori in base ad accordi commerciali regionali.\n\nConclusione\n\nLa moderna catena di approvvigionamento non è solo una necessità logistica; è un vantaggio competitivo. Separando i tempi di consegna, ingegnerizzando i prodotti per tariffe favorevoli e sfruttando la tecnologia di tracciamento in tempo reale, i marchi di moda possono navigare nelle complessità del commercio globale con fiducia e agilità."
+      },
+      "local-blog-2": {
+        title: "L'Intelligenza Artificiale nella produzione di abbigliamento: Oltre l'Hype",
+        content: "Introduzione: L'IA passa dal concetto alla linea di produzione\n\nPer anni l'industria della moda ha discusso dell'Intelligenza Artificiale come di un concetto futuristico. Tuttavia, nel 2026, la vera rivoluzione si sta svolgendo silenziosamente dietro le quinte. L'IA è ora profondamente radicata nel cuore stesso della produzione di abbigliamento, cambiando radicalmente il modo in cui i capi vengono progettati, acquistati e prodotti.\n\nDesign generativo e prototipazione rapida\n\nIl processo di progettazione tradizionale era notoriamente lento. Un designer disegnava un concetto, i modellisti redigevano le schede tecniche e le fabbriche creavano campioni fisici. Questo ciclo spesso richiedeva da 3 a 4 iterazioni prima che un progetto venisse finalizzato, impiegando mesi e generando significativi sprechi di tessuto.\n\nOggi, i modelli di intelligenza artificiale generativa specificamente addestrati sui dati storici della moda e sulla fisica dei tessuti stanno trasformando questo flusso di lavoro. Questi rendering vengono mappati direttamente sui modelli di fabbrica, il che significa che una volta approvato un design, il file digitale può essere inviato direttamente alle macchine per il taglio dei tessuti computerizzate. Questo riduce i cicli di campionamento da diverse settimane a meno di 48 ore.\n\nRazionalizzazione del pre-acquisto delle materie prime\n\nL'approvvigionamento del tessuto è spesso la fase più lunga della produzione della moda. L'IA lo ottimizza analizzando la capacità dei fornitori e le scorte di materie prime in tempo reale.\n\nSe l'intelligenza artificiale prevede un imminente picco di domanda di capispalla in lana, il sistema di approvvigionamento controlla automaticamente gli attuali livelli di scorte di lana attraverso la rete di fornitori pre-approvati dal marchio.\n\nConclusione: La fusione di arte e algoritmo\n\nLa previsione delle tendenze dell'IA non riguarda la sostituzione del designer umano; si tratta di potenziarli. Rimuovendo le congetture dalla previsione delle tendenze e dall'allocazione dell'inventario, l'IA consente ai direttori creativi di concentrarsi su artigianato, narrazione e design di alta qualità."
+      }
+    },
+  },
+    supplierRequest: {
+      "pageTitle": "Richiesta Fornitore",
+      "pageSubtitle": "Unisciti alla nostra rete globale di produttori e artigiani di eccellenza.",
+      "contactPerson": "Persona di contatto",
+      "email": "Email di lavoro",
+      "companyName": "Nome Fabbrica / Azienda",
+      "country": "Paese di operazione",
+      "specialization": "Specializzazioni principali",
+      "moq": "Quantità Minima d'Ordine (MOQ)",
+      "capacity": "Capacità produttiva mensile",
+      "message": "Dettagli aggiuntivi (Certificazioni, Clienti chiave)",
+      "submit": "Invia Richiesta",
+      "thankYou": "Richiesta Ricevuta",
+      "thankYouText": "Il nostro team di approvvigionamento esaminerà la tua richiesta e ti contatterà entro 48 ore per programmare un colloquio di conformità iniziale.",
+      "returnHome": "Torna alla Home"
+  },
+    bookDemo: {
+      "pageTitle": "Prenota una Consulenza",
+      "pageSubtitle": "Discuti le tue esigenze di approvvigionamento con il nostro team di esperti.",
+      "step1": "I tuoi dettagli",
+      "step2": "Esigenze di approvvigionamento",
+      "fullName": "Nome completo",
+      "workEmail": "Email di lavoro",
+      "company": "Nome dell'azienda",
+      "role": "Il tuo ruolo",
+      "companySize": "Dimensioni dell'azienda",
+      "region": "Regione di destinazione",
+      "category": "Categoria principale",
+      "monthlyVolume": "Volume mensile stimato",
+      "timeline": "Tempistiche previste",
+      "message": "Messaggio o requisiti specifici",
+      "messagePlaceholder": "Raccontaci le tue sfide attuali...",
+      "back": "Indietro",
+      "next": "Prossimo Passo",
+      "submit": "Prenota",
+      "submitting": "Invio in corso...",
+      "thankYou": "Richiesta Ricevuta",
+      "thankYouText": "Grazie per il tuo interesse. Uno specialista degli acquisti ti contatterà a breve per programmare la tua consulenza.",
+      "returnHome": "Torna alla Home",
+      "errorGeneric": "Si è verificato un errore. Per favore riprova."
   },
 };

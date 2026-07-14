@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Loader2, Search, Trash2, Edit, Plus, X, Calendar, User, BookOpen 
+import {
+  Loader2, Search, Trash2, Edit, Plus, X, Calendar, User, BookOpen
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -146,9 +146,9 @@ function AdminBlogsPage() {
       let currentBlogs: Blog[] = local ? JSON.parse(local) : [];
 
       if (editingBlog) {
-        currentBlogs = currentBlogs.map(b => 
-          b.id === editingBlog.id 
-            ? { ...b, ...payload, image_url: payload.image_url || undefined } 
+        currentBlogs = currentBlogs.map(b =>
+          b.id === editingBlog.id
+            ? { ...b, ...payload, image_url: payload.image_url || undefined }
             : b
         );
         toast.success("Blog updated in LocalStorage (Offline Mode)");
@@ -194,7 +194,7 @@ function AdminBlogsPage() {
     }
   };
 
-  const filteredBlogs = blogs.filter(b => 
+  const filteredBlogs = blogs.filter(b =>
     b.title.toLowerCase().includes(search.toLowerCase()) ||
     b.content.toLowerCase().includes(search.toLowerCase()) ||
     b.author.toLowerCase().includes(search.toLowerCase()) ||
@@ -238,8 +238,8 @@ function AdminBlogsPage() {
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {filteredBlogs.map((blog) => (
-            <div 
-              key={blog.id} 
+            <div
+              key={blog.id}
               className="glass-strong rounded-3xl border border-white/5 bg-white/[0.01] p-6 flex flex-col justify-between hover:border-white/10 transition-colors"
             >
               <div className="space-y-4">

@@ -1,65 +1,68 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
-const phases = [
-  {
-    n: "01",
-    title: "Product Strategy & Assortment Planning",
-    desc: "Defining the commercial vision — from market signals to fabric direction.",
-  },
-  {
-    n: "02",
-    title: "Design",
-    desc: "Translating trends into cohesive collections with precision and purpose.",
-  },
-  {
-    n: "03",
-    title: "Product Development",
-    desc: "From tech packs to proto samples, every detail engineered to spec.",
-  },
-  {
-    n: "04",
-    title: "Production Planning",
-    desc: "Factory allocation, bulk approval, and end-to-end shipment oversight.",
-  },
-];
-
-const pairs = [
-  {
-    problem: "Struggling to find reliable factories?",
-    solution: "We connect brands with trusted manufacturing partners.",
-  },
-  {
-    problem: "Need tighter quality control?",
-    solution: "Our rigorous inspection systems ensure premium quality.",
-  },
-  {
-    problem: "Need compliance-ready factories?",
-    solution: "We help establish ethically responsible production ecosystems.",
-  },
-  {
-    problem: "Looking for innovative materials?",
-    solution: "Access cutting-edge fabrics and sustainable sourcing solutions.",
-  },
-  {
-    problem: "Want to focus on growth?",
-    solution: "We handle sourcing and operations while you focus on creativity.",
-  },
-];
+import { useLanguage } from "@/lib/i18n";
 
 export function HowWeWork() {
+  const { t } = useLanguage();
+
+  const phases = [
+    {
+      n: "01",
+      title: t("howWeWork.phase1Title"),
+      desc: t("howWeWork.phase1Desc"),
+    },
+    {
+      n: "02",
+      title: t("howWeWork.phase2Title"),
+      desc: t("howWeWork.phase2Desc"),
+    },
+    {
+      n: "03",
+      title: t("howWeWork.phase3Title"),
+      desc: t("howWeWork.phase3Desc"),
+    },
+    {
+      n: "04",
+      title: t("howWeWork.phase4Title"),
+      desc: t("howWeWork.phase4Desc"),
+    },
+  ];
+
+  const pairs = [
+    {
+      problem: t("howWeWork.q1"),
+      solution: t("howWeWork.a1"),
+    },
+    {
+      problem: t("howWeWork.q2"),
+      solution: t("howWeWork.a2"),
+    },
+    {
+      problem: t("howWeWork.q3"),
+      solution: t("howWeWork.a3"),
+    },
+    {
+      problem: t("howWeWork.q4"),
+      solution: t("howWeWork.a4"),
+    },
+    {
+      problem: t("howWeWork.q5"),
+      solution: t("howWeWork.a5"),
+    },
+  ];
+
   return (
     <section id="services" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         {/* Section Header */}
         <div className="max-w-3xl mb-20">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— How We Work</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("howWeWork.label")}</p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            Four disciplined phases,{" "}
-            <span className="italic gradient-text">one seamless journey</span>.
+            {t("howWeWork.heading")}{" "}
+            <span className="italic gradient-text">{t("howWeWork.headingHighlight")}</span>{t("howWeWork.headingEnd")}
           </h2>
           <p className="mt-6 text-muted-foreground max-w-xl">
-            From the earliest market signal to the final shipment — every step is orchestrated with precision.
+            {t("howWeWork.subtitle")}
           </p>
         </div>
 
@@ -102,8 +105,8 @@ export function HowWeWork() {
         {/* Challenges We Solve Sub-section */}
         <div>
           <div className="mb-10 border-b border-border/40 pb-4">
-            <h3 className="font-serif text-2xl tracking-wide">Challenges We Solve</h3>
-            <p className="text-sm text-muted-foreground mt-1">Every bottleneck resolved by our supply chain experts.</p>
+            <h3 className="font-serif text-2xl tracking-wide">{t("howWeWork.challengesTitle")}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{t("howWeWork.challengesSubtitle")}</p>
           </div>
           <div className="space-y-4">
             {pairs.map((p, i) => (

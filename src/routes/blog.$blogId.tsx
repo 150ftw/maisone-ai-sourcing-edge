@@ -6,6 +6,7 @@ import { Navbar } from "@/components/maisone/Navbar";
 import { Footer } from "@/components/maisone/Footer";
 import { supabase } from "@/lib/supabase";
 import type { Blog } from "@/components/maisone/Blogs";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/blog/$blogId")({
   head: ({ params }) => ({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/blog/$blogId")({
 
 function BlogDetailPage() {
   const { blogId } = Route.useParams();
+  const { t } = useLanguage();
   const [blog, setBlog] = useState<Blog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -107,10 +109,10 @@ function BlogDetailPage() {
               {/* Header Info */}
               <div className="space-y-6">
                 <span className="text-[10px] tracking-[0.25em] bg-electric/15 text-electric px-3 py-1.5 rounded-full uppercase font-bold border border-electric/20">
-                  {blog.category}
+                  {t(`blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any) || blog.category}
                 </span>
                 <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white leading-tight tracking-tight mt-4">
-                  {blog.title}
+                  {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                 </h1>
                 
                 <div className="flex flex-wrap items-center gap-6 text-xs text-muted-foreground/80 font-semibold border-b border-white/5 pb-6 uppercase tracking-wider">
@@ -118,7 +120,7 @@ function BlogDetailPage() {
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center gap-1.5"><Calendar className="size-3.5" /> {new Date(blog.created_at).toLocaleDateString()}</span>
                   <span className="hidden sm:inline">•</span>
-                  <span className="flex items-center gap-1.5"><Clock className="size-3.5" /> {blog.read_time}</span>
+                  <span className="flex items-center gap-1.5"><Clock className="size-3.5" /> {blog.read_time.split(" ")[0]} {t("blogs.minRead")}</span>
                 </div>
               </div>
 
@@ -135,7 +137,7 @@ function BlogDetailPage() {
 
               {/* Body Content */}
               <div className="max-w-3xl mx-auto text-muted-foreground/90 whitespace-pre-line leading-relaxed text-base sm:text-lg font-normal space-y-6 pt-4">
-                {blog.content}
+                {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content) : blog.content}
               </div>
             </article>
           )}

@@ -379,6 +379,8 @@ export const en = {
   footer: {
     tagline: "Built on trust, transparency, and craftsmanship.",
     headOffice: "Head Office",
+    addressLine1: "Plot 140, Udyog Vihar Industrial Area,",
+    addressLine2: "Phase VI, Sector 37, Gurgaon - 122001",
     company: "Company",
     suppliers: "Suppliers",
     legal: "Legal",
@@ -396,6 +398,7 @@ export const en = {
 
   // ── Floating Button ──
   index: {
+    gotDoubts: "Got any doubts?",
     talkWith: "Talk with our",
   },
 
@@ -468,5 +471,78 @@ export const en = {
     subahQuote: "Fashion is a dialogue between creative vision and technical execution. Maisone translates that dialogue into transparent, beautifully crafted collections.",
     subahRoleDetail: "Creative & Client Partnerships",
     subahBio: "Subah specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
+  },
+
+  // ── Blogs Section ──
+  blogs: {
+    label: "— Insights & Stories",
+    heading: "The latest from the",
+    headingHighlight: "Maisone Journal",
+    headingEnd: ".",
+    readMore: "Read More",
+    readArticle: "Read Article",
+    minRead: "min read",
+    categories: {
+      sustainability: "Sustainability",
+      supplyChain: "Supply Chain",
+      technology: "Technology",
+      design: "Design",
+      trends: "Trends",
+    },
+    mockBlogs: {
+      "local-blog-0": {
+        title: "The Future of Ethical Fashion Sourcing in 2026: A Blueprint for Circular Production",
+        content: "Introduction: The Paradigm Shift in Apparel Sourcing\n\nAs we navigate through 2026, the global fashion landscape is undergoing its most profound transformation since the Industrial Revolution. The traditional, linear \"take-make-waste\" model is being aggressively dismantled, replaced by a circular paradigm where transparency, accountability, and environmental restoration are the primary pillars of success. Sourcing executives are no longer evaluating factories based on cost-per-unit and lead times alone; instead, carbon footprints, fair-wage indexes, water-recycling capabilities, and materials traceability have taken center stage.\n\nIn this comprehensive blueprint, we outline the fundamental shifts defining ethical apparel manufacturing in 2026, and how forward-thinking fashion houses are positioning themselves for a sustainable future.\n\nThe Digital Product Passport (DPP) Mandate\n\nOne of the major drivers of circularity in 2026 is the widespread adoption of Digital Product Passports (DPPs). Backed by strict European Union regulations and growing consumer demand in North America and Asia, DPPs require brands to document every step of a garment's life cycle. \n\nFrom the organic cotton farms in the Gujarat region of India to the weaving mills of Osaka and the final assembly lines, every participant in the supply chain must upload verifiable data. Consumers can simply scan a QR code embedded in the garment's wash care label to trace:\n1. The exact geographical coordinates where the raw fiber was harvested.\n2. The specific chemical certifications of the dyes used.\n3. The carbon equivalent footprint of the transport leg.\n4. Detailed recycling instructions, including chemical composition for circular recycling hubs.\n\nThis level of transparency eliminates greenwashing overnight and forces factories to maintain impeccable standards to remain competitive.\n\nClosed-Loop Production and Water-less Dyeing\n\nWater conservation is the single most critical challenge in modern textile processing. Traditionally, dyeing a single ton of fabric could require up to 200 tons of fresh water, which was subsequently discharged as toxic effluent. In 2026, premium factories in our global network have implemented closed-loop filtration systems and revolutionary water-less dyeing technologies.\n\nUsing supercritical carbon dioxide (scCO2) or advanced digital spray-dyeing machines, manufacturers can now dye synthetic and natural fibers with zero water consumption and 95% dye absorption rates. Any chemical residues are captured, neutralized, and recycled within a sealed loop. \n\nFurthermore, circular manufacturing relies heavily on post-consumer waste. We are seeing a massive influx of chemically recycled nylon (like Econyl) and mechanical cotton recycling systems that allow brands to blend post-industrial scrap into new premium collections without compromising yarn strength or drape.\n\nConclusion: Sourcing for the Next Generation\n\nSourcing ethically in 2026 is not merely a marketing strategy or a compliance requirement—it is a survival mechanism. As resources grow scarcer and consumer values shift permanently toward environmental stewardship, the brands that thrive will be those that view their manufacturers not as disposable vendors, but as strategic partners in a closed-loop, regenerative ecosystem."
+      },
+      "local-blog-1": {
+        title: "Navigating Global Textile Supply Chains: A Brand's Guide to Logistics & Tariff Engineering",
+        content: "Introduction: The New Era of Supply Chain Management\n\nManaging a fashion brand's supply chain has always been a balancing act, but in 2026, the global geopolitical and environmental landscape has turned it into a complex, high-stakes game. Rising fuel costs, shipping lane congestion, and fluctuating trade tariffs mean that simple mistakes can destroy a label's profit margins.\n\nFor sourcing executives, success requires a shift from reactive logistics to proactive, resilient supply chain design. This guide details the essential strategies brands are using to navigate global shipping, mitigate risk, and optimize manufacturing footprints.\n\nDecoupling Lead Times: The Buffer Stock Strategy\n\nHistorically, fashion operated on a \"Just-In-Time\" (JIT) model, aiming to receive materials exactly as production lines were ready to spin. However, shipping delays and border bottlenecks have made JIT highly risky.\n\nIn 2026, top fashion labels utilize a \"buffer stock\" strategy for core materials. By identifying fabrics and yarns that are used across multiple seasons and collections—such as organic pima cotton, high-grade linen, or recycled polyester—brands buy raw fibers in bulk during periods of low market demand. \n\nThese raw materials are stored in secure warehouses near manufacturing hubs. When a design is finalized, the factory can immediately begin cutting and sewing, cutting down the development-to-shipping window by up to 45 days. This approach improves agility and protects brands from sudden price hikes in raw commodities.\n\nTariff Engineering and Rules of Origin\n\nWith global trade policies changing rapidly, tariff engineering has become an essential tool for sourcing teams. Tariff engineering involves designing products specifically to qualify for lower duties based on regional trade agreements.\n\nFor instance, by tweaking the fiber blend of a garment (e.g., adding 5% silk to a wool coat) or sourcing specific trims from a treaty-aligned nation, brands can qualify for duty-free status under agreements like the USMCA or EU-Vietnam FTA. \n\nSourcing teams must work closely with designers and patternmakers early in the development cycle to ensure that:\n1. Fiber compositions align with target tariff classifications.\n2. The rules of origin are documented down to the raw spinning stage.\n3. Component sourcing matches bilateral trade treaties.\n\nThis pre-planning can save brands millions of dollars annually in import duties, allowing them to maintain competitive retail pricing without squeezing design budgets.\n\nReal-Time Transit Progress and Logistics Tech\n\nIn 2026, blind spots in the supply chain are no longer acceptable. Brands are integrating real-time tracking APIs directly into their ERP systems. Using GPS-enabled containers and blockchain verification, sourcing managers can see exactly where a shipment is at any given moment—whether it's on a truck in Shenzhen or clearing customs in Los Angeles.\n\nConclusion\n\nThe modern supply chain is not just a logistical necessity; it is a competitive advantage. By decoupling lead times, engineering products for favorable tariffs, and leveraging real-time tracking technology, fashion brands can navigate the complexities of global trade with confidence and agility."
+      },
+      "local-blog-2": {
+        title: "Artificial Intelligence in Apparel Manufacturing: Beyond the Hype",
+        content: "Introduction: AI Moves from Concept to Production Line\n\nFor years, the fashion industry has discussed Artificial Intelligence as a futuristic concept—mostly relegated to consumer-facing chatbots or experimental virtual try-on tools. However, in 2026, the real revolution is happening silently behind the scenes. AI is now deeply embedded in the very core of apparel manufacturing, fundamentally changing how garments are designed, sourced, and produced.\n\nThis article explores how AI has moved beyond the hype to become an indispensable tool in modern textile supply chains, driving efficiency, reducing waste, and fostering unprecedented creativity.\n\nGenerative Design and Rapid Prototyping\n\nThe traditional design process was notoriously slow. A designer would sketch a concept, pattern makers would draft technical packs, and factories would create physical samples. This loop often required 3 to 4 iterations before a design was finalized, taking months and generating significant fabric waste.\n\nToday, generative AI models specifically trained on historical fashion data and textile physics are transforming this workflow.\n\nFor example, a designer can prompt an AI tool to generate silhouettes that blend the brand's classic tailoring with the emerging \"utility-wear\" trend. Within seconds, the tool generates dozens of photorealistic flat drawings and 3D CAD renders. \n\nThese renders are mapped directly to factory patterns, meaning that once a design is approved, the digital file can be sent straight to computerized fabric cutting machines. This cuts sampling cycles from several weeks to less than 48 hours.\n\nStreamlining Raw Material Pre-Purchasing\n\nSourcing fabric is often the longest phase of fashion production. AI optimizes this by analyzing supplier capacity and raw material inventories in real time.\n\nIf the AI predicts an upcoming spike in demand for wool outerwear, the sourcing system automatically checks current wool stock levels across the brand's pre-approved supplier network. It flags potential capacity bottlenecks and suggests placing advance yarn reservations with factories in Italy or the UK before peak seasonal demand drives up prices.\n\nThis integration of forecasting and sourcing ensures that the design team's vision is backed by a fully prepared, cost-optimized supply chain.\n\nConclusion: The Fusion of Art and Algorithm\n\nAI trend forecasting is not about replacing the human designer; it is about empowering them. By removing the guesswork from trend prediction and inventory allocation, AI allows creative directors to focus on craftsmanship, storytelling, and high-quality design, confident in the knowledge that their collections will find a market and leave a minimal environmental footprint."
+      }
+    },
+  },
+    supplierRequest: {
+      "pageTitle": "Supplier Application",
+      "pageSubtitle": "Join our global network of premier manufacturers and artisans.",
+      "contactPerson": "Contact Person",
+      "email": "Work Email",
+      "companyName": "Factory / Company Name",
+      "country": "Country of Operation",
+      "specialization": "Primary Specializations",
+      "moq": "Minimum Order Quantity (MOQ)",
+      "capacity": "Monthly Production Capacity",
+      "message": "Additional Details (Certifications, Key Clients)",
+      "submit": "Submit Application",
+      "thankYou": "Application Received",
+      "thankYouText": "Our sourcing team will review your application and contact you within 48 hours to schedule an initial compliance interview.",
+      "returnHome": "Return to Home"
+  },
+    bookDemo: {
+      "pageTitle": "Book a Consultation",
+      "pageSubtitle": "Discuss your sourcing needs with our expert team.",
+      "step1": "Your Details",
+      "step2": "Sourcing Needs",
+      "fullName": "Full Name",
+      "workEmail": "Work Email",
+      "company": "Company Name",
+      "role": "Your Role",
+      "companySize": "Company Size",
+      "region": "Target Region",
+      "category": "Primary Category",
+      "monthlyVolume": "Estimated Monthly Volume",
+      "timeline": "Expected Timeline",
+      "message": "Message or Specific Requirements",
+      "messagePlaceholder": "Tell us about your current challenges...",
+      "back": "Back",
+      "next": "Next Step",
+      "submit": "Book Consultation",
+      "submitting": "Submitting...",
+      "thankYou": "Request Received",
+      "thankYouText": "Thank you for your interest. A sourcing specialist will contact you shortly to schedule your consultation.",
+      "returnHome": "Return to Home",
+      "errorGeneric": "An error occurred. Please try again."
   },
 };
