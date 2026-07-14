@@ -109,7 +109,7 @@ export function HowWeWork() {
             className="lg:hidden absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 bg-gradient-to-b from-electric/20 via-electric to-electric/20 origin-top z-0" 
           />
 
-          <div className="grid lg:grid-cols-4 gap-12 lg:gap-6 relative z-10 pt-4 lg:pt-0">
+          <div className="grid lg:grid-cols-4 gap-12 lg:gap-6 relative z-10 lg:pt-0">
             {phases.map((p, i) => (
               <motion.div
                 key={p.n}
