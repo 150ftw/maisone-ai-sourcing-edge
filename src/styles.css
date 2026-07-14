@@ -166,8 +166,6 @@
 
   .fabric-text-hover {
     transition: all 0.3s ease;
-  }
-  .fabric-text-hover:hover, .fabric-text-active {
     background-image: 
       repeating-linear-gradient(
         45deg,
@@ -187,15 +185,24 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.8));
-    transform: scale(1.05) rotate(-2deg);
   }
   
-  .fabric-text-active svg {
+  .fabric-text-hover svg {
     opacity: 1 !important;
   }
-  .fabric-text-active svg path {
+  .fabric-text-hover svg path {
     stroke-dashoffset: 0 !important;
+  }
+
+  .fabric-text-hover:hover, .fabric-text-active {
+    background-image: none !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+    transform: scale(1.05);
+  }
+  
+  .fabric-text-hover:hover svg, .fabric-text-active svg {
+    opacity: 0 !important;
   }
 
   @keyframes pulse-glow {
