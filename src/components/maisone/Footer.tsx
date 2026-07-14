@@ -77,9 +77,9 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border text-xs text-muted-foreground gap-4">
-          <p>© {new Date().getFullYear()} Maisone Global. {t("footer.allRightsReserved")}</p>
-          <div className="flex gap-5">
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border text-xs text-muted-foreground gap-4 text-center sm:text-left">
+          <p className="text-balance">© {new Date().getFullYear()} Maisone Global. {t("footer.allRightsReserved")}</p>
+          <div className="flex flex-wrap justify-center gap-5">
             {[
               { name: "Instagram", url: "https://www.instagram.com/maisone.global?igsh=MTN0d3Q4dzZrcHZlcg%3D%3D&utm_source=qr", isExternal: true },
               { name: "LinkedIn", url: "https://www.linkedin.com/company/maison%C3%A8-global/?viewAsMember=true", isExternal: true },

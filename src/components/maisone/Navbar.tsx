@@ -30,45 +30,6 @@ export function Navbar() {
         scrolled ? "py-3" : "py-5"
       }`}
     >
-      {/* Extreme Top Right Utility Bar (Vertically Aligned) */}
-      <div className="absolute right-6 top-1/2 -translate-y-1/2 z-55 flex flex-col items-end gap-2">
-        <button
-          onClick={() => setSettingsOpen(!settingsOpen)}
-          aria-label="Preferences"
-          className={`size-11 rounded-full flex items-center justify-center transition-all border border-white/10 shadow-lg ${
-            settingsOpen ? "bg-electric text-black scale-105" : "glass-strong text-white hover:bg-white/10"
-          }`}
-        >
-          <Info className="size-5" />
-        </button>
-
-        {settingsOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="absolute right-0 top-full mt-2 glass-strong rounded-2xl p-4 border border-white/5 shadow-2xl flex flex-col gap-4 min-w-[200px]"
-          >
-            {/* Theme section */}
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-xs text-muted-foreground font-medium">{t("nav.theme") || "Theme"}</span>
-              <button
-                onClick={toggle}
-                aria-label="Toggle theme"
-                className="size-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center hover:scale-105 transition-all border border-white/10"
-              >
-                {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
-              </button>
-            </div>
-
-            {/* Language section */}
-            <div className="flex items-center justify-between gap-4">
-              <span className="text-xs text-muted-foreground font-medium">{t("nav.language") || "Language"}</span>
-              <LanguageToggle />
-            </div>
-          </motion.div>
-        )}
-      </div>
-
       <div className={`mx-auto max-w-7xl px-6 ${scrolled ? "" : ""}`}>
           <div className={`flex items-center justify-between rounded-2xl px-5 py-3 transition-all ${
             scrolled ? "glass-strong" : ""
@@ -120,6 +81,43 @@ export function Navbar() {
               >
                 {t("nav.inquireAboutUs")}
               </Link>
+
+              {/* Utility Button */}
+              <div className="relative">
+                <button
+                  onClick={() => setSettingsOpen(!settingsOpen)}
+                  aria-label="Preferences"
+                  className={`size-10 rounded-full flex items-center justify-center transition-all shadow-sm ${
+                    settingsOpen ? "bg-electric text-black scale-105" : "glass text-foreground hover:bg-white/10"
+                  }`}
+                >
+                  <Info className="size-4" />
+                </button>
+
+                {settingsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    className="absolute right-0 top-full mt-2 glass-strong rounded-2xl p-4 border border-white/5 shadow-2xl flex flex-col gap-4 min-w-[200px]"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-xs text-muted-foreground font-medium">{t("nav.theme") || "Theme"}</span>
+                      <button
+                        onClick={toggle}
+                        aria-label="Toggle theme"
+                        className="size-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center hover:scale-105 transition-all border border-white/10"
+                      >
+                        {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-xs text-muted-foreground font-medium">{t("nav.language") || "Language"}</span>
+                      <LanguageToggle />
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+
               <button
                 onClick={() => setOpen(!open)}
                 className="lg:hidden size-10 rounded-full glass flex items-center justify-center"
@@ -163,8 +161,7 @@ export function Navbar() {
             <a href="/#blog" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.blog")}</a>
             
             {/* Mobile language & action buttons */}
-            <div className="flex items-center gap-2 pt-2 border-t border-border/50">
-              <LanguageToggle />
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-border/50">
               <Link
                 to="/supplier-request"
                 onClick={() => setOpen(false)}

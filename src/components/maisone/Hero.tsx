@@ -145,7 +145,7 @@ export function Hero() {
           </div>
 
           <h1 
-            className={`font-serif text-5xl sm:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
+            className={`font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
             onMouseMove={(e) => {
               cursorX.set(e.clientX);
               cursorY.set(e.clientY);
@@ -229,7 +229,7 @@ export function Hero() {
               {t("hero.weCurrentlySource")} <span className="italic gradient-text font-serif">{t("hero.countries")}</span>
             </h3>
           </div>
-          <div className="glass-strong rounded-3xl p-2 sm:p-6 text-foreground/80">
+          <div className="glass-strong rounded-3xl p-2 sm:p-6 text-foreground/80 overflow-hidden w-full">
             <WorldMap />
           </div>
 
