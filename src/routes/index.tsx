@@ -174,9 +174,27 @@ function Index() {
           
           {/* Floating AI Assistant Button */}
           <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
-            <span className={`bg-card/95 text-foreground border border-electric/40 px-6 py-3 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md relative animate-float flex flex-col items-start transition-all duration-500 origin-right ${
+            <span className={`bg-card/95 text-foreground border border-electric/40 pt-7 pb-3 px-6 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md relative animate-float flex flex-col items-start transition-all duration-500 origin-right ${
               showAIPopup ? "scale-100 opacity-100 translate-x-0" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
             }`}>
+              {/* macOS Window Controls */}
+              <div className="absolute top-2.5 left-3.5 flex gap-1.5">
+                <button
+                  onClick={() => setShowAIPopup(false)}
+                  className="size-2.5 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/90 transition-colors cursor-pointer"
+                  title="Close"
+                  aria-label="Close popup"
+                />
+                <button
+                  onClick={() => setShowAIPopup(false)}
+                  className="size-2.5 rounded-full bg-[#ffbd2e] hover:bg-[#ffbd2e]/90 transition-colors cursor-pointer"
+                  title="Minimize"
+                  aria-label="Minimize popup"
+                />
+                <div
+                  className="size-2.5 rounded-full bg-[#27c93f] opacity-80"
+                />
+              </div>
               <span className="text-xs text-muted-foreground font-normal leading-tight">{t("index.gotDoubts")}</span>
               <span className="flex items-center mt-1 whitespace-nowrap">
                 {t("index.talkWith")} <span className="font-serif italic text-electric ml-2 tracking-wide text-base">Maisone AI</span>
