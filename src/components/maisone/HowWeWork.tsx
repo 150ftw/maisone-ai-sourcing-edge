@@ -74,29 +74,42 @@ export function HowWeWork() {
         </div>
 
         {/* Timeline */}
+        {/* Timeline */}
         <div className="relative mb-32">
-          {/* Base Connector line */}
-          <div className="hidden lg:block absolute left-0 right-0 top-5 h-px bg-electric/10" />
+          {/* Base Connector line (Desktop) */}
+          <div className="hidden lg:block absolute left-0 right-0 top-6 h-px bg-electric/10" />
           
-          {/* Animated fill line */}
+          {/* Animated fill line (Desktop) */}
           <motion.div 
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="hidden lg:block absolute left-0 right-0 top-[19px] h-[2px] bg-gradient-to-r from-electric/20 via-electric to-electric/20 origin-left" 
+            className="hidden lg:block absolute left-0 right-0 top-[23px] h-[2px] bg-gradient-to-r from-electric/20 via-electric to-electric/20 origin-left" 
           />
           
-          {/* Traveling Glowing Dot */}
+          {/* Traveling Glowing Dot (Desktop) */}
           <motion.div
             initial={{ left: "0%", opacity: 0 }}
             whileInView={{ left: "100%", opacity: [0, 1, 1, 0] }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="hidden lg:block absolute top-[15px] size-2.5 rounded-full bg-electric shadow-[0_0_15px_3px_rgba(194,164,109,0.8)]"
+            className="hidden lg:block absolute top-[19px] size-2.5 rounded-full bg-electric shadow-[0_0_15px_3px_rgba(194,164,109,0.8)]"
           />
 
-          <div className="grid lg:grid-cols-4 gap-6">
+          {/* Base Connector line (Mobile) */}
+          <div className="lg:hidden absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-electric/10 z-0" />
+          
+          {/* Animated fill line (Mobile) */}
+          <motion.div 
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="lg:hidden absolute top-0 bottom-0 left-1/2 w-[2px] -translate-x-1/2 bg-gradient-to-b from-electric/20 via-electric to-electric/20 origin-top z-0" 
+          />
+
+          <div className="grid lg:grid-cols-4 gap-12 lg:gap-6 relative z-10 pt-4 lg:pt-0">
             {phases.map((p, i) => (
               <motion.div
                 key={p.n}
@@ -104,20 +117,20 @@ export function HowWeWork() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
-                className="relative group"
+                className="relative group pt-5 lg:pt-0"
               >
                 {/* Step number bubble */}
-                <div className="relative z-10 size-10 lg:size-12 rounded-full glass-strong border border-border flex items-center justify-center mb-6 mx-auto lg:mx-0 transition-colors duration-500 group-hover:bg-electric/10 group-hover:border-electric/30">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 lg:relative lg:top-auto lg:left-auto lg:translate-x-0 z-20 size-10 lg:size-12 rounded-full bg-background border border-border flex items-center justify-center mb-0 lg:mb-6 transition-colors duration-500 group-hover:bg-electric/10 group-hover:border-electric/30">
                   <span className="font-serif text-sm text-foreground transition-colors duration-300 group-hover:text-electric">{p.n}</span>
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 h-full transition-all duration-500 group-hover:border-electric/40 group-hover:-translate-y-2 group-hover:shadow-[0_15px_40px_-10px_rgba(194,164,109,0.15)]">
+                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 pt-8 lg:pt-6 h-full transition-all duration-500 group-hover:border-electric/40 group-hover:-translate-y-2 group-hover:shadow-[0_15px_40px_-10px_rgba(194,164,109,0.15)]">
                   {/* Subtle top-left glow on hover */}
                   <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                  <h3 className="font-serif text-lg leading-snug text-foreground mb-3 relative z-10">{p.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed relative z-10">{p.desc}</p>
+                  <h3 className="font-serif text-lg leading-snug text-foreground mb-3 relative z-10 text-center lg:text-left">{p.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed relative z-10 text-center lg:text-left">{p.desc}</p>
 
                   {/* Bottom accent line */}
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-electric to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-x-0 group-hover:scale-x-100" />
