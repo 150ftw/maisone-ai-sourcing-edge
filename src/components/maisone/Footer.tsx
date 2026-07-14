@@ -84,9 +84,20 @@ export function Footer() {
               { name: "Instagram", url: "https://www.instagram.com/maisone.global?igsh=MTN0d3Q4dzZrcHZlcg%3D%3D&utm_source=qr" },
               { name: "LinkedIn", url: "https://www.linkedin.com/company/maisonè-global/?viewAsMember=true" },
               { name: "Email", url: "mailto:info@maisone.com" }
-            ].map((s) => (
-              <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">{s.name}</a>
-            ))}
+            ].map((s) => {
+              const isMailto = s.url.startsWith("mailto:");
+              return (
+                <a 
+                  key={s.name} 
+                  href={s.url} 
+                  target={isMailto ? undefined : "_blank"} 
+                  rel={isMailto ? undefined : "noopener noreferrer"} 
+                  className="hover:text-foreground transition-colors"
+                >
+                  {s.name}
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
