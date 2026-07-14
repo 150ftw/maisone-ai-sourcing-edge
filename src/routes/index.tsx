@@ -173,9 +173,9 @@ function Index() {
           <Testimonials />
           
           {/* Floating AI Assistant Button */}
-          <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
-            <span className={`bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md relative animate-float flex flex-col items-start transition-all duration-500 origin-right ${
-              showAIPopup ? "scale-100 opacity-100 translate-x-0" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
+          <div className="fixed bottom-8 right-8 z-50 size-16">
+            <span className={`bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md absolute right-20 top-1/2 -translate-y-1/2 flex flex-col items-start transition-all duration-500 origin-right ${
+              showAIPopup ? "scale-100 opacity-100 translate-x-0 pointer-events-auto" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
             }`}>
               {/* Close Button */}
               <button
@@ -194,7 +194,7 @@ function Index() {
             </span>
             <a
               href="/assistant"
-              className="size-16 rounded-full bg-electric text-background flex items-center justify-center shadow-[0_0_35px_rgba(194,164,109,0.4)] hover:scale-105 transition-transform hover:shadow-[0_0_45px_rgba(194,164,109,0.6)] shrink-0 animate-float"
+              className="size-16 rounded-full bg-electric text-background flex items-center justify-center shadow-[0_0_35px_rgba(194,164,109,0.4)] hover:scale-105 transition-transform hover:shadow-[0_0_45px_rgba(194,164,109,0.6)] shrink-0 animate-float absolute inset-0"
               style={{ animationDelay: '0.5s' }}
             >
               <MessageSquare className="size-7" />
