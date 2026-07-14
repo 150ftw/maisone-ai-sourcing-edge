@@ -82,8 +82,7 @@ export function Footer() {
           <div className="flex gap-5">
             {[
               { name: "Instagram", url: "https://www.instagram.com/maisone.global?igsh=MTN0d3Q4dzZrcHZlcg%3D%3D&utm_source=qr" },
-              { name: "LinkedIn", url: "https://www.linkedin.com/company/maisonè-global/?viewAsMember=true" },
-              { name: "Facebook", url: "#" }
+              { name: "LinkedIn", url: "https://www.linkedin.com/company/maisonè-global/?viewAsMember=true" }
             ].map((s) => (
               <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">{s.name}</a>
             ))}
