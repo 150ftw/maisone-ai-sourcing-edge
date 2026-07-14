@@ -180,7 +180,7 @@ function Index() {
               {/* Close Button */}
               <button
                 onClick={() => setShowAIPopup(false)}
-                className="absolute top-3.5 right-3 size-4 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/90 transition-colors cursor-pointer flex items-center justify-center text-white"
+                className="absolute top-2 right-2.5 size-4 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/90 transition-colors cursor-pointer flex items-center justify-center text-white"
                 title="Close"
                 aria-label="Close popup"
               >
