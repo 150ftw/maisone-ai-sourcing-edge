@@ -7,12 +7,13 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-
-  useEffect(() => {
-    const stored = (typeof window !== "undefined" && localStorage.getItem("maisone-theme")) as Theme | null;
-    if (stored) setTheme(stored);
-  }, []);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("maisone-theme") as Theme | null;
+      if (stored === "light" || stored === "dark") return stored;
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const root = document.documentElement;

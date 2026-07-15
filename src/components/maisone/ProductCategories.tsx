@@ -58,9 +58,9 @@ const categories = [
   {
     name: "Couture",
     images: [
-      "/Collection/Couture/a857cc2e-9ddc-447a-ac21-72eddeedb8e9.png",
-      "/Collection/Couture/bfdc6f98-0ed9-4337-980a-0db0946f02e0.png",
-      "/Collection/Couture/db93e3bb-ff5c-4138-8d35-350e20b2ee21.jpg"
+      "/Collection/Couture/image.png",
+      "/Collection/Couture/image copy.png",
+      "/Collection/Couture/image copy 2.png"
     ],
     hue: "from-slate-500/40 to-zinc-800/50"
   },
@@ -87,12 +87,10 @@ const categories = [
   {
     name: "Leather",
     images: [
-      "/Collection/Leather/41a2df11-af75-4d02-968d-01df938fd8ae.jpg",
-      "/Collection/Leather/497857fc-583b-4f01-9045-a5d86ee7c0d3.jpg",
-      "/Collection/Leather/75f56406-53bb-4e2d-9080-257aa78a89e7.jpg",
-      "/Collection/Leather/b1e4722a-6329-4b61-bef6-2e8784ffa9ca.jpg",
-      "/Collection/Leather/d8155f59-0c3a-4a67-8305-f8c25b6b6e4c.jpg",
-      "/Collection/Leather/f6ec41e2-9404-4b31-a278-4a19a9714167.jpg"
+      "/Collection/Leather/image.png",
+      "/Collection/Leather/image copy.png",
+      "/Collection/Leather/image copy 2.png",
+      "/Collection/Leather/image copy 3.png"
     ],
     hue: "from-pink-500/30 to-rose-700/40"
   }

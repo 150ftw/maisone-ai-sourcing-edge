@@ -295,7 +295,7 @@ export function Blogs() {
                       <span>•</span>
                       <span>{blog.read_time.split(" ")[0]} {t("blogs.minRead")}</span>
                     </div>
-                    <h3 className="font-serif text-xl sm:text-2xl text-white tracking-tight group-hover:text-electric transition-colors line-clamp-2">
+                    <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] dark:text-white tracking-tight group-hover:text-electric transition-colors line-clamp-2">
                       {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                     </h3>
                     <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-3">
@@ -305,7 +305,7 @@ export function Blogs() {
                   <Link
                     to="/blog/$blogId"
                     params={{ blogId: blog.id }}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-white group-hover:text-electric transition-colors cursor-pointer self-start"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2C2C2C] dark:text-white group-hover:text-electric transition-colors cursor-pointer self-start"
                   >
                     {t("blogs.readArticle")} <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>

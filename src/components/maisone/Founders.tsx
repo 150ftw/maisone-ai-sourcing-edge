@@ -65,7 +65,7 @@ export function Founders() {
                   <div className="flex flex-wrap gap-2 mb-4">
                   <div className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl bg-electric/10 text-electric border border-electric/20 flex flex-col gap-0.5">
                     <span>{t("founders.coFounder")}</span>
-                    <span className="text-white/80 text-[8px] tracking-wider">{f.role.split(" · ")[1]}</span>
+                    <span className="text-[#2C2C2C]/80 dark:text-white/80 text-[8px] tracking-wider">{f.role.split(" · ")[1]}</span>
                   </div>
                   </div>
                   <h3 className="font-serif text-3xl text-foreground/90">{f.name}</h3>

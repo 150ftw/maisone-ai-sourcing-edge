@@ -98,7 +98,7 @@ function BlogDetailPage() {
           ) : error || !blog ? (
             <div className="min-h-[400px] flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-4">
               <AlertCircle className="size-12 text-destructive" />
-              <h2 className="font-serif text-2xl text-white">Something went wrong</h2>
+              <h2 className="font-serif text-2xl text-[#2C2C2C] dark:text-white">Something went wrong</h2>
               <p className="text-sm text-muted-foreground">{error || "We couldn't retrieve this article. Please check the URL or try again later."}</p>
               <Link to="/" className="px-5 py-2.5 bg-foreground text-background font-semibold rounded-full text-xs hover:opacity-90 transition-opacity">
                 Return to Site
@@ -111,7 +111,7 @@ function BlogDetailPage() {
                 <span className="text-[10px] tracking-[0.25em] bg-electric/15 text-electric px-3 py-1.5 rounded-full uppercase font-bold border border-electric/20">
                   {t(`blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any) || blog.category}
                 </span>
-                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white leading-tight tracking-tight mt-4">
+                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[#2C2C2C] dark:text-white leading-tight tracking-tight mt-4">
                   {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                 </h1>
                 
