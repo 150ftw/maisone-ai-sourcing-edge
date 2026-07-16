@@ -248,15 +248,92 @@ export function ProductCategories() {
               ))}
             </div>
 
-            {/* Folder Gallery Display */}
-            <div className="relative flex flex-col items-center justify-center min-h-[420px] sm:min-h-[520px] lg:min-h-[580px]">
-              <InteractiveFolderGallery
-                key={activeCategory.name} // Force re-render on tab change to reset folder state
-                photos={galleryPhotos}
-                folderName={`${activeCategory.name}.sourcing`}
-                dragHintText="Drag photo down to return to folder"
-                className="py-4 lg:py-6"
-              />
+            {/* Folder Gallery Display / Swatch Book */}
+            <div className="relative flex flex-col items-center justify-center min-h-[420px] sm:min-h-[520px] lg:min-h-[580px] w-full [perspective:1200px]">
+              {categories.map((c, i) => {
+                const isActive = i === activeIdx;
+                const offset = i - activeIdx;
+                
+                // Render all swatches so the full stack is always visible
+                // No early return for Math.abs(offset) > 5
+                
+                return (
+                  <motion.div
+                    key={c.name}
+                    className={`absolute w-[95%] sm:w-[95%] h-[95%] sm:h-[95%] origin-bottom-right rounded-3xl glass-strong shadow-2xl border border-white/10 ${!isActive ? 'cursor-pointer hover:border-electric/50' : ''}`}
+                    onClick={() => !isActive && setActiveIdx(i)}
+                    initial={false}
+                    animate={{
+                      rotate: isActive ? 0 : offset * 3,
+                      x: isActive ? 0 : offset * 10,
+                      y: isActive ? 0 : offset * 25,
+                      z: isActive ? 0 : -Math.abs(offset) * 30,
+                      opacity: isActive ? 1 : Math.max(0.2, 1 - Math.abs(offset) * 0.1),
+                      scale: isActive ? 1 : 1 - Math.abs(offset) * 0.015
+                    }}
+                    whileHover={!isActive ? {
+                      x: offset * 10 + (offset < 0 ? -15 : 15),
+                      y: offset * 25 + (offset < 0 ? -15 : 15),
+                      rotate: offset * 3 + (offset < 0 ? -2 : 2),
+                      scale: 1 - Math.abs(offset) * 0.015 + 0.02
+                    } : {}}
+                    transition={{ type: "spring", stiffness: 250, damping: 25 }}
+                    style={{ zIndex: categories.length - Math.abs(offset) }}
+                  >
+                    <div className="absolute inset-0 bg-background/90 rounded-3xl" />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-overlay opacity-40 rounded-3xl`} />
+                    
+                    <div className="relative z-10 w-full h-full flex flex-col p-4 sm:p-6">
+                       {/* Swatch Hole Punch (Visual detail) */}
+                       <div className="absolute top-6 left-6 size-4 rounded-full bg-background shadow-inner border border-white/5 hidden sm:block" />
+                       
+                       {/* Top: Info */}
+                       <div className="w-full border-b border-white/10 pb-4 mb-4 flex justify-between items-end pl-0 sm:pl-10">
+                          <div>
+                            <div className="size-8 rounded-full border border-electric/30 flex items-center justify-center mb-2 text-electric glow-electric">
+                               <span className="font-serif text-sm">{String(i + 1).padStart(2, "0")}</span>
+                            </div>
+                            <h3 className="font-serif text-xl sm:text-2xl font-medium">{c.name}</h3>
+                          </div>
+                          
+                          {isActive && (
+                            <motion.div 
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ delay: 0.3 }}
+                              className="hidden sm:block"
+                            >
+                              <p className="text-[10px] tracking-[0.2em] uppercase text-electric text-right">Premium<br/>Sourcing</p>
+                            </motion.div>
+                          )}
+                       </div>
+                       
+                       {/* Bottom: Interactive Images Grid */}
+                       <div className="w-full h-full relative flex-1">
+                          {isActive ? (
+                            <div className="absolute inset-0 rounded-xl">
+                               <InteractiveFolderGallery
+                                 key={c.name}
+                                 photos={c.images.slice(0, 5).map((img, idx) => ({ id: idx, image: img }))}
+                                 folderName={`${c.name}.swatch`}
+                                 dragHintText="Drag down to return"
+                                 className="py-0 h-full"
+                               />
+                            </div>
+                          ) : (
+                            <div className="absolute inset-0 grid grid-cols-2 gap-2 sm:gap-3 opacity-60 grayscale blur-[2px]">
+                              {c.images.slice(0,4).map((img, idx) => (
+                                <div key={idx} className="relative rounded-xl overflow-hidden h-full">
+                                  <img src={img} className="absolute inset-0 w-full h-full object-cover" />
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                       </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>

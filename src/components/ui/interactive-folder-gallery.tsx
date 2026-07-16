@@ -179,9 +179,9 @@ export function InteractiveFolderGallery({
               const stackScale = 1 - Math.abs(offset) * 0.025;
 
               const openY = -110;
-              const openX = offset * 130;
-              const openRotate = 0;
-              const openScale = 1.05;
+              const openX = offset * 90;
+              const openRotate = offset * 3.5;
+              const openScale = 0.95;
 
               return (
                 <FolderCard
