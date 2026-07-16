@@ -29,6 +29,19 @@ function getClientIp(req: Request): string {
   return req.headers.get('x-real-ip') || req.headers.get('cf-connecting-ip') || '127.0.0.1'
 }
 
+// In-memory cache for company_info.md to avoid disk IO on every chat request
+let companyInfoCache = ""
+function getCompanyInfo(): string {
+  if (companyInfoCache) return companyInfoCache
+  try {
+    const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
+    companyInfoCache = fs.readFileSync(filePath, 'utf-8')
+  } catch (e) {
+    console.warn("Could not read company_info.md:", e)
+  }
+  return companyInfoCache
+}
+
 const sendChatFn = createServerFn({ method: 'POST' })
   .validator((d: { message: string; history: ChatMessage[] }) => d)
   .handler(async ({ data }) => {
@@ -44,7 +57,10 @@ const sendChatFn = createServerFn({ method: 'POST' })
           // Reset window
           rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
         } else if (limitInfo.count >= RATE_LIMIT_MAX) {
-          return { error: "Too many requests. Please wait a minute before asking more questions." }
+          return new Response(JSON.stringify({ error: "Too many requests. Please wait a minute before asking more questions." }), {
+            status: 429,
+            headers: { 'Content-Type': 'application/json' }
+          })
         } else {
           limitInfo.count += 1
         }
@@ -53,21 +69,17 @@ const sendChatFn = createServerFn({ method: 'POST' })
       }
 
       const apiKey = process.env.KIMI_API_KEY
-      const baseURL = process.env.KIMI_BASE_URL || 'https://api.moonshot.cn/v1'
-      const model = process.env.KIMI_MODEL || 'moonshot-v1-8k'
+      const baseURL = process.env.KIMI_BASE_URL
+      const model = process.env.KIMI_MODEL
 
-      if (!apiKey) {
-        return { error: 'Chat API key is missing on the server. Please verify your .env file.' }
+      if (!apiKey || !baseURL || !model) {
+        return new Response(JSON.stringify({ error: 'Chat API configuration (KIMI_API_KEY, KIMI_BASE_URL, or KIMI_MODEL) is missing on the server. Please verify your .env file.' }), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
-      // Read the official company knowledge base
-      let companyInfo = ""
-      try {
-        const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
-        companyInfo = fs.readFileSync(filePath, 'utf-8')
-      } catch (e) {
-        console.warn("Could not read company_info.md:", e)
-      }
+      const companyInfo = getCompanyInfo()
 
       const messagesInput = [
         {
@@ -90,7 +102,7 @@ STRICT BEHAVIOR RULES:
 3. If the user asks about a product category, supplier, or material not mentioned in the official list, politely explain that Maisone does not currently support it and only list what is officially supported.
 4. Keep answers concise, high-end, premium, and professional.
 5. NEVER print out developer notes, warnings, or mention technical terms like "the provided document", "the database context", "this file", "the records below", or "our system instructions". Answer directly as a customer-facing representative.
-6. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing partner and coordinator. Always direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email admin@maisone.ai) to facilitate introductions, request custom samples, or negotiate terms.
+6. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email admin@maisone.ai) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
 7. STANDARDIZED FORMATTING RULE: When presenting supplier details, always use the following exact structure, with distinct vertical bullet points for each attribute, and comma-separated lists for multiple values. Do NOT collapse them or use nested inline bullet symbols (•).
 Example structure:
 - **Category:** [Category]
@@ -126,24 +138,32 @@ ${companyInfo}`,
         body: JSON.stringify({
           model,
           messages: messagesInput,
-          temperature: 0.1
+          temperature: 0.1,
+          stream: true
         })
       })
 
       if (!response.ok) {
         const errorText = await response.text()
-        return { error: `Kimi API error: ${response.statusText} - ${errorText}` }
+        return new Response(JSON.stringify({ error: `Kimi API error: ${response.statusText} - ${errorText}` }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        })
       }
 
-      const result = (await response.json()) as {
-        choices: { message: { content: string } }[]
-      }
-
-      const reply = result.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response."
-      return { reply }
+      return new Response(response.body, {
+        headers: {
+          'Content-Type': 'text/event-stream',
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+        }
+      })
     } catch (e: any) {
       console.error("Chat Server Error:", e)
-      return { error: e?.message || "An unexpected server error occurred." }
+      return new Response(JSON.stringify({ error: e?.message || "An unexpected server error occurred." }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      })
     }
   })
 
@@ -214,18 +234,92 @@ function AssistantRoute() {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim() || isLoading) return
-    
+
     const userMsg = input.trim()
     setInput('')
-    
+
     const currentHistory = [...messages]
     setMessages(prev => [...prev, { role: 'user', content: userMsg }])
     setIsLoading(true)
 
     try {
-      const result = await sendChatFn({ data: { message: userMsg, history: currentHistory } })
-      const text = result.reply || result.error || "An unexpected error occurred."
-      setMessages(prev => [...prev, { role: 'ai', content: text }])
+      const response = await sendChatFn({ data: { message: userMsg, history: currentHistory } })
+
+      // Check if server returned a direct JSON error
+      const contentType = response.headers.get('Content-Type') || ''
+      if (contentType.includes('application/json')) {
+        const errJson = await response.json()
+        if (errJson.error) {
+          setMessages(prev => [...prev, { role: 'ai', content: errJson.error }])
+          return
+        }
+      }
+
+      if (!response.body) {
+        throw new Error("No response body received.")
+      }
+
+      // Add a placeholder message for the AI response
+      setMessages(prev => [...prev, { role: 'ai', content: "" }])
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulatedText = ""
+      let buffer = ""
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+
+        // Keep the last incomplete line in the buffer
+        buffer = lines.pop() || ""
+
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (!trimmed || trimmed === 'data: [DONE]') continue
+
+          if (trimmed.startsWith('data: ')) {
+            try {
+              const dataObj = JSON.parse(trimmed.slice(6))
+              const content = dataObj.choices?.[0]?.delta?.content || ""
+              if (content) {
+                accumulatedText += content
+                setMessages(prev => {
+                  const updated = [...prev]
+                  if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                    updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+                  }
+                  return updated
+                })
+              }
+            } catch (err) {
+              // Ignore split JSON chunks
+            }
+          }
+        }
+      }
+
+      // Parse final chunk buffer if present
+      if (buffer.trim().startsWith('data: ') && buffer.trim() !== 'data: [DONE]') {
+        try {
+          const dataObj = JSON.parse(buffer.trim().slice(6))
+          const content = dataObj.choices?.[0]?.delta?.content || ""
+          if (content) {
+            accumulatedText += content
+            setMessages(prev => {
+              const updated = [...prev]
+              if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+              }
+              return updated
+            })
+          }
+        } catch (err) { }
+      }
+
     } catch (error) {
       setMessages(prev => [...prev, { role: 'ai', content: "An unexpected network error occurred. Please verify your connection." }])
     } finally {
@@ -235,16 +329,90 @@ function AssistantRoute() {
 
   const handleQuickOptionClick = async (queryText: string) => {
     if (isLoading) return
-    
+
     setMessages(prev => [...prev, { role: 'user', content: queryText }])
     setIsLoading(true)
 
     const currentHistory = [...messages]
 
     try {
-      const result = await sendChatFn({ data: { message: queryText, history: currentHistory } })
-      const text = result.reply || result.error || "An unexpected error occurred."
-      setMessages(prev => [...prev, { role: 'ai', content: text }])
+      const response = await sendChatFn({ data: { message: queryText, history: currentHistory } })
+
+      // Check if server returned a direct JSON error
+      const contentType = response.headers.get('Content-Type') || ''
+      if (contentType.includes('application/json')) {
+        const errJson = await response.json()
+        if (errJson.error) {
+          setMessages(prev => [...prev, { role: 'ai', content: errJson.error }])
+          return
+        }
+      }
+
+      if (!response.body) {
+        throw new Error("No response body received.")
+      }
+
+      // Add a placeholder message for the AI response
+      setMessages(prev => [...prev, { role: 'ai', content: "" }])
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulatedText = ""
+      let buffer = ""
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+
+        // Keep the last incomplete line in the buffer
+        buffer = lines.pop() || ""
+
+        for (const line of lines) {
+          const trimmed = line.trim()
+          if (!trimmed || trimmed === 'data: [DONE]') continue
+
+          if (trimmed.startsWith('data: ')) {
+            try {
+              const dataObj = JSON.parse(trimmed.slice(6))
+              const content = dataObj.choices?.[0]?.delta?.content || ""
+              if (content) {
+                accumulatedText += content
+                setMessages(prev => {
+                  const updated = [...prev]
+                  if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                    updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+                  }
+                  return updated
+                })
+              }
+            } catch (err) {
+              // Ignore split JSON chunks
+            }
+          }
+        }
+      }
+
+      // Parse final chunk buffer if present
+      if (buffer.trim().startsWith('data: ') && buffer.trim() !== 'data: [DONE]') {
+        try {
+          const dataObj = JSON.parse(buffer.trim().slice(6))
+          const content = dataObj.choices?.[0]?.delta?.content || ""
+          if (content) {
+            accumulatedText += content
+            setMessages(prev => {
+              const updated = [...prev]
+              if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+              }
+              return updated
+            })
+          }
+        } catch (err) { }
+      }
+
     } catch (error) {
       setMessages(prev => [...prev, { role: 'ai', content: "An unexpected network error occurred. Please verify your connection." }])
     } finally {
@@ -261,14 +429,14 @@ function AssistantRoute() {
 
   const showCTA = messages.length > 2 && messages[messages.length - 1].role === 'ai' && (
     /thank|bye|goodbye|done|exit|finish|wrap|great|perfect|awesome/i.test(messages[messages.length - 2]?.content || '') ||
-    /demo|admin|contact|specialist|connect|inquire/i.test(messages[messages.length - 1]?.content || '')
+    /book|demo|contact|admin|specialist|connect|inquire/i.test(messages[messages.length - 2]?.content || '')
   )
 
   return (
     <div className="min-h-screen pt-32 pb-16 px-6">
       <div className="w-full relative">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           className="fixed top-8 left-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 px-5 py-2.5 rounded-full glass hover:bg-secondary/50 z-50 border border-border"
         >
           <ArrowLeft className="size-4" />
@@ -276,7 +444,7 @@ function AssistantRoute() {
         </Link>
 
         {messages.length > 1 && (
-          <button 
+          <button
             onClick={handleClearChat}
             className="fixed top-8 right-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 px-5 py-2.5 rounded-full glass hover:bg-secondary/50 z-50 border border-border cursor-pointer animate-fade-in"
           >
@@ -388,23 +556,23 @@ function AssistantRoute() {
               )}
             </div>
             <div className="p-5 border-t border-border bg-background/60 backdrop-blur-md">
-            <form onSubmit={handleSend} className="relative flex items-center">
-              <input
-                type="text"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                placeholder="Ask about a supplier..."
-                className="w-full glass rounded-full pl-6 pr-14 py-4 text-sm outline-none placeholder:text-foreground"
-              />
-              <button 
-                type="submit" 
-                disabled={!input.trim() || isLoading}
-                className="absolute right-2 size-10 flex items-center justify-center rounded-full bg-foreground text-background disabled:opacity-50 transition-opacity"
-              >
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="translate-x-[1px]"><path d="M1.20308 1.04312C1.00481 0.954998 0.772341 1.0048 0.627577 1.16641C0.482813 1.32802 0.458794 1.56455 0.568117 1.75196L3.92115 7.50002L0.568117 13.2481C0.458794 13.4355 0.482813 13.672 0.627577 13.8336C0.772341 13.9952 1.00481 14.045 1.20308 13.9569L14.5364 8.02358C14.7136 7.94482 14.8291 7.76569 14.8291 7.50002C14.8291 7.23435 14.7136 7.05522 14.5364 6.97645L1.20308 1.04312ZM4.84553 7.10002L2.21234 2.586L13.2689 7.50002L2.21234 12.414L4.84552 7.90002H9C9.22091 7.90002 9.4 7.72093 9.4 7.50002C9.4 7.27911 9.22091 7.10002 9 7.10002H4.84553Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
-              </button>
-            </form>
-          </div>
+              <form onSubmit={handleSend} className="relative flex items-center">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  placeholder="Ask about a supplier..."
+                  className="w-full glass rounded-full pl-6 pr-14 py-4 text-sm outline-none placeholder:text-foreground"
+                />
+                <button
+                  type="submit"
+                  disabled={!input.trim() || isLoading}
+                  className="absolute right-2 size-10 flex items-center justify-center rounded-full bg-foreground text-background disabled:opacity-50 transition-opacity"
+                >
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" className="translate-x-[1px]"><path d="M1.20308 1.04312C1.00481 0.954998 0.772341 1.0048 0.627577 1.16641C0.482813 1.32802 0.458794 1.56455 0.568117 1.75196L3.92115 7.50002L0.568117 13.2481C0.458794 13.4355 0.482813 13.672 0.627577 13.8336C0.772341 13.9952 1.00481 14.045 1.20308 13.9569L14.5364 8.02358C14.7136 7.94482 14.8291 7.76569 14.8291 7.50002C14.8291 7.23435 14.7136 7.05522 14.5364 6.97645L1.20308 1.04312ZM4.84553 7.10002L2.21234 2.586L13.2689 7.50002L2.21234 12.414L4.84552 7.90002H9C9.22091 7.90002 9.4 7.72093 9.4 7.50002C9.4 7.27911 9.22091 7.10002 9 7.10002H4.84553Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"></path></svg>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
