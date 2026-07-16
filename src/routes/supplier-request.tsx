@@ -23,16 +23,31 @@ type Form = {
   workEmail: string;
   factoryName: string;
   region: string;
+  clientele: string;
+
   categories: string[];
+  capabilities: string;
+  fabrics: string;
+  productionCapacity: string;
   moq: string;
-  leadTime: string;
-  message: string;
+  samplingLeadTime: string;
+  productionLeadTime: string;
+
+  qualityControl: string;
+  certifications: string;
+  sustainability: string;
+  compliance: string;
+  paymentTerms: string;
 };
 
 function SupplierRequestPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const [categoriesList, setCategoriesList] = useState([
+    "Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"
+  ]);
+  const [newCategoryName, setNewCategoryName] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,24 +56,52 @@ function SupplierRequestPage() {
     workEmail: "",
     factoryName: "",
     region: "India",
+    clientele: "",
     categories: ["Apparel"],
+    capabilities: "",
+    fabrics: "",
+    productionCapacity: "",
     moq: "100–500 units",
-    leadTime: "4–6 weeks",
-    message: "",
+    samplingLeadTime: "",
+    productionLeadTime: "",
+    qualityControl: "",
+    certifications: "",
+    sustainability: "",
+    compliance: "",
+    paymentTerms: "30% Deposit, 70% Balance",
   });
 
-  const STEPS = ["Factory details", "Capabilities"];
+  const STEPS = ["Company Profile", "Capabilities & Production", "Standards & Terms"];
 
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
 
   const canNext =
     (step === 0 && form.fullName.trim() && form.workEmail.includes("@") && form.factoryName.trim()) ||
-    step === 1;
+    (step === 1 && form.categories.length > 0 && form.fabrics.trim() && form.productionLeadTime.trim()) ||
+    step === 2;
 
   const submit = async () => {
     setLoading(true);
     setError(null);
     try {
+      const formattedMessage = `
+--- Company Profile & Clientele ---
+Clientele: ${form.clientele || "Not specified"}
+
+--- Capabilities & Production ---
+Fabrics we work with: ${form.fabrics}
+Manufacturing capabilities: ${form.capabilities || "Not specified"}
+Production capacity: ${form.productionCapacity || "Not specified"}
+Sampling lead time: ${form.samplingLeadTime || "Not specified"}
+
+--- Standards, Compliance & Terms ---
+Quality control: ${form.qualityControl || "Not specified"}
+Certifications: ${form.certifications || "Not specified"}
+Sustainability: ${form.sustainability || "Not specified"}
+Compliance: ${form.compliance || "Not specified"}
+Payment terms: ${form.paymentTerms}
+`.trim();
+
       const { error: insertError } = await supabase
         .from("supplier_requests")
         .insert([
@@ -69,8 +112,8 @@ function SupplierRequestPage() {
             region: form.region,
             categories: form.categories,
             moq: form.moq,
-            lead_time: form.leadTime,
-            message: form.message,
+            lead_time: form.productionLeadTime,
+            message: formattedMessage,
             status: "Pending",
           },
         ]);
@@ -91,7 +134,7 @@ function SupplierRequestPage() {
     <ThemeProvider>
       <div className="relative min-h-screen noise overflow-x-hidden">
         <div className="absolute inset-0 hero-aura pointer-events-none" />
-        
+
         <div className="fixed right-6 top-6 z-50">
           <SettingsMenu />
         </div>
@@ -109,13 +152,13 @@ function SupplierRequestPage() {
           {/* Left intro */}
           <aside className="lg:col-span-2 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-              <Factory className="size-3 text-electric" /> {t("supplierRequest.pageTitle")}
+              <Factory className="size-3 text-electric" /> Supplier Request
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-balance">
-              {t("supplierRequest.pageTitle")} <span className="italic gradient-text">Maisone</span>.
+              Partner with <span className="italic gradient-text">Maisone</span>.
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              {t("supplierRequest.pageSubtitle")}
+              Submit your manufacturing profile to join our global network of verified suppliers and luxury fashion ateliers.
             </p>
           </aside>
 
@@ -148,9 +191,8 @@ function SupplierRequestPage() {
                   <div className="flex items-center justify-between mb-8">
                     {STEPS.map((s, i) => (
                       <div key={s} className="flex-1 flex items-center">
-                        <div className={`size-7 rounded-full flex items-center justify-center text-[11px] tabular-nums border ${
-                          i <= step ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
-                        }`}>{i + 1}</div>
+                        <div className={`size-7 rounded-full flex items-center justify-center text-[11px] tabular-nums border ${i <= step ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground"
+                          }`}>{i + 1}</div>
                         {i < STEPS.length - 1 && (
                           <div className={`flex-1 h-px mx-2 ${i < step ? "bg-foreground" : "bg-border"}`} />
                         )}
@@ -161,36 +203,111 @@ function SupplierRequestPage() {
                   <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-2">— Step {step + 1} of {STEPS.length}</p>
                   <h2 className="font-serif text-2xl mb-6">{STEPS[step]}</h2>
 
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {step === 0 && (
                       <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <Field label={t("supplierRequest.contactPerson")} value={form.fullName} onChange={(v) => set("fullName", v)} placeholder="Takeshi Kaneshiro" />
                           <Field label={t("supplierRequest.email")} type="email" value={form.workEmail} onChange={(v) => set("workEmail", v)} placeholder="contact@factory.com" />
                         </div>
-                        <Field label={t("supplierRequest.companyName")} value={form.factoryName} onChange={(v) => set("factoryName", v)} placeholder="Osaka Denim Mill" />
-                        <Select label={t("supplierRequest.country")} value={form.region} onChange={(v) => set("region", v)}
-                          options={["India", "China", "Vietnam", "Japan", "Portugal", "Italy", "Turkey", "Other"]} />
+                        <Field label="Company / Factory Name" value={form.factoryName} onChange={(v) => set("factoryName", v)} placeholder="Osaka Denim Mill" />
+                        <Select label="Country of Operation" value={form.region} onChange={(v) => set("region", v)}
+                          options={["Japan", "United Kingdom", "Europe", "United States", "India", "China", "Other"]} />
+                        <Field label="Clientele (Brands you work with)" value={form.clientele} onChange={(v) => set("clientele", v)} placeholder="e.g., Acne Studios, APC, Jacquemus" />
                       </>
                     )}
                     {step === 1 && (
                       <>
-                        <MultiSelect label={t("supplierRequest.specialization")} value={form.categories} onChange={(v) => set("categories", v)}
-                          options={["Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"]} />
-                        <Select label={t("supplierRequest.moq")} value={form.moq} onChange={(v) => set("moq", v)}
-                          options={["< 100 units", "100–500 units", "500–1000 units", "1000+ units"]} />
-                        <Select label={t("supplierRequest.capacity")} value={form.leadTime} onChange={(v) => set("leadTime", v)}
-                          options={["2–4 weeks", "4–6 weeks", "6–8 weeks", "8+ weeks"]} />
+                        <MultiSelect label="Product Categories" value={form.categories} onChange={(v) => set("categories", v)}
+                          options={categoriesList} />
+
+                        <div className="flex items-center gap-2 mt-2">
+                          <input
+                            type="text"
+                            value={newCategoryName}
+                            onChange={(e) => setNewCategoryName(e.target.value)}
+                            placeholder="Add custom category..."
+                            className="rounded-xl bg-background border border-border px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-electric w-48"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const trimmed = newCategoryName.trim();
+                              if (trimmed && !categoriesList.includes(trimmed)) {
+                                setCategoriesList(prev => [...prev, trimmed]);
+                                set("categories", [...form.categories, trimmed]);
+                                setNewCategoryName("");
+                              }
+                            }}
+                            className="bg-foreground text-background rounded-full px-4 py-2 text-xs font-semibold hover:scale-102 transition-transform cursor-pointer"
+                          >
+                            + Add Category
+                          </button>
+                        </div>
+
+                        <Field label="Fabrics You Work With" value={form.fabrics} onChange={(v) => set("fabrics", v)} placeholder="e.g., Organic Cotton, Linen, Selvedge Denim, Silk" />
+
                         <div>
-                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("supplierRequest.message")}</label>
+                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Manufacturing Capabilities</label>
                           <textarea
-                            value={form.message}
-                            onChange={(e) => set("message", e.target.value)}
+                            value={form.capabilities}
+                            onChange={(e) => set("capabilities", e.target.value)}
                             rows={3}
-                            placeholder="Tell us about your certifications, special techniques, or machinery..."
+                            placeholder="Tell us about your special machinery, techniques, washings, embroidery..."
                             className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
                           />
                         </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <Field label="Production Capacity (Monthly)" value={form.productionCapacity} onChange={(v) => set("productionCapacity", v)} placeholder="e.g., 50,000 units" />
+                          <Select label="MOQ (Minimum Order Quantity)" value={form.moq} onChange={(v) => set("moq", v)}
+                            options={["< 100 units", "100–500 units", "500–1000 units", "1000+ units"]} />
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <Field label="Sampling Lead Time" value={form.samplingLeadTime} onChange={(v) => set("samplingLeadTime", v)} placeholder="e.g., 7–14 days" />
+                          <Field label="Production Lead Time" value={form.productionLeadTime} onChange={(v) => set("productionLeadTime", v)} placeholder="e.g., 4–6 weeks" />
+                        </div>
+                      </>
+                    )}
+                    {step === 2 && (
+                      <>
+                        <div>
+                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Quality Control</label>
+                          <textarea
+                            value={form.qualityControl}
+                            onChange={(e) => set("qualityControl", e.target.value)}
+                            rows={2}
+                            placeholder="Describe your quality check process or standards (e.g. AQL 2.5)..."
+                            className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                          />
+                        </div>
+
+                        <Field label="Certifications" value={form.certifications} onChange={(v) => set("certifications", v)} placeholder="e.g., GOTS, OEKO-TEX, GRS, BSCI" />
+
+                        <div>
+                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Sustainability Practices</label>
+                          <textarea
+                            value={form.sustainability}
+                            onChange={(e) => set("sustainability", e.target.value)}
+                            rows={2}
+                            placeholder="Eco-friendly raw materials, energy saving, zero water waste..."
+                            className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Compliance & Labor Standards</label>
+                          <textarea
+                            value={form.compliance}
+                            onChange={(e) => set("compliance", e.target.value)}
+                            rows={2}
+                            placeholder="Working hours, safety conditions, audit logs..."
+                            className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                          />
+                        </div>
+
+                        <Field label="Payment Terms" value={form.paymentTerms} onChange={(v) => set("paymentTerms", v)} placeholder="e.g., 30% Deposit, 70% Balance" />
                       </>
                     )}
                   </div>
@@ -271,9 +388,8 @@ function Select({ label, value, onChange, options }: { label: string; value: str
             key={o}
             type="button"
             onClick={() => onChange(o)}
-            className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${
-              value === o ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
-            }`}
+            className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${value === o ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
+              }`}
           >
             {o}
           </button>
@@ -301,9 +417,8 @@ function MultiSelect({ label, value, onChange, options }: { label: string; value
                   onChange([...value, o]);
                 }
               }}
-              className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${
-                isSelected ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
-              }`}
+              className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${isSelected ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
+                }`}
             >
               {o}
             </button>

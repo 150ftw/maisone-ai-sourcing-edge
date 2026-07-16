@@ -1,11 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://placeholder-value.supabase.co";
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "placeholder-key";
+const getEnv = (key: string) => {
+  if (typeof process !== "undefined" && process.env?.[key]) {
+    return process.env[key];
+  }
+  return import.meta.env?.[key];
+};
 
-if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+const supabaseUrl = getEnv("VITE_SUPABASE_URL") || "https://placeholder-value.supabase.co";
+const supabaseAnonKey = getEnv("VITE_SUPABASE_ANON_KEY") || "placeholder-key";
+
+if (supabaseUrl.includes("placeholder") || supabaseAnonKey.includes("placeholder")) {
   console.warn(
-    "Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file."
+    "Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your env/process variables."
   );
 }
 

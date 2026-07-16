@@ -36,7 +36,7 @@ export const en = {
     stat4Value: "Luxury",
     stat4Label: "Fashion Expertise",
     liveSourcingNetwork: "Live Sourcing Network",
-    weCurrentlySource: "We currently source in all these",
+    weCurrentlySource: "We supply to all these",
     countries: "countries",
     sourcingScore: "Sourcing Score",
     activeSuppliers: "Active Suppliers",

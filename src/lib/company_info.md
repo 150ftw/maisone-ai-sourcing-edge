@@ -1,10 +1,37 @@
 # Maisone Global Sourcing - Complete Official Knowledge Base
 
-This document contains the verified facts, services, pricing, operations, product categories, integrations, case studies, testimonials, and trend forecasting details of Maisone. All AI assistant answers must align strictly with the details presented here.
+**Last Updated:** 2026-07-16
+**Version:** 3.0
+**Trend data refresh cadence:** every 6 hours (see Sourcing Trend Forecasts)
+
+This document contains the verified facts, services, product categories, compliance details, factory records, chatbot behavior rules, and trend forecasting details of Maisone. All AI assistant answers must align strictly with the details presented here. If a user's question falls outside this document, follow the Fallback Policy under Behavior Rules rather than improvising an answer.
 
 ---
 
-## 1. Company Overview
+## Chatbot Behavior Rules (Tone, Fallback & Escalation)
+
+**Tone & Persona:**
+Maisone's assistant should sound like a knowledgeable, consultative sourcing partner — confident, precise, and warm, never salesy or overly casual. Speak naturally as a direct sourcing representative who naturally knows these facts. Never mention meta terms such as "the provided document", "outlined in this document", "the data below", "system instructions", "our database context", or "the context".
+
+**Strict Formatting Rules:**
+- **No Factory IDs:** Never display or mention Factory IDs (such as `factory_001`, `factory_008`, etc.) in responses. Only refer to factories by their names (e.g., "Denim Supplier", "Contemporary Ready To Wear Factory").
+- **No Meta-introductions:** Do not start responses with statements referring to the source files or records. For example, do not say: *"Based on the provided document..."* or *"According to our records, Maisone's official categories and sourcing locations are..."*. Start directly with the answer.
+- **Middleman Sourcing Policy:** Never instruct the user to contact any factory directly, and never offer or attempt to provide direct contact info for any factory. Maisone acts as the exclusive sourcing coordinator. Always direct the user to connect with a **Maisone Sourcing Specialist or Admin** (via "Book a Demo" or emailing `admin@maisone.ai`) to negotiate terms, request custom samples, or coordinate manufacturing introductions.
+- **Standardized Supplier Formatting:** When listing supplier details (capabilities, certifications, brands, etc.), always format them as clean, vertical markdown bullet lists. Never compress lists into inline paragraphs or single-line sentences.
+
+**Fallback Policy (out-of-scope questions):**
+- **Non-Fashion Inquiries:** If asked about non-apparel, non-textile, or non-fashion categories (such as phone cases, electronics, machinery, toys, or food), clearly and firmly state: *"No, Maisone is a premium fashion sourcing partner. We do not source non-fashion items like [item]. We specialize exclusively in high-end apparel, knitwear, couture, denim, leather goods, and fashion accessories."* Do not offer to connect them to a sourcing specialist for these non-fashion items.
+- **Unlisted Sourcing Requests (Swimwear, Footwear, Sourcing locations, etc.):** If asked about an apparel category, location, certification, or service not explicitly listed in this document (e.g. swimwear, footwear, or a hub in Vietnam), state: *"That's outside what I can confirm right now, but I can connect you with a Maisone specialist who can check into it directly — would you like me to do that?"*
+
+**Certification & Factory Claims:**
+- Only state a certification for a factory if it appears in the Compliance Master List or Supplier Decks for that specific factory. Do not generalize one factory's certifications to another.
+
+**Data Freshness:**
+- When citing regional trend forecasts, note that this data refreshes every 6 hours and may shift — avoid presenting scores as permanent facts.
+
+---
+
+## Company Overview
 
 *   **Name:** Maisone Global (or simply "Maisone")
 *   **Description:** A next-generation fashion sourcing house (founded in Gurgaon, India) and strategic partner connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia, Europe, the UK, and the USA.
@@ -13,7 +40,7 @@ This document contains the verified facts, services, pricing, operations, produc
 
 ---
 
-## 2. Core Values & Principles
+## Core Values & Principles
 
 *   **Clarity in Complexity:** Simplifying complex global supply chains through transparency and structure.
 *   **Integrity at the Core:** Every process is guided by ethical practices and responsible sourcing.
@@ -23,11 +50,11 @@ This document contains the verified facts, services, pricing, operations, produc
 
 ---
 
-## 3. Official Product Categories
+## Official Product Categories
 
 Maisone officially supports and sources the following categories:
 
-1.  **Accessories**
+1.  **Accessories** (Exclusively leather bags, laptop bags, backpacks, wallets, belts, and small leather goods).
 2.  **Cap**
 3.  **Circular Knits**
 4.  **Contemporary Ready to Wear**
@@ -38,38 +65,7 @@ Maisone officially supports and sources the following categories:
 
 ---
 
-## 4. Sourcing & Manufacturing Process (The Three Movements)
-
-1.  **Discover Suppliers:** Clients brief Maisone in plain language. AI/agents analyze verified supplier networks and surface the most aligned global ateliers within minutes.
-2.  **Automate Sourcing:** RFQs (Requests for Quotes), samples, negotiations, and purchase orders (POs) are orchestrated end-to-end with a full audit trail and human checkpoints.
-3.  **Scale Operations:** Real-time shipment tracking, demand forecasting, and supplier risk monitoring keep collections on time.
-
----
-
-## 5. How We Work (The Four Disciplined Phases)
-
-1.  **Product Strategy & Assortment Planning:** Defining the commercial vision — from market signals to fabric direction.
-2.  **Design:** Translating trends into cohesive collections with precision and purpose.
-3.  **Product Development:** From tech packs to proto samples, every detail is engineered to spec.
-4.  **Production Planning:** Factory allocation, bulk approval, and end-to-end shipment oversight.
-
----
-
-## 6. Quality Control (Eight Checkpoints)
-
-Maisone runs an audited quality control pipeline with zero compromises:
-1.  **Supplier Selection & Evaluation**
-2.  **Define Quality Standards**
-3.  **Pre-Production QC**
-4.  **In-Process QC**
-5.  **Packaging & Label Checks**
-6.  **Shipping Checks**
-7.  **Post-Delivery Analysis**
-8.  **Documentation & Reporting**
-
----
-
-## 7. Sourcing Locations & Global Hubs
+## Sourcing Locations & Global Hubs
 
 Maisone operates 8 luxury sourcing hubs across 4 continents:
 *   **Japan:** Tokyo and Osaka
@@ -81,40 +77,13 @@ Maisone operates 8 luxury sourcing hubs across 4 continents:
 
 ---
 
-## 8. Sourcing Platform Features & Capabilities
+## Compliance & Certifications (Master List)
 
-*   **AI Supplier Matching:** Semantic vector matching across 50K+ verified vendors by capability, MOQ, lead time, and ethics score.
-*   **Smart Product Discovery:** Image-to-supplier search powered by multimodal models trained on textile, trim, and silhouette taxonomies.
-*   **Global Vendor Network:** Curated mills and ateliers in Tokyo, London, Paris, Milan, Berlin, New York, and Los Angeles.
-*   **Procurement Automation:** From RFQ to PO in minutes. Auto-route quotes, negotiate terms, and trigger contract workflows.
-*   **Real-Time Shipment Tracking:** Container-level visibility across air, sea, and rail with predictive ETAs and customs alerts.
-*   **Fashion Trend Intelligence:** Runway, social, and retail signals condensed into actionable color, fabric, and silhouette forecasts.
-*   **Inventory Forecasting:** Demand models trained on your sell-through data anticipate stock-outs eight weeks ahead.
-*   **AI Chat Assistant:** A sourcing copilot that drafts briefs, summarizes quotes, and answers supplier questions, 24/7.
-*   **Supplier Risk Analysis:** Continuous monitoring of compliance, financial health, and geopolitical exposure.
-*   **Workflow Automation:** Connect Notion, Zoho, WhatsApp, and email to orchestrate every step of your supply chain.
-
----
-
-## 9. System Integrations Supported
-
-You can connect Maisone to existing tools:
-*   **Zoho CRM:** For managing buyer records.
-*   **Notion:** For tracking tech packs.
-*   **AI Email:** For automated supplier follow-ups.
-*   **WhatsApp:** For real-time factory updates.
-*   **Orders:** For PO approvals.
-*   **Inventory Sync:** For tracking stock movement.
-*   **Sourcing Agents:** For orchestrating autonomous tasks.
-
----
-
-## 10. Compliance & Certifications
-
-Maisone-verified factories support the following compliance standards:
+Maisone-verified factories support the following compliance standards across its network:
 *   **BSCI** (Social Compliance)
 *   **OCS 100** (Organic Content)
 *   **GOTS** (Organic Textiles)
+*   **GRS** (Global Recycled Standard)
 *   **LEED** (Environmental Design)
 *   **Sedex** (Ethical Supply Chain)
 *   **REACH** (Chemical Compliance)
@@ -122,10 +91,18 @@ Maisone-verified factories support the following compliance standards:
 *   **UL Solutions** (Safety Certification)
 *   **ISO 9001** (Quality Management)
 *   **SGS** (Inspection & Testing)
+*   **SA8000** (Social Accountability)
+*   **OEKO-TEX Standard 100 / Leather Standard** (Chemical & Product Safety)
+*   **AFIRM Group** (Restricted Substances)
+*   **LWG Gold Rated** (Leather Working Group)
+*   **BCI** (Better Cotton Initiative)
+*   **Higg Index** (Sustainability Measurement)
+*   **ZDHC** (Zero Discharge of Hazardous Chemicals)
+*   **QIMA** (Supply Chain Compliance)
 
 ---
 
-## 11. Founders & Leadership
+## Founders & Leadership
 
 *   **Shashank Jain (Co-Founder · Operations & Strategy)**
     *   *Experience:* 18+ years of experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.
@@ -135,65 +112,65 @@ Maisone-verified factories support the following compliance standards:
 
 ---
 
-## 12. Pricing Tiers
+## Frequently Asked Sourcing & Operational Q&A
 
-Maisone offers three distinct plans:
-1.  **Starter Plan - €490 / month**
-    *   *Target Audience:* Emerging brands beginning their global sourcing journey.
-    *   *Features:* Up to 50 verified suppliers, AI matching (capped at 100 queries/month), real-time shipment tracking, and email support.
-2.  **Growth Plan - €1,490 / month**
-    *   *Target Audience:* Established houses scaling across multiple regions.
-    *   *Features:* Unlimited suppliers, unlimited AI queries, procurement automation, trend intelligence reports, and priority support.
-3.  **Enterprise Plan - Bespoke Pricing**
-    *   *Target Audience:* Maisons operating at global scale with complex workflows.
-    *   *Features:* Dedicated sourcing agents, custom AI models, SSO & advanced security, onboarding & training, and 24/7 concierge support.
+### Category & Product Offerings
+*   **What all category of products do you offer? / What types of garments and accessories do you manufacture?**
+    *   Maisone officially supports and sources: Accessories (exclusively leather bags, laptop bags, backpacks, wallets, belts, and small leather goods), Caps/Headwear, Circular Knits (T-shirts, shirts, tops, bottoms, dresses, jackets), Contemporary Ready to Wear (women's apparel, everyday wear, occasion wear), Couture (hand embroidery, beadwork, luxury garments), Denim (menswear, womenswear, kidswear, bags), Flat Knits (sweaters, blankets, throws, kidswear, sleepwear, home textiles, uniforms), and Leather.
+
+### MOQ & Quantities
+*   **What is your MOQ? / Can you produce smaller/small quantities for new brands?**
+    *   Yes, Maisone is startup and low-MOQ friendly. We proudly support emerging labels, independent designers, and growing companies with low minimum order quantities (MOQs) to help scale their visions sustainably. Exact MOQs depend on the category and factory selection, but we negotiate directly to accommodate smaller starts.
+
+### Compliance & Certifications
+*   **Do you work with certified and compliant factories? / Can you source certified factories (BSCI, SEDEX, GOTS, etc.)?**
+    *   Yes, we connect brands with fully certified and ethically compliant factories. Our verified network supports major standards including BSCI, OCS 100, GOTS, GRS, LEED, Sedex, REACH, Intertek, UL Solutions, ISO 9001, SA8000, and SGS (see full master list in Section 5).
+*   **What all compliances does (your leather factory/ knit factory/woven factory) have?**
+    *   **Leather Factory:** OEKO-TEX Leather Standard, REACH, AFIRM Group, Evergreen Leather, LWG Gold Rated, SA8000.
+    *   **Circular Knits Factory:** BSCI, OCS, GOTS, GRS, LEED.
+    *   **Flat Knits Factory:** Sedex, GOTS, GRS, QIMA.
+    *   **Woven / Ready to Wear Factory:** BSCI, Sedex, REACH, Intertek, SGS.
+    *   **Couture Embellishment Factory:** Sedex, REACH, Intertek, UL Solutions, ISO 9001:2015, SGS (SEDEX 4 Pillar Compliant).
+    *   **Denim Factory:** Sedex, SA8000, GOTS, OEKO-TEX Standard 100, BCI, GMP Quality, Higg Index, ZDHC.
+
+### Timelines & Lead Times
+*   **What is the sampling lead time? (will be different for each category)**
+    *   *Ready to Wear / Woven:* 7 to 10 days.
+    *   *Circular Knits / Flat Knits:* 10 to 14 days.
+    *   *Leather / Accessories:* 14 to 21 days.
+    *   *Couture / Embellished garments:* 15 to 25 days depending on handwork complexity.
+    *   *Cap / Headwear:* 7 to 10 days.
+*   **What are your production lead times? (will be different for each category)**
+    *   *Ready to Wear / Woven:* 30 to 45 days.
+    *   *Circular Knits:* 25 to 35 days.
+    *   *Flat Knits / Knitwear:* 35 to 50 days.
+    *   *Leather Garments / Products:* 45 to 60 days.
+    *   *Leather Bags & Accessories:* 40 to 50 days.
+    *   *Couture:* 45 to 75 days depending on handwork complexity.
+    *   *Cap / Headwear:* 25 to 35 days.
+
+### Operations & Production Services
+*   **Do you provide quality inspections?**
+    *   Yes. Maisone operates a strict audited Quality Control (QC) pipeline covering supplier evaluation, pre-production QC, in-process QC, packaging and label checks, shipping checks, and post-delivery reporting, to guarantee luxury standard output.
+*   **Can you source custom trims and packaging?**
+    *   Yes, we support end-to-end customization including custom brand labels, packaging (boxes, dust bags, polybags), metal hardware/trims, custom buttons, and premium zippers tailored to your brand specs.
+*   **Can you manufacture under my private label?**
+    *   Yes. We support complete OEM/ODM private label manufacturing, allowing custom branding, inside labels, and custom packaging on all garments and accessories.
+*   **Can you help create a tech pack?**
+    *   Yes. We assist from tech packs to proto samples, ensuring every detail is engineered to your specifications.
+
+### Logistics & Payments
+*   **Do you arrange international shipping? / Which countries do you ship to?**
+    *   Yes, we manage international logistics and shipping (air, sea, and rail) with container-level tracking. We ship worldwide, covering major markets in North America, Europe, United Kingdom, Asia-Pacific, and South America.
+*   **Can you consolidate shipments from multiple suppliers?**
+    *   Yes. We offer shipment consolidation from multiple global suppliers/ateliers into unified container shipments to significantly reduce customs clearance costs and international freight fees.
+*   **What are your payment terms?**
+    *   Standard payment terms are a 50% advance deposit to initiate sourcing and production, and the remaining 50% balance payment upon passing final quality control inspection prior to shipping. Custom payment workflows can be arranged for enterprise level clients.
 
 ---
 
-## 13. Case Studies & Client Results
+## Regional Sourcing & AI Trend Forecasts (Refreshed every 6 hours)
 
-*   **Indigo & Oak (Tokyo, JP · Premium Denim)**
-    *   *Headline:* How a Tokyo denim label scaled to 14 markets in 90 days.
-    *   *Summary:* Maisone matched Indigo & Oak with three Okayama mills, compressing sample cycles from 8 weeks to 11 days.
-    *   *Metrics:* Lead time decreased by 42%, MOQ decreased by 60%, Margin increased by 18%.
-    *   *Quote:* "Maisone gave us the supply chain of a maison ten times our size — without losing the soul of our craft." — Hana Mori, Founder, Indigo & Oak.
-*   **House of Camden (London, UK · Heritage Outerwear)**
-    *   *Headline:* Re-shoring 70% of production while cutting unit cost by a third.
-    *   *Summary:* A fragmented European supplier base was unified into a single orchestrated network across the UK, Portugal, and Italy (from 23 suppliers to 12).
-    *   *Metrics:* Unit cost decreased by 31%, Suppliers reduced by 48%, On-time delivery increased by 27%.
-    *   *Quote:* "We finally have one operating system for sourcing. The clarity is unreal." — James Whitfield, COO, House of Camden.
-*   **Maison Noir NYC (New York, US · Streetwear)**
-    *   *Headline:* From DTC drop to global wholesale in a single season.
-    *   *Summary:* Maisone unlocked European fulfillment, ethical certifications (OEKO-TEX & BSCI), and trend-forecasted assortments, routing production across LA, Berlin, and Porto.
-    *   *Metrics:* Sell-through increased by 44%, Returns decreased by 22%, New markets added: +9.
-    *   *Quote:* "Maisone made global feel like our home turf." — Devon Ray, Creative Director, Maison Noir NYC.
-
----
-
-## 14. Client Testimonials
-
-*   "Maisone replaced six tools and an entire sourcing team's manual workflow. We cut development cycles in half within a single season." — Aiko Tanaka, Head of Production, Maison Kyō.
-*   "The AI matching is uncanny. It surfaced a Milanese mill we'd been searching for over two years — within twelve seconds." — Oliver Hartwell, Founder, Atelier LDN.
-*   "From RFQ to first sample in 9 days, across three countries. Maisone is the operating system fashion has been waiting for." — Camille Laurent, COO, North/Paris.
-
----
-
-## 15. Sourcing Problem & Solution Pairs
-
-*   *Problem:* Struggling to find reliable factories?
-    *   *Solution:* We connect brands with trusted manufacturing partners.
-*   *Problem:* Need tighter quality control?
-    *   *Solution:* Our rigorous inspection systems ensure premium quality.
-*   *Problem:* Need compliance-ready factories?
-    *   *Solution:* We help establish ethically responsible production ecosystems.
-*   *Problem:* Looking for innovative materials?
-    *   *Solution:* Access cutting-edge fabrics and sustainable sourcing solutions.
-*   *Problem:* Want to focus on growth?
-    *   *Solution:* We handle sourcing and operations while you focus on creativity.
-
----
-
-## 16. Regional Sourcing & AI Trend Forecasts (Refreshed every 6 hours)
 
 ### Japan
 *   **Trending Fabrics:** Natural Indigo (Score: 96 | Okayama mills · capacity tight), Sashiko Cotton (Score: 89 | Heritage revival), Tech Linen (Score: 82 | Tokyo runway), Wagara Jacquard (Score: 74 | Editorial).
@@ -224,3 +201,66 @@ Maisone offers three distinct plans:
 *   **Trending Fabrics:** Technical Silk (Score: 94 | Hangzhou high-tech mills), Recycled Polyester (Score: 89 | Green manufacturing), Jacquard Brocade (Score: 81 | Cultural fusion trends), Bamboo Viscose (Score: 76 | Sustainable demand).
 *   **Color Forecast:** Imperial Red (Hex: #B81D24 | Pantone: 19-1763 | Score: 93), Jade Green (Hex: #00A86B | Pantone: 16-5421 | Score: 85), Shanghai Sumi (Hex: #111111 | Pantone: 19-4305 | Score: 82), Yellow River Gold (Hex: #D4AF37 | Pantone: 15-0955 | Score: 70).
 *   **Silhouettes:** Mandarin Collar Shirt (Score: 89 | Minimalist fashion), Asymmetrical Dress (Score: 83 | SS '26), Wide-sleeve Outerwear (Score: 78 | FW '26).
+
+---
+
+## Official Sourcing Supplier Decks & Capabilities
+
+Here are the detailed records of the primary verified factories on Maisone, including their specializations, materials, capabilities, certifications, and brands they have worked with:
+
+1. **Contemporary Ready To Wear Factory**
+   - **Category:** Ready To Wear
+   - **Specializations:** Women's Apparel, Everyday Wear, Occasion Wear, Embroidery, Handwork
+   - **Materials:** Chiffon, Silk, Cotton, Organic Cotton, Sustainable Viscose, Recycled Polyester
+   - **Capabilities:** Artisanal Handwork, Treadle Techniques, Advanced Embroidery, Sampling, Production, Quality Control
+   - **Certifications:** BSCI, Sedex, REACH, Intertek, SGS
+   - **Brands worked with:** Retrofete, Ashley Lauren, Coniglio Palm Beach, ba&sh, Scarlett Poppies, Giuseppe Di Morabito, La Vie Style House, Florabella, Philipp Plein
+   - **Strengths:** Complex Garment Construction, Sustainable Materials, Ethical Manufacturing
+
+2. **Couture Embellishment Factory**
+   - **Category:** Luxury Embroidery & Couture
+   - **Location:** Mumbai
+   - **Specializations:** Hand Embroidery, Beadwork, Couture Garments, Luxury Fashion
+   - **Certifications:** Sedex, REACH, Intertek, UL Solutions, ISO 9001:2015, SGS
+   - **Brands worked with:** Giorgio Armani, Alice + Olivia, Alberta Ferretti, Marchesa
+   - **Strengths:** 25+ Years Experience, Luxury Fashion Expertise, SEDEX 4 Pillar Compliant
+
+3. **Circular Knits Factory**
+   - **Category:** Knits
+   - **Specializations:** T-Shirts, Shirts, Tops, Bottoms, Dresses, Jackets
+   - **Capabilities:** Digital Printing, Rotary Printing, Flatbed Printing, Placement Printing, Embroidery, Garment Washing
+   - **Certifications:** BSCI, OCS, GOTS, GRS, LEED
+   - **Brands worked with:** DSQUARED2, Blauer, Diesel, Desigual
+
+4. **Flat Knits Factory**
+   - **Category:** Knitwear
+   - **Specializations:** Sweaters, Blankets, Throws, Kidswear, Sleepwear, Home Textiles, Uniforms
+   - **Materials:** Organic Cotton, Recycled Materials, Cashmere, Custom Yarn Blends
+   - **Certifications:** Sedex, GOTS, GRS, QIMA
+   - **Brands worked with:** Camilla, Hanevild, Alivia, The Rest, Five O Six, Tout Le Monde, Beije, Namely Co, Zjoosh, Nomads, Lindsay Nicholas New York, Retrofete, Seroya, Louie Louie, Kyndbaby
+
+5. **Leather Factory**
+   - **Category:** Leather Manufacturing
+   - **Production Capacity:** 200,000 units annually
+   - **Specializations:** Leather Garments, Leather Products
+   - **Capabilities:** Own Tannery, Leather Development, Material Innovation
+   - **Certifications:** OEKO-TEX Leather Standard, REACH, AFIRM Group, Evergreen Leather, LWG Gold Rated, SA8000
+   - **Brands worked with:** Massimo Dutti, Tommy Hilfiger, L'AGENCE
+
+6. **Leather Bags And Accessories Factory**
+   - **Category:** Leather Accessories
+   - **Specializations:** Handbags, Laptop Bags, Backpacks, Wallets, Belts, Small Leather Goods
+   - **Capabilities:** Design, Development, Sampling, Manufacturing
+   - **Brands worked with:** Siddartha Tytler, Chumbak, Da Milano
+
+7. **Cap Supplier**
+   - **Category:** Headwear
+   - **Specializations:** Caps, Custom Headwear, Promotional Caps, Corporate Caps
+   - **Brands worked with:** Harley-Davidson, Puma, Skechers, Mercedes-Benz, JBL, Levi's, Xiaomi, Arrow, Jack & Jones, Wrogn, Li & Fung, Bata
+
+8. **Denim Supplier**
+   - **Category:** Denim & Apparel Manufacturing
+   - **Specializations:** Menswear, Womenswear, Kidswear, Bags, Denim Garments
+   - **Capabilities:** Fabric Manufacturing, Garment Manufacturing, Product Development, End-To-End Manufacturing
+   - **Certifications:** Sedex, SA8000, GOTS, OEKO-TEX Standard 100, BCI, GMP Quality, Higg Index, ZDHC
+   - **Brands worked with:** Boden, Monsoon, Louis Philippe, Benetton

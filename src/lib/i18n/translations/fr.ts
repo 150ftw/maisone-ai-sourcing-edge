@@ -34,7 +34,7 @@ export const fr = {
     stat4Value: "Luxe",
     stat4Label: "Expertise mode",
     liveSourcingNetwork: "Réseau de sourcing en temps réel",
-    weCurrentlySource: "Nous opérons actuellement dans tous ces",
+    weCurrentlySource: "Nous approvisionnons tous ces",
     countries: "pays",
     sourcingScore: "Score sourcing",
     activeSuppliers: "Fournisseurs actifs",
