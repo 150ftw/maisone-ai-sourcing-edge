@@ -285,7 +285,7 @@ function InquiriesPage() {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-3xl border border-white/5 glass">
+          <div className="overflow-x-auto rounded-3xl border border-white/5 glass min-h-[300px]">
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
                 <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -339,15 +339,33 @@ function InquiriesPage() {
                     {/* Message Clamping & Modal Trigger */}
                     <td className="px-4 py-4 align-top max-w-xs">
                       <div className="space-y-1">
-                        {req.message ? (
-                          <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-white/5 break-all">
-                            {req.message}
-                          </p>
-                        ) : (
-                          <p className="text-xs text-muted-foreground/50 italic p-2 bg-white/[0.02] border border-white/5 rounded-xl">
-                            No message provided
-                          </p>
-                        )}
+                        {(() => {
+                          if (req.message && req.message.startsWith("{")) {
+                            try {
+                              const parsed = JSON.parse(req.message);
+                              if (parsed.isExistingClient) {
+                                return (
+                                  <div className="text-xs text-muted-foreground bg-black/20 p-2.5 rounded-xl border border-white/5 space-y-1.5 break-words">
+                                    <div className="font-bold text-[#00f2fe] text-[10px] tracking-wide uppercase">Client PO: {parsed.poNumber}</div>
+                                    <div className="text-[11px] text-white/90">
+                                      Samples: <span className="text-white font-semibold">{parsed.samplesRequired}</span> • Delivery: <span className="text-white font-semibold">{parsed.deliveryDate}</span>
+                                    </div>
+                                    <div className="text-[11px] text-muted-foreground/80 line-clamp-2 italic">{parsed.requestDescription}</div>
+                                  </div>
+                                );
+                              }
+                            } catch(e) {}
+                          }
+                          return req.message ? (
+                            <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-white/5 break-all">
+                              {req.message}
+                            </p>
+                          ) : (
+                            <p className="text-xs text-muted-foreground/50 italic p-2 bg-white/[0.02] border border-white/5 rounded-xl">
+                              No message provided
+                            </p>
+                          );
+                        })()}
                         <button 
                           type="button"
                           onClick={() => setSelectedRequest(req)}
@@ -476,33 +494,106 @@ function InquiriesPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2.5">Sourcing Profile</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                      <span className="text-[9px] text-muted-foreground block uppercase">Category</span>
-                      <span className="font-semibold mt-0.5 block text-white">{selectedRequest.category}</span>
-                    </div>
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                      <span className="text-[9px] text-muted-foreground block uppercase">Volume</span>
-                      <span className="font-semibold mt-0.5 block text-white">{selectedRequest.monthly_volume}</span>
-                    </div>
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
-                      <span className="text-[9px] text-muted-foreground block uppercase">Timeline</span>
-                      <span className="font-semibold mt-0.5 block text-white">{selectedRequest.timeline}</span>
-                    </div>
-                  </div>
-                </div>
+                {(() => {
+                  let parsedMsg: any = null;
+                  let isExisting = false;
+                  if (selectedRequest.message && selectedRequest.message.startsWith("{")) {
+                    try {
+                      parsedMsg = JSON.parse(selectedRequest.message);
+                      isExisting = !!parsedMsg.isExistingClient;
+                    } catch (e) {}
+                  }
 
-                <div>
-                  <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
-                    <MessageSquare className="size-3.5" />
-                    Client Message
-                  </h4>
-                  <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
-                    {selectedRequest.message || "No additional message was provided."}
-                  </p>
-                </div>
+                  if (isExisting) {
+                    return (
+                      <>
+                        <div>
+                          <span className="text-[10px] tracking-[0.2em] bg-[#00f2fe]/10 text-[#00f2fe] border border-[#00f2fe]/20 px-2.5 py-0.5 rounded-full uppercase font-medium">Existing Client PO Request</span>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-3">
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">PO Number</span>
+                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.poNumber || "—"}</span>
+                          </div>
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">Samples Req.</span>
+                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.samplesRequired || 0}</span>
+                          </div>
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">Delivery Date</span>
+                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.deliveryDate || "—"}</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">Request Description</h4>
+                          <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                            {parsedMsg.requestDescription || "—"}
+                          </p>
+                        </div>
+
+                        {parsedMsg.otherSpecifications && (
+                          <div>
+                            <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">Other Specifications</h4>
+                            <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                              {parsedMsg.otherSpecifications}
+                            </p>
+                          </div>
+                        )}
+
+                        {parsedMsg.file && (
+                          <div className="px-3.5 py-3 rounded-xl bg-electric/5 border border-electric/15 text-xs flex items-center justify-between">
+                            <div className="space-y-0.5">
+                              <span className="text-[9px] text-muted-foreground block uppercase">Uploaded Document</span>
+                              <span className="text-white font-medium">{parsedMsg.file.name}</span>
+                            </div>
+                            <a
+                              href={parsedMsg.file.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-3.5 py-1.5 rounded-lg bg-electric text-background font-semibold hover:scale-102 transition-transform cursor-pointer text-xs"
+                            >
+                              Download Tech Pack
+                            </a>
+                          </div>
+                        )}
+                      </>
+                    );
+                  }
+
+                  return (
+                    <>
+                      <div>
+                        <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2.5">Sourcing Profile</h4>
+                        <div className="flex flex-wrap gap-2">
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">Category</span>
+                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.category}</span>
+                          </div>
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">Volume</span>
+                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.monthly_volume}</span>
+                          </div>
+                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                            <span className="text-[9px] text-muted-foreground block uppercase">Timeline</span>
+                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.timeline}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                          <MessageSquare className="size-3.5" />
+                          Client Message
+                        </h4>
+                        <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                          {selectedRequest.message || "No additional message was provided."}
+                        </p>
+                      </div>
+                    </>
+                  );
+                })()}
 
                 <div className="flex items-center justify-between border-t border-white/5 pt-5">
                   <div className="flex items-center gap-3">

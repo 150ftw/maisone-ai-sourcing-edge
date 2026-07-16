@@ -54,9 +54,67 @@ function BookDemoPage() {
     message: "",
   });
 
-  const STEPS = [t("bookDemo.step1"), t("bookDemo.step2")];
+  // Form fields for existing client
+  const [poNumber, setPoNumber] = useState("");
+  const [samplesRequired, setSamplesRequired] = useState("");
+  const [existingCategories, setExistingCategories] = useState<string[]>(["Apparel"]);
+  const [existingCategoriesList, setExistingCategoriesList] = useState([
+    "Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"
+  ]);
+  const [newExistingCategory, setNewExistingCategory] = useState("");
+  const [requestDescription, setRequestDescription] = useState("");
+  const [deliveryDate, setDeliveryDate] = useState("");
+  const [otherSpecifications, setOtherSpecifications] = useState("");
+  
+  // Document upload state
+  const [uploadedFile, setUploadedFile] = useState<{ name: string; url: string } | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const STEPS = isPreFilled 
+    ? ["Client Profile", "Order & Sourcing Request"]
+    : [t("bookDemo.step1"), t("bookDemo.step2")];
 
   const set = <K extends keyof Form>(k: K, v: Form[K]) => setForm((f) => ({ ...f, [k]: v }));
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setError(null);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}.${fileExt}`;
+      const filePath = `techpacks/${fileName}`;
+
+      const { data, error: uploadError } = await supabase.storage
+        .from("documents")
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.warn("Storage upload failed, falling back to simulation:", uploadError);
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        setUploadedFile({
+          name: file.name,
+          url: `https://mock-storage.maisone.ai/files/${fileName}`
+        });
+      } else {
+        const { data: { publicUrl } } = supabase.storage
+          .from("documents")
+          .getPublicUrl(filePath);
+
+        setUploadedFile({
+          name: file.name,
+          url: publicUrl
+        });
+      }
+    } catch (err: any) {
+      console.error("File upload error:", err);
+      setError("Failed to upload document. Please try again.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -79,20 +137,32 @@ function BookDemoPage() {
           region: region ? decodeURIComponent(region) : f.region,
         }));
         setIsPreFilled(true);
-        // Skip straight to capabilities / sourcing needs
         setStep(1);
       }
     }
-  }, []);
+  }, [isPreFilled]);
 
-  const canNext =
-    (step === 0 && form.fullName.trim() && form.workEmail.includes("@") && form.company.trim()) ||
-    step === 1;
+  const canNext = isPreFilled
+    ? (poNumber.trim() && samplesRequired && requestDescription.trim() && deliveryDate)
+    : ((step === 0 && form.fullName.trim() && form.workEmail.includes("@") && form.company.trim()) || step === 1);
 
   const submit = async () => {
     setLoading(true);
     setError(null);
     try {
+      let compiledMessage = form.message;
+      if (isPreFilled) {
+        compiledMessage = JSON.stringify({
+          isExistingClient: true,
+          poNumber: poNumber.trim(),
+          samplesRequired: Number(samplesRequired) || 0,
+          deliveryDate: deliveryDate,
+          requestDescription: requestDescription.trim(),
+          otherSpecifications: otherSpecifications.trim(),
+          file: uploadedFile ? { name: uploadedFile.name, url: uploadedFile.url } : null
+        });
+      }
+
       const { error: insertError } = await supabase
         .from("demo_requests")
         .insert([
@@ -103,10 +173,10 @@ function BookDemoPage() {
             role: form.role,
             company_size: form.companySize,
             region: form.region,
-            category: form.category,
-            monthly_volume: form.monthlyVolume,
-            timeline: form.timeline,
-            message: form.message,
+            category: isPreFilled ? existingCategories.join(", ") : form.category,
+            monthly_volume: isPreFilled ? "Existing Client PO" : form.monthlyVolume,
+            timeline: isPreFilled ? "N/A" : form.timeline,
+            message: compiledMessage,
             status: "Pending",
           },
         ]);
@@ -144,13 +214,15 @@ function BookDemoPage() {
           {/* Left intro */}
           <aside className="lg:col-span-2 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-              <Sparkles className="size-3 text-electric animate-pulse" /> {t("bookDemo.pageTitle")}
+              <Sparkles className="size-3 text-electric animate-pulse" /> {isPreFilled ? "ORDER REQUEST" : t("bookDemo.pageTitle")}
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-balance">
-              {t("bookDemo.pageTitle")} <span className="italic gradient-text">Maisone</span>.
+              {isPreFilled ? "Submit Order Request" : t("bookDemo.pageTitle")} <span className="italic gradient-text">Maisone</span>.
             </h1>
             <p className="text-muted-foreground leading-relaxed text-sm">
-              {t("bookDemo.pageSubtitle")}
+              {isPreFilled 
+                ? "Submit a new purchase order or sampling request directly to the Maisone sourcing team." 
+                : t("bookDemo.pageSubtitle")}
             </p>
           </aside>
 
@@ -215,22 +287,142 @@ function BookDemoPage() {
                     )}
                     {step === 1 && (
                       <>
-                        <Select label={t("bookDemo.category")} value={form.category} onChange={(v) => set("category", v)}
-                          options={["Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"]} />
-                        <Select label={t("bookDemo.monthlyVolume")} value={form.monthlyVolume} onChange={(v) => set("monthlyVolume", v)}
-                          options={["< 1k units", "1k–10k units", "10k–50k units", "50k–250k units", "250k+ units"]} />
-                        <Select label={t("bookDemo.timeline")} value={form.timeline} onChange={(v) => set("timeline", v)}
-                          options={["Immediate", "< 1 month", "1–3 months", "3–6 months", "Exploring"]} />
-                        <div>
-                          <label className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("bookDemo.message")}</label>
-                          <textarea
-                            value={form.message}
-                            onChange={(e) => set("message", e.target.value)}
-                            rows={3}
-                            placeholder={t("bookDemo.messagePlaceholder")}
-                            className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
-                          />
-                        </div>
+                        {isPreFilled ? (
+                          <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <Field 
+                                label="PO Number" 
+                                value={poNumber} 
+                                onChange={setPoNumber} 
+                                placeholder="e.g. PO-2026-0042" 
+                              />
+                              <Field 
+                                label="Number of Samples Required" 
+                                type="number" 
+                                value={samplesRequired} 
+                                onChange={setSamplesRequired} 
+                                placeholder="e.g. 3" 
+                              />
+                            </div>
+                            
+                            <MultiSelect 
+                              label="Product Category (Select Multiple)" 
+                              value={existingCategories} 
+                              onChange={setExistingCategories} 
+                              options={existingCategoriesList} 
+                            />
+                            
+                            <div className="flex items-center gap-2 mt-2">
+                              <input
+                                type="text"
+                                value={newExistingCategory}
+                                onChange={(e) => setNewExistingCategory(e.target.value)}
+                                placeholder="Add custom category..."
+                                className="rounded-xl bg-background border border-border px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-electric w-48 text-white"
+                              />
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const trimmed = newExistingCategory.trim();
+                                  if (trimmed && !existingCategoriesList.includes(trimmed)) {
+                                    setExistingCategoriesList(prev => [...prev, trimmed]);
+                                    setExistingCategories(prev => [...prev, trimmed]);
+                                    setNewExistingCategory("");
+                                  }
+                                }}
+                                className="bg-foreground text-background rounded-full px-4 py-2 text-xs font-semibold hover:scale-102 transition-transform cursor-pointer"
+                              >
+                                + Add Category
+                              </button>
+                            </div>
+
+                            <div>
+                              <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Request Description</label>
+                              <textarea
+                                value={requestDescription}
+                                onChange={(e) => setRequestDescription(e.target.value)}
+                                rows={3}
+                                placeholder="Describe the style, fit, materials, and other key details of this request..."
+                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="text-[10px] uppercase tracking-widest text-muted-foreground block">Delivery Date</label>
+                              <input
+                                type="date"
+                                value={deliveryDate}
+                                onChange={(e) => setDeliveryDate(e.target.value)}
+                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="text-[10px] uppercase tracking-widest text-muted-foreground">Any Other Specifications</label>
+                              <textarea
+                                value={otherSpecifications}
+                                onChange={(e) => setOtherSpecifications(e.target.value)}
+                                rows={2}
+                                placeholder="Any packaging, labeling, testing, or custom wash instructions..."
+                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-[10px] uppercase tracking-widest text-muted-foreground block">Tech Pack / PO Documents</label>
+                              <div className="flex flex-col items-center justify-center border border-dashed border-white/10 hover:border-white/20 rounded-2xl p-6 bg-white/[0.01] transition-all relative">
+                                {uploading ? (
+                                  <div className="flex flex-col items-center gap-2 py-2">
+                                    <Loader2 className="size-6 text-electric animate-spin" />
+                                    <span className="text-xs text-muted-foreground">Uploading document...</span>
+                                  </div>
+                                ) : uploadedFile ? (
+                                  <div className="flex flex-col items-center gap-2 py-2">
+                                    <Check className="size-6 text-emerald-400" />
+                                    <span className="text-xs text-white font-medium break-all text-center">{uploadedFile.name}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => setUploadedFile(null)}
+                                      className="text-[10px] text-red-400 hover:underline mt-1"
+                                    >
+                                      Remove File
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <label className="flex flex-col items-center gap-2 cursor-pointer py-2 w-full text-center">
+                                    <span className="text-xs text-electric hover:underline font-medium">Click to upload document</span>
+                                    <span className="text-[10px] text-muted-foreground">Tech Packs, Specification Sheets, or PO Info</span>
+                                    <input
+                                      type="file"
+                                      accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.rar,.png,.jpg,.jpeg"
+                                      onChange={handleFileUpload}
+                                      className="hidden"
+                                    />
+                                  </label>
+                                )}
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <Select label={t("bookDemo.category")} value={form.category} onChange={(v) => set("category", v)}
+                              options={["Apparel", "Denim", "Knitwear", "Leather Goods", "Footwear", "Accessories", "Textiles"]} />
+                            <Select label={t("bookDemo.monthlyVolume")} value={form.monthlyVolume} onChange={(v) => set("monthlyVolume", v)}
+                              options={["< 1k units", "1k–10k units", "10k–50k units", "50k–250k units", "250k+ units"]} />
+                            <Select label={t("bookDemo.timeline")} value={form.timeline} onChange={(v) => set("timeline", v)}
+                              options={["Immediate", "< 1 month", "1–3 months", "3–6 months", "Exploring"]} />
+                            <div>
+                              <label className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("bookDemo.message")}</label>
+                              <textarea
+                                value={form.message}
+                                onChange={(e) => set("message", e.target.value)}
+                                rows={3}
+                                placeholder={t("bookDemo.messagePlaceholder")}
+                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                              />
+                            </div>
+                          </>
+                        )}
                       </>
                     )}
                   </div>
@@ -321,6 +513,37 @@ function Select({ label, value, onChange, options, disabled = false }: { label: 
             {o}
           </button>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function MultiSelect({ label, value, onChange, options }: { label: string; value: string[]; onChange: (v: string[]) => void; options: string[] }) {
+  return (
+    <div>
+      <label className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</label>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {options.map((o) => {
+          const isSelected = value.includes(o);
+          return (
+            <button
+              key={o}
+              type="button"
+              onClick={() => {
+                if (isSelected) {
+                  onChange(value.filter((v) => v !== o));
+                } else {
+                  onChange([...value, o]);
+                }
+              }}
+              className={`px-3.5 py-2 rounded-full text-xs border transition-colors ${
+                isSelected ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {o}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

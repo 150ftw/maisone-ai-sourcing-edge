@@ -1,8 +1,8 @@
 import { createFileRoute, Link, useNavigate, Outlet, redirect, useLocation } from "@tanstack/react-router";
 import { useState, useEffect, createContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowLeft, LogOut, Loader2, Search, Filter, 
+import {
+  ArrowLeft, LogOut, Loader2, Search, Filter,
   Trash2, Mail, Building2, User, Globe, Layers,
   Calendar, MessageSquare, ShieldAlert, Sparkles, Check, RefreshCw,
   ChevronLeft, ChevronRight, X, Plus, ChevronDown, TrendingUp, Activity,
@@ -128,7 +128,7 @@ export function StatusDropdown({ currentStatus, onChange, options = ["Pending", 
       {isOpen && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
-          <div className="absolute left-0 mt-2 w-36 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-36 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
             {statuses.map((status) => {
               const styles = getStatusStyles(status);
               return (
@@ -300,9 +300,9 @@ export function OverviewSkeleton() {
 
       {/* Chart Skeleton */}
       <div className="rounded-xl p-5 bg-white/[0.02] border border-white/5 animate-pulse h-[200px]">
-         <div className="h-3 w-1/4 bg-white/5 rounded mb-2" />
-         <div className="h-2 w-1/3 bg-white/5 rounded" />
-         <div className="mt-8 h-20 w-full bg-white/5 rounded" />
+        <div className="h-3 w-1/4 bg-white/5 rounded mb-2" />
+        <div className="h-2 w-1/3 bg-white/5 rounded" />
+        <div className="mt-8 h-20 w-full bg-white/5 rounded" />
       </div>
 
       {/* List Skeleton */}
@@ -337,12 +337,18 @@ const ADMIN_TABS = [
   { id: "trends" as const, to: "/admin/trends" as const, label: "Trend Forecasts", icon: TrendingUp },
   { id: "blogs" as const, to: "/admin/blogs" as const, label: "Blog Section", icon: BookOpen },
 ];
-const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];export function SuppliersWrapper() {
+
+const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];
+
+export function SuppliersWrapper() {
   const [region, setRegion] = useState("All");
   const [query, setQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [suppliersList, setSuppliersList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Modal Sub-tab State
+  const [modalTab, setModalTab] = useState<"basic" | "caps" | "compliance">("basic");
 
   // Editing state
   const [editingSupplier, setEditingSupplier] = useState<any | null>(null);
@@ -359,11 +365,25 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
   const [ownerDetails, setOwnerDetails] = useState("");
   const [emailId, setEmailId] = useState("");
 
-  const categoriesList = [
-    "Denim", "Silk", "Wool", "Tailoring", "Leather", 
-    "Knitwear", "Accessories", "Cap", "Circular Knits", 
+  // Rich supplier details
+  const [clientele, setClientele] = useState("");
+  const [fabrics, setFabrics] = useState("");
+  const [capabilities, setCapabilities] = useState("");
+  const [productionCapacity, setProductionCapacity] = useState("");
+  const [moq, setMoq] = useState("100–500 units");
+  const [samplingLeadTime, setSamplingLeadTime] = useState("");
+  const [qualityControl, setQualityControl] = useState("");
+  const [certifications, setCertifications] = useState("");
+  const [sustainability, setSustainability] = useState("");
+  const [compliance, setCompliance] = useState("");
+  const [paymentTerms, setPaymentTerms] = useState("30% Deposit, 70% Balance");
+
+  const [categoriesList, setCategoriesList] = useState([
+    "Denim", "Silk", "Wool", "Tailoring", "Leather",
+    "Knitwear", "Accessories", "Cap", "Circular Knits",
     "Contemporary Ready to Wear", "Couture"
-  ];
+  ]);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   const fetchSuppliers = async () => {
     try {
@@ -396,6 +416,21 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
     setContactNo("");
     setOwnerDetails("");
     setEmailId("");
+
+    // Rich details reset
+    setClientele("");
+    setFabrics("");
+    setCapabilities("");
+    setProductionCapacity("");
+    setMoq("100–500 units");
+    setSamplingLeadTime("");
+    setQualityControl("");
+    setCertifications("");
+    setSustainability("");
+    setCompliance("");
+    setPaymentTerms("30% Deposit, 70% Balance");
+
+    setModalTab("basic");
     setIsModalOpen(true);
   };
 
@@ -404,13 +439,66 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
     setName(supplier.name);
     setCity(supplier.city);
     setRegionVal(supplier.region);
-    setSelectedCategories(supplier.category ? supplier.category.split(", ") : []);
+    const categoriesFromSupplier = supplier.category ? supplier.category.split(", ") : [];
+    setSelectedCategories(categoriesFromSupplier);
+    categoriesFromSupplier.forEach((cat: string) => {
+      if (cat && !categoriesList.includes(cat)) {
+        setCategoriesList(prev => [...prev, cat]);
+      }
+    });
     setLead(String(supplier.lead));
     setOtd(String(supplier.otd));
     setRating(String(supplier.rating));
     setContactNo(supplier.contact_no || "");
-    setOwnerDetails(supplier.owner_details || "");
     setEmailId(supplier.email_id || "");
+
+    // Parse ownerDetails JSON if valid
+    const detailsRaw = supplier.owner_details || "";
+    if (detailsRaw.startsWith("{")) {
+      try {
+        const parsed = JSON.parse(detailsRaw);
+        setOwnerDetails(parsed.owner || "");
+        setClientele(parsed.clientele || "");
+        setFabrics(parsed.fabrics || "");
+        setCapabilities(parsed.capabilities || "");
+        setProductionCapacity(parsed.productionCapacity || "");
+        setMoq(parsed.moq || "100–500 units");
+        setSamplingLeadTime(parsed.samplingLeadTime || "");
+        setQualityControl(parsed.qualityControl || "");
+        setCertifications(parsed.certifications || "");
+        setSustainability(parsed.sustainability || "");
+        setCompliance(parsed.compliance || "");
+        setPaymentTerms(parsed.paymentTerms || "30% Deposit, 70% Balance");
+      } catch (e) {
+        setOwnerDetails(detailsRaw);
+        setClientele("");
+        setFabrics("");
+        setCapabilities("");
+        setProductionCapacity("");
+        setMoq("100–500 units");
+        setSamplingLeadTime("");
+        setQualityControl("");
+        setCertifications("");
+        setSustainability("");
+        setCompliance("");
+        setPaymentTerms("30% Deposit, 70% Balance");
+      }
+    } else {
+      setOwnerDetails(detailsRaw);
+      setClientele("");
+      setFabrics("");
+      setCapabilities("");
+      setProductionCapacity("");
+      setMoq("100–500 units");
+      setSamplingLeadTime("");
+      setQualityControl("");
+      setCertifications("");
+      setSustainability("");
+      setCompliance("");
+      setPaymentTerms("30% Deposit, 70% Balance");
+    }
+
+    setModalTab("basic");
     setIsModalOpen(true);
   };
 
@@ -437,6 +525,21 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
       return;
     }
 
+    const serializedDetails = JSON.stringify({
+      owner: ownerDetails.trim(),
+      clientele: clientele.trim(),
+      fabrics: fabrics.trim(),
+      capabilities: capabilities.trim(),
+      productionCapacity: productionCapacity.trim(),
+      moq: moq,
+      samplingLeadTime: samplingLeadTime.trim(),
+      qualityControl: qualityControl.trim(),
+      certifications: certifications.trim(),
+      sustainability: sustainability.trim(),
+      compliance: compliance.trim(),
+      paymentTerms: paymentTerms
+    });
+
     const payload = {
       name: name.trim(),
       region: regionVal,
@@ -446,7 +549,7 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
       otd: Number(otd) || 95,
       rating: Number(rating) || 4.5,
       contact_no: contactNo.trim() || null,
-      owner_details: ownerDetails.trim() || null,
+      owner_details: serializedDetails,
       email_id: emailId.trim() || null
     };
 
@@ -514,11 +617,11 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
       {loading ? (
         <TableSkeleton />
       ) : (
-        <Suppliers 
-          query={query} 
-          region={region} 
-          setRegion={setRegion} 
-          data={suppliersList} 
+        <Suppliers
+          query={query}
+          region={region}
+          setRegion={setRegion}
+          data={suppliersList}
           onEdit={openEditModal}
           onDelete={handleDeleteSupplier}
         />
@@ -551,144 +654,322 @@ const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States",
                 {editingSupplier ? "Edit Supplier" : "Add Supplier"}
               </h2>
 
+              {/* Tab Selector */}
+              <div className="flex border-b border-white/10 mb-6 gap-4 text-xs font-semibold">
+                <button
+                  type="button"
+                  onClick={() => setModalTab("basic")}
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "basic" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                    }`}
+                >
+                  Basic Info
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalTab("caps")}
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "caps" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                    }`}
+                >
+                  Capabilities & Production
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalTab("compliance")}
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "compliance" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                    }`}
+                >
+                  Compliance & Standards
+                </button>
+              </div>
+
               <form onSubmit={handleSaveSupplier} className="space-y-5">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Supplier Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    placeholder="e.g. Kyoto Atelier"
-                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">City</label>
-                    <input
-                      type="text"
-                      required
-                      value={city}
-                      onChange={e => setCity(e.target.value)}
-                      placeholder="e.g. Kyoto"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Region</label>
-                    <CustomSelect value={regionVal} onChange={setRegionVal} options={["Japan", "United Kingdom", "Europe", "United States", "India", "China"]} />
-                  </div>
-                </div>
-                
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium block">Categories (Select Multiple)</label>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {categoriesList.map((cat) => {
-                      const isSelected = selectedCategories.includes(cat);
-                      return (
+                {modalTab === "basic" && (
+                  <>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Supplier Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        placeholder="e.g. Kyoto Atelier"
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">City</label>
+                        <input
+                          type="text"
+                          required
+                          value={city}
+                          onChange={e => setCity(e.target.value)}
+                          placeholder="e.g. Kyoto"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Region</label>
+                        <CustomSelect value={regionVal} onChange={setRegionVal} options={["Japan", "United Kingdom", "Europe", "United States", "India", "China", "Other"]} />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Production Lead Time (Days)</label>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          required
+                          value={lead}
+                          onChange={e => setLead(e.target.value)}
+                          placeholder="e.g. 21"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">OTD Rate (%)</label>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          required
+                          value={otd}
+                          onChange={e => setOtd(e.target.value)}
+                          placeholder="e.g. 96"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Rating (1-5)</label>
+                        <input
+                          type="text"
+                          required
+                          value={rating}
+                          onChange={e => setRating(e.target.value)}
+                          placeholder="e.g. 4.9"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Contact Person / Owner</label>
+                        <input
+                          type="text"
+                          value={ownerDetails}
+                          onChange={e => setOwnerDetails(e.target.value)}
+                          placeholder="e.g. Kenji Tanaka (Founder)"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Contact No</label>
+                        <input
+                          type="text"
+                          value={contactNo}
+                          onChange={e => setContactNo(e.target.value)}
+                          placeholder="e.g. +81 90-1234-5678"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Email ID</label>
+                        <input
+                          type="email"
+                          value={emailId}
+                          onChange={e => setEmailId(e.target.value)}
+                          placeholder="e.g. tanaka@kyotoatelier.jp"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Clientele (Brands they work with)</label>
+                        <input
+                          type="text"
+                          value={clientele}
+                          onChange={e => setClientele(e.target.value)}
+                          placeholder="e.g. Acne Studios, A.P.C."
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                {modalTab === "caps" && (
+                  <>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium block">Categories (Select Multiple)</label>
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {categoriesList.map((cat) => {
+                          const isSelected = selectedCategories.includes(cat);
+                          return (
+                            <button
+                              key={cat}
+                              type="button"
+                              onClick={() => {
+                                setSelectedCategories(prev =>
+                                  prev.includes(cat)
+                                    ? prev.filter(c => c !== cat)
+                                    : [...prev, cat]
+                                );
+                              }}
+                              className={`px-3 py-1.5 rounded-full text-[10px] border font-medium transition-all duration-200 cursor-pointer ${isSelected
+                                  ? "bg-electric border-electric text-background shadow-md shadow-electric/25 font-bold"
+                                  : "bg-white/[0.02] border-white/10 text-muted-foreground hover:text-white hover:border-white/20"
+                                }`}
+                            >
+                              {cat}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-3 pt-2 border-t border-white/5">
+                        <input
+                          type="text"
+                          value={newCategoryName}
+                          onChange={(e) => setNewCategoryName(e.target.value)}
+                          placeholder="Add custom category..."
+                          className="rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-1.5 text-[11px] text-white placeholder:text-muted-foreground/30 focus:outline-none w-48"
+                        />
                         <button
-                          key={cat}
                           type="button"
                           onClick={() => {
-                            setSelectedCategories(prev => 
-                              prev.includes(cat) 
-                                ? prev.filter(c => c !== cat) 
-                                : [...prev, cat]
-                            );
+                            const trimmed = newCategoryName.trim();
+                            if (trimmed && !categoriesList.includes(trimmed)) {
+                              setCategoriesList(prev => [...prev, trimmed]);
+                              setSelectedCategories(prev => [...prev, trimmed]);
+                              setNewCategoryName("");
+                            }
                           }}
-                          className={`px-3 py-1.5 rounded-full text-[10px] border font-medium transition-all duration-200 cursor-pointer ${
-                            isSelected 
-                              ? "bg-electric border-electric text-background shadow-md shadow-electric/25 font-bold" 
-                              : "bg-white/[0.02] border-white/10 text-muted-foreground hover:text-white hover:border-white/20"
-                          }`}
+                          className="bg-white/10 hover:bg-white/20 text-white rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer"
                         >
-                          {cat}
+                          + Add Category
                         </button>
-                      );
-                    })}
-                  </div>
-                </div>
+                      </div>
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Lead Time (Days)</label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      required
-                      value={lead}
-                      onChange={e => setLead(e.target.value)}
-                      placeholder="e.g. 21"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">OTD Rate (%)</label>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      required
-                      value={otd}
-                      onChange={e => setOtd(e.target.value)}
-                      placeholder="e.g. 96"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Rating (1-5)</label>
-                    <input
-                      type="text"
-                      required
-                      value={rating}
-                      onChange={e => setRating(e.target.value)}
-                      placeholder="e.g. 4.9"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Owner Details</label>
-                    <input
-                      type="text"
-                      value={ownerDetails}
-                      onChange={e => setOwnerDetails(e.target.value)}
-                      placeholder="e.g. Kenji Tanaka (Founder)"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Fabrics They Work With</label>
+                      <input
+                        type="text"
+                        value={fabrics}
+                        onChange={e => setFabrics(e.target.value)}
+                        placeholder="e.g. Organic Cotton, Selvedge Denim, Silk"
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Contact No</label>
-                    <input
-                      type="text"
-                      value={contactNo}
-                      onChange={e => setContactNo(e.target.value)}
-                      placeholder="e.g. +81 90-1234-5678"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Email ID</label>
-                    <input
-                      type="email"
-                      value={emailId}
-                      onChange={e => setEmailId(e.target.value)}
-                      placeholder="e.g. tanaka@kyotoatelier.jp"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
-                    />
-                  </div>
-                </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Manufacturing Capabilities</label>
+                      <textarea
+                        value={capabilities}
+                        onChange={e => setCapabilities(e.target.value)}
+                        rows={3}
+                        placeholder="Special machinery, hand-embroidery, wash treatments..."
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Production Capacity (Monthly)</label>
+                        <input
+                          type="text"
+                          value={productionCapacity}
+                          onChange={e => setProductionCapacity(e.target.value)}
+                          placeholder="e.g. 50,000 units"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Sampling Lead Time</label>
+                        <input
+                          type="text"
+                          value={samplingLeadTime}
+                          onChange={e => setSamplingLeadTime(e.target.value)}
+                          placeholder="e.g. 7-14 days"
+                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium block">MOQ (Minimum Order Quantity)</label>
+                      <CustomSelect value={moq} onChange={setMoq} options={["< 100 units", "100–500 units", "500–1000 units", "1000+ units"]} />
+                    </div>
+                  </>
+                )}
+
+                {modalTab === "compliance" && (
+                  <>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Quality Control</label>
+                      <textarea
+                        value={qualityControl}
+                        onChange={e => setQualityControl(e.target.value)}
+                        rows={2}
+                        placeholder="Inspection processes, AQL 2.5 standards..."
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Certifications</label>
+                      <input
+                        type="text"
+                        value={certifications}
+                        onChange={e => setCertifications(e.target.value)}
+                        placeholder="e.g. GOTS, OEKO-TEX, BSCI, WRAP"
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Sustainability Practices</label>
+                      <textarea
+                        value={sustainability}
+                        onChange={e => setSustainability(e.target.value)}
+                        rows={2}
+                        placeholder="Recycling, zero waste, energy mitigations..."
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Compliance & Labor Standards</label>
+                      <textarea
+                        value={compliance}
+                        onChange={e => setCompliance(e.target.value)}
+                        rows={2}
+                        placeholder="Audited labor standards, safety guidelines..."
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium block">Payment Terms</label>
+                      <input
+                        type="text"
+                        value={paymentTerms}
+                        onChange={e => setPaymentTerms(e.target.value)}
+                        placeholder="e.g. 30% Deposit, 70% Balance"
+                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      />
+                    </div>
+                  </>
+                )}
 
                 <button
                   type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {editingSupplier ? "Update Supplier" : "Save Supplier"}
                 </button>
@@ -744,7 +1025,7 @@ export function InventoryWrapper() {
       const { error } = await supabase.from("inventory").insert([newItem]);
       if (error) throw error;
       await fetchInventory();
-      
+
       // Reset and close
       setSku("");
       setName("");
@@ -917,7 +1198,7 @@ export function ShipmentsWrapper() {
       const { error } = await supabase.from("shipments").insert([newShipment]);
       if (error) throw error;
       await fetchShipments();
-      
+
       // Reset and close
       setOrigin("");
       setDestination("");
@@ -939,7 +1220,7 @@ export function ShipmentsWrapper() {
         .update({ status: newStatus, progress: nextProg })
         .eq("shipment_id", id);
       if (error) throw error;
-      
+
       await fetchShipments();
 
       // Update selectedShipment to reflect changes in details modal
@@ -1043,9 +1324,9 @@ export function ShipmentsWrapper() {
                 <div>
                   <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">Live Progress Bar</h4>
                   <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-electric to-cyan-glow transition-all duration-500" 
-                      style={{ width: `${selectedShipment.prog}%` }} 
+                    <div
+                      className="h-full bg-gradient-to-r from-electric to-cyan-glow transition-all duration-500"
+                      style={{ width: `${selectedShipment.prog}%` }}
                     />
                   </div>
                 </div>
@@ -1103,7 +1384,7 @@ export function ShipmentsWrapper() {
                     />
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">ETA</label>
@@ -1326,9 +1607,8 @@ export function TrendsWrapper() {
                 key={r}
                 type="button"
                 onClick={() => setRegion(r)}
-                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${
-                  region === r ? "bg-white text-black shadow-md" : "text-muted-foreground hover:text-white"
-                }`}
+                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${region === r ? "bg-white text-black shadow-md" : "text-muted-foreground hover:text-white"
+                  }`}
               >
                 {r}
               </button>
@@ -1555,7 +1835,7 @@ function AdminPage() {
   // State hooks (placed at the top to satisfy rules of hooks)
   const [session, setSession] = useState<any>(null);
   const [authLoading, setAuthLoading] = useState(true);
-  
+
   // Stats summary State
   const [stats, setStats] = useState({
     total: 0,
@@ -1634,7 +1914,7 @@ function AdminPage() {
       <AdminContext.Provider value={{ session, stats, fetchStats }}>
         <div className="relative min-h-screen noise overflow-x-hidden bg-[#07070a] text-white">
           <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
-          
+
           {/* Header */}
           <header className="relative z-10 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-white/5 bg-[#07070a]/80 backdrop-blur-md sticky top-0">
             <div className="flex items-center gap-3">

@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ChevronLeft, ChevronRight, ArrowRight,
-  Network, Search, Globe2, Workflow, Truck, TrendingUp,
-  PackageSearch, Bot, ShieldAlert, Zap
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { InteractiveFolderGallery } from "@/components/ui/interactive-folder-gallery";
 import { useLanguage } from "@/lib/i18n";
 
@@ -192,18 +188,6 @@ export function ProductCategories() {
   const [activeIdx, setActiveIdx] = useState(0);
   const { t } = useLanguage();
 
-  const features = [
-    { icon: Network, title: t("categories.feat1Title"), desc: t("categories.feat1Desc") },
-    { icon: Search, title: t("categories.feat2Title"), desc: t("categories.feat2Desc") },
-    { icon: Globe2, title: t("categories.feat3Title"), desc: t("categories.feat3Desc") },
-    { icon: Workflow, title: t("categories.feat4Title"), desc: t("categories.feat4Desc") },
-    { icon: Truck, title: t("categories.feat5Title"), desc: t("categories.feat5Desc") },
-    { icon: TrendingUp, title: t("categories.feat6Title"), desc: t("categories.feat6Desc") },
-    { icon: PackageSearch, title: t("categories.feat7Title"), desc: t("categories.feat7Desc") },
-    { icon: Bot, title: t("categories.feat8Title"), desc: t("categories.feat8Desc") },
-    { icon: ShieldAlert, title: t("categories.feat9Title"), desc: t("categories.feat9Desc") },
-    { icon: Zap, title: t("categories.feat10Title"), desc: t("categories.feat10Desc") },
-  ];
 
   const activeCategory = categories[activeIdx];
   const galleryPhotos = activeCategory.images.slice(0, 5).map((img, idx) => ({
@@ -277,34 +261,6 @@ export function ProductCategories() {
           </div>
         </div>
 
-        {/* 2. Capabilities (Features) Sub-section */}
-        <div>
-          <div className="mb-10 border-b border-border/40 pb-4">
-            <h3 className="font-serif text-2xl tracking-wide">{t("categories.capabilitiesTitle")}</h3>
-            <p className="text-sm text-muted-foreground mt-1">{t("categories.capabilitiesSubtitle")}</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-border rounded-3xl overflow-hidden">
-            {features.map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: (i % 5) * 0.08 }}
-                className="group relative bg-background p-8 hover:bg-accent/40 transition-colors"
-              >
-                <div className="size-11 rounded-xl glass flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <f.icon className="size-5 text-electric" />
-                </div>
-                <h3 className="text-base font-medium mb-2">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-                <div className="absolute top-6 right-6 text-[10px] text-muted-foreground/50 tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );

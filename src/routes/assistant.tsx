@@ -1,120 +1,143 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { createServerFn } from '@tanstack/react-start'
+import { getRequest } from '@tanstack/react-start/server'
 import { useState, useRef, useEffect } from 'react'
-import { ArrowLeft, Search, Package, Layers, Headphones } from 'lucide-react'
-import { supabase } from '../lib/supabase'
+import { ArrowLeft, Search, Package, Layers, Headphones, Trash2 } from 'lucide-react'
 import * as fs from 'fs'
 import * as path from 'path'
+import ReactMarkdown from 'react-markdown'
 
 interface ChatMessage {
   role: 'user' | 'ai'
   content: string
 }
 
+// Simple in-memory store for IP-based rate limiting
+interface RateLimitInfo {
+  count: number
+  resetTime: number
+}
+const rateLimitStore = new Map<string, RateLimitInfo>()
+const RATE_LIMIT_MAX = 8         // Max 8 questions
+const RATE_LIMIT_WINDOW = 60000 // per 60 seconds (1 minute)
+
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get('x-forwarded-for')
+  if (forwarded) {
+    return forwarded.split(',')[0].trim()
+  }
+  return req.headers.get('x-real-ip') || req.headers.get('cf-connecting-ip') || '127.0.0.1'
+}
+
 const sendChatFn = createServerFn({ method: 'POST' })
   .validator((d: { message: string; history: ChatMessage[] }) => d)
   .handler(async ({ data }) => {
-    const apiKey = process.env.KIMI_API_KEY
-    const baseURL = process.env.KIMI_BASE_URL || 'https://api.moonshot.cn/v1'
-    const model = process.env.KIMI_MODEL || 'moonshot-v1-8k'
-
-    if (!apiKey) {
-      throw new Error('Missing KIMI_API_KEY environment variable.')
-    }
-
-    // Read the official company knowledge base
-    let companyInfo = ""
     try {
-      const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
-      companyInfo = fs.readFileSync(filePath, 'utf-8')
-    } catch (e) {
-      console.warn("Could not read company_info.md:", e)
-    }
+      // 1. Resolve client IP and run Rate Limiter
+      const req = getRequest()
+      const clientIp = req ? getClientIp(req) : '127.0.0.1'
+      const now = Date.now()
+      const limitInfo = rateLimitStore.get(clientIp)
 
-    // Fetch real-time data from Supabase to provide as context
-    let dbContext = ""
-    try {
-      const [{ data: suppliers }, { data: inventory }] = await Promise.all([
-        supabase.from('suppliers').select('*'),
-        supabase.from('inventory').select('*')
-      ])
-
-      if (suppliers && suppliers.length > 0) {
-        dbContext += "\n\nVerified Suppliers in our Database:\n" + suppliers.map(s => 
-          `- ${s.name} (${s.city}, ${s.region}) | Category: ${s.category} | Rating: ${s.rating} | Lead Time: ${s.lead_time} days | On-Time Delivery: ${s.otd}% | ID: ${s.supplier_id}`
-        ).join('\n')
+      if (limitInfo) {
+        if (now > limitInfo.resetTime) {
+          // Reset window
+          rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
+        } else if (limitInfo.count >= RATE_LIMIT_MAX) {
+          return { error: "Too many requests. Please wait a minute before asking more questions." }
+        } else {
+          limitInfo.count += 1
+        }
+      } else {
+        rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
       }
 
-      if (inventory && inventory.length > 0) {
-        dbContext += "\n\nInventory levels in our Database:\n" + inventory.map(i => 
-          `- ${i.name} (SKU: ${i.sku}) | Stock: ${i.stock} units | Reorder point: ${i.reorder} units`
-        ).join('\n')
-      }
-    } catch (e) {
-      console.warn("Could not fetch data from Supabase:", e)
-    }
+      const apiKey = process.env.KIMI_API_KEY
+      const baseURL = process.env.KIMI_BASE_URL || 'https://api.moonshot.cn/v1'
+      const model = process.env.KIMI_MODEL || 'moonshot-v1-8k'
 
-    const messagesInput = [
-      {
-        role: 'system',
-        content: `You are the Maisone Sourcing Assistant, a helpful and professional AI assistant for Maisone (a premium sourcing platform). 
+      if (!apiKey) {
+        return { error: 'Chat API key is missing on the server. Please verify your .env file.' }
+      }
+
+      // Read the official company knowledge base
+      let companyInfo = ""
+      try {
+        const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
+        companyInfo = fs.readFileSync(filePath, 'utf-8')
+      } catch (e) {
+        console.warn("Could not read company_info.md:", e)
+      }
+
+      const messagesInput = [
+        {
+          role: 'system',
+          content: `You are the Maisone Sourcing Assistant, a helpful and professional AI assistant for Maisone (a premium sourcing platform). 
 
 OFFICIAL PRODUCT CATEGORIES ON MAISONE:
+- Accessories
+- Cap
+- Circular Knits
+- Contemporary Ready to Wear
+- Couture
+- Denim
 - Flat Knits
 - Leather
-- Denim
-- Contemporary ready to wear
-- Couture
-- Accessories
 
 STRICT BEHAVIOR RULES:
-1. Base your answers ONLY on the official categories listed above, the official company information from company_info.md, and the verified database records from Supabase provided below.
+1. Base your answers ONLY on the official categories listed above and the official company information from company_info.md provided below.
 2. DO NOT hallucinate, make up, or invent suppliers, categories, stock levels, plans, founders, or details that are not explicitly present in the data below.
-3. If the user asks about a product category, supplier, or material not mentioned in the official list or database records, politely explain that Maisone does not currently support it and only list what is officially supported.
+3. If the user asks about a product category, supplier, or material not mentioned in the official list, politely explain that Maisone does not currently support it and only list what is officially supported.
 4. Keep answers concise, high-end, premium, and professional.
+5. NEVER print out developer notes, warnings, or mention technical terms like "the provided document", "the database context", "this file", "the records below", or "our system instructions". Answer directly as a customer-facing representative.
+6. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing partner and coordinator. Always direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email admin@maisone.ai) to facilitate introductions, request custom samples, or negotiate terms.
+7. STANDARDIZED FORMATTING RULE: When listing supplier details (capabilities, certifications, brands, etc.), always present them as distinct vertical bullet points. Do not collapse them into inline text paragraphs.
 
 OFFICIAL MAISONE INFORMATION:
-${companyInfo}
+${companyInfo}`,
+        },
+      ]
 
-REAL-TIME DATABASE CONTEXT:${dbContext}`,
-      },
-    ]
+      for (const msg of data.history) {
+        messagesInput.push({
+          role: msg.role === 'ai' ? 'assistant' : 'user',
+          content: msg.content,
+        })
+      }
 
-    for (const msg of data.history) {
       messagesInput.push({
-        role: msg.role === 'ai' ? 'assistant' : 'user',
-        content: msg.content,
+        role: 'user',
+        content: data.message,
       })
-    }
 
-    messagesInput.push({
-      role: 'user',
-      content: data.message,
-    })
-
-    const response = await fetch(`${baseURL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model,
-        messages: messagesInput
+      const response = await fetch(`${baseURL}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model,
+          messages: messagesInput,
+          temperature: 0.1
+        })
       })
-    })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`Kimi API error: ${response.statusText} - ${errorText}`)
+      if (!response.ok) {
+        const errorText = await response.text()
+        return { error: `Kimi API error: ${response.statusText} - ${errorText}` }
+      }
+
+      const result = (await response.json()) as {
+        choices: { message: { content: string } }[]
+      }
+
+      const reply = result.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response."
+      return { reply }
+    } catch (e: any) {
+      console.error("Chat Server Error:", e)
+      return { error: e?.message || "An unexpected server error occurred." }
     }
-
-    const result = (await response.json()) as {
-      choices: { message: { content: string } }[]
-    }
-
-    const reply = result.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response."
-    return { reply }
   })
 
 export const Route = createFileRoute('/assistant')({
@@ -122,34 +145,50 @@ export const Route = createFileRoute('/assistant')({
 })
 
 function formatMessage(content: string) {
-  return content.split('\n').map((line, lineIdx) => {
-    const parts = line.split(/(\*\*.*?\*\*)/g)
-    const elements = parts.map((part, partIdx) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return (
-          <strong key={partIdx} className="font-semibold text-foreground">
-            {part.slice(2, -2)}
-          </strong>
-        )
-      }
-      return part
-    })
-
-    return (
-      <div key={lineIdx} className={lineIdx > 0 ? 'mt-2' : ''}>
-        {elements}
-      </div>
-    )
-  })
+  return (
+    <ReactMarkdown
+      components={{
+        p: ({ children }) => <p className="mb-2 last:mb-0 leading-relaxed">{children}</p>,
+        ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1 text-sm">{children}</ul>,
+        ol: ({ children }) => <ol className="list-decimal pl-5 mb-3 space-y-1 text-sm">{children}</ol>,
+        li: ({ children }) => <li className="mb-0.5">{children}</li>,
+        strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
+        h1: ({ children }) => <h1 className="text-lg font-bold mt-4 mb-2 text-foreground">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-base font-semibold mt-3 mb-2 text-foreground">{children}</h2>,
+        h3: ({ children }) => <h3 className="text-sm font-semibold mt-2 mb-1 text-foreground">{children}</h3>,
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  )
 }
 
 function AssistantRoute() {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'ai', content: "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?" }
-  ])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const saved = localStorage.getItem('maisone_chat_history')
+    if (saved) {
+      try {
+        setMessages(JSON.parse(saved))
+      } catch (e) {
+        console.warn("Failed to parse saved chat history:", e)
+      }
+    } else {
+      setMessages([
+        { role: 'ai', content: "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?" }
+      ])
+    }
+  }, [])
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('maisone_chat_history', JSON.stringify(messages))
+    }
+  }, [messages])
 
   useEffect(() => {
     // Autoscroll to bottom when messages or loading state changes
@@ -159,10 +198,10 @@ function AssistantRoute() {
   }, [messages, isLoading])
 
   const QUICK_OPTIONS = [
-    { label: "Find Denim Suppliers", icon: <Search className="size-4 text-electric" />, query: "Find Denim suppliers in Japan" },
-    { label: "Check SKU Inventory", icon: <Package className="size-4 text-electric" />, query: "Check inventory levels for DEN-501" },
-    { label: "View Product Categories", icon: <Layers className="size-4 text-electric" />, query: "What product categories do you support?" },
-    { label: "Talk to an Admin", icon: <Headphones className="size-4 text-electric" />, query: "How can I contact a Maisone Admin?" }
+    { label: "View Product Categories", icon: <Layers className="size-4 text-electric" />, query: "What all category of products do you offer?" },
+    { label: "Check MOQ Policy", icon: <Package className="size-4 text-electric" />, query: "What is your MOQ? Can you produce small quantities for new brands?" },
+    { label: "Verify Compliances", icon: <Search className="size-4 text-electric" />, query: "Do you work with certified and compliant factories?" },
+    { label: "Lead Times & Timelines", icon: <Headphones className="size-4 text-electric" />, query: "What are your sampling and production lead times?" }
   ]
 
   const handleSend = async (e: React.FormEvent) => {
@@ -178,9 +217,10 @@ function AssistantRoute() {
 
     try {
       const result = await sendChatFn({ data: { message: userMsg, history: currentHistory } })
-      setMessages(prev => [...prev, { role: 'ai', content: result.reply }])
+      const text = result.reply || result.error || "An unexpected error occurred."
+      setMessages(prev => [...prev, { role: 'ai', content: text }])
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'ai', content: "Sorry, please make sure you've added your KIMI_API_KEY to your .env file and restart your development server if you just added it." }])
+      setMessages(prev => [...prev, { role: 'ai', content: "An unexpected network error occurred. Please verify your connection." }])
     } finally {
       setIsLoading(false)
     }
@@ -196,12 +236,20 @@ function AssistantRoute() {
 
     try {
       const result = await sendChatFn({ data: { message: queryText, history: currentHistory } })
-      setMessages(prev => [...prev, { role: 'ai', content: result.reply }])
+      const text = result.reply || result.error || "An unexpected error occurred."
+      setMessages(prev => [...prev, { role: 'ai', content: text }])
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'ai', content: "Sorry, please make sure you've added your KIMI_API_KEY to your .env file and restart your development server if you just added it." }])
+      setMessages(prev => [...prev, { role: 'ai', content: "An unexpected network error occurred. Please verify your connection." }])
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleClearChat = () => {
+    localStorage.removeItem('maisone_chat_history')
+    setMessages([
+      { role: 'ai', content: "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?" }
+    ])
   }
 
   const showCTA = messages.length > 2 && messages[messages.length - 1].role === 'ai' && (
@@ -219,6 +267,16 @@ function AssistantRoute() {
           <ArrowLeft className="size-4" />
           <span>Back Home</span>
         </Link>
+
+        {messages.length > 1 && (
+          <button 
+            onClick={handleClearChat}
+            className="fixed top-8 right-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 px-5 py-2.5 rounded-full glass hover:bg-secondary/50 z-50 border border-border cursor-pointer animate-fade-in"
+          >
+            <Trash2 className="size-4 text-destructive" />
+            <span>Clear Chat</span>
+          </button>
+        )}
 
         <div className="mb-12 text-center relative flex flex-col items-center">
           <h1 className="font-serif text-4xl sm:text-5xl tracking-tight mb-4">Maisone <span className="italic gradient-text">AI Assistant</span></h1>

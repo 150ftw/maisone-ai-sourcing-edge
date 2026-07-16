@@ -37,7 +37,7 @@ export const ja = {
     stat4Label: "ファッション専門知識",
     liveSourcingNetwork: "リアルタイム・ソーシングネットワーク",
     weCurrentlySource: "現在、これらの",
-    countries: "国々で調達しています",
+    countries: "国々に供給しています",
     sourcingScore: "ソーシングスコア",
     activeSuppliers: "稼働中のサプライヤー",
     liveShipmentFrom: "配送状況",

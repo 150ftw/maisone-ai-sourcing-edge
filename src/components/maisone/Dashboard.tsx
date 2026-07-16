@@ -395,45 +395,122 @@ export function Suppliers({
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden bg-white/[0.01]"
                     >
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 px-8 py-6 border-t border-border/30 text-xs bg-white/[0.005]">
-                        <div className="flex gap-3.5">
-                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                            <User className="size-4 text-electric" />
+                      {(() => {
+                        let parsedDetails: any = null;
+                        let ownerText = s.owner_details || "—";
+                        if (s.owner_details && s.owner_details.startsWith("{")) {
+                          try {
+                            parsedDetails = JSON.parse(s.owner_details);
+                            ownerText = parsedDetails.owner || "—";
+                          } catch (e) {}
+                        }
+                        return (
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 px-8 py-6 border-t border-border/30 text-xs bg-white/[0.005]">
+                            {/* Left: Contact Info */}
+                            <div className="space-y-4">
+                              <div className="flex gap-3.5">
+                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                  <User className="size-4 text-electric" />
+                                </div>
+                                <div className="space-y-1">
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.ownerDetails")}</span>
+                                  <span className="text-white font-medium block text-[13px]">{ownerText}</span>
+                                </div>
+                              </div>
+                              <div className="flex gap-3.5">
+                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                  <Phone className="size-4 text-electric" />
+                                </div>
+                                <div className="space-y-1">
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.contactNo")}</span>
+                                  <span className="text-white font-medium block text-[13px]">{s.contact_no || "—"}</span>
+                                </div>
+                              </div>
+                              <div className="flex gap-3.5">
+                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                  <Mail className="size-4 text-electric" />
+                                </div>
+                                <div className="space-y-1">
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.emailAddress")}</span>
+                                  {s.email_id ? (
+                                    <a
+                                      href={`mailto:${s.email_id}`}
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="text-electric hover:underline font-medium block text-[13px] transition-colors"
+                                    >
+                                      {s.email_id}
+                                    </a>
+                                  ) : (
+                                    <span className="text-muted-foreground block text-[13px]">—</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Center: Capabilities & Production */}
+                            <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
+                              <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Capabilities & Production</span>
+                              {parsedDetails ? (
+                                <div className="space-y-2">
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">Clientele:</span> <span className="text-white ml-1">{parsedDetails.clientele || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">Fabrics:</span> <span className="text-white ml-1">{parsedDetails.fabrics || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">Capabilities:</span> <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.capabilities || "—"}</span>
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-2 pt-1">
+                                    <div>
+                                      <span className="text-muted-foreground font-medium block">Monthly Capacity</span>
+                                      <span className="text-white font-medium">{parsedDetails.productionCapacity || "—"}</span>
+                                    </div>
+                                    <div>
+                                      <span className="text-muted-foreground font-medium block">Sampling Lead</span>
+                                      <span className="text-white font-medium">{parsedDetails.samplingLeadTime || "—"}</span>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">MOQ:</span> <span className="text-white ml-1">{parsedDetails.moq || "—"}</span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-muted-foreground italic">No additional profile details saved.</span>
+                              )}
+                            </div>
+
+                            {/* Right: Compliance & Standards */}
+                            <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
+                              <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Compliance & Standards</span>
+                              {parsedDetails ? (
+                                <div className="space-y-2">
+                                  <div>
+                                    <span className="text-muted-foreground font-medium block">Quality Control</span>
+                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">Certifications:</span> <span className="text-white ml-1">{parsedDetails.certifications || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium block">Sustainability</span>
+                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.sustainability || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium block">Compliance & Labor</span>
+                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.compliance || "—"}</span>
+                                  </div>
+                                  <div>
+                                    <span className="text-muted-foreground font-medium">Payment Terms:</span> <span className="text-white ml-1">{parsedDetails.paymentTerms || "—"}</span>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-muted-foreground italic">No compliance data saved.</span>
+                              )}
+                            </div>
                           </div>
-                          <div className="space-y-1">
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.ownerDetails")}</span>
-                            <span className="text-white font-medium block text-[13px]">{s.owner_details || "—"}</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-3.5">
-                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                            <Phone className="size-4 text-electric" />
-                          </div>
-                          <div className="space-y-1">
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.contactNo")}</span>
-                            <span className="text-white font-medium block text-[13px]">{s.contact_no || "—"}</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-3.5">
-                          <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                            <Mail className="size-4 text-electric" />
-                          </div>
-                          <div className="space-y-1">
-                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.emailAddress")}</span>
-                            {s.email_id ? (
-                              <a
-                                href={`mailto:${s.email_id}`}
-                                onClick={(e) => e.stopPropagation()}
-                                className="text-electric hover:underline font-medium block text-[13px] transition-colors"
-                              >
-                                {s.email_id}
-                              </a>
-                            ) : (
-                              <span className="text-muted-foreground block text-[13px]">—</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
+                        );
+                      })()}
 
                       {/* Admin action buttons */}
                       {(onEdit || onDelete) && (

@@ -237,7 +237,7 @@ function SupplierRequestsPage() {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-3xl border border-white/5 glass">
+          <div className="overflow-x-auto rounded-3xl border border-white/5 glass min-h-[300px]">
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
                 <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">

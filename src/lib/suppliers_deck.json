@@ -1,0 +1,274 @@
+{
+  "suppliers": [
+    {
+      "id": "factory_001",
+      "name": "Contemporary Ready To Wear Factory",
+      "category": "Ready To Wear",
+      "specializations": [
+        "Women's Apparel",
+        "Everyday Wear",
+        "Occasion Wear",
+        "Embroidery",
+        "Handwork"
+      ],
+      "materials": [
+        "Chiffon",
+        "Silk",
+        "Cotton",
+        "Organic Cotton",
+        "Sustainable Viscose",
+        "Recycled Polyester"
+      ],
+      "capabilities": [
+        "Artisanal Handwork",
+        "Treadle Techniques",
+        "Advanced Embroidery",
+        "Sampling",
+        "Production",
+        "Quality Control"
+      ],
+      "certifications": [
+        "BSCI",
+        "Sedex",
+        "REACH",
+        "Intertek",
+        "SGS"
+      ],
+      "brands_worked_with": [
+        "Retrofete",
+        "Ashley Lauren",
+        "Coniglio Palm Beach",
+        "ba&sh",
+        "Scarlett Poppies",
+        "Giuseppe Di Morabito",
+        "La Vie Style House",
+        "Florabella",
+        "Philipp Plein"
+      ],
+      "strengths": [
+        "Complex Garment Construction",
+        "Sustainable Materials",
+        "Ethical Manufacturing"
+      ]
+    },
+    {
+      "id": "factory_002",
+      "name": "Couture Embellishment Factory",
+      "category": "Luxury Embroidery & Couture",
+      "location": "Mumbai",
+      "specializations": [
+        "Hand Embroidery",
+        "Beadwork",
+        "Couture Garments",
+        "Luxury Fashion"
+      ],
+      "certifications": [
+        "Sedex",
+        "REACH",
+        "Intertek",
+        "UL Solutions",
+        "ISO 9001:2015",
+        "SGS"
+      ],
+      "brands_worked_with": [
+        "Giorgio Armani",
+        "Alice + Olivia",
+        "Alberta Ferretti",
+        "Marchesa"
+      ],
+      "strengths": [
+        "25+ Years Experience",
+        "Luxury Fashion Expertise",
+        "SEDEX 4 Pillar Compliant"
+      ]
+    },
+    {
+      "id": "factory_003",
+      "name": "Circular Knits Factory",
+      "category": "Knits",
+      "specializations": [
+        "T-Shirts",
+        "Shirts",
+        "Tops",
+        "Bottoms",
+        "Dresses",
+        "Jackets"
+      ],
+      "capabilities": [
+        "Digital Printing",
+        "Rotary Printing",
+        "Flatbed Printing",
+        "Placement Printing",
+        "Embroidery",
+        "Garment Washing"
+      ],
+      "certifications": [
+        "BSCI",
+        "OCS",
+        "GOTS",
+        "GRS",
+        "LEED"
+      ],
+      "brands_worked_with": [
+        "DSQUARED2",
+        "Blauer",
+        "Diesel",
+        "Desigual"
+      ]
+    },
+    {
+      "id": "factory_004",
+      "name": "Flat Knits Factory",
+      "category": "Knitwear",
+      "specializations": [
+        "Sweaters",
+        "Blankets",
+        "Throws",
+        "Kidswear",
+        "Sleepwear",
+        "Home Textiles",
+        "Uniforms"
+      ],
+      "materials": [
+        "Organic Cotton",
+        "Recycled Materials",
+        "Cashmere",
+        "Custom Yarn Blends"
+      ],
+      "certifications": [
+        "Sedex",
+        "GOTS",
+        "GRS",
+        "QIMA"
+      ],
+      "brands_worked_with": [
+        "Camilla",
+        "Hanevild",
+        "Alivia",
+        "The Rest",
+        "Five O Six",
+        "Tout Le Monde",
+        "Beije",
+        "Namely Co",
+        "Zjoosh",
+        "Nomads",
+        "Lindsay Nicholas New York",
+        "Retrofete",
+        "Seroya",
+        "Louie Louie",
+        "Kyndbaby"
+      ]
+    },
+    {
+      "id": "factory_005",
+      "name": "Leather Factory",
+      "category": "Leather Manufacturing",
+      "production_capacity": "200000 units annually",
+      "specializations": [
+        "Leather Garments",
+        "Leather Products"
+      ],
+      "capabilities": [
+        "Own Tannery",
+        "Leather Development",
+        "Material Innovation"
+      ],
+      "certifications": [
+        "OEKO-TEX Leather Standard",
+        "REACH",
+        "AFIRM Group",
+        "Evergreen Leather",
+        "LWG Gold Rated",
+        "SA8000"
+      ],
+      "brands_worked_with": [
+        "Massimo Dutti",
+        "Tommy Hilfiger",
+        "L'AGENCE"
+      ]
+    },
+    {
+      "id": "factory_006",
+      "name": "Leather Bags And Accessories Factory",
+      "category": "Leather Accessories",
+      "specializations": [
+        "Handbags",
+        "Laptop Bags",
+        "Backpacks",
+        "Wallets",
+        "Belts",
+        "Small Leather Goods"
+      ],
+      "capabilities": [
+        "Design",
+        "Development",
+        "Sampling",
+        "Manufacturing"
+      ],
+      "brands_worked_with": [
+        "Siddartha Tytler",
+        "Chumbak",
+        "Da Milano"
+      ]
+    },
+    {
+      "id": "factory_007",
+      "name": "Cap Supplier",
+      "category": "Headwear",
+      "specializations": [
+        "Caps",
+        "Custom Headwear",
+        "Promotional Caps",
+        "Corporate Caps"
+      ],
+      "brands_worked_with": [
+        "Harley-Davidson",
+        "Puma",
+        "Skechers",
+        "Mercedes-Benz",
+        "JBL",
+        "Levi's",
+        "Xiaomi",
+        "Arrow",
+        "Jack & Jones",
+        "Wrogn",
+        "Li & Fung",
+        "Bata"
+      ]
+    },
+    {
+      "id": "factory_008",
+      "name": "Denim Supplier",
+      "category": "Denim & Apparel Manufacturing",
+      "specializations": [
+        "Menswear",
+        "Womenswear",
+        "Kidswear",
+        "Bags",
+        "Denim Garments"
+      ],
+      "capabilities": [
+        "Fabric Manufacturing",
+        "Garment Manufacturing",
+        "Product Development",
+        "End-To-End Manufacturing"
+      ],
+      "certifications": [
+        "Sedex",
+        "SA8000",
+        "GOTS",
+        "OEKO-TEX Standard 100",
+        "BCI",
+        "GMP Quality",
+        "Higg Index",
+        "ZDHC"
+      ],
+      "brands_worked_with": [
+        "Boden",
+        "Monsoon",
+        "Louis Philippe",
+        "Benetton"
+      ]
+    }
+  ]
+}

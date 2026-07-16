@@ -1,5 +1,5 @@
 import { motion, useSpring } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp, Package } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
 import { useRef, useEffect, useState } from "react";
@@ -284,17 +284,7 @@ export function Hero() {
             </div>
           </motion.div>
 
-          <motion.div
-            className="hidden lg:flex absolute left-1/2 -translate-x-1/2 -bottom-6 glass-strong rounded-full px-5 py-2.5 items-center gap-3"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.4 }}
-          >
-            <Package className="size-3.5 text-cyan-glow" />
-            <span className="text-xs text-muted-foreground">{t("hero.liveShipmentFrom")}</span>
-            <span className="text-xs font-medium">Osaka → London</span>
-            <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          </motion.div>
+
         </motion.div>
 
 
