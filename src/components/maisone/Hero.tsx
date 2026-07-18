@@ -1,6 +1,7 @@
 import { motion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 
+
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
 import { useRef, useEffect, useState } from "react";
@@ -152,10 +153,14 @@ export function Hero() {
     <section id="home" className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden">
       {/* Creative Parallax Background */}
       <div className="absolute inset-0 z-0">
-        <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-[center_35%] bg-no-repeat opacity-85 transition-transform duration-[20s] ease-linear scale-110"
-          style={{ backgroundImage: "url('/images/bg.jpeg')" }}
-        />
+        <video 
+          autoPlay 
+          muted 
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-85"
+        >
+          <source src="/images/bg-video.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/50 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40" />
       </div>
