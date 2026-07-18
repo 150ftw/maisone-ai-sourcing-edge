@@ -3,9 +3,8 @@ import { createServerFn } from '@tanstack/react-start'
 import { getRequest } from '@tanstack/react-start/server'
 import { useState, useRef, useEffect } from 'react'
 import { ArrowLeft, Search, Package, Layers, Headphones, Trash2 } from 'lucide-react'
-import * as fs from 'fs'
-import * as path from 'path'
 import ReactMarkdown from 'react-markdown'
+import companyInfo from '../lib/company_info.md?raw'
 
 interface ChatMessage {
   role: 'user' | 'ai'
@@ -29,18 +28,7 @@ function getClientIp(req: Request): string {
   return req.headers.get('x-real-ip') || req.headers.get('cf-connecting-ip') || '127.0.0.1'
 }
 
-// In-memory cache for company_info.md to avoid disk IO on every chat request
-let companyInfoCache = ""
-function getCompanyInfo(): string {
-  if (companyInfoCache) return companyInfoCache
-  try {
-    const filePath = path.join(process.cwd(), 'src/lib/company_info.md')
-    companyInfoCache = fs.readFileSync(filePath, 'utf-8')
-  } catch (e) {
-    console.warn("Could not read company_info.md:", e)
-  }
-  return companyInfoCache
-}
+
 
 const sendChatFn = createServerFn({ method: 'POST' })
   .validator((d: { message: string; history: ChatMessage[] }) => d)
@@ -79,7 +67,7 @@ const sendChatFn = createServerFn({ method: 'POST' })
         })
       }
 
-      const companyInfo = getCompanyInfo()
+
 
       const messagesInput = [
         {

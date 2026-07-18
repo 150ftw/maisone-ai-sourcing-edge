@@ -20,7 +20,7 @@ export function Founders() {
       image: shashankImg,
     },
     {
-      name: "Subah",
+      name: "Subha Arora",
       role: t("founders.coFounder") + " · Creative & Client Partnerships",
       bio: t("founders.subahBio"),
       footerLabel: t("founders.expertise"),
