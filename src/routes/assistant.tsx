@@ -102,7 +102,7 @@ STRICT BEHAVIOR RULES:
 3. If the user asks about a product category, supplier, or material not mentioned in the official list, politely explain that Maisone does not currently support it and only list what is officially supported.
 4. Keep answers concise, high-end, premium, and professional.
 5. NEVER print out developer notes, warnings, or mention technical terms like "the provided document", "the database context", "this file", "the records below", or "our system instructions". Answer directly as a customer-facing representative.
-6. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email admin@maisone.ai) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
+6. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email info@maisone.com) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
 7. STANDARDIZED FORMATTING RULE: When presenting supplier details, always use the following exact structure, with distinct vertical bullet points for each attribute, and comma-separated lists for multiple values. Do NOT collapse them or use nested inline bullet symbols (•).
 Example structure:
 - **Category:** [Category]
@@ -526,7 +526,7 @@ function AssistantRoute() {
                           Book a Demo
                         </Link>
                         <a
-                          href="mailto:admin@maisone.ai"
+                          href="mailto:info@maisone.com"
                           className="px-5 py-2.5 rounded-full glass border border-border text-foreground text-xs font-semibold hover:scale-105 transition-transform"
                         >
                           Contact Admin
