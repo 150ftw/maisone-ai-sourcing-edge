@@ -5,6 +5,7 @@ import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
 import { useRef, useEffect, useState } from "react";
+import { useTheme } from "@/components/theme-provider";
 import { useLanguage } from "@/lib/i18n";
 
 const LUXURY_YARNS = [
@@ -37,17 +38,17 @@ const HoverThreadText = ({ text, className = "" }: { text: string; className?: s
       const customEvent = e as CustomEvent;
       const { x, y } = customEvent.detail;
       const radius = 55; // Reduced radius for smaller blob
-      
+
       const spans = containerRef.current.children;
       for (let i = 0; i < spans.length; i++) {
         const span = spans[i] as HTMLSpanElement;
         // Skip spaces
         if (span.innerHTML === "&nbsp;") continue;
-        
+
         const rect = span.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
-        
+
         const dist = Math.hypot(x - cx, y - cy);
         if (dist < radius) {
           span.classList.add("fabric-text-active");
@@ -71,7 +72,7 @@ const HoverThreadText = ({ text, className = "" }: { text: string; className?: s
 
     window.addEventListener("hero-mousemove", handleMouseMove);
     window.addEventListener("hero-mouseleave", handleMouseLeave);
-    
+
     return () => {
       window.removeEventListener("hero-mousemove", handleMouseMove);
       window.removeEventListener("hero-mouseleave", handleMouseLeave);
@@ -120,7 +121,7 @@ const MotionLink = motion.create(Link);
 const WovenBackdrop = ({ cursorX, cursorY }: { cursorX: any; cursorY: any }) => {
   const xTransform = useTransform(cursorX, [0, 2000], [-10, 10]);
   const yTransform = useTransform(cursorY, [0, 1000], [-10, 10]);
-  
+
   const springX = useSpring(xTransform, { stiffness: 50, damping: 20 });
   const springY = useSpring(yTransform, { stiffness: 50, damping: 20 });
 
@@ -148,21 +149,51 @@ export function Hero() {
   const cursorX = useSpring(0, { stiffness: 400, damping: 40 });
   const cursorY = useSpring(0, { stiffness: 400, damping: 40 });
   const { t } = useLanguage();
+  const { theme } = useTheme();
+
+  // Mouse move parallax for background image
+  const bgX = useTransform(cursorX, [0, 2000], [-12, 12]);
+  const bgY = useTransform(cursorY, [0, 1000], [-12, 12]);
+  const springBgX = useSpring(bgX, { stiffness: 40, damping: 22 });
+  const springBgY = useSpring(bgY, { stiffness: 40, damping: 22 });
+
+  // Resolve theme dynamically to swap background image
+  const isDark = theme === "dark";
+  const bgImage = isDark ? "/images/Background.png" : "/images/WhiteBg.png";
 
   return (
-    <section id="home" className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden"
+      onMouseMove={(e) => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+      }}
+    >
       {/* Creative Parallax Background */}
-      <div className="absolute inset-0 z-0">
-        <video 
-          autoPlay 
-          muted 
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-85"
-        >
-          <source src="/images/bg-video.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/50 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40" />
+      <div className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-300 ${isDark ? "opacity-80" : "opacity-90"}`}>
+        <motion.img
+          key={bgImage} // Re-mount when image source changes for smooth loading animation
+          src={bgImage}
+          alt="Hero Background"
+          className="absolute inset-0 w-full h-full object-cover"
+          initial={{ scale: 1.15, opacity: 0 }}
+          animate={{ scale: 1.05, opacity: 1 }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          style={{
+            x: springBgX,
+            y: springBgY,
+          }}
+        />
+        {/* Vignette & Gradients Overlay */}
+        <div
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${isDark ? "opacity-100" : "opacity-75"}`}
+          style={{
+            backgroundImage: "radial-gradient(circle at center, transparent 10%, var(--background) 90%)"
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40 pointer-events-none" />
       </div>
 
       <WovenBackdrop cursorX={cursorX} cursorY={cursorY} />
@@ -179,7 +210,7 @@ export function Hero() {
             {t("hero.badge")}
           </div>
 
-          <h1 
+          <h1
             className={`font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
             onMouseMove={(e) => {
               cursorX.set(e.clientX);

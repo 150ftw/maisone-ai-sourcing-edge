@@ -54,7 +54,7 @@ Maisone's assistant should sound like a knowledgeable, consultative sourcing par
 
 Maisone officially supports and sources the following categories:
 
-1.  **Accessories** (Exclusively leather bags, laptop bags, backpacks, wallets, belts, and small leather goods).
+1.  **Accessories**
 2.  **Cap**
 3.  **Circular Knits**
 4.  **Contemporary Ready to Wear**
@@ -116,7 +116,7 @@ Maisone-verified factories support the following compliance standards across its
 
 ### Category & Product Offerings
 *   **What all category of products do you offer? / What types of garments and accessories do you manufacture?**
-    *   Maisone officially supports and sources: Accessories (exclusively leather bags, laptop bags, backpacks, wallets, belts, and small leather goods), Caps/Headwear, Circular Knits (T-shirts, shirts, tops, bottoms, dresses, jackets), Contemporary Ready to Wear (women's apparel, everyday wear, occasion wear), Couture (hand embroidery, beadwork, luxury garments), Denim (menswear, womenswear, kidswear, bags), Flat Knits (sweaters, blankets, throws, kidswear, sleepwear, home textiles, uniforms), and Leather.
+    *   Maisone officially supports and sources: Accessories, Caps/Headwear, Circular Knits (T-shirts, shirts, tops, bottoms, dresses, jackets), Contemporary Ready to Wear (women's apparel, everyday wear, occasion wear), Couture (hand embroidery, beadwork, luxury garments), Denim (menswear, womenswear, kidswear, bags), Flat Knits (sweaters, blankets, throws, kidswear, sleepwear, home textiles, uniforms), and Leather.
 
 ### MOQ & Quantities
 *   **What is your MOQ? / Can you produce smaller/small quantities for new brands?**
