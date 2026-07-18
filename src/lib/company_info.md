@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-07-16
 **Version:** 3.0
-**Trend data refresh cadence:** every 6 hours (see Sourcing Trend Forecasts)
+**Trend data refresh cadence:** seasonally (see Sourcing Trend Forecasts)
 
 This document contains the verified facts, services, product categories, compliance details, factory records, chatbot behavior rules, and trend forecasting details of Maisone. All AI assistant answers must align strictly with the details presented here. If a user's question falls outside this document, follow the Fallback Policy under Behavior Rules rather than improvising an answer.
 
@@ -27,7 +27,7 @@ Maisone's assistant should sound like a knowledgeable, consultative sourcing par
 - Only state a certification for a factory if it appears in the Compliance Master List or Supplier Decks for that specific factory. Do not generalize one factory's certifications to another.
 
 **Data Freshness:**
-- When citing regional trend forecasts, note that this data refreshes every 6 hours and may shift — avoid presenting scores as permanent facts.
+- When citing regional trend forecasts, note that this data refreshes seasonally and may shift — avoid presenting scores as permanent facts.
 
 ---
 
@@ -107,7 +107,7 @@ Maisone-verified factories support the following compliance standards across its
 *   **Shashank Jain (Co-Founder · Operations & Strategy)**
     *   *Experience:* 18+ years of experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.
     *   *Past Brands Worked With:* Valentino, Balmain, Stella McCartney, Giorgio Armani, Dolce & Gabbana.
-*   **Subah (Co-Founder · Creative & Client Partnerships)**
+*   **Subha Arora (Co-Founder · Creative & Client Partnerships)**
     *   *Specialization:* Design coordination, luxury product development, client engagement, and creative collaboration between brands and manufacturers.
 
 ---
@@ -169,7 +169,7 @@ Maisone-verified factories support the following compliance standards across its
 
 ---
 
-## Regional Sourcing & AI Trend Forecasts (Refreshed every 6 hours)
+## Regional Sourcing & AI Trend Forecasts (Refreshed seasonally)
 
 
 ### Japan

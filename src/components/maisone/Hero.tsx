@@ -1,9 +1,9 @@
 import { motion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
 import { useRef, useEffect, useState } from "react";
-import heroBg from "@/assets/hero_fashion_bg_1783761896741.png";
 import { useLanguage } from "@/lib/i18n";
 
 const LUXURY_YARNS = [
@@ -153,11 +153,11 @@ export function Hero() {
       {/* Creative Parallax Background */}
       <div className="absolute inset-0 z-0">
         <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity transition-transform duration-[20s] ease-linear scale-110"
-          style={{ backgroundImage: `url(${heroBg})` }}
+          className="absolute inset-0 w-full h-full bg-cover bg-[center_35%] bg-no-repeat opacity-85 transition-transform duration-[20s] ease-linear scale-110"
+          style={{ backgroundImage: "url('/images/bg.jpeg')" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40" />
       </div>
 
       <WovenBackdrop cursorX={cursorX} cursorY={cursorY} />
@@ -267,56 +267,7 @@ export function Hero() {
             <WorldMap />
           </div>
 
-          {/* Floating analytics */}
-          <motion.div
-            className="hidden md:block absolute -left-4 top-12 glass-strong rounded-2xl p-4 w-56 animate-float"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1 }}
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="size-9 rounded-xl bg-electric/15 flex items-center justify-center">
-                <TrendingUp className="size-4 text-electric" />
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("hero.sourcingScore")}</p>
-                <p className="text-lg font-semibold">98.4</p>
-              </div>
-            </div>
-            <div className="h-1 rounded-full bg-muted overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-electric to-violet-glow"
-                initial={{ width: 0 }}
-                animate={{ width: "92%" }}
-                transition={{ delay: 1.4, duration: 1.2 }}
-              />
-            </div>
-          </motion.div>
 
-          <motion.div
-            className="hidden md:block absolute -right-4 bottom-16 glass-strong rounded-2xl p-4 w-60 animate-float"
-            style={{ animationDelay: "1.5s" }}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1.2 }}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("hero.activeSuppliers")}</p>
-              <span className="text-[10px] text-emerald-400">+12.6%</span>
-            </div>
-            <p className="text-2xl font-semibold">2,418</p>
-            <div className="mt-3 flex items-end gap-1 h-8">
-              {[40, 65, 50, 78, 60, 88, 72, 95].map((h, i) => (
-                <motion.div
-                  key={i}
-                  className="flex-1 bg-gradient-to-t from-electric/30 to-violet-glow rounded-sm"
-                  initial={{ height: 0 }}
-                  animate={{ height: `${h}%` }}
-                  transition={{ delay: 1.5 + i * 0.05 }}
-                />
-              ))}
-            </div>
-          </motion.div>
 
 
         </motion.div>

@@ -272,8 +272,8 @@ export const en = {
     heading: "One console for every",
     headingHighlight: "sourcing decision",
     headingEnd: ".",
-    subtitle: "Try the live preview — switch tabs, filter suppliers, search shipments.",
-    searchPlaceholder: "Search suppliers, POs, shipments",
+    subtitle: "Try the live preview — switch tabs, filter suppliers.",
+    searchPlaceholder: "Search suppliers...",
     tabOverview: "Overview",
     tabSuppliers: "Suppliers",
     tabShipments: "Shipments",
@@ -332,7 +332,7 @@ export const en = {
     heading: "Signals from the",
     headingHighlight: "global atelier",
     headingEnd: ".",
-    description: "Maisone AI synthesises runway, retail sell-through, social and editorial signals into actionable sourcing forecasts — refreshed every 6 hours.",
+    description: "Maisone AI synthesises runway, retail sell-through, social and editorial signals into actionable sourcing forecasts — refreshed seasonally.",
     loadingText: "Fetching latest sourcing signals...",
     panelFabrics: "Trending fabrics",
     panelColors: "Color forecast",
@@ -470,7 +470,7 @@ export const en = {
     shashankBio: "Shashank brings over 18 years of expertise in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing. Throughout his career, he has collaborated with premier global design houses including Valentino, Balmain, Stella McCartney, Giorgio Armani, and Dolce & Gabbana. At Maisone, he directs global operations and maps sustainable supply loops.",
     subahQuote: "Fashion is a dialogue between creative vision and technical execution. Maisone translates that dialogue into transparent, beautifully crafted collections.",
     subahRoleDetail: "Creative & Client Partnerships",
-    subahBio: "Subah specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
+    subahBio: "Subha Arora specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
   },
 
   // ── Blogs Section ──

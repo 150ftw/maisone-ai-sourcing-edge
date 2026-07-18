@@ -181,8 +181,8 @@ export const it = {
     heading: "Un'unica console per ogni",
     headingHighlight: "decisione di sourcing",
     headingEnd: ".",
-    subtitle: "Prova l'anteprima in tempo reale — passa da una scheda all'altra, filtra i fornitori, cerca le spedizioni.",
-    searchPlaceholder: "Cerca fornitori, PO, spedizioni",
+    subtitle: "Prova l'anteprima in tempo reale — passa da una scheda all'altra, filtra i fornitori.",
+    searchPlaceholder: "Cerca fornitori...",
     tabOverview: "Panoramica",
     tabSuppliers: "Fornitori",
     tabShipments: "Spedizioni",
@@ -241,7 +241,7 @@ export const it = {
     heading: "Segnali dall'",
     headingHighlight: "atelier globale",
     headingEnd: ".",
-    description: "Maisone AI sintetizza i segnali delle sfilate, delle vendite al dettaglio, dei social e dell'editoria in previsioni operative di sourcing — aggiornate ogni 6 ore.",
+    description: "Maisone AI sintetizza i segnali delle sfilate, delle vendite al dettaglio, dei social e dell'editoria in previsioni operative di sourcing — aggiornate stagionalmente.",
     loadingText: "Recupero degli ultimi segnali di sourcing...",
     panelFabrics: "Tessuti di tendenza",
     panelColors: "Previsione colore",
@@ -379,7 +379,7 @@ export const it = {
     shashankBio: "Shashank offre oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica. Nel corso della sua carriera ha collaborato con le principali case di design mondiali tra cui Valentino, Balmain, Stella McCartney, Giorgio Armani e Dolce & Gabbana. In Maisone dirige le operazioni globali e mappa i circuiti di fornitura sostenibili.",
     subahQuote: "La moda è un dialogo tra visione creativa ed esecuzione tecnica. Maisone traduce quel dialogo in collezioni trasparenti e splendidamente realizzate.",
     subahRoleDetail: "Collaborazioni Creative e Clienti",
-    subahBio: "Subah è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
+    subahBio: "Subha Arora è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
   },
 
   // ── Blogs Section ──

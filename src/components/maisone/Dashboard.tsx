@@ -6,7 +6,7 @@ import { useLanguage } from "@/lib/i18n";
 
 const trend = [22, 30, 28, 42, 38, 55, 48, 65, 60, 72, 68, 84, 80, 92];
 
-type View = "Overview" | "Suppliers" | "Shipments" | "Inventory" | "Trends";
+type View = "Overview" | "Suppliers" | "Trends";
 
 export const SUPPLIERS = [
   { id: "JP-014", name: "Osaka Mill #042", region: "Japan", city: "Osaka", category: "Denim", lead: 21, rating: 4.9, otd: 96 },
@@ -39,15 +39,13 @@ export const SHIPMENTS = [
   { id: "MS-7788", route: "Berlin → New York", eta: "Mar 19", status: "Delivered", prog: 100 }
 ];
 
-const NAV: View[] = ["Overview", "Suppliers", "Shipments", "Inventory", "Trends"];
+const NAV: View[] = ["Overview", "Suppliers", "Trends"];
 
 export function Dashboard() {
   const { t } = useLanguage();
   const NAV_LABELS: Record<View, string> = {
     Overview: t("dashboard.tabOverview"),
     Suppliers: t("dashboard.tabSuppliers"),
-    Shipments: t("dashboard.tabShipments"),
-    Inventory: t("dashboard.tabInventory"),
     Trends: t("dashboard.tabTrends"),
   };
   const [view, setView] = useState<View>("Overview");
@@ -126,8 +124,6 @@ export function Dashboard() {
                     {view === "Suppliers" && (
                       <Suppliers query={query} region={region} setRegion={setRegion} />
                     )}
-                    {view === "Shipments" && <Shipments query={query} />}
-                    {view === "Inventory" && <Inventory />}
                     {view === "Trends" && <Trends />}
                   </motion.div>
                 </AnimatePresence>
