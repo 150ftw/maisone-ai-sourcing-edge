@@ -37,35 +37,35 @@ export function Navbar() {
             <Logo />
 
             <nav className="hidden lg:flex items-center gap-8">
-              <a href="/#home" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.home")}</a>
-              <a href="/#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.about")}</a>
-              <a href="/#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.services")}</a>
-              <a href="/#categories" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.categories")}</a>
+              <a href="/#home" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.home")}</a>
+              <a href="/#about" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.about")}</a>
+              <a href="/#services" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.services")}</a>
+              <a href="/#categories" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.categories")}</a>
 
               {/* Platform Dropdown */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm text-muted-foreground group-hover:text-foreground transition-colors py-2 cursor-pointer">
+                <button className="flex items-center gap-1 text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground group-hover:text-black dark:group-hover:text-foreground transition-colors py-2 cursor-pointer">
                   <span>{t("nav.platform")}</span>
                   <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
                 </button>
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
                   <a
                     href="/#dashboard"
-                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                    className="block text-xs font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
                   >
                     {t("nav.console")}
                   </a>
                   <a
                     href="/#trends"
-                    className="block text-xs text-muted-foreground hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
+                    className="block text-xs font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
                   >
                     {t("nav.aiTrendForecast")}
                   </a>
                 </div>
               </div>
 
-              <a href="/#founders" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.founders")}</a>
-              <a href="/#blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav.blog")}</a>
+              <a href="/#founders" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.founders")}</a>
+              <a href="/#blog" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.blog")}</a>
             </nav>
 
             <div className="flex items-center gap-2">
@@ -133,10 +133,10 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             className="lg:hidden mt-2 glass-strong rounded-2xl p-4 flex flex-col gap-3"
           >
-            <a href="/#home" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.home")}</a>
-            <a href="/#about" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.about")}</a>
-            <a href="/#services" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.services")}</a>
-            <a href="/#categories" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.categories")}</a>
+            <a href="/#home" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.home")}</a>
+            <a href="/#about" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.about")}</a>
+            <a href="/#services" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.services")}</a>
+            <a href="/#categories" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.categories")}</a>
 
             {/* Mobile Platform Links */}
             <div className="flex flex-col gap-1.5 pl-3 border-l border-border/50 my-1">
@@ -144,21 +144,21 @@ export function Navbar() {
               <a
                 href="/#dashboard"
                 onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
+                className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground px-2 py-1.5"
               >
                 {t("nav.console")}
               </a>
               <a
                 href="/#trends"
                 onClick={() => setOpen(false)}
-                className="text-sm text-muted-foreground hover:text-foreground px-2 py-1.5"
+                className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground px-2 py-1.5"
               >
                 {t("nav.aiTrendForecast")}
               </a>
             </div>
 
-            <a href="/#founders" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.founders")}</a>
-            <a href="/#blog" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground py-2">{t("nav.blog")}</a>
+            <a href="/#founders" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.founders")}</a>
+            <a href="/#blog" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.blog")}</a>
             
             {/* Mobile language & action buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-border/50">

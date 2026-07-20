@@ -1,16 +1,15 @@
 import { Canvas } from "@react-three/fiber";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { Suspense } from "react";
-import { useTheme } from "@/components/theme-provider";
 
-function SilkMesh({ isDark }: { isDark: boolean }) {
+function SilkMesh() {
   return (
     <mesh scale={15}>
       <planeGeometry args={[2, 2, 128, 128]} />
       <MeshDistortMaterial
-        color={isDark ? "#0a0a0a" : "#F6F4F0"}
+        color="#0a0a0a"
         roughness={0.3}
-        metalness={isDark ? 0.8 : 0.4}
+        metalness={0.8}
         distort={0.2}
         speed={1}
       />
@@ -19,17 +18,14 @@ function SilkMesh({ isDark }: { isDark: boolean }) {
 }
 
 export function FabricBackground() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
   return (
-    <div className={`fixed inset-0 z-[-1] pointer-events-none bg-background transition-opacity duration-500 ${isDark ? "opacity-40" : "opacity-[0.85]"}`}>
+    <div className="fixed inset-0 z-[-1] opacity-40 pointer-events-none bg-background">
       <Canvas camera={{ position: [0, 0, 3] }} gl={{ antialias: false }}>
-        <ambientLight intensity={isDark ? 0.1 : 1.2} />
-        <directionalLight position={[5, 5, 5]} intensity={isDark ? 1 : 1.5} color={isDark ? "#C2A46D" : "#ffffff"} />
-        <directionalLight position={[-5, -5, 2]} intensity={isDark ? 0.5 : 1} color={isDark ? "#7C3AED" : "#F6F4F0"} />
+        <ambientLight intensity={0.1} />
+        <directionalLight position={[5, 5, 5]} intensity={1} color="#C2A46D" />
+        <directionalLight position={[-5, -5, 2]} intensity={0.5} color="#7C3AED" />
         <Suspense fallback={null}>
-          <SilkMesh isDark={isDark} />
+          <SilkMesh />
         </Suspense>
       </Canvas>
       {/* Overlay gradient to blend it perfectly with the bottom of the page */}

@@ -255,11 +255,11 @@ export function Blogs() {
         {loading ? (
           <div className="grid md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-3xl border border-white/5 bg-white/[0.01] p-6 space-y-4 animate-pulse">
-                <div className="aspect-[16/10] bg-white/5 rounded-2xl w-full" />
-                <div className="h-4 bg-white/5 rounded w-1/3" />
-                <div className="h-6 bg-white/5 rounded w-full" />
-                <div className="h-4 bg-white/5 rounded w-full" />
+              <div key={i} className="rounded-3xl border border-black/5 dark:border-white/5 bg-white dark:bg-white/[0.01] p-6 space-y-4 animate-pulse">
+                <div className="aspect-[16/10] bg-black/5 dark:bg-white/5 rounded-2xl w-full" />
+                <div className="h-4 bg-black/5 dark:bg-white/5 rounded w-1/3" />
+                <div className="h-6 bg-black/5 dark:bg-white/5 rounded w-full" />
+                <div className="h-4 bg-black/5 dark:bg-white/5 rounded w-full" />
               </div>
             ))}
           </div>
@@ -272,7 +272,7 @@ export function Blogs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -6 }}
-                className="group rounded-3xl border border-white/5 bg-white/[0.01] overflow-hidden flex flex-col h-full hover:border-electric/30 hover:bg-white/[0.02] transition-all duration-300"
+                className="group rounded-3xl border border-black/5 dark:border-white/5 bg-white dark:bg-white/[0.01] shadow-sm hover:shadow-md dark:shadow-none overflow-hidden flex flex-col h-full hover:border-electric/30 dark:hover:border-electric/30 transition-all duration-300"
               >
                 {blog.image_url && (
                   <div className="aspect-[16/10] overflow-hidden relative">
@@ -290,7 +290,7 @@ export function Blogs() {
                 )}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
-                    <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+                    <div className="flex items-center gap-4 text-[10px] text-black/50 dark:text-muted-foreground font-medium uppercase tracking-wider">
                       <span className="flex items-center gap-1.5 font-bold"><User className="size-3 text-electric/80" /> {blog.author}</span>
                       <span>•</span>
                       <span>{blog.read_time.split(" ")[0]} {t("blogs.minRead")}</span>
@@ -298,7 +298,7 @@ export function Blogs() {
                     <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] dark:text-white tracking-tight group-hover:text-electric transition-colors line-clamp-2">
                       {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                     </h3>
-                    <p className="text-xs text-muted-foreground/80 leading-relaxed line-clamp-3">
+                    <p className="text-xs text-black/60 dark:text-muted-foreground/80 leading-relaxed line-clamp-3">
                       {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content) : blog.content}
                     </p>
                   </div>

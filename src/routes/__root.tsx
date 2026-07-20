@@ -8,7 +8,6 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { LanguageProvider } from "@/lib/i18n";
-import { FabricBackground } from "@/components/ui/FabricBackground";
 
 import appCss from "../styles.css?url";
 
@@ -107,6 +106,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('maisone-theme') === 'light') {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -122,7 +132,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        <FabricBackground />
         <Outlet />
       </LanguageProvider>
     </QueryClientProvider>

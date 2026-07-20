@@ -3,7 +3,7 @@ import { useState, useEffect, createContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, LogOut, Loader2, Mail, Building2, Globe, Layers,
-  ChevronDown, TrendingUp, BookOpen
+  ChevronDown, TrendingUp, BookOpen, MessageSquare
 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
@@ -319,7 +319,7 @@ export function OverviewSkeleton() {
   );
 }
 
-type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "shipments" | "trends" | "blogs";
+type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "shipments" | "trends" | "blogs" | "testimonials";
 
 const ADMIN_TABS = [
   { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
@@ -329,6 +329,7 @@ const ADMIN_TABS = [
   { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
   { id: "trends" as const, to: "/admin/trends" as const, label: "Trend Forecasts", icon: TrendingUp },
   { id: "blogs" as const, to: "/admin/blogs" as const, label: "Blog Section", icon: BookOpen },
+  { id: "testimonials" as const, to: "/admin/testimonials" as const, label: "Testimonials", icon: MessageSquare },
 ];
 
 function AdminPage() {

@@ -1,26 +1,73 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
+import { supabase } from "@/lib/supabase";
+
+export interface Testimonial {
+  id: string;
+  created_at?: string;
+  quote: string;
+  name: string;
+  role: string;
+}
+
+export const MOCK_TESTIMONIALS: Testimonial[] = [
+  {
+    id: "mock-t1",
+    quote: "Maisone's AI insights helped us predict the linen trend six months before our competitors. We secured capacity at the best mills and launched perfectly on time.",
+    name: "Aiko Tanaka",
+    role: "Head of Production · Maison Kyō",
+  },
+  {
+    id: "mock-t2",
+    quote: "The transparency is unmatched. I can track my entire cashmere order from the raw fiber in Mongolia to the spun yarn in Italy, all on one dashboard.",
+    name: "Oliver Hartwell",
+    role: "Founder · Atelier LDN",
+  },
+  {
+    id: "mock-t3",
+    quote: "We used to spend weeks auditing factories. Maisone's pre-vetted network of compliant manufacturers allowed us to scale our organic cotton line overnight.",
+    name: "Camille Laurent",
+    role: "COO · North/Paris",
+  },
+];
 
 export function Testimonials() {
   const { t } = useLanguage();
+  const [items, setItems] = useState<Testimonial[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const items = [
-    {
-      quote: t("testimonials.quote1"),
-      name: "Aiko Tanaka",
-      role: "Head of Production · Maison Kyō",
-    },
-    {
-      quote: t("testimonials.quote2"),
-      name: "Oliver Hartwell",
-      role: "Founder · Atelier LDN",
-    },
-    {
-      quote: t("testimonials.quote3"),
-      name: "Camille Laurent",
-      role: "COO · North/Paris",
-    },
-  ];
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const query = supabase
+          .from("testimonials")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        const timeout = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), 2000)
+        );
+
+        const { data, error } = await (Promise.race([query, timeout]) as Promise<any>);
+
+        if (error) throw error;
+        setItems(data || []);
+      } catch (err) {
+        console.warn("Supabase testimonials fetch failed, loading from LocalStorage:", err);
+        const local = localStorage.getItem("maisone_testimonials_v1");
+        if (local) {
+          setItems(JSON.parse(local));
+        } else {
+          setItems(MOCK_TESTIMONIALS);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
 
   return (
     <section className="relative py-32">

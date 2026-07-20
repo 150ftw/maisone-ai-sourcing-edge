@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, Reorder } from "framer-motion";
-import { Scissors, Shirt, Handshake, Sparkles } from "lucide-react";
+import { Scissors, Shirt, Handshake, Sparkles, Check } from "lucide-react";
 import abstractBg from "@/assets/fashion_startup_studio.png";
 import { useLanguage } from "@/lib/i18n";
 import { PatternHover } from "@/components/ui/PatternHover";
+import { FashionConfetti } from "@/components/ui/FashionConfetti";
 
 export function WhyMaisone() {
   const { t } = useLanguage();
@@ -37,6 +38,26 @@ export function WhyMaisone() {
 
   // Use primitive string IDs for Reorder to prevent reference recreation bugs during render
   const [order, setOrder] = useState(["card1", "card2", "card3", "card4"]);
+  
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  // The perfect sequence: Shirt (card2), Scissors (card1), Sparkles (card4), Handshake (card3)
+  const perfectAnswer = ["card2", "card1", "card4", "card3"];
+
+  const checkAnswer = () => {
+    const currentOrder = order.join(",");
+    const targetOrder = perfectAnswer.join(",");
+    
+    if (currentOrder === targetOrder) {
+      setIsSuccess(true);
+      setIsError(false);
+    } else {
+      setIsError(true);
+      setIsSuccess(false);
+      setTimeout(() => setIsError(false), 2000);
+    }
+  };
   
   // Track window width for reorder axis
   const [isMobile, setIsMobile] = useState(false);
@@ -116,6 +137,34 @@ export function WhyMaisone() {
             );
           })}
         </Reorder.Group>
+
+        <div className="flex flex-col items-center mt-10">
+          <motion.button
+            onClick={checkAnswer}
+            animate={isError ? { x: [-10, 10, -10, 10, 0] } : {}}
+            transition={{ duration: 0.4 }}
+            className={`px-8 py-3 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
+              isSuccess 
+                ? "bg-electric text-white scale-105 shadow-glow" 
+                : isError
+                ? "bg-destructive/10 text-destructive border border-destructive/50"
+                : "bg-background/50 border border-border text-foreground hover:bg-secondary/50 glass-strong"
+            }`}
+          >
+            {isSuccess ? (
+              <>
+                <Check className="size-4" />
+                Perfect Sequence!
+              </>
+            ) : isError ? (
+              "Not quite right, try again"
+            ) : (
+              "Verify Sequence"
+            )}
+          </motion.button>
+        </div>
+        
+        {isSuccess && <FashionConfetti duration={6000} />}
 
         {/* Startup & Low MOQ Callout */}
         <motion.div

@@ -1,5 +1,5 @@
 import { motion, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp } from "lucide-react";
 
 
 import { Link } from "@tanstack/react-router";
@@ -211,10 +211,7 @@ export function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs tracking-[0.25em] uppercase text-muted-foreground mb-8">
-            <Sparkles className="size-3 text-electric" />
-            {t("hero.badge")}
-          </div>
+
 
           <h1
             className={`font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
@@ -248,7 +245,7 @@ export function Hero() {
             <HoverThreadText text={t("hero.headingLine3")} />
           </h1>
 
-          <p className="mt-8 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
+          <p className="mt-8 text-lg sm:text-xl text-[#2C2C2C] dark:text-muted-foreground font-medium max-w-2xl mx-auto text-balance leading-relaxed">
             {t("hero.subtitle")}
           </p>
 
@@ -280,8 +277,8 @@ export function Hero() {
               { v: t("hero.stat4Value"), l: t("hero.stat4Label") },
             ].map((s) => (
               <div key={s.l} className="glass rounded-2xl px-4 py-3 text-left">
-                <p className="font-serif text-lg">{s.v}</p>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-1">{s.l}</p>
+                <p className="font-serif text-lg text-foreground">{s.v}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[#2C2C2C]/70 dark:text-muted-foreground mt-1 font-medium">{s.l}</p>
               </div>
             ))}
           </div>
@@ -294,10 +291,10 @@ export function Hero() {
           className="relative mt-20"
         >
           <div className="flex flex-col items-center justify-center gap-2 mb-10">
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-electric/10 border border-electric/30 text-[10px] tracking-[0.25em] uppercase text-electric font-semibold">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2C2C2C]/10 dark:bg-electric/10 border border-[#2C2C2C]/30 dark:border-electric/30 text-[10px] tracking-[0.25em] uppercase text-[#2C2C2C] dark:text-electric font-semibold">
               <span className="relative size-1.5 flex shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-electric opacity-75" />
-                <span className="relative inline-flex rounded-full size-1.5 bg-electric" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2C2C2C] dark:bg-electric opacity-75" />
+                <span className="relative inline-flex rounded-full size-1.5 bg-[#2C2C2C] dark:bg-electric" />
               </span>
               {t("hero.liveSourcingNetwork")}
             </span>

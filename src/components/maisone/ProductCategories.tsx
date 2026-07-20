@@ -281,7 +281,7 @@ export function ProductCategories() {
                     style={{ zIndex: categories.length - Math.abs(offset) }}
                   >
                     <div className="absolute inset-0 bg-background/90 rounded-3xl" />
-                    <div className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-overlay opacity-40 rounded-3xl`} />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-normal opacity-[0.35] dark:mix-blend-overlay dark:opacity-40 rounded-3xl pointer-events-none`} />
                     
                     <div className="relative z-10 w-full h-full flex flex-col p-4 sm:p-6">
                        {/* Swatch Hole Punch (Visual detail) */}

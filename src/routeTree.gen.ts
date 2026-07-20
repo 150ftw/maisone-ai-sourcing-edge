@@ -24,6 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as BlogBlogIdRouteImport } from './routes/blog.$blogId'
 import { Route as AdminTrendsRouteImport } from './routes/admin/trends'
+import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
 import { Route as AdminSuppliersRouteImport } from './routes/admin/suppliers'
 import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/supplier-requests'
 import { Route as AdminShipmentsRouteImport } from './routes/admin/shipments'
@@ -106,6 +107,11 @@ const AdminTrendsRoute = AdminTrendsRouteImport.update({
   path: '/trends',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
+  id: '/testimonials',
+  path: '/testimonials',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
   id: '/suppliers',
   path: '/suppliers',
@@ -156,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -178,6 +185,7 @@ export interface FileRoutesByTo {
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin': typeof AdminIndexRoute
@@ -202,6 +210,7 @@ export interface FileRoutesById {
   '/admin/shipments': typeof AdminShipmentsRoute
   '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
+  '/admin/testimonials': typeof AdminTestimonialsRoute
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
+    | '/admin/testimonials'
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin/'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
+    | '/admin/testimonials'
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/admin/shipments'
     | '/admin/supplier-requests'
     | '/admin/suppliers'
+    | '/admin/testimonials'
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin/'
@@ -400,6 +412,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTrendsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/testimonials': {
+      id: '/admin/testimonials'
+      path: '/testimonials'
+      fullPath: '/admin/testimonials'
+      preLoaderRoute: typeof AdminTestimonialsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/suppliers': {
       id: '/admin/suppliers'
       path: '/suppliers'
@@ -452,6 +471,7 @@ interface AdminRouteChildren {
   AdminShipmentsRoute: typeof AdminShipmentsRoute
   AdminSupplierRequestsRoute: typeof AdminSupplierRequestsRoute
   AdminSuppliersRoute: typeof AdminSuppliersRoute
+  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminTrendsRoute: typeof AdminTrendsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -463,6 +483,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminShipmentsRoute: AdminShipmentsRoute,
   AdminSupplierRequestsRoute: AdminSupplierRequestsRoute,
   AdminSuppliersRoute: AdminSuppliersRoute,
+  AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminTrendsRoute: AdminTrendsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
