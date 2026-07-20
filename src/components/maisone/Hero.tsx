@@ -171,7 +171,10 @@ export function Hero() {
       }}
     >
       {/* Creative Parallax Background */}
-      <div className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-300 ${isDark ? "opacity-80" : "opacity-90"}`}>
+      <div 
+        className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-300 ${isDark ? "opacity-80" : "opacity-90"}`}
+        style={{ WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)", maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)" }}
+      >
         <motion.video
           key={bgVideo} // Re-mount when video source changes for smooth loading animation
           src={bgVideo}
@@ -190,7 +193,7 @@ export function Hero() {
         />
         {/* Vignette & Gradients Overlay */}
         <div
-          className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${isDark ? "opacity-100" : "opacity-75"}`}
+          className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${isDark ? "opacity-100" : "opacity-30"}`}
           style={{
             backgroundImage: "radial-gradient(circle at center, transparent 10%, var(--background) 90%)"
           }}

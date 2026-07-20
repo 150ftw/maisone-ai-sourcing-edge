@@ -3,6 +3,7 @@ import { motion, Reorder } from "framer-motion";
 import { Scissors, Shirt, Handshake, Sparkles } from "lucide-react";
 import abstractBg from "@/assets/fashion_startup_studio.png";
 import { useLanguage } from "@/lib/i18n";
+import { PatternHover } from "@/components/ui/PatternHover";
 
 export function WhyMaisone() {
   const { t } = useLanguage();
@@ -47,7 +48,7 @@ export function WhyMaisone() {
   }, []);
 
   return (
-    <section id="why" className="relative py-32 overflow-hidden">
+    <section id="why" className="relative py-32">
       {/* Background glow orbs */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-electric/20 rounded-full blur-[120px] pointer-events-none animate-float" />
       <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-violet-glow/15 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
@@ -133,12 +134,14 @@ export function WhyMaisone() {
             <p className="text-sm text-muted-foreground leading-relaxed mb-8">
               {t("why.startupText")}
             </p>
-            <a
-              href="/book-demo"
-              className="px-6 py-3 w-fit rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap relative overflow-hidden group/btn"
-            >
-              <span className="relative z-10 transition-colors">{t("why.launchYourBrand")}</span>
-            </a>
+            <PatternHover rx={24} className="w-fit">
+              <a
+                href="/book-demo"
+                className="px-6 py-3 w-fit rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap relative overflow-hidden group/btn flex items-center justify-center"
+              >
+                <span className="relative z-10 transition-colors">{t("why.launchYourBrand")}</span>
+              </a>
+            </PatternHover>
           </div>
           <div className="md:w-1/2 relative min-h-[300px] overflow-hidden [transform:translateZ(0)]">
             <img 

@@ -59,12 +59,12 @@
   --input: rgba(183, 176, 166, 0.25);
   --ring: #C2A46D;
 
-  --electric: #C2A46D;
-  --violet-glow: #9B8E7D;
-  --cyan-glow: #B7B0A6;
-  --silver: #B7B0A6;
+  --electric: #A68A56;
+  --violet-glow: #7A6F62;
+  --cyan-glow: #8C867E;
+  --silver: #8C867E;
 
-  --gradient-aurora: linear-gradient(135deg, #C2A46D 0%, #9B8E7D 50%, #B7B0A6 100%);
+  --gradient-aurora: linear-gradient(135deg, var(--electric) 0%, var(--violet-glow) 50%, var(--silver) 100%);
   --gradient-hero: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(194, 164, 109, 0.15), transparent 60%);
   --shadow-glow: 0 0 60px -10px rgba(194, 164, 109, 0.3);
   --shadow-soft: 0 30px 80px -20px rgba(44, 44, 44, 0.08);

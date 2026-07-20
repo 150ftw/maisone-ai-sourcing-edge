@@ -44,7 +44,7 @@ export function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="relative py-32 overflow-hidden flex flex-col justify-center min-h-[90vh]">
+    <section id="about" ref={sectionRef} className="relative py-32 flex flex-col justify-center min-h-[90vh]">
       {/* Background Images Layer (Faint) */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[250%] h-[70vh] pointer-events-none z-0 overflow-hidden opacity-20">
         <div ref={bgImagesRef} className="w-full h-full flex items-center justify-around gap-8 px-8">

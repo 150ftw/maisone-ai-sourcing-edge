@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { LanguageProvider } from "@/lib/i18n";
+import { FabricBackground } from "@/components/ui/FabricBackground";
 
 import appCss from "../styles.css?url";
 
@@ -121,6 +122,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
+        <FabricBackground />
         <Outlet />
       </LanguageProvider>
     </QueryClientProvider>
