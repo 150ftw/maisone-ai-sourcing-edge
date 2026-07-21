@@ -165,11 +165,11 @@ export function Navbar() {
                       
                       <div className="relative z-10 p-3 flex flex-col gap-1.5 items-center">
                         <div className="flex items-center gap-2 text-electric bg-electric/10 px-3 py-1 rounded-full border border-electric/20 mb-1">
-                          <Scissors className="size-3.5 stroke-[2.5]" />
-                          <span className="text-[10px] uppercase tracking-widest font-bold">Tailor Your View</span>
+                          <Scissors className="w-3.5 h-3.5" />
+                          <span className="text-[10px] uppercase tracking-widest font-bold">{t("nav.tailorYourView") || "Tailor Your View"}</span>
                         </div>
                         <p className="text-xs text-foreground font-medium text-center leading-relaxed px-1">
-                          Customize your theme & language settings here.
+                          {t("nav.customizeTheme") || "Customize your theme & language settings here."}
                         </p>
                       </div>
                     </motion.div>

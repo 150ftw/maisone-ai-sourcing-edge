@@ -16,6 +16,8 @@ export const en = {
     backToHome: "Back to Home",
     theme: "Theme",
     language: "Language",
+    tailorYourView: "Tailor Your View",
+    customizeTheme: "Customize your theme & language settings here.",
   },
 
   // ── Hero Section ──

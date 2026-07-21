@@ -16,6 +16,8 @@ export const ja = {
     backToHome: "ホームに戻る",
     theme: "テーマ",
     language: "言語",
+    tailorYourView: "ビューをカスタマイズ",
+    customizeTheme: "ここでテーマと言語の設定をカスタマイズします。",
   },
 
   // ── ヒーローセクション ──

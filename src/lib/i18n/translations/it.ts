@@ -14,6 +14,10 @@ export const it = {
     joinAsSupplier: "Diventa un fornitore",
     inquireAboutUs: "Contattaci",
     backToHome: "Torna alla Home",
+    theme: "Tema",
+    language: "Lingua",
+    tailorYourView: "Personalizza la tua vista",
+    customizeTheme: "Personalizza le impostazioni del tema e della lingua qui.",
   },
 
   // ── Hero Section ──

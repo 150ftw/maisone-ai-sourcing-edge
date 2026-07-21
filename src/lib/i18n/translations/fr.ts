@@ -14,6 +14,10 @@ export const fr = {
     joinAsSupplier: "Devenir fournisseur",
     inquireAboutUs: "Nous contacter",
     backToHome: "Retour à l'accueil",
+    theme: "Thème",
+    language: "Langue",
+    tailorYourView: "Personnalisez votre vue",
+    customizeTheme: "Personnalisez vos paramètres de thème et de langue ici.",
   },
 
   // ── Section Hero ──
