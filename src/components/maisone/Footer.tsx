@@ -36,7 +36,7 @@ export function Footer() {
               links: [
                 { name: t("footer.aboutLink"), to: "/about" },
                 { name: t("footer.howWeWorkLink"), to: "/how-we-work" },
-                { name: t("footer.foundersLink"), to: "/founders" },
+                { name: t("footer.foundersLink"), to: "/#founders" },
                 { name: t("footer.blogLink"), to: "/#blog" },
               ],
             },
@@ -50,7 +50,6 @@ export function Footer() {
                 { name: t("footer.privacy"), to: "/privacy" },
                 { name: t("footer.terms"), to: "/terms" },
                 { name: t("footer.compliance"), to: "/compliance" },
-                { name: t("footer.sustainability"), to: "/sustainability" },
               ],
             },
           ].map((c) => (

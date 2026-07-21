@@ -38,10 +38,6 @@ export function WhyMaisone() {
 
   return (
     <section id="why" className="relative py-32">
-      {/* Background glow orbs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-electric/20 rounded-full blur-[120px] pointer-events-none animate-float" />
-      <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-violet-glow/15 rounded-full blur-[150px] pointer-events-none animate-pulse-glow" />
-
       <div className="mx-auto max-w-7xl px-6 relative z-10">
         
         <motion.div 
@@ -98,42 +94,6 @@ export function WhyMaisone() {
 
 
 
-        {/* Startup & Low MOQ Callout */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="mt-16 group glass rounded-3xl overflow-hidden border border-electric/20 bg-electric/[0.02] flex flex-col md:flex-row items-stretch justify-between gap-0"
-        >
-          <div className="p-8 md:p-12 md:w-1/2 flex flex-col justify-center relative z-10">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-electric/10 border border-electric/30 w-fit text-[9px] tracking-[0.2em] uppercase text-electric font-semibold mb-6 shadow-[0_0_15px_rgba(194,164,109,0.2)]">
-              <span className="size-1.5 rounded-full bg-electric animate-pulse" />
-              {t("why.startupFriendly")}
-            </span>
-            <h3 className="font-serif text-3xl mb-4 text-foreground">{t("why.startupTitle")}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-              {t("why.startupText")}
-            </p>
-            <PatternHover rx={24} className="w-fit">
-              <a
-                href="/book-demo"
-                className="px-6 py-3 w-fit rounded-full bg-foreground text-background text-sm font-medium hover:scale-[1.02] transition-transform whitespace-nowrap relative overflow-hidden group/btn flex items-center justify-center"
-              >
-                <span className="relative z-10 transition-colors">{t("why.launchYourBrand")}</span>
-              </a>
-            </PatternHover>
-          </div>
-          <div className="md:w-1/2 relative min-h-[300px] overflow-hidden [transform:translateZ(0)]">
-            <img 
-              src="/images/DSC_6759.JPG" 
-              alt="Fashion Startup Studio" 
-              className="absolute inset-0 w-full h-full object-cover origin-center animate-slow-zoom" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent md:block hidden w-1/4 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent md:hidden block h-1/4 bottom-0 pointer-events-none" />
-          </div>
-        </motion.div>
       </div>
     </section>
   );
