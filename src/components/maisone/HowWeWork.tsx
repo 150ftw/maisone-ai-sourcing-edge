@@ -1,31 +1,33 @@
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, X, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 
 export function HowWeWork() {
-  const { t } = useLanguage();
+  const { t, tArray } = useLanguage();
+  const [selectedPhase, setSelectedPhase] = useState<number | null>(null);
 
-  const phases = [
+  const phasesData = [
     {
       n: "01",
       title: t("howWeWork.phase1Title"),
-      desc: t("howWeWork.phase1Desc"),
+      points: tArray("howWeWork.phase1Points") || []
     },
     {
       n: "02",
       title: t("howWeWork.phase2Title"),
-      desc: t("howWeWork.phase2Desc"),
+      points: tArray("howWeWork.phase2Points") || []
     },
     {
       n: "03",
       title: t("howWeWork.phase3Title"),
-      desc: t("howWeWork.phase3Desc"),
+      points: tArray("howWeWork.phase3Points") || []
     },
     {
       n: "04",
       title: t("howWeWork.phase4Title"),
-      desc: t("howWeWork.phase4Desc"),
-    },
+      points: tArray("howWeWork.phase4Points") || []
+    }
   ];
 
   const pairs = [
@@ -45,11 +47,9 @@ export function HowWeWork() {
       problem: t("howWeWork.q4"),
       solution: t("howWeWork.a4"),
     },
-    {
-      problem: t("howWeWork.q5"),
-      solution: t("howWeWork.a5"),
-    },
   ];
+
+  const addonPoints = tArray("howWeWork.addonPoints") || [];
 
   return (
     <section id="services" className="relative py-32 overflow-hidden">
@@ -73,7 +73,6 @@ export function HowWeWork() {
           </motion.div>
         </div>
 
-        {/* Timeline */}
         {/* Timeline */}
         <div className="relative mb-32">
           {/* Base Connector line (Desktop) */}
@@ -110,7 +109,7 @@ export function HowWeWork() {
           />
 
           <div className="grid lg:grid-cols-4 gap-12 lg:gap-6 relative z-10 lg:pt-0">
-            {phases.map((p, i) => (
+            {phasesData.map((p, i) => (
               <motion.div
                 key={p.n}
                 initial={{ opacity: 0, y: 30 }}
@@ -125,12 +124,18 @@ export function HowWeWork() {
                 </div>
 
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 pt-8 lg:pt-6 h-full transition-all duration-500 group-hover:border-electric/40 group-hover:-translate-y-2 group-hover:shadow-[0_15px_40px_-10px_rgba(194,164,109,0.15)]">
+                <div 
+                  className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 pt-8 lg:pt-6 h-full transition-all duration-500 group-hover:border-electric/40 group-hover:-translate-y-2 group-hover:shadow-[0_15px_40px_-10px_rgba(194,164,109,0.15)] cursor-pointer flex flex-col justify-between"
+                  onClick={() => setSelectedPhase(i)}
+                >
                   {/* Subtle top-left glow on hover */}
                   <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                   <h3 className="font-serif text-lg leading-snug text-foreground mb-3 relative z-10 text-center lg:text-left">{p.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed relative z-10 text-center lg:text-left">{p.desc}</p>
+                  
+                  <div className="mt-4 flex items-center justify-center lg:justify-start gap-2 text-electric text-xs font-semibold uppercase tracking-wider group-hover:text-electric/80 transition-colors">
+                    View Details <ArrowRight className="size-3" />
+                  </div>
 
                   {/* Bottom accent line */}
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-electric to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 transform scale-x-0 group-hover:scale-x-100" />
@@ -141,7 +146,7 @@ export function HowWeWork() {
         </div>
 
         {/* Challenges We Solve Sub-section */}
-        <div>
+        <div className="mb-16 mt-40">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -184,7 +189,132 @@ export function HowWeWork() {
             ))}
           </div>
         </div>
+
+        {/* Full-width Add-On Service Card */}
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+            className="relative group mb-32"
+        >
+            <div className="relative overflow-hidden rounded-[2rem] border border-electric/30 bg-gradient-to-br from-electric/5 via-background to-background p-8 sm:p-10 transition-all duration-500 hover:border-electric/50 hover:shadow-[0_20px_50px_-10px_rgba(194,164,109,0.15)]">
+              {/* Background Images */}
+              <div className="absolute inset-0 z-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                <img src="/images/addon_bg_light.png" alt="Atelier" className="w-full h-full object-cover dark:hidden" />
+                <img src="/images/addon_bg_dark.png" alt="Atelier dark" className="w-full h-full object-cover hidden dark:block" />
+                {/* Gradient overlay to fade left side */}
+                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+              </div>
+              
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-96 h-96 bg-electric/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 pointer-events-none z-0" />
+              
+              <div className="flex flex-col lg:flex-row gap-10 items-start lg:items-center relative z-10">
+                <div className="lg:w-1/3">
+                    <span className="inline-flex items-center px-4 py-2 rounded-full border border-electric/40 bg-electric/10 text-electric text-[10px] uppercase tracking-widest font-mono font-bold mb-6">
+                      {t("howWeWork.addonBadge")}
+                    </span>
+                    <h3 className="font-serif text-3xl sm:text-4xl text-foreground mb-4 leading-tight">{t("howWeWork.addonTitle")}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">{t("howWeWork.addonSubtitle")}</p>
+                </div>
+                
+                <div className="lg:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                    {addonPoints.map((point, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                        <CheckCircle2 className="size-4 text-electric shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-foreground/80 leading-snug">{point}</span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+        </motion.div>
       </div>
+
+      {/* Premium Details Modal */}
+      <AnimatePresence>
+        {selectedPhase !== null && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
+              exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+              onClick={() => setSelectedPhase(null)}
+              className="absolute inset-0 bg-background/60"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 30 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-4xl bg-background/95 backdrop-blur-3xl border border-electric/30 rounded-[2rem] shadow-[0_30px_100px_rgba(0,0,0,0.4)] dark:shadow-[0_30px_100px_rgba(0,0,0,0.8)] p-6 sm:p-12 overflow-hidden z-10"
+            >
+              {/* Background Images */}
+              <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+                <img src={`/images/phase${selectedPhase + 1}_light.png`} alt={`Phase ${selectedPhase + 1}`} className="w-full h-full object-cover dark:hidden" />
+                <img src={`/images/phase${selectedPhase + 1}_dark.png`} alt={`Phase ${selectedPhase + 1} dark`} className="w-full h-full object-cover hidden dark:block" />
+                <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+              </div>
+
+              {/* Huge background watermark number */}
+              <div className="absolute -bottom-16 -right-16 text-[24rem] font-serif font-black text-foreground/[0.03] dark:text-white/[0.02] select-none pointer-events-none leading-none z-0 tracking-tighter">
+                {phasesData[selectedPhase].n}
+              </div>
+
+              {/* Glowing aesthetic orbs */}
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-electric/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none z-0" />
+              <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-electric/5 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/3 pointer-events-none z-0" />
+
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedPhase(null)}
+                className="absolute top-6 right-6 p-3 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-electric hover:border-electric hover:text-black transition-all duration-300 text-foreground z-20 group"
+              >
+                <X className="size-5 transition-transform duration-500 group-hover:rotate-90" />
+              </button>
+              
+              {/* Modal Header */}
+              <div className="mb-10 flex flex-col sm:flex-row sm:items-end gap-6 relative z-10 border-b border-border/60 pb-8">
+                <motion.div 
+                  initial={{ rotate: -15, scale: 0.8 }}
+                  animate={{ rotate: 0, scale: 1 }}
+                  transition={{ type: "spring", damping: 15 }}
+                  className="flex items-center justify-center size-20 rounded-3xl bg-gradient-to-br from-electric/20 to-transparent border border-electric/40 text-electric font-serif text-3xl shrink-0 shadow-[0_0_40px_rgba(212,181,126,0.2)]"
+                >
+                  {phasesData[selectedPhase].n}
+                </motion.div>
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.35em] text-electric mb-3">Phase {phasesData[selectedPhase].n}</p>
+                  <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl text-foreground tracking-tight leading-tight">
+                    {phasesData[selectedPhase].title}
+                  </h3>
+                </div>
+              </div>
+              
+              {/* Modal Body / Points Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10 max-h-[55vh] overflow-y-auto pr-2 pt-2 custom-scrollbar pb-6">
+                {phasesData[selectedPhase].points.map((point, idx) => (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 + idx * 0.08, duration: 0.5, ease: "easeOut" }}
+                    key={idx} 
+                    className="flex items-start gap-4 p-5 sm:p-6 rounded-2xl border border-border/50 bg-black/5 dark:bg-white/5 backdrop-blur-sm hover:bg-electric/10 hover:border-electric/40 hover:-translate-y-1 transition-all duration-300 group shadow-sm hover:shadow-[0_10px_30px_rgba(212,181,126,0.15)]"
+                  >
+                    <div className="mt-0.5 size-7 rounded-full bg-background border border-border flex items-center justify-center group-hover:bg-electric group-hover:border-electric transition-all duration-300 shrink-0">
+                      <CheckCircle2 className="size-4 text-foreground/40 group-hover:text-black transition-colors duration-300" />
+                    </div>
+                    <span className="text-sm sm:text-[15px] text-foreground/80 leading-relaxed font-medium group-hover:text-foreground transition-colors duration-300">{point}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

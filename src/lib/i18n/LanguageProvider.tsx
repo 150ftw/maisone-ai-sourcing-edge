@@ -38,12 +38,14 @@ type LanguageContextType = {
   locale: Locale;
   setLocale: (l: Locale) => void;
   t: (key: string) => string;
+  tArray: (key: string) => string[];
 };
 
 const LanguageContext = createContext<LanguageContextType>({
   locale: "en",
   setLocale: () => {},
   t: (key) => key,
+  tArray: () => [],
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -76,8 +78,27 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     [locale]
   );
 
+  const tArray = useCallback(
+    (key: string): string[] => {
+      const getArray = (obj: any, path: string) => {
+        const keys = path.split(".");
+        let current = obj;
+        for (const k of keys) {
+          if (current == null || typeof current !== "object") return null;
+          current = current[k];
+        }
+        return Array.isArray(current) ? current : null;
+      };
+
+      const value = getArray(translationMap[locale], key);
+      if (value) return value;
+      return getArray(translationMap.en, key) || [];
+    },
+    [locale]
+  );
+
   return (
-    <LanguageContext.Provider value={{ locale, setLocale, t }}>
+    <LanguageContext.Provider value={{ locale, setLocale, t, tArray }}>
       {children}
     </LanguageContext.Provider>
   );

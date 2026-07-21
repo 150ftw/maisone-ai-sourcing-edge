@@ -311,18 +311,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-10 group relative rounded-[28px] border border-electric/40 bg-[#0e0d0c] shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden text-left"
+            className="mt-10 group relative rounded-[28px] border border-electric/40 bg-background shadow-[0_10px_50px_rgba(212,181,126,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden text-left hover:border-electric/60 transition-colors duration-500"
           >
             {/* Atelier Background Image on the right */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               <img
                 src="/images/DSC_6759.JPG"
                 alt="Maisone Atelier"
-                className="absolute right-0 top-0 w-full lg:w-1/2 h-full object-cover object-center opacity-30 lg:opacity-40 mix-blend-luminosity"
+                className="absolute right-0 top-0 w-full lg:w-[65%] h-full object-cover object-center opacity-30 lg:opacity-40 mix-blend-luminosity [mask-image:linear-gradient(to_right,transparent,black_25%)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_25%)]"
               />
               {/* Fade gradients */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0e0d0c] via-[#0e0d0c]/90 lg:via-[#0e0d0c]/85 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e0d0c] via-transparent to-[#0e0d0c]/40" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 lg:via-background/85 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
             </div>
 
             <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -332,36 +332,36 @@ export function Hero() {
                   {/* Top Badges */}
                   <div className="flex flex-wrap items-center gap-3 mb-6">
                     <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-electric/40 bg-electric/10 text-electric text-[10px] uppercase tracking-widest font-mono font-bold">
-                      Startup Friendly
+                      {t("hero.startupFriendly")}
                     </span>
-                    <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground text-[10px] uppercase tracking-widest font-mono">
-                      Low MOQ Ecosystem
+                    <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 text-muted-foreground text-[10px] uppercase tracking-widest font-mono">
+                      {t("hero.lowMoqEcosystem")}
                     </span>
                   </div>
 
                   {/* Main Title */}
                   <h4 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground font-normal leading-snug tracking-tight mb-5">
-                    Supporting emerging labels with <span className="italic font-serif text-electric">low minimum</span> order quantities.
+                    {t("hero.supportingEmergingLabels")} <span className="italic font-serif text-electric">{t("hero.lowMinimum")}</span> {t("hero.orderQuantities")}
                   </h4>
 
                   {/* Subtitle */}
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal mb-8 max-w-xl">
-                    Maisone partners with small startups, independent designers, and growing brands to bring thoughtful ideas to life with flexible production, fast sampling, and uncompromised quality.
+                    {t("hero.startupSubtitle")}
                   </p>
 
                   {/* Middle Checkmarks Row */}
-                  <div className="flex flex-wrap items-center gap-4 sm:gap-6 py-4 mb-8 text-xs sm:text-sm font-medium border-y border-white/10">
+                  <div className="flex flex-wrap items-center gap-4 sm:gap-6 py-4 mb-8 text-xs sm:text-sm font-medium border-y border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span>MOQ from <span className="text-electric font-semibold">50 pieces</span></span>
+                      <span>{t("hero.moqFrom")} <span className="text-electric font-semibold">{t("hero.pieces50")}</span></span>
                     </div>
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span>Samples in <span className="text-electric font-semibold">7–14 days</span></span>
+                      <span>{t("hero.samplesIn")} <span className="text-electric font-semibold">{t("hero.days714")}</span></span>
                     </div>
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span><span className="text-electric font-semibold">Unlimited</span> production scaling</span>
+                      <span><span className="text-electric font-semibold">{t("hero.unlimited")}</span> {t("hero.productionScaling")}</span>
                     </div>
                   </div>
                 </div>
@@ -374,7 +374,7 @@ export function Hero() {
                     whileTap={{ scale: 0.98 }}
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-electric hover:bg-[#d4b57e] text-black font-bold text-xs uppercase tracking-widest shadow-lg transition-colors cursor-pointer"
                   >
-                    <span>Request Low MOQ Quote</span>
+                    <span>{t("hero.requestLowMoqQuote")}</span>
                     <ArrowRight className="size-4 stroke-[2.5]" />
                   </MotionLink>
                 </div>
@@ -383,36 +383,36 @@ export function Hero() {
               {/* Right Column: 3 Compact Vertical Stat Cards */}
               <div className="grid grid-cols-3 gap-3 shrink-0 w-full lg:w-auto items-center justify-center">
                 {/* Card 1 */}
-                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                <div className="bg-black/5 dark:bg-[#141312]/80 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
                     <Package className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Minimum Order</span>
-                  <div className="w-5 h-[1px] bg-white/10 my-1" />
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.minimumOrder")}</span>
+                  <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
                   <span className="font-serif text-2xl text-foreground font-normal">50</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Pieces</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.piecesCaps")}</span>
                 </div>
 
                 {/* Card 2 */}
-                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                <div className="bg-black/5 dark:bg-[#141312]/80 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
                     <Clock className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Sample Dev.</span>
-                  <div className="w-5 h-[1px] bg-white/10 my-1" />
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.sampleDev")}</span>
+                  <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
                   <span className="font-serif text-2xl text-foreground font-normal">7–14</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Days</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.daysCaps")}</span>
                 </div>
 
                 {/* Card 3 */}
-                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                <div className="bg-black/5 dark:bg-[#141312]/80 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
                     <Infinity className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Capacity</span>
-                  <div className="w-5 h-[1px] bg-white/10 my-1" />
-                  <span className="font-serif text-sm sm:text-base text-electric font-semibold tracking-wide">UNLIMITED</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Scaling</span>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.capacityLabel")}</span>
+                  <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
+                  <span className="font-serif text-sm sm:text-base text-electric font-semibold tracking-wide">{t("hero.unlimitedCaps")}</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.scalingCaps")}</span>
                 </div>
               </div>
             </div>
