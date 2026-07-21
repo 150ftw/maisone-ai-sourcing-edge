@@ -58,11 +58,11 @@ function AdminLoginPage() {
 
   return (
     <ThemeProvider>
-      <div className="relative min-h-screen noise overflow-x-hidden bg-[#07070a] text-white flex flex-col">
+      <div className="relative min-h-screen noise overflow-x-hidden bg-background text-foreground flex flex-col">
         <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
 
         {/* Header */}
-        <header className="relative z-10 mx-auto w-full max-w-7xl px-6 py-5 flex items-center justify-between border-b border-white/5 bg-[#07070a]/80 backdrop-blur-md">
+        <header className="relative z-10 mx-auto w-full max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <Link to="/"><Logo /></Link>
             <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">
@@ -84,12 +84,12 @@ function AdminLoginPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="glass-strong rounded-3xl p-8 border border-white/10 shadow-2xl"
+              className="glass-strong rounded-3xl p-8 border border-border shadow-2xl"
             >
               {/* Icon + heading */}
               <div className="text-center mb-8">
-                <div className="mx-auto size-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
-                  <UserCircle2 className="size-7 text-white/70" />
+                <div className="mx-auto size-14 rounded-2xl bg-foreground/5 border border-border flex items-center justify-center mb-5">
+                  <UserCircle2 className="size-7 text-muted-foreground" />
                 </div>
                 <h1 className="font-serif text-3xl mb-2 tracking-tight">Atelier Access</h1>
                 <p className="text-sm text-muted-foreground leading-relaxed">
@@ -109,7 +109,7 @@ function AdminLoginPage() {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="info@maisone.com"
-                    className="w-full rounded-xl bg-black/50 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-black/70 transition-all px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                    className="w-full rounded-xl bg-foreground/[0.02] border border-border hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
                   />
                 </div>
 
@@ -124,7 +124,7 @@ function AdminLoginPage() {
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full rounded-xl bg-black/50 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-black/70 transition-all px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
+                    className="w-full rounded-xl bg-foreground/[0.02] border border-border hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric"
                   />
                 </div>
 
@@ -143,7 +143,7 @@ function AdminLoginPage() {
                   id="admin-signin-btn"
                   type="submit"
                   disabled={loading}
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white text-black font-semibold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-foreground text-background font-semibold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
                 >
                   {loading ? <Loader2 className="size-4 animate-spin" /> : "Sign In to Admin"}
                 </button>
