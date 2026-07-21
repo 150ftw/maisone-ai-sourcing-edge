@@ -53,7 +53,7 @@ function AdminBlogsPage() {
     } catch (err) {
       console.warn("Supabase blogs fetch failed in admin, loading from LocalStorage:", err);
       try {
-        const local = localStorage.getItem("maisone_blogs_v2");
+        const local = localStorage.getItem("maisone_blogs_v4");
         if (local) {
           setBlogs(JSON.parse(local));
         } else {
@@ -62,7 +62,7 @@ function AdminBlogsPage() {
             created_at: new Date(Date.now() - idx * 86400000).toISOString(),
             ...b
           }));
-          localStorage.setItem("maisone_blogs_v2", JSON.stringify(seeded));
+          localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
           setBlogs(seeded);
         }
       } catch (localErr) {
@@ -72,7 +72,7 @@ function AdminBlogsPage() {
           created_at: new Date(Date.now() - idx * 86400000).toISOString(),
           ...b
         }));
-        localStorage.setItem("maisone_blogs_v2", JSON.stringify(seeded));
+        localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
         setBlogs(seeded);
       }
     } finally {
@@ -144,7 +144,7 @@ function AdminBlogsPage() {
     } catch (err: any) {
       console.warn("Supabase save failed, performing LocalStorage operation:", err);
       // LocalStorage fallback
-      const local = localStorage.getItem("maisone_blogs_v2");
+      const local = localStorage.getItem("maisone_blogs_v4");
       let currentBlogs: Blog[] = local ? JSON.parse(local) : [];
 
       if (editingBlog) {
@@ -165,7 +165,7 @@ function AdminBlogsPage() {
         toast.success("Blog created in LocalStorage (Offline Mode)");
       }
 
-      localStorage.setItem("maisone_blogs_v2", JSON.stringify(currentBlogs));
+      localStorage.setItem("maisone_blogs_v4", JSON.stringify(currentBlogs));
       setBlogs(currentBlogs);
       setIsModalOpen(false);
     }
@@ -185,11 +185,11 @@ function AdminBlogsPage() {
       fetchBlogs();
     } catch (err) {
       console.warn("Supabase delete failed, removing from LocalStorage:", err);
-      const local = localStorage.getItem("maisone_blogs_v2");
+      const local = localStorage.getItem("maisone_blogs_v4");
       if (local) {
         const currentBlogs: Blog[] = JSON.parse(local);
         const updated = currentBlogs.filter(b => b.id !== blogId);
-        localStorage.setItem("maisone_blogs_v2", JSON.stringify(updated));
+        localStorage.setItem("maisone_blogs_v4", JSON.stringify(updated));
         setBlogs(updated);
         toast.success("Blog deleted from LocalStorage (Offline Mode)");
       }
