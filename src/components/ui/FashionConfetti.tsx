@@ -3,46 +3,41 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // --- Custom High-Quality Fashion Icons ---
 
-const Hanger = ({ className }: { className?: string }) => (
+const Dress = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M50 45 L15 65 C10 68 15 75 20 75 L80 75 C85 75 90 68 85 65 Z" />
-    <path d="M50 45 C50 45 50 25 60 25 C65 25 70 30 65 35 C60 40 50 45 50 45" />
+    <path d="M35 15 L45 25 L55 25 L65 15 L75 35 C75 35 65 50 65 55 L75 85 L25 85 L35 55 C35 50 25 35 25 35 Z" />
+    <path d="M40 55 L60 55" />
+    <path d="M45 25 C45 35 55 35 55 25" />
   </svg>
 );
 
-const ButtonIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="6">
-    <circle cx="50" cy="50" r="40" />
-    <circle cx="35" cy="35" r="5" fill="currentColor" />
-    <circle cx="65" cy="35" r="5" fill="currentColor" />
-    <circle cx="35" cy="65" r="5" fill="currentColor" />
-    <circle cx="65" cy="65" r="5" fill="currentColor" />
+const ShirtIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M25 30 L45 20 L50 25 L55 20 L75 30 L80 50 L65 55 L65 85 L35 85 L35 55 L20 50 Z" />
+    <path d="M50 25 L50 85" />
   </svg>
 );
 
-const Needle = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-    <path d="M20 80 L85 15" />
-    <ellipse cx="85" cy="15" rx="3" ry="12" transform="rotate(45 85 15)" />
+const Pants = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M30 20 L70 20 L75 85 L55 85 L50 45 L45 85 L25 85 Z" />
+    <path d="M30 30 L70 30" />
+    <path d="M50 20 L50 45" />
   </svg>
 );
 
-const ThreadSpool = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-    <path d="M30 20 L70 20 L65 30 L65 70 L70 80 L30 80 L35 70 L35 30 Z" />
-    <line x1="35" y1="40" x2="65" y2="40" />
-    <line x1="35" y1="50" x2="65" y2="50" />
-    <line x1="35" y1="60" x2="65" y2="60" />
+const Handbag = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 45 L80 45 L75 85 L25 85 Z" />
+    <path d="M35 45 C35 25 65 25 65 45" />
+    <circle cx="50" cy="55" r="4" fill="currentColor" />
   </svg>
 );
 
-const Scissors = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round">
-    <circle cx="25" cy="25" r="15" />
-    <circle cx="25" cy="75" r="15" />
-    <line x1="38" y1="33" x2="90" y2="75" />
-    <line x1="38" y1="67" x2="90" y2="25" />
-    <circle cx="55" cy="50" r="3" fill="currentColor" />
+const HighHeel = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 100 100" className={className} fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M75 85 L70 45 C65 35 50 45 40 50 L20 60 C15 65 20 85 30 85 L60 85" />
+    <path d="M70 45 C80 45 85 55 75 85" />
   </svg>
 );
 
@@ -58,7 +53,7 @@ interface ConfettiPiece {
   colorClass: string;
 }
 
-const icons = [Hanger, ButtonIcon, Needle, ThreadSpool, Scissors];
+const icons = [Dress, ShirtIcon, Pants, Handbag, HighHeel];
 const colors = [
   "text-electric",
   "text-electric", // Weighted more towards the golden electric color

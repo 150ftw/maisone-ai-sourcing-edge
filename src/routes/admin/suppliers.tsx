@@ -5,12 +5,14 @@ import { Search, Plus, X } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Suppliers } from "@/components/maisone/Dashboard";
 import { TableSkeleton, CustomSelect } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/suppliers")({
   component: SuppliersRoute,
 });
 
 function SuppliersRoute() {
+  const { t } = useLanguage();
   const [region, setRegion] = useState("All");
   const [query, setQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -272,7 +274,7 @@ function SuppliersRoute() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search suppliers, categories..."
+            placeholder={t("admin.searchBy")}
             className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
           />
         </div>
@@ -280,7 +282,7 @@ function SuppliersRoute() {
           onClick={openAddModal}
           className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
-          <Plus className="size-4" /> Add Supplier
+          <Plus className="size-4" /> {t("admin.addSupplier")}
         </button>
       </div>
 
@@ -321,7 +323,7 @@ function SuppliersRoute() {
               </button>
 
               <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
-                {editingSupplier ? "Edit Supplier" : "Add Supplier"}
+                {editingSupplier ? t("admin.editSupplier") : t("admin.addSupplier")}
               </h2>
 
               {/* Tab Selector */}

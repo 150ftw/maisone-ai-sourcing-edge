@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { AdminContext, TableSkeleton } from "../admin";
 import { MOCK_TESTIMONIALS, type Testimonial } from "@/components/maisone/Testimonials";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/testimonials")({
   component: AdminTestimonialsPage,
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/admin/testimonials")({
 
 function AdminTestimonialsPage() {
   const { session } = useContext(AdminContext);
+  const { t } = useLanguage();
 
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
@@ -191,14 +193,14 @@ function AdminTestimonialsPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl tracking-tight">Testimonials</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">Manage customer reviews and feedback shown on the landing page.</p>
+          <h1 className="font-serif text-3xl tracking-tight">{t("admin.testimonialsTitle")}</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("admin.testimonialsDesc")}</p>
         </div>
         <button
           onClick={openAddModal}
           className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
-          <Plus className="size-4" /> Add Testimonial
+          <Plus className="size-4" /> {t("admin.addTestimonial")}
         </button>
       </div>
 
@@ -208,7 +210,7 @@ function AdminTestimonialsPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name, role, or quote..."
+          placeholder={t("admin.searchBy")}
           className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
         />
       </div>
@@ -282,7 +284,7 @@ function AdminTestimonialsPage() {
               </button>
 
               <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
-                {editingTestimonial ? "Edit Testimonial" : "Add Testimonial"}
+                {editingTestimonial ? t("admin.editTestimonial") : t("admin.addTestimonial")}
               </h2>
 
               <form onSubmit={handleSaveTestimonial} className="space-y-5">

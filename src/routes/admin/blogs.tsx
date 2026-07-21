@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { AdminContext, TableSkeleton } from "../admin";
 import { MOCK_BLOGS, type Blog } from "@/components/maisone/Blogs";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/blogs")({
   component: AdminBlogsPage,
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/admin/blogs")({
 
 function AdminBlogsPage() {
   const { session } = useContext(AdminContext);
+  const { t } = useLanguage();
 
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(true);
@@ -207,14 +209,14 @@ function AdminBlogsPage() {
     <div className="space-y-6 animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl tracking-tight">Blog Section</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">Create, edit, and publish blogs to the landing page journal.</p>
+          <h1 className="font-serif text-3xl tracking-tight">{t("admin.blogsTitle")}</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("admin.blogsDesc")}</p>
         </div>
         <button
           onClick={openAddModal}
           className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
-          <Plus className="size-4" /> Add Blog Post
+          <Plus className="size-4" /> {t("admin.addBlogPost")}
         </button>
       </div>
 
@@ -224,7 +226,7 @@ function AdminBlogsPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by title, author, content..."
+          placeholder={t("admin.searchBy")}
           className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
         />
       </div>
@@ -310,7 +312,7 @@ function AdminBlogsPage() {
               </button>
 
               <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
-                {editingBlog ? "Edit Blog Post" : "Add Blog Post"}
+                {editingBlog ? t("admin.editBlogPost") : t("admin.addBlogPost")}
               </h2>
 
               <form onSubmit={handleSaveBlog} className="space-y-5">

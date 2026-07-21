@@ -4,12 +4,14 @@ import { Search } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Overview } from "@/components/maisone/Dashboard";
 import { OverviewSkeleton } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminIndexRoute,
 });
 
 function AdminIndexRoute() {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [shipmentsList, setShipmentsList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,7 +43,7 @@ function AdminIndexRoute() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search active shipments..."
+          placeholder={t("admin.searchBy")}
           className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
         />
       </div>

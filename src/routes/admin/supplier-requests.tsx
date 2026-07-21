@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { AdminContext, StatusDropdown } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/supplier-requests")({
   component: SupplierRequestsPage,
@@ -29,6 +30,7 @@ export type SupplierRequest = {
 
 function SupplierRequestsPage() {
   const { session, stats, fetchStats } = useContext(AdminContext);
+  const { t } = useLanguage();
   
   // Dashboard States
   const [requests, setRequests] = useState<SupplierRequest[]>([]);
@@ -149,8 +151,8 @@ function SupplierRequestsPage() {
     <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-4xl tracking-tight">Supplier Applications</h1>
-          <p className="text-sm text-muted-foreground mt-1">Review and manage factory applications.</p>
+          <h1 className="font-serif text-4xl tracking-tight">{t("admin.supplierReqTitle")}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t("admin.supplierReqDesc")}</p>
         </div>
         <div className="flex items-center gap-2">
           <button 
@@ -171,7 +173,7 @@ function SupplierRequestsPage() {
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search by factory name, contact..."
+            placeholder={t("admin.searchBy")}
             className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
           />
         </div>
@@ -192,7 +194,7 @@ function SupplierRequestsPage() {
         </div>
 
         <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
-          Showing <span className="font-semibold text-white mx-1">{requests.length}</span> of {totalCount} apps
+          {t("admin.showing")} <span className="font-semibold text-white mx-1">{requests.length}</span> {t("admin.of")} {totalCount} apps
         </div>
       </div>
 
@@ -331,7 +333,7 @@ function SupplierRequestsPage() {
                 disabled={page === 1}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
-                <ChevronLeft className="size-4" /> Previous
+                <ChevronLeft className="size-4" /> {t("admin.previous")}
               </button>
               
               <div className="text-xs text-muted-foreground">
@@ -343,7 +345,7 @@ function SupplierRequestsPage() {
                 disabled={page === totalPages}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
-                Next <ChevronRight className="size-4" />
+                {t("admin.next")} <ChevronRight className="size-4" />
               </button>
             </div>
           )}

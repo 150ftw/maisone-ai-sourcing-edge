@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { generateTrendForecastFn, DEFAULT_DATA } from "@/components/maisone/TrendForecast";
 import type { Region } from "@/components/maisone/TrendForecast";
 import { TableSkeleton } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/trends")({
   component: TrendsRoute,
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/admin/trends")({
 const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];
 
 function TrendsRoute() {
+  const { t } = useLanguage();
   const [region, setRegion] = useState<Region>("Japan");
   const season = (() => {
     const date = new Date();
@@ -133,8 +135,8 @@ function TrendsRoute() {
     <div className="space-y-6">
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 border-b border-white/5 pb-6">
         <div>
-          <h1 className="font-serif text-3xl tracking-tight">Trend Forecasting</h1>
-          <p className="text-xs text-muted-foreground mt-1">Manage season-wise regional forecasts. Generate using AI or input manually.</p>
+          <h1 className="font-serif text-3xl tracking-tight">{t("admin.trendsTitle")}</h1>
+          <p className="text-xs text-muted-foreground mt-1">{t("admin.trendsDesc")}</p>
         </div>
         <div className="flex flex-wrap gap-3 items-center">
           {/* Generate Button on top without sparkles icon */}
@@ -145,7 +147,7 @@ function TrendsRoute() {
             className="bg-gradient-to-r from-electric to-violet-glow hover:opacity-95 text-white font-semibold text-xs py-2.5 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 shadow-lg shadow-electric/15 disabled:opacity-50 disabled:pointer-events-none"
           >
             {generating && <Loader2 className="size-4 animate-spin" />}
-            Generate with AI
+            {t("admin.generateAI")}
           </button>
 
           {/* Region Selector */}
@@ -367,7 +369,7 @@ function TrendsRoute() {
               type="submit"
               className="bg-white text-black font-semibold text-xs py-3 px-8 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-md shadow-white/5"
             >
-              Save Forecast
+              {t("admin.saveForecast")}
             </button>
           </div>
         </form>

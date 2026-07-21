@@ -8,6 +8,8 @@ import {
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
 import { supabase } from "@/lib/supabase";
+import { SettingsMenu } from "@/components/maisone/SettingsMenu";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: async ({ location }) => {
@@ -121,7 +123,7 @@ export function StatusDropdown({ currentStatus, onChange, options = ["Pending", 
       {isOpen && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-2 w-36 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-36 rounded-xl border border-border bg-background/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
             {statuses.map((status) => {
               const styles = getStatusStyles(status);
               return (
@@ -132,7 +134,7 @@ export function StatusDropdown({ currentStatus, onChange, options = ["Pending", 
                     onChange(status);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2.5 text-xs flex items-center gap-2 hover:bg-white/5 transition-colors cursor-pointer ${styles.text}`}
+                  className={`w-full text-left px-4 py-2.5 text-xs flex items-center gap-2 hover:bg-foreground/5 transition-colors cursor-pointer ${styles.text}`}
                 >
                   <span className={`size-1.5 rounded-full ${styles.dot}`} />
                   {status}
@@ -193,7 +195,7 @@ export function ShipmentStatusDropdown({ currentStatus, onChange }: { currentSta
       {isOpen && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
-          <div className="absolute left-0 mt-2 w-36 rounded-xl border border-white/10 bg-black/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
+          <div className="absolute left-0 mt-2 w-36 rounded-xl border border-border bg-background/95 backdrop-blur-md py-1 shadow-2xl z-40 overflow-hidden">
             {statuses.map((status) => {
               const styles = getStatusStyles(status);
               return (
@@ -204,7 +206,7 @@ export function ShipmentStatusDropdown({ currentStatus, onChange }: { currentSta
                     onChange(status);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-2.5 text-xs flex items-center gap-2 hover:bg-white/5 transition-colors cursor-pointer ${styles.text}`}
+                  className={`w-full text-left px-4 py-2.5 text-xs flex items-center gap-2 hover:bg-foreground/5 transition-colors cursor-pointer ${styles.text}`}
                 >
                   <span className={`size-1.5 rounded-full ${styles.dot}`} />
                   {status}
@@ -225,7 +227,7 @@ export function CustomSelect({ value, onChange, options }: { value: string; onCh
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all text-xs text-white cursor-pointer focus:outline-none"
+        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-foreground/[0.02] border border-border hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all text-xs text-foreground cursor-pointer focus:outline-none"
       >
         <span>{value}</span>
         <ChevronDown className={`size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
@@ -234,7 +236,7 @@ export function CustomSelect({ value, onChange, options }: { value: string; onCh
       {isOpen && (
         <>
           <div className="fixed inset-0 z-30" onClick={() => setIsOpen(false)} />
-          <div className="absolute left-0 right-0 mt-2 rounded-xl border border-white/10 bg-[#0f0f12] py-1 shadow-2xl z-40 overflow-hidden">
+          <div className="absolute left-0 right-0 mt-2 rounded-xl border border-border bg-card py-1 shadow-2xl z-40 overflow-hidden">
             {options.map((opt) => (
               <button
                 key={opt}
@@ -243,7 +245,7 @@ export function CustomSelect({ value, onChange, options }: { value: string; onCh
                   onChange(opt);
                   setIsOpen(false);
                 }}
-                className={`w-full text-left px-4 py-2.5 text-xs hover:bg-white/5 transition-colors cursor-pointer ${value === opt ? "text-white font-medium bg-white/[0.02]" : "text-muted-foreground hover:text-white"}`}
+                className={`w-full text-left px-4 py-2.5 text-xs hover:bg-foreground/5 transition-colors cursor-pointer ${value === opt ? "text-foreground font-medium bg-foreground/[0.02]" : "text-muted-foreground hover:text-foreground"}`}
               >
                 {opt}
               </button>
@@ -257,20 +259,20 @@ export function CustomSelect({ value, onChange, options }: { value: string; onCh
 
 export function TableSkeleton() {
   return (
-    <div className="w-full rounded-2xl border border-white/5 glass overflow-hidden">
-      <div className="border-b border-white/5 p-4 flex gap-4 bg-white/[0.01]">
-        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-        <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+    <div className="w-full rounded-2xl border border-border glass overflow-hidden">
+      <div className="border-b border-border p-4 flex gap-4 bg-foreground/[0.01]">
+        <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+        <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
       </div>
-      <div className="divide-y divide-white/5">
+      <div className="divide-y divide-border">
         {[1, 2, 3, 4, 5].map((i) => (
           <div key={i} className="p-4 flex gap-4 items-center">
-            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
-            <div className="h-4 w-1/4 bg-white/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
+            <div className="h-4 w-1/4 bg-foreground/5 rounded animate-pulse" />
           </div>
         ))}
       </div>
@@ -284,33 +286,33 @@ export function OverviewSkeleton() {
       {/* Cards Skeleton */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="rounded-xl p-4 bg-white/[0.02] border border-white/5 animate-pulse">
-            <div className="h-2 w-1/2 bg-white/5 rounded mb-3" />
-            <div className="h-6 w-3/4 bg-white/10 rounded" />
+          <div key={i} className="rounded-xl p-4 bg-foreground/[0.02] border border-border animate-pulse">
+            <div className="h-2 w-1/2 bg-foreground/5 rounded mb-3" />
+            <div className="h-6 w-3/4 bg-foreground/10 rounded" />
           </div>
         ))}
       </div>
 
       {/* Chart Skeleton */}
-      <div className="rounded-xl p-5 bg-white/[0.02] border border-white/5 animate-pulse h-[200px]">
-        <div className="h-3 w-1/4 bg-white/5 rounded mb-2" />
-        <div className="h-2 w-1/3 bg-white/5 rounded" />
-        <div className="mt-8 h-20 w-full bg-white/5 rounded" />
+      <div className="rounded-xl p-5 bg-foreground/[0.02] border border-border animate-pulse h-[200px]">
+        <div className="h-3 w-1/4 bg-foreground/5 rounded mb-2" />
+        <div className="h-2 w-1/3 bg-foreground/5 rounded" />
+        <div className="mt-8 h-20 w-full bg-foreground/5 rounded" />
       </div>
 
       {/* List Skeleton */}
-      <div className="rounded-xl bg-white/[0.02] border border-white/5 overflow-hidden animate-pulse">
-        <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between">
-          <div className="h-4 w-1/6 bg-white/5 rounded" />
+      <div className="rounded-xl bg-foreground/[0.02] border border-border overflow-hidden animate-pulse">
+        <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+          <div className="h-4 w-1/6 bg-foreground/5 rounded" />
         </div>
-        <div className="divide-y divide-white/5">
+        <div className="divide-y divide-border">
           {[1, 2, 3].map((i) => (
             <div key={i} className="grid grid-cols-12 gap-4 px-5 py-4 items-center">
-              <div className="col-span-2 h-3 bg-white/5 rounded" />
-              <div className="col-span-4 h-3 bg-white/5 rounded" />
-              <div className="col-span-2 h-3 bg-white/5 rounded" />
-              <div className="col-span-3 h-1 bg-white/5 rounded" />
-              <div className="col-span-1 h-3 bg-white/5 rounded" />
+              <div className="col-span-2 h-3 bg-foreground/5 rounded" />
+              <div className="col-span-4 h-3 bg-foreground/5 rounded" />
+              <div className="col-span-2 h-3 bg-foreground/5 rounded" />
+              <div className="col-span-3 h-1 bg-foreground/5 rounded" />
+              <div className="col-span-1 h-3 bg-foreground/5 rounded" />
             </div>
           ))}
         </div>
@@ -322,19 +324,20 @@ export function OverviewSkeleton() {
 type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "shipments" | "trends" | "blogs" | "testimonials";
 
 const ADMIN_TABS = [
-  { id: "overview" as const, to: "/admin" as const, label: "Overview", icon: Layers },
-  { id: "inquiries" as const, to: "/admin/inquiries" as const, label: "Inquiries", icon: Mail },
-  { id: "supplier_requests" as const, to: "/admin/supplier-requests" as const, label: "Supplier Requests", icon: Mail },
-  { id: "suppliers" as const, to: "/admin/suppliers" as const, label: "Suppliers", icon: Building2 },
-  { id: "shipments" as const, to: "/admin/shipments" as const, label: "Shipments", icon: Globe },
-  { id: "trends" as const, to: "/admin/trends" as const, label: "Trend Forecasts", icon: TrendingUp },
-  { id: "blogs" as const, to: "/admin/blogs" as const, label: "Blog Section", icon: BookOpen },
-  { id: "testimonials" as const, to: "/admin/testimonials" as const, label: "Testimonials", icon: MessageSquare },
+  { id: "overview" as const, to: "/admin" as const, labelKey: "admin.tabs.overview", icon: Layers },
+  { id: "inquiries" as const, to: "/admin/inquiries" as const, labelKey: "admin.tabs.inquiries", icon: Mail },
+  { id: "supplier_requests" as const, to: "/admin/supplier-requests" as const, labelKey: "admin.tabs.supplierRequests", icon: Mail },
+  { id: "suppliers" as const, to: "/admin/suppliers" as const, labelKey: "admin.tabs.suppliers", icon: Building2 },
+  { id: "shipments" as const, to: "/admin/shipments" as const, labelKey: "admin.tabs.shipments", icon: Globe },
+  { id: "trends" as const, to: "/admin/trends" as const, labelKey: "admin.tabs.trends", icon: TrendingUp },
+  { id: "blogs" as const, to: "/admin/blogs" as const, labelKey: "admin.tabs.blogs", icon: BookOpen },
+  { id: "testimonials" as const, to: "/admin/testimonials" as const, labelKey: "admin.tabs.testimonials", icon: MessageSquare },
 ];
 
 function AdminPage() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   // State hooks
   const [session, setSession] = useState<any>(null);
@@ -399,10 +402,9 @@ function AdminPage() {
     navigate({ to: "/" });
   };
 
-  // Always block render until we know auth state — prevents flash of login or admin content
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#07070a] text-white">
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
         <Loader2 className="size-8 animate-spin text-electric" />
       </div>
     );
@@ -416,27 +418,31 @@ function AdminPage() {
   return (
     <ThemeProvider>
       <AdminContext.Provider value={{ session, stats, fetchStats }}>
-        <div className="relative min-h-screen noise overflow-x-hidden bg-[#07070a] text-white">
+        <div className="relative min-h-screen noise overflow-x-hidden bg-background text-foreground transition-colors">
           <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
 
           {/* Header */}
-          <header className="relative z-10 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-white/5 bg-[#07070a]/80 backdrop-blur-md sticky top-0">
+          <header className="relative z-50 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0">
             <div className="flex items-center gap-3">
               <Link to="/"><Logo /></Link>
-              <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">Admin</span>
+              <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">{t("admin.badge")}</span>
             </div>
-            {session ? (
-              <button
-                onClick={handleLogout}
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-white/10 px-4 py-2 rounded-full hover:bg-white/5 transition-all cursor-pointer"
-              >
-                <LogOut className="size-4" /> Sign Out
-              </button>
-            ) : (
-              <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-                <ArrowLeft className="size-4" /> Back to site
-              </Link>
-            )}
+            
+            <div className="flex items-center gap-4">
+              <SettingsMenu />
+              {session ? (
+                <button
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border px-4 py-2 rounded-full hover:bg-secondary/50 transition-all cursor-pointer glass-strong"
+                >
+                  <LogOut className="size-4" /> {t("admin.signOut")}
+                </button>
+              ) : (
+                <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                  <ArrowLeft className="size-4" /> {t("admin.backToSite")}
+                </Link>
+              )}
+            </div>
           </header>
 
           {/* Main Content */}
@@ -452,11 +458,11 @@ function AdminPage() {
                       to={tab.to}
                       activeOptions={{ exact: true }}
                       activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
-                      inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-white/5" }}
+                      inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
                       className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
                     >
                       <Icon className="size-3.5 shrink-0 mr-2" />
-                      <span>{tab.label}</span>
+                      <span>{t(tab.labelKey)}</span>
                       {tab.id === "inquiries" && stats.pending > 0 && (
                         <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
                       )}

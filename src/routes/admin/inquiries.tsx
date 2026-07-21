@@ -9,6 +9,7 @@ import {
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { AdminContext, StatusDropdown, type DemoRequest } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/inquiries")({
   component: InquiriesPage,
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/admin/inquiries")({
 
 function InquiriesPage() {
   const { session, stats, fetchStats } = useContext(AdminContext);
+  const { t } = useLanguage();
   
   // Dashboard States
   const [requests, setRequests] = useState<DemoRequest[]>([]);
@@ -145,8 +147,8 @@ function InquiriesPage() {
     <div className="space-y-8 animate-in fade-in duration-300">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-4xl tracking-tight">Inquiries</h1>
-          <p className="text-sm text-muted-foreground mt-1">Review, qualify, and update status of brand requests.</p>
+          <h1 className="font-serif text-4xl tracking-tight">{t("admin.inquiriesTitle")}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t("admin.inquiriesDesc")}</p>
         </div>
         <div className="flex items-center gap-2">
           <button 
@@ -220,7 +222,7 @@ function InquiriesPage() {
 
         {/* Metrics */}
         <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
-          Showing <span className="font-semibold text-white mx-1">{requests.length}</span> of {totalCount} total inquiries
+          {t("admin.showing")} <span className="font-semibold text-white mx-1">{requests.length}</span> {t("admin.of")} {totalCount} {t("admin.total")}
         </div>
       </div>
 
@@ -239,12 +241,12 @@ function InquiriesPage() {
           <table className="w-full border-collapse text-left text-sm min-w-[950px]">
             <thead>
               <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
-                <th className="px-4 py-4 w-[20%]">Brand / Company</th>
-                <th className="px-4 py-4 w-[25%]">Contact</th>
-                <th className="px-4 py-4 w-[20%]">Sourcing Profile</th>
-                <th className="px-4 py-4 w-[20%]">Message</th>
-                <th className="px-4 py-4 w-[10%]">Status</th>
-                <th className="px-4 py-4 w-[5%] text-right">Actions</th>
+                <th className="px-4 py-4 w-[20%]">{t("admin.inquiryBrand")}</th>
+                <th className="px-4 py-4 w-[25%]">{t("admin.inquiryContact")}</th>
+                <th className="px-4 py-4 w-[20%]">{t("admin.inquiryProfile")}</th>
+                <th className="px-4 py-4 w-[20%]">{t("admin.inquiryMessage")}</th>
+                <th className="px-4 py-4 w-[10%]">{t("admin.inquiryStatus")}</th>
+                <th className="px-4 py-4 w-[5%] text-right">{t("admin.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
@@ -289,12 +291,12 @@ function InquiriesPage() {
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
                 <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
-                  <th className="px-4 py-4 w-[20%]">Brand / Company</th>
-                  <th className="px-4 py-4 w-[25%]">Contact</th>
-                  <th className="px-4 py-4 w-[20%]">Sourcing Profile</th>
-                  <th className="px-4 py-4 w-[20%]">Message</th>
-                  <th className="px-4 py-4 w-[10%]">Status</th>
-                  <th className="px-4 py-4 w-[5%] text-right">Actions</th>
+                  <th className="px-4 py-4 w-[20%]">{t("admin.inquiryBrand")}</th>
+                  <th className="px-4 py-4 w-[25%]">{t("admin.inquiryContact")}</th>
+                  <th className="px-4 py-4 w-[20%]">{t("admin.inquiryProfile")}</th>
+                  <th className="px-4 py-4 w-[20%]">{t("admin.inquiryMessage")}</th>
+                  <th className="px-4 py-4 w-[10%]">{t("admin.inquiryStatus")}</th>
+                  <th className="px-4 py-4 w-[5%] text-right">{t("admin.actions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -408,7 +410,7 @@ function InquiriesPage() {
                 disabled={page === 1}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
-                <ChevronLeft className="size-4" /> Previous
+                <ChevronLeft className="size-4" /> {t("admin.previous")}
               </button>
               
               <div className="text-xs text-muted-foreground">
@@ -420,7 +422,7 @@ function InquiriesPage() {
                 disabled={page === totalPages}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
-                Next <ChevronRight className="size-4" />
+                {t("admin.next")} <ChevronRight className="size-4" />
               </button>
             </div>
           )}

@@ -5,12 +5,14 @@ import { Search, Plus, X, Globe } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Shipments } from "@/components/maisone/Dashboard";
 import { TableSkeleton, ShipmentStatusDropdown, CustomSelect } from "../admin";
+import { useLanguage } from "@/lib/i18n";
 
 export const Route = createFileRoute("/admin/shipments")({
   component: ShipmentsRoute,
 });
 
 function ShipmentsRoute() {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [selectedShipment, setSelectedShipment] = useState<any>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -94,8 +96,8 @@ function ShipmentsRoute() {
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl tracking-tight">Shipments Portal</h1>
-          <p className="text-xs text-muted-foreground mt-0.5">Track cargo, routes, estimated arrival times, and customs clearance status.</p>
+          <h1 className="font-serif text-3xl tracking-tight">{t("admin.shipmentsTitle")}</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">{t("admin.shipmentsDesc")}</p>
         </div>
         <div className="flex items-center gap-4 w-full md:w-auto">
           <div className="relative flex-1 md:max-w-xs">
@@ -104,7 +106,7 @@ function ShipmentsRoute() {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search shipments, routes..."
+              placeholder={t("admin.searchBy")}
               className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
             />
           </div>
@@ -112,7 +114,7 @@ function ShipmentsRoute() {
             onClick={() => setIsAddModalOpen(true)}
             className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
           >
-            <Plus className="size-4" /> Add Shipment
+            <Plus className="size-4" /> {t("admin.addShipment")}
           </button>
         </div>
       </div>
@@ -216,7 +218,7 @@ function ShipmentsRoute() {
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">Add Shipment</h2>
+              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">{t("admin.addShipment")}</h2>
 
               <form onSubmit={handleAddShipment} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">

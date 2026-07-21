@@ -36,14 +36,14 @@ export function WhyMaisone() {
     },
   ];
 
-  // Use primitive string IDs for Reorder to prevent reference recreation bugs during render
-  const [order, setOrder] = useState(["card1", "card2", "card3", "card4"]);
+  // Initial order is deliberately scrambled so the user has to solve the puzzle
+  const [order, setOrder] = useState(["card3", "card1", "card4", "card2"]);
   
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  // The perfect sequence: Shirt (card2), Scissors (card1), Sparkles (card4), Handshake (card3)
-  const perfectAnswer = ["card2", "card1", "card4", "card3"];
+  // The perfect sequence is the logical progression: 1 (Clarity) -> 2 (Integrity) -> 3 (Partnership) -> 4 (Craftsmanship)
+  const perfectAnswer = ["card1", "card2", "card3", "card4"];
 
   const checkAnswer = () => {
     const currentOrder = order.join(",");
@@ -96,7 +96,7 @@ export function WhyMaisone() {
             {t("why.heading")} <span className="italic gradient-text">{t("why.headingHighlight")}</span>{t("why.headingEnd")}
           </h2>
           <p className="mt-4 text-sm text-muted-foreground animate-pulse">
-            (Drag the cards below to reorder them)
+            (Arrange our core principles in their natural progression from Foundation to Craftsmanship)
           </p>
         </motion.div>
 
