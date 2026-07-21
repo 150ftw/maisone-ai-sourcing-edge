@@ -64,7 +64,7 @@ Conclusion: Sourcing for the Next Generation
 Sourcing ethically in 2026 is not merely a marketing strategy or a compliance requirement—it is a survival mechanism. As resources grow scarcer and consumer values shift permanently toward environmental stewardship, the brands that thrive will be those that view their manufacturers not as disposable vendors, but as strategic partners in a closed-loop, regenerative ecosystem.`,
     author: "Elena Rostova",
     category: "Sustainability",
-    image_url: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80",
+    image_url: "/images/DSC_6917.JPG",
     read_time: "10 min read"
   },
   {
@@ -165,7 +165,7 @@ Conclusion: The Fusion of Art and Algorithm
 AI trend forecasting is not about replacing the human designer; it is about empowering them. By removing the guesswork from trend prediction and inventory allocation, AI allows creative directors to focus on craftsmanship, storytelling, and high-quality design, confident in the knowledge that their collections will find a market and leave a minimal environmental footprint.`,
     author: "Aria Chen",
     category: "Technology",
-    image_url: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=800&q=80",
+    image_url: "/images/Stock Img.avif",
     read_time: "10 min read"
   }
 ];
@@ -208,7 +208,7 @@ export function Blogs() {
 
   const loadFromLocalStorage = () => {
     try {
-      const local = localStorage.getItem("maisone_blogs_v2");
+      const local = localStorage.getItem("maisone_blogs_v4");
       if (local) {
         setBlogs(JSON.parse(local));
       } else {
@@ -218,7 +218,7 @@ export function Blogs() {
           created_at: new Date(Date.now() - idx * 86400000).toISOString(),
           ...b
         }));
-        localStorage.setItem("maisone_blogs_v2", JSON.stringify(seeded));
+        localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
         setBlogs(seeded);
       }
     } catch (err) {
@@ -228,7 +228,7 @@ export function Blogs() {
         created_at: new Date(Date.now() - idx * 86400000).toISOString(),
         ...b
       }));
-      localStorage.setItem("maisone_blogs_v2", JSON.stringify(seeded));
+      localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
       setBlogs(seeded);
     }
   };

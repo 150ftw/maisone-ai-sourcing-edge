@@ -54,7 +54,7 @@ function BlogDetailPage() {
 
   const loadFromLocalStorage = () => {
     try {
-      const local = localStorage.getItem("maisone_blogs_v2");
+      const local = localStorage.getItem("maisone_blogs_v4");
       if (local) {
         const allBlogs: Blog[] = JSON.parse(local);
         const found = allBlogs.find(b => b.id === blogId);
