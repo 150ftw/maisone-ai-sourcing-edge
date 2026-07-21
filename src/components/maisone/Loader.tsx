@@ -6,17 +6,17 @@ import { Logo } from "./Logo";
 const SewingMachine = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     {/* Machine Body */}
-    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" fill="currentColor" className="text-white" opacity="0.1" />
-    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" className="text-white" />
+    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" fill="currentColor" className="text-foreground" opacity="0.1" />
+    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" className="text-foreground" />
     {/* Needle Bar */}
-    <line x1="24" y1="44" x2="24" y2="52" className="text-white" />
+    <line x1="24" y1="44" x2="24" y2="52" className="text-foreground" />
     {/* Needle */}
-    <path d="M24 52 L24 62 L22 56" className="text-white" />
+    <path d="M24 52 L24 62 L22 56" className="text-foreground" />
     {/* Thread */}
     <path d="M28 20 C34 20 38 24 38 30 C38 36 24 36 24 44" strokeDasharray="2 2" className="text-electric" />
     {/* Spool */}
     <circle cx="20" cy="16" r="3" className="text-electric" fill="currentColor" />
-    <circle cx="54" cy="18" r="4" fill="currentColor" className="text-white" opacity="0.3" />
+    <circle cx="54" cy="18" r="4" fill="currentColor" className="text-foreground" opacity="0.3" />
   </svg>
 );
 
@@ -66,8 +66,8 @@ export function Loader() {
               y: "-100%", 
               transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
             }}
-            className="absolute top-0 w-full h-1/2 bg-[#080808] pointer-events-auto overflow-hidden"
-            style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
+            className="absolute top-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden border-b border-border"
+            style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
           />
         )}
 
@@ -80,8 +80,8 @@ export function Loader() {
               y: "100%", 
               transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
             }}
-            className="absolute bottom-0 w-full h-1/2 bg-[#080808] pointer-events-auto overflow-hidden"
-            style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '24px 24px', backgroundPosition: '0 -12px' }}
+            className="absolute bottom-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden"
+            style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '24px 24px', backgroundPosition: '0 -12px' }}
           />
         )}
 
@@ -143,7 +143,7 @@ export function Loader() {
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
                   transition={{ duration: 1.0, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-                  className="text-sm sm:text-base uppercase tracking-[0.8em] text-white/90 font-medium relative z-10"
+                  className="text-sm sm:text-base uppercase tracking-[0.8em] text-foreground font-medium relative z-10"
                 >
                   Maisone Global
                 </motion.p>
@@ -154,12 +154,12 @@ export function Loader() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="relative mt-12 w-96 h-[12px] bg-white/5 border border-white/10 rounded-full overflow-hidden flex items-center"
+                className="relative mt-12 w-96 h-[12px] bg-foreground/5 border border-border rounded-full overflow-hidden flex items-center"
               >
                  {/* Tape measure ticks */}
                  <div className="absolute inset-0 flex items-center justify-between px-2 opacity-40 z-10">
                    {Array.from({length: 30}).map((_, i) => (
-                      <div key={i} className={`w-[1px] bg-white ${i % 5 === 0 ? 'h-[10px]' : 'h-[5px]'}`} />
+                      <div key={i} className={`w-[1px] bg-foreground ${i % 5 === 0 ? 'h-[10px]' : 'h-[5px]'}`} />
                    ))}
                  </div>
                  

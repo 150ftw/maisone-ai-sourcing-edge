@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, ChevronDown, Info } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
@@ -13,6 +13,50 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    // Only show hint on main page, and only once
+    if (typeof window !== "undefined" && window.location.pathname === "/") {
+      const hasShown = localStorage.getItem("maisone_settings_hint");
+      if (!hasShown) {
+        // Wait for loader to finish (7.5s) + 1s buffer
+        const t1 = setTimeout(() => {
+          setShowHint(true);
+          localStorage.setItem("maisone_settings_hint", "true");
+          
+          // Subtle pop sound via Web Audio API
+          try {
+            const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+            if (AudioContext) {
+              const ctx = new AudioContext();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              
+              osc.type = "sine";
+              osc.frequency.setValueAtTime(800, ctx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+              
+              gain.gain.setValueAtTime(0, ctx.currentTime);
+              gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+              
+              osc.start(ctx.currentTime);
+              osc.stop(ctx.currentTime + 0.3);
+            }
+          } catch (e) {
+            console.error("Audio play failed", e);
+          }
+
+          // Hide after 6 seconds
+          setTimeout(() => setShowHint(false), 6000);
+        }, 8500);
+        return () => clearTimeout(t1);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -93,6 +137,22 @@ export function Navbar() {
                 >
                   <Info className="size-4" />
                 </button>
+
+                <AnimatePresence>
+                  {showHint && !settingsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                      className="absolute right-0 top-full mt-3 w-48 glass-strong rounded-xl p-3 border border-electric/40 shadow-[0_0_20px_rgba(200,200,200,0.1)] z-50 pointer-events-none"
+                    >
+                      <div className="absolute -top-2 right-4 w-4 h-4 glass-strong border-l border-t border-electric/40 rotate-45" />
+                      <p className="text-xs text-foreground font-medium text-center relative z-10">
+                        {t("nav.settingsHint") || "Customize theme & language here!"}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {settingsOpen && (
                   <motion.div
