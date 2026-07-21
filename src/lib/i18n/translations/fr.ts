@@ -309,6 +309,7 @@ export const fr = {
   index: {
     gotDoubts: "Des doutes?",
     talkWith: "Parlez avec notre",
+    forHelp: "pour toute aide",
   },
 
   // ── Page À propos ──

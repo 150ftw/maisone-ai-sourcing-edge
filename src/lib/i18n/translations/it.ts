@@ -309,6 +309,7 @@ export const it = {
   index: {
     gotDoubts: "Hai dei dubbi?",
     talkWith: "Parla con la nostra",
+    forHelp: "per ricevere assistenza",
   },
 
   // ── About Page ──

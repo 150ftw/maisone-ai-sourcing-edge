@@ -311,6 +311,7 @@ export const ja = {
   index: {
     gotDoubts: "ご不明な点はありますか？",
     talkWith: "私たちの",
+    forHelp: "にご相談ください",
   },
 
   // ── 会社概要ページ ──

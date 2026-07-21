@@ -399,7 +399,8 @@ export const en = {
   // ── Floating Button ──
   index: {
     gotDoubts: "Got any doubts?",
-    talkWith: "Talk with our",
+    talkWith: "Talk to our",
+    forHelp: "for any help",
   },
 
   // ── About Page ──
