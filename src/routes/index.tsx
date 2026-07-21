@@ -186,9 +186,8 @@ function Index() {
               >
                 <X className="size-2.5 stroke-[3]" />
               </button>
-              <span className="text-xs text-muted-foreground font-normal leading-tight">{t("index.gotDoubts")}</span>
-              <span className="flex items-center mt-1 whitespace-nowrap">
-                {t("index.talkWith")} <span className="font-serif italic text-electric ml-2 tracking-wide text-base">Maisone AI</span>
+              <span className="flex items-center whitespace-nowrap text-sm font-medium">
+                Talk to our <span className="font-serif italic text-electric mx-1.5 tracking-wide text-base">{t("nav.maisoneAi") || "AI Assistant"}</span> for any help
               </span>
               <span className="absolute top-1/2 -translate-y-1/2 -right-1.5 size-3 rotate-45 bg-card/95 border-r border-t border-electric/40" />
             </span>
