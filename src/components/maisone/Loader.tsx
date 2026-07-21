@@ -67,7 +67,6 @@ export function Loader() {
               transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
             }}
             className="absolute top-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden border-b border-border"
-            style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
           />
         )}
 
@@ -81,7 +80,6 @@ export function Loader() {
               transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
             }}
             className="absolute bottom-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden"
-            style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '24px 24px', backgroundPosition: '0 -12px' }}
           />
         )}
 

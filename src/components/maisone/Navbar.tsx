@@ -18,12 +18,15 @@ export function Navbar() {
   useEffect(() => {
     // Only show hint on main page, and only once
     if (typeof window !== "undefined" && window.location.pathname === "/") {
-      const hasShown = localStorage.getItem("maisone_settings_hint");
+      const hasShown = localStorage.getItem("maisone_settings_hint_v2");
       if (!hasShown) {
-        // Wait for loader to finish (7.5s) + 1s buffer
+        const hasLoadedBefore = sessionStorage.getItem("maisone_has_loaded");
+        const delay = hasLoadedBefore ? 1500 : 8500;
+
+        // Wait for loader to finish (7.5s) + buffer, or just 1.5s if skipped
         const t1 = setTimeout(() => {
           setShowHint(true);
-          localStorage.setItem("maisone_settings_hint", "true");
+          localStorage.setItem("maisone_settings_hint_v2", "true");
           
           // Subtle pop sound via Web Audio API
           try {
