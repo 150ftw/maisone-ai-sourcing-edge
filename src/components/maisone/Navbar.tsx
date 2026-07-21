@@ -23,13 +23,14 @@ export function Navbar() {
 
       // Trigger hint when scrolling past About section
       if (typeof window !== "undefined" && window.location.pathname === "/") {
-        const hasShown = localStorage.getItem("maisone_settings_hint_v4");
+        const hasShown = localStorage.getItem("maisone_settings_hint_v5");
         if (!hasShown) {
           const aboutSection = document.getElementById("about");
           if (aboutSection) {
-            // Trigger when passing the top of the about section minus a bit of buffer
-            if (window.scrollY > aboutSection.offsetTop - 200) {
-              localStorage.setItem("maisone_settings_hint_v4", "true");
+            // Trigger when the About section comes into the top half of the viewport
+            const rect = aboutSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight / 2) {
+              localStorage.setItem("maisone_settings_hint_v5", "true");
               setShowHint(true);
               
               // Subtle pop sound via Web Audio API
