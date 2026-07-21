@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X, ChevronDown, Info } from "lucide-react";
+import { Moon, Sun, Menu, X, ChevronDown, Info, Scissors } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { useTheme } from "@/components/theme-provider";
@@ -153,12 +153,26 @@ export function Navbar() {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                      className="absolute right-0 top-full mt-3 w-48 bg-background rounded-xl p-3 border border-border shadow-lg z-50 pointer-events-none"
+                      className="absolute right-0 top-full mt-3 w-60 bg-card rounded-xl border-2 border-dashed border-electric/40 shadow-[0_10px_40px_-10px_rgba(194,164,109,0.4)] z-50 pointer-events-none"
                     >
-                      <div className="absolute -top-2 right-[12px] w-4 h-4 bg-background border-l border-t border-border rotate-45" />
-                      <p className="text-xs text-foreground font-medium text-center relative z-10">
-                        Customize theme & language here!
-                      </p>
+                      {/* Background ambient glow */}
+                      <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
+                        <div className="absolute -top-10 -right-10 size-32 bg-electric/15 rounded-full blur-2xl" />
+                        <div className="absolute -bottom-10 -left-10 size-32 bg-electric/10 rounded-full blur-2xl" />
+                      </div>
+                      
+                      {/* Arrow */}
+                      <div className="absolute -top-[10px] right-[12px] w-4 h-4 bg-card border-l-2 border-t-2 border-dashed border-electric/40 rotate-45" />
+                      
+                      <div className="relative z-10 p-3 flex flex-col gap-1.5 items-center">
+                        <div className="flex items-center gap-2 text-electric bg-electric/10 px-3 py-1 rounded-full border border-electric/20 mb-1">
+                          <Scissors className="size-3.5 stroke-[2.5]" />
+                          <span className="text-[10px] uppercase tracking-widest font-bold">Tailor Your View</span>
+                        </div>
+                        <p className="text-xs text-foreground font-medium text-center leading-relaxed px-1">
+                          Personalize your <span className="text-electric italic font-serif text-sm">fabric</span> of choice—theme & language settings await here!
+                        </p>
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
