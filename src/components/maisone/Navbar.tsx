@@ -21,17 +21,17 @@ export function Navbar() {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      // Trigger hint when scrolling past About section
+      // Trigger hint when scrolling past Hero section (approx 1 screen height)
       if (typeof window !== "undefined" && window.location.pathname === "/") {
-        const hasShown = localStorage.getItem("maisone_settings_hint_v5");
-        if (!hasShown) {
-          const aboutSection = document.getElementById("about");
-          if (aboutSection) {
-            // Trigger when the About section comes into the top half of the viewport
-            const rect = aboutSection.getBoundingClientRect();
-            if (rect.top < window.innerHeight / 2) {
-              localStorage.setItem("maisone_settings_hint_v5", "true");
-              setShowHint(true);
+        const hasShown = localStorage.getItem("maisone_settings_hint_v6");
+        const loaderDone = sessionStorage.getItem("maisone_has_loaded");
+        
+        // Only trigger if they haven't seen it, AND the loader is finished
+        if (!hasShown && loaderDone) {
+          // Trigger when scrolling down approx 80% of the screen
+          if (window.scrollY > window.innerHeight * 0.8) {
+            localStorage.setItem("maisone_settings_hint_v6", "true");
+            setShowHint(true);
               
               // Subtle pop sound via Web Audio API
               try {
@@ -62,7 +62,6 @@ export function Navbar() {
               hintTimeout = setTimeout(() => setShowHint(false), 6000);
             }
           }
-        }
       }
     };
 
