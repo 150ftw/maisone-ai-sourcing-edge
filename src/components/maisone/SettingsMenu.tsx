@@ -27,8 +27,8 @@ export function SettingsMenu() {
       <button
         onClick={() => setSettingsOpen(!settingsOpen)}
         aria-label="Preferences"
-        className={`size-11 rounded-full flex items-center justify-center transition-all border border-white/10 shadow-lg ${
-          settingsOpen ? "bg-electric text-black scale-105" : "glass-strong text-white hover:bg-white/10"
+        className={`size-11 rounded-full flex items-center justify-center transition-all border border-border shadow-lg ${
+          settingsOpen ? "bg-electric text-black scale-105" : "glass-strong text-foreground hover:bg-foreground/10"
         }`}
       >
         <Info className="size-5" />
@@ -38,7 +38,7 @@ export function SettingsMenu() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="absolute right-0 top-full mt-2 glass-strong rounded-2xl p-4 border border-white/5 shadow-2xl flex flex-col gap-4 min-w-[200px] z-50"
+          className="absolute right-0 top-full mt-2 glass-strong rounded-2xl p-4 border border-border shadow-2xl flex flex-col gap-4 min-w-[200px] z-50 bg-background/50"
         >
           {/* Theme section */}
           <div className="flex items-center justify-between gap-4">
@@ -46,7 +46,7 @@ export function SettingsMenu() {
             <button
               onClick={toggle}
               aria-label="Toggle theme"
-              className="size-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center hover:scale-105 transition-all border border-white/10"
+              className="size-8 rounded-full bg-foreground/5 hover:bg-foreground/10 flex items-center justify-center hover:scale-105 transition-all border border-border text-foreground"
             >
               {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
             </button>
