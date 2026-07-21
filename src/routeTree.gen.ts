@@ -10,11 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
-import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as SupplierRequestRouteImport } from './routes/supplier-request'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
-import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as ComplianceRouteImport } from './routes/compliance'
 import { Route as BookDemoRouteImport } from './routes/book-demo'
 import { Route as AssistantRouteImport } from './routes/assistant'
@@ -36,11 +34,6 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SustainabilityRoute = SustainabilityRouteImport.update({
-  id: '/sustainability',
-  path: '/sustainability',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SupplierRequestRoute = SupplierRequestRouteImport.update({
   id: '/supplier-request',
   path: '/supplier-request',
@@ -54,11 +47,6 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const HowWeWorkRoute = HowWeWorkRouteImport.update({
   id: '/how-we-work',
   path: '/how-we-work',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FoundersRoute = FoundersRouteImport.update({
-  id: '/founders',
-  path: '/founders',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComplianceRoute = ComplianceRouteImport.update({
@@ -144,11 +132,9 @@ export interface FileRoutesByFullPath {
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
-  '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
-  '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -166,11 +152,9 @@ export interface FileRoutesByTo {
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
-  '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
-  '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -190,11 +174,9 @@ export interface FileRoutesById {
   '/assistant': typeof AssistantRoute
   '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
-  '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
   '/supplier-request': typeof SupplierRequestRoute
-  '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/blogs': typeof AdminBlogsRoute
   '/admin/inquiries': typeof AdminInquiriesRoute
@@ -215,11 +197,9 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/book-demo'
     | '/compliance'
-    | '/founders'
     | '/how-we-work'
     | '/privacy'
     | '/supplier-request'
-    | '/sustainability'
     | '/terms'
     | '/admin/blogs'
     | '/admin/inquiries'
@@ -237,11 +217,9 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/book-demo'
     | '/compliance'
-    | '/founders'
     | '/how-we-work'
     | '/privacy'
     | '/supplier-request'
-    | '/sustainability'
     | '/terms'
     | '/admin/blogs'
     | '/admin/inquiries'
@@ -260,11 +238,9 @@ export interface FileRouteTypes {
     | '/assistant'
     | '/book-demo'
     | '/compliance'
-    | '/founders'
     | '/how-we-work'
     | '/privacy'
     | '/supplier-request'
-    | '/sustainability'
     | '/terms'
     | '/admin/blogs'
     | '/admin/inquiries'
@@ -284,11 +260,9 @@ export interface RootRouteChildren {
   AssistantRoute: typeof AssistantRoute
   BookDemoRoute: typeof BookDemoRoute
   ComplianceRoute: typeof ComplianceRoute
-  FoundersRoute: typeof FoundersRoute
   HowWeWorkRoute: typeof HowWeWorkRoute
   PrivacyRoute: typeof PrivacyRoute
   SupplierRequestRoute: typeof SupplierRequestRoute
-  SustainabilityRoute: typeof SustainabilityRoute
   TermsRoute: typeof TermsRoute
   BlogBlogIdRoute: typeof BlogBlogIdRoute
 }
@@ -300,13 +274,6 @@ declare module '@tanstack/react-router' {
       path: '/terms'
       fullPath: '/terms'
       preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sustainability': {
-      id: '/sustainability'
-      path: '/sustainability'
-      fullPath: '/sustainability'
-      preLoaderRoute: typeof SustainabilityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/supplier-request': {
@@ -328,13 +295,6 @@ declare module '@tanstack/react-router' {
       path: '/how-we-work'
       fullPath: '/how-we-work'
       preLoaderRoute: typeof HowWeWorkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/founders': {
-      id: '/founders'
-      path: '/founders'
-      fullPath: '/founders'
-      preLoaderRoute: typeof FoundersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compliance': {
@@ -476,11 +436,9 @@ const rootRouteChildren: RootRouteChildren = {
   AssistantRoute: AssistantRoute,
   BookDemoRoute: BookDemoRoute,
   ComplianceRoute: ComplianceRoute,
-  FoundersRoute: FoundersRoute,
   HowWeWorkRoute: HowWeWorkRoute,
   PrivacyRoute: PrivacyRoute,
   SupplierRequestRoute: SupplierRequestRoute,
-  SustainabilityRoute: SustainabilityRoute,
   TermsRoute: TermsRoute,
   BlogBlogIdRoute: BlogBlogIdRoute,
 }

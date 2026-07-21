@@ -152,7 +152,7 @@ export function Navbar() {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                      className="absolute left-0 top-full mt-3 w-60 bg-card rounded-xl border-2 border-dashed border-electric/40 shadow-[0_10px_40px_-10px_rgba(194,164,109,0.4)] z-50 pointer-events-none"
+                      className="absolute left-0 top-full mt-3 w-72 bg-card rounded-xl border-2 border-dashed border-electric/40 shadow-[0_10px_40px_-10px_rgba(194,164,109,0.4)] z-50 pointer-events-none hidden md:block"
                     >
                       {/* Background ambient glow */}
                       <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">

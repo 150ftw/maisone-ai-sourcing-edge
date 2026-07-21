@@ -65,9 +65,9 @@ Maisone officially supports and sources the following categories:
 
 ---
 
-## Sourcing Locations & Global Hubs
+## Sourcing Locations & Production Hubs
 
-Maisone operates 8 luxury sourcing hubs across 4 continents:
+Maisone coordinates manufacturing and supply across 8 production regions on 4 continents:
 *   **Japan:** Tokyo and Osaka
 *   **United Kingdom:** London
 *   **Europe:** Paris (France), Milan (Italy), and Berlin (Germany)

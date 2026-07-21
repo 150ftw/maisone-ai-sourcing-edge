@@ -26,7 +26,7 @@ export function SourcingNetwork() {
             A living <span className="italic gradient-text">sourcing constellation</span>.
           </h2>
           <p className="mt-6 text-muted-foreground">
-            Eight luxury hubs across four continents — synchronised in real time.
+            Eight production regions across four continents — synchronised in real time.
           </p>
         </div>
 

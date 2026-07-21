@@ -1,5 +1,5 @@
 import { motion, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, Sparkles, CheckCircle2, Package, Clock, Infinity } from "lucide-react";
 
 
 import { Link } from "@tanstack/react-router";
@@ -306,9 +306,117 @@ export function Hero() {
             <WorldMap />
           </div>
 
+          {/* Startup Friendly Sourcing Callout - Exact Reference Match */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-10 group relative rounded-[28px] border border-electric/40 bg-[#0e0d0c] shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden text-left"
+          >
+            {/* Atelier Background Image on the right */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <img
+                src="/images/DSC_6759.JPG"
+                alt="Maisone Atelier"
+                className="absolute right-0 top-0 w-full lg:w-1/2 h-full object-cover object-center opacity-30 lg:opacity-40 mix-blend-luminosity"
+              />
+              {/* Fade gradients */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0e0d0c] via-[#0e0d0c]/90 lg:via-[#0e0d0c]/85 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0e0d0c] via-transparent to-[#0e0d0c]/40" />
+            </div>
 
+            <div className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+              {/* Left Column: Text & Content */}
+              <div className="flex-1 max-w-2xl flex flex-col justify-between">
+                <div>
+                  {/* Top Badges */}
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                    <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-electric/40 bg-electric/10 text-electric text-[10px] uppercase tracking-widest font-mono font-bold">
+                      Startup Friendly
+                    </span>
+                    <span className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground text-[10px] uppercase tracking-widest font-mono">
+                      Low MOQ Ecosystem
+                    </span>
+                  </div>
 
+                  {/* Main Title */}
+                  <h4 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground font-normal leading-snug tracking-tight mb-5">
+                    Supporting emerging labels with <span className="italic font-serif text-electric">low minimum</span> order quantities.
+                  </h4>
 
+                  {/* Subtitle */}
+                  <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-normal mb-8 max-w-xl">
+                    Maisone partners with small startups, independent designers, and growing brands to bring thoughtful ideas to life with flexible production, fast sampling, and uncompromised quality.
+                  </p>
+
+                  {/* Middle Checkmarks Row */}
+                  <div className="flex flex-wrap items-center gap-4 sm:gap-6 py-4 mb-8 text-xs sm:text-sm font-medium border-y border-white/10">
+                    <div className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-electric shrink-0" />
+                      <span>MOQ from <span className="text-electric font-semibold">50 pieces</span></span>
+                    </div>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-electric shrink-0" />
+                      <span>Samples in <span className="text-electric font-semibold">7–14 days</span></span>
+                    </div>
+                    <div className="flex items-center gap-2 text-foreground">
+                      <CheckCircle2 className="size-4 text-electric shrink-0" />
+                      <span><span className="text-electric font-semibold">Unlimited</span> production scaling</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom CTA Row */}
+                <div className="flex items-center gap-6 pt-2">
+                  <MotionLink
+                    to="/book-demo"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-electric hover:bg-[#d4b57e] text-black font-bold text-xs uppercase tracking-widest shadow-lg transition-colors cursor-pointer"
+                  >
+                    <span>Request Low MOQ Quote</span>
+                    <ArrowRight className="size-4 stroke-[2.5]" />
+                  </MotionLink>
+                </div>
+              </div>
+
+              {/* Right Column: 3 Compact Vertical Stat Cards */}
+              <div className="grid grid-cols-3 gap-3 shrink-0 w-full lg:w-auto items-center justify-center">
+                {/* Card 1 */}
+                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                  <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
+                    <Package className="size-4" />
+                  </div>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Minimum Order</span>
+                  <div className="w-5 h-[1px] bg-white/10 my-1" />
+                  <span className="font-serif text-2xl text-foreground font-normal">50</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Pieces</span>
+                </div>
+
+                {/* Card 2 */}
+                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                  <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
+                    <Clock className="size-4" />
+                  </div>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Sample Dev.</span>
+                  <div className="w-5 h-[1px] bg-white/10 my-1" />
+                  <span className="font-serif text-2xl text-foreground font-normal">7–14</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Days</span>
+                </div>
+
+                {/* Card 3 */}
+                <div className="bg-[#141312]/80 backdrop-blur-md border border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
+                  <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
+                    <Infinity className="size-4" />
+                  </div>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">Capacity</span>
+                  <div className="w-5 h-[1px] bg-white/10 my-1" />
+                  <span className="font-serif text-sm sm:text-base text-electric font-semibold tracking-wide">UNLIMITED</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">Scaling</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
 
 
