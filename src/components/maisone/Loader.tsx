@@ -66,7 +66,7 @@ export function Loader() {
               y: "-100%", 
               transition: { duration: 1.2, ease: [0.76, 0, 0.24, 1] } 
             }}
-            className="absolute top-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden border-b border-border"
+            className="absolute top-0 w-full h-1/2 bg-background pointer-events-auto overflow-hidden"
           />
         )}
 
