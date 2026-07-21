@@ -116,7 +116,15 @@ Maisone-verified factories support the following compliance standards across its
 
 ### Category & Product Offerings
 *   **What all category of products do you offer? / What types of garments and accessories do you manufacture?**
-    *   Maisone officially supports and sources: Accessories, Caps/Headwear, Circular Knits (T-shirts, shirts, tops, bottoms, dresses, jackets), Contemporary Ready to Wear (women's apparel, everyday wear, occasion wear), Couture (hand embroidery, beadwork, luxury garments), Denim (menswear, womenswear, kidswear, bags), Flat Knits (sweaters, blankets, throws, kidswear, sleepwear, home textiles, uniforms), and Leather.
+    *   Maisone officially supports and sources:
+        - **Accessories**
+        - **Cap** (Caps/Headwear)
+        - **Circular Knits** (T-shirts, shirts, tops, bottoms, jackets, etc.)
+        - **Contemporary Ready to Wear** (women's apparel, everyday wear, occasion wear)
+        - **Couture** (hand embroidery, beadwork, luxury garments)
+        - **Denim** (menswear, womenswear, kidswear, bags)
+        - **Flat Knits** (sweaters, blankets, throws, home textiles, uniforms, etc.)
+        - **Leather** (garments, products, bags, and accessories)
 
 ### MOQ & Quantities
 *   **What is your MOQ? / Can you produce smaller/small quantities for new brands?**
