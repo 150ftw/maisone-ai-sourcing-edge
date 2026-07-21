@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Scissors } from "lucide-react";
 
 // --- Custom High-Quality Fashion Icons ---
 
@@ -49,7 +50,7 @@ interface ConfettiPiece {
   duration: number;
   rotation: number;
   scale: number;
-  Icon: React.ElementType;
+  Icon: React.ElementType<{ className?: string }>;
   colorClass: string;
 }
 
@@ -160,9 +161,9 @@ export function FashionConfetti({ duration = 7000 }: { duration?: number }) {
             scale: 0
           }}
           animate={{ 
-            y: [`50vh`, `${p.y}vh`, `120vh`], // shoot up, then fall down
-            x: [`0vw`, `${p.x * 0.5}vw`, `${p.x}vw`], // drift horizontally
-            rotate: p.rotation,
+            y: [`50vh`, `${p.y}vh`, `${p.y * 1.1}vh`, `120vh`], // shoot up, hang a bit, fall down
+            x: [`0vw`, `${p.x * 0.6}vw`, `${p.x * 0.8}vw`, `${p.x}vw`], // drift horizontally
+            rotate: [0, p.rotation * 0.5, p.rotation, p.rotation * 1.5],
             opacity: [0, 1, 1, 0],
             scale: [0, p.scale, p.scale, p.scale * 0.8]
           }}
@@ -170,7 +171,7 @@ export function FashionConfetti({ duration = 7000 }: { duration?: number }) {
             duration: p.duration,
             delay: p.delay,
             ease: "easeInOut",
-            times: [0, 0.3, 1] // peak at 30% of the animation
+            times: [0, 0.3, 0.7, 1] // peak at 30%, start fading/falling at 70%
           }}
           className={`absolute ${p.colorClass} drop-shadow-lg`}
         >

@@ -453,7 +453,7 @@ export const it = {
       "thankYouText": "Grazie per il tuo interesse. Uno specialista degli acquisti ti contatterà a breve per programmare la tua consulenza.",
       "returnHome": "Torna alla Home",
       "errorGeneric": "Si è verificato un errore. Per favore riprova."
-  },\n
+  },
   // ── Admin Portal ──
   admin: {
     portal: "Portale Amministratore",
@@ -522,11 +522,14 @@ export const it = {
 
     testimonialsTitle: "Testimonianze",
     testimonialsDesc: "Gestisci i feedback e le citazioni dei clienti.",
-  },\n    editSupplier: "Modifica Fornitore",
+  
+    editSupplier: "Modifica Fornitore",
     addShipment: "Aggiungi Spedizione",
     generateAI: "Genera con IA",
     saveForecast: "Salva Previsione",
     addBlogPost: "Aggiungi Articolo",
     editBlogPost: "Modifica Articolo",
     addTestimonial: "Aggiungi Testimonianza",
-    editTestimonial: "Modifica Testimonianza",\n\n};
+    editTestimonial: "Modifica Testimonianza",
+  }
+};

@@ -53,9 +53,9 @@ function AdminTestimonialsPage() {
           setTestimonials(JSON.parse(local));
         } else {
           const seeded: Testimonial[] = MOCK_TESTIMONIALS.map((t, idx) => ({
+            ...t,
             id: `local-testimonial-${idx}`,
             created_at: new Date(Date.now() - idx * 86400000).toISOString(),
-            ...t
           }));
           localStorage.setItem("maisone_testimonials_v1", JSON.stringify(seeded));
           setTestimonials(seeded);
@@ -63,9 +63,9 @@ function AdminTestimonialsPage() {
       } catch (localErr) {
         console.error("Failed to parse local testimonials in admin, resetting:", localErr);
         const seeded: Testimonial[] = MOCK_TESTIMONIALS.map((t, idx) => ({
+          ...t,
           id: `local-testimonial-${idx}`,
           created_at: new Date(Date.now() - idx * 86400000).toISOString(),
-          ...t
         }));
         localStorage.setItem("maisone_testimonials_v1", JSON.stringify(seeded));
         setTestimonials(seeded);

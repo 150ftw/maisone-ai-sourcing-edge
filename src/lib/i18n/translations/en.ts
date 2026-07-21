@@ -544,7 +544,7 @@ export const en = {
       "thankYouText": "Thank you for your interest. A sourcing specialist will contact you shortly to schedule your consultation.",
       "returnHome": "Return to Home",
       "errorGeneric": "An error occurred. Please try again."
-  },\n
+  },
   // ── Admin Portal ──
   admin: {
     portal: "Admin Portal",
@@ -613,11 +613,14 @@ export const en = {
 
     testimonialsTitle: "Testimonials",
     testimonialsDesc: "Manage client feedback and quotes.",
-  },\n    editSupplier: "Edit Supplier",
+  
+    editSupplier: "Edit Supplier",
     addShipment: "Add Shipment",
     generateAI: "Generate with AI",
     saveForecast: "Save Forecast",
     addBlogPost: "Add Blog Post",
     editBlogPost: "Edit Blog Post",
     addTestimonial: "Add Testimonial",
-    editTestimonial: "Edit Testimonial",\n\n};
+    editTestimonial: "Edit Testimonial",
+  }
+};
