@@ -107,12 +107,12 @@ function ShipmentsRoute() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("admin.searchBy")}
-              className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
+              className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
             />
           </div>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+            className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
           >
             <Plus className="size-4" /> {t("admin.addShipment")}
           </button>
@@ -139,11 +139,11 @@ function ShipmentsRoute() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
             >
               <button
                 onClick={() => setSelectedShipment(null)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
@@ -151,17 +151,17 @@ function ShipmentsRoute() {
               <div className="space-y-6">
                 <div>
                   <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">Shipment Tracker</span>
-                  <h2 className="font-serif text-3xl mt-3 text-white">{selectedShipment.id}</h2>
+                  <h2 className="font-serif text-3xl mt-3 text-foreground">{selectedShipment.id}</h2>
                   <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
                     <Globe className="size-3.5 text-muted-foreground" />
                     {selectedShipment.route}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 border-t border-b border-white/5 py-4">
+                <div className="grid grid-cols-2 gap-4 border-t border-b border-foreground/5 py-4">
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">ETA</span>
-                    <span className="text-sm font-medium text-white mt-1 block">{selectedShipment.eta}</span>
+                    <span className="text-sm font-medium text-foreground mt-1 block">{selectedShipment.eta}</span>
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block mb-1">Status</span>
@@ -174,7 +174,7 @@ function ShipmentsRoute() {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Progress</span>
-                    <span className="text-sm font-medium text-white mt-1 block">{selectedShipment.prog}%</span>
+                    <span className="text-sm font-medium text-foreground mt-1 block">{selectedShipment.prog}%</span>
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Transit Code</span>
@@ -209,16 +209,16 @@ function ShipmentsRoute() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-hidden"
             >
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">{t("admin.addShipment")}</h2>
+              <h2 className="font-serif text-2xl mb-6 text-foreground tracking-tight">{t("admin.addShipment")}</h2>
 
               <form onSubmit={handleAddShipment} className="space-y-5">
                 <div className="grid grid-cols-2 gap-4">
@@ -230,7 +230,7 @@ function ShipmentsRoute() {
                       value={origin}
                       onChange={e => setOrigin(e.target.value)}
                       placeholder="e.g. Tokyo"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -241,7 +241,7 @@ function ShipmentsRoute() {
                       value={destination}
                       onChange={e => setDestination(e.target.value)}
                       placeholder="e.g. London"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -255,7 +255,7 @@ function ShipmentsRoute() {
                       value={eta}
                       onChange={e => setEta(e.target.value)}
                       placeholder="e.g. Mar 24"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -266,7 +266,7 @@ function ShipmentsRoute() {
 
                 <button
                   type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   Save Shipment
                 </button>

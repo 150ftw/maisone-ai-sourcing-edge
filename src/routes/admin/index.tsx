@@ -44,7 +44,7 @@ function AdminIndexRoute() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("admin.searchBy")}
-          className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+          className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
         />
       </div>
       {loading ? (

@@ -214,7 +214,7 @@ function AdminBlogsPage() {
         </div>
         <button
           onClick={openAddModal}
-          className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> {t("admin.addBlogPost")}
         </button>
@@ -227,14 +227,14 @@ function AdminBlogsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t("admin.searchBy")}
-          className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
+          className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
         />
       </div>
 
       {loading ? (
         <TableSkeleton />
       ) : filteredBlogs.length === 0 ? (
-        <div className="glass rounded-3xl py-20 text-center border border-white/5">
+        <div className="glass rounded-3xl py-20 text-center border border-foreground/5">
           <p className="text-muted-foreground">No blog posts found.</p>
         </div>
       ) : (
@@ -242,18 +242,18 @@ function AdminBlogsPage() {
           {filteredBlogs.map((blog) => (
             <div
               key={blog.id}
-              className="glass-strong rounded-3xl border border-white/5 bg-white/[0.01] p-6 flex flex-col justify-between hover:border-white/10 transition-colors"
+              className="glass-strong rounded-3xl border border-foreground/5 bg-foreground/[0.01] p-6 flex flex-col justify-between hover:border-foreground/10 transition-colors"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-[9px] uppercase tracking-widest font-semibold bg-white/5 border border-white/10 px-2.5 py-1 rounded-full text-electric">
+                  <span className="text-[9px] uppercase tracking-widest font-semibold bg-foreground/5 border border-foreground/10 px-2.5 py-1 rounded-full text-electric">
                     {blog.category}
                   </span>
                   <span className="text-[10px] text-muted-foreground flex items-center gap-1">
                     <Calendar className="size-3" /> {new Date(blog.created_at).toLocaleDateString()}
                   </span>
                 </div>
-                <h3 className="font-serif text-xl text-white tracking-tight leading-snug line-clamp-1">
+                <h3 className="font-serif text-xl text-foreground tracking-tight leading-snug line-clamp-1">
                   {blog.title}
                 </h3>
                 <p className="text-xs text-muted-foreground/80 line-clamp-3 leading-relaxed">
@@ -266,10 +266,10 @@ function AdminBlogsPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 mt-6 border-t border-white/5 pt-4">
+              <div className="flex items-center justify-end gap-3 mt-6 border-t border-foreground/5 pt-4">
                 <button
                   onClick={() => openEditModal(blog)}
-                  className="p-2 text-muted-foreground hover:text-white hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors cursor-pointer"
                   title="Edit Post"
                 >
                   <Edit className="size-4" />
@@ -302,16 +302,16 @@ function AdminBlogsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
             >
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
+              <h2 className="font-serif text-2xl mb-6 text-foreground tracking-tight">
                 {editingBlog ? t("admin.editBlogPost") : t("admin.addBlogPost")}
               </h2>
 
@@ -324,7 +324,7 @@ function AdminBlogsPage() {
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                     placeholder="e.g. The Art of Woven Cashmere"
-                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                    className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                   />
                 </div>
 
@@ -337,7 +337,7 @@ function AdminBlogsPage() {
                       value={author}
                       onChange={e => setAuthor(e.target.value)}
                       placeholder="e.g. Elena Rostova"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -345,7 +345,7 @@ function AdminBlogsPage() {
                     <select
                       value={category}
                       onChange={e => setCategory(e.target.value)}
-                      className="w-full rounded-xl bg-[#0f0f12] border border-white/10 px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white cursor-pointer"
+                      className="w-full rounded-xl bg-[#0f0f12] border border-foreground/10 px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground cursor-pointer"
                     >
                       {categories.map(c => (
                         <option key={c} value={c} className="bg-[#0f0f12]">{c}</option>
@@ -362,7 +362,7 @@ function AdminBlogsPage() {
                       value={imageUrl}
                       onChange={e => setImageUrl(e.target.value)}
                       placeholder="https://unsplash.com/..."
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -373,7 +373,7 @@ function AdminBlogsPage() {
                       value={readTime}
                       onChange={e => setReadTime(e.target.value)}
                       placeholder="e.g. 3 min read"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -386,13 +386,13 @@ function AdminBlogsPage() {
                     value={content}
                     onChange={e => setContent(e.target.value)}
                     placeholder="Write the blog post content here..."
-                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-3 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none resize-none"
+                    className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-3 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {editingBlog ? "Update Blog Post" : "Publish Blog Post"}
                 </button>

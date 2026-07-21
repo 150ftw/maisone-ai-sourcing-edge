@@ -133,7 +133,7 @@ function TrendsRoute() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 border-b border-white/5 pb-6">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 border-b border-foreground/5 pb-6">
         <div>
           <h1 className="font-serif text-3xl tracking-tight">{t("admin.trendsTitle")}</h1>
           <p className="text-xs text-muted-foreground mt-1">{t("admin.trendsDesc")}</p>
@@ -144,20 +144,20 @@ function TrendsRoute() {
             type="button"
             onClick={handleGenerateAI}
             disabled={generating || loading}
-            className="bg-gradient-to-r from-electric to-violet-glow hover:opacity-95 text-white font-semibold text-xs py-2.5 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 shadow-lg shadow-electric/15 disabled:opacity-50 disabled:pointer-events-none"
+            className="bg-gradient-to-r from-electric to-violet-glow hover:opacity-95 text-foreground font-semibold text-xs py-2.5 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 shadow-lg shadow-electric/15 disabled:opacity-50 disabled:pointer-events-none"
           >
             {generating && <Loader2 className="size-4 animate-spin" />}
             {t("admin.generateAI")}
           </button>
 
           {/* Region Selector */}
-          <div className="flex flex-wrap gap-1.5 p-1 bg-white/[0.02] border border-white/5 rounded-xl">
+          <div className="flex flex-wrap gap-1.5 p-1 bg-foreground/[0.02] border border-foreground/5 rounded-xl">
             {REGIONS.map((r) => (
               <button
                 key={r}
                 type="button"
                 onClick={() => setRegion(r)}
-                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${region === r ? "bg-white text-black shadow-md" : "text-muted-foreground hover:text-white"
+                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${region === r ? "bg-foreground text-black shadow-md" : "text-muted-foreground hover:text-foreground"
                   }`}
               >
                 {r}
@@ -173,8 +173,8 @@ function TrendsRoute() {
         <form onSubmit={handleSave} className="space-y-6">
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Fabrics Editor */}
-            <div className="glass-strong rounded-3xl p-5 border border-white/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
+            <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
+              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
                 <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
                   <Activity className="size-3.5 text-electric" />
                 </div>
@@ -184,7 +184,7 @@ function TrendsRoute() {
                 </div>
               </div>
               {fabrics.map((f, i) => (
-                <div key={i} className="space-y-3 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-white/10 transition-colors">
+                <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="space-y-1.5">
                     <label className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">Fabric Name</label>
                     <input
@@ -193,7 +193,7 @@ function TrendsRoute() {
                       value={f.name || ""}
                       onChange={(e) => updateFabric(i, "name", e.target.value)}
                       placeholder="e.g. Sashiko Cotton"
-                      className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                      className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-3">
@@ -207,7 +207,7 @@ function TrendsRoute() {
                           required
                           value={f.score || ""}
                           onChange={(e) => updateFabric(i, "score", parseInt(e.target.value) || 0)}
-                          className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-muted-foreground font-semibold">%</span>
                       </div>
@@ -220,7 +220,7 @@ function TrendsRoute() {
                         value={f.signal || ""}
                         onChange={(e) => updateFabric(i, "signal", e.target.value)}
                         placeholder="e.g. Sourcing volume up"
-                        className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                        className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                       />
                     </div>
                   </div>
@@ -229,8 +229,8 @@ function TrendsRoute() {
             </div>
 
             {/* Colors Editor */}
-            <div className="glass-strong rounded-3xl p-5 border border-white/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
+            <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
+              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
                 <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
                   <Sparkles className="size-3.5 text-electric" />
                 </div>
@@ -240,7 +240,7 @@ function TrendsRoute() {
                 </div>
               </div>
               {colors.map((c, i) => (
-                <div key={i} className="space-y-3 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-white/10 transition-colors">
+                <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="grid grid-cols-3 gap-3">
                     <div className="col-span-2 space-y-1.5">
                       <label className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">Color Name</label>
@@ -250,7 +250,7 @@ function TrendsRoute() {
                         value={c.name || ""}
                         onChange={(e) => updateColor(i, "name", e.target.value)}
                         placeholder="e.g. Aizome Blue"
-                        className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                        className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                       />
                     </div>
                     <div className="col-span-1 space-y-1.5">
@@ -263,7 +263,7 @@ function TrendsRoute() {
                           required
                           value={c.score || ""}
                           onChange={(e) => updateColor(i, "score", parseInt(e.target.value) || 0)}
-                          className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-muted-foreground font-semibold">%</span>
                       </div>
@@ -273,7 +273,7 @@ function TrendsRoute() {
                     <div className="space-y-1.5">
                       <label className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">Hex Code</label>
                       <div className="relative flex items-center">
-                        <div className="absolute left-2.5 size-5 rounded-md overflow-hidden border border-white/20 flex items-center justify-center">
+                        <div className="absolute left-2.5 size-5 rounded-md overflow-hidden border border-foreground/20 flex items-center justify-center">
                           <input
                             type="color"
                             value={c.hex || "#ffffff"}
@@ -287,7 +287,7 @@ function TrendsRoute() {
                           value={c.hex || ""}
                           onChange={(e) => updateColor(i, "hex", e.target.value)}
                           placeholder="#1A3A6B"
-                          className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all pl-10 pr-3 py-2 text-xs text-white uppercase placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                          className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all pl-10 pr-3 py-2 text-xs text-foreground uppercase placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                         />
                       </div>
                     </div>
@@ -299,7 +299,7 @@ function TrendsRoute() {
                         value={c.pantone || ""}
                         onChange={(e) => updateColor(i, "pantone", e.target.value)}
                         placeholder="e.g. 19-3953"
-                        className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                        className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                       />
                     </div>
                   </div>
@@ -308,8 +308,8 @@ function TrendsRoute() {
             </div>
 
             {/* Silhouettes Editor */}
-            <div className="glass-strong rounded-3xl p-5 border border-white/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
+            <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
+              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
                 <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
                   <TrendingUp className="size-3.5 text-electric" />
                 </div>
@@ -319,7 +319,7 @@ function TrendsRoute() {
                 </div>
               </div>
               {silhouettes.map((s, i) => (
-                <div key={i} className="space-y-3 p-4 rounded-2xl bg-white/[0.01] border border-white/5 hover:border-white/10 transition-colors">
+                <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="grid grid-cols-3 gap-3">
                     <div className="col-span-2 space-y-1.5">
                       <label className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">Name</label>
@@ -329,7 +329,7 @@ function TrendsRoute() {
                         value={s.name || ""}
                         onChange={(e) => updateSilhouette(i, "name", e.target.value)}
                         placeholder="e.g. Wide-leg Trouser"
-                        className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                        className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                       />
                     </div>
                     <div className="col-span-1 space-y-1.5">
@@ -342,7 +342,7 @@ function TrendsRoute() {
                           required
                           value={s.score || ""}
                           onChange={(e) => updateSilhouette(i, "score", parseInt(e.target.value) || 0)}
-                          className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all pl-3 pr-6 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-muted-foreground font-semibold">%</span>
                       </div>
@@ -356,7 +356,7 @@ function TrendsRoute() {
                       value={s.note || ""}
                       onChange={(e) => updateSilhouette(i, "note", e.target.value)}
                       placeholder="e.g. SS '26 collections"
-                      className="w-full rounded-xl bg-black/40 border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-2 text-xs text-white placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
+                      className="w-full rounded-xl bg-foreground/[0.04] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-2 text-xs text-foreground placeholder:text-muted-foreground/20 focus:outline-none focus:ring-1 focus:ring-electric"
                     />
                   </div>
                 </div>
@@ -367,7 +367,7 @@ function TrendsRoute() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-white text-black font-semibold text-xs py-3 px-8 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-md shadow-white/5"
+              className="bg-foreground text-black font-semibold text-xs py-3 px-8 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-md shadow-white/5"
             >
               {t("admin.saveForecast")}
             </button>

@@ -154,7 +154,7 @@ function InquiriesPage() {
           <button 
             onClick={fetchRequests}
             disabled={reqLoading}
-            className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 disabled:opacity-50 transition-colors cursor-pointer"
+            className="p-2.5 rounded-full border border-foreground/10 hover:bg-foreground/5 disabled:opacity-50 transition-colors cursor-pointer"
             title="Refresh Data"
           >
             <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
@@ -164,7 +164,7 @@ function InquiriesPage() {
 
       {/* Analytics Summary KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+        <div className="glass-strong rounded-2xl p-5 border border-foreground/5 bg-foreground/[0.01]">
           <div className="flex items-center justify-between text-muted-foreground mb-2">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Total Leads</span>
             <Layers className="size-4 text-electric" />
@@ -172,7 +172,7 @@ function InquiriesPage() {
           <div className="text-3xl font-serif">{stats.total}</div>
           <p className="text-[10px] text-muted-foreground/60 mt-1">All-time submissions</p>
         </div>
-        <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+        <div className="glass-strong rounded-2xl p-5 border border-foreground/5 bg-foreground/[0.01]">
           <div className="flex items-center justify-between text-muted-foreground mb-2">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Pending Review</span>
             <ShieldAlert className="size-4 text-amber-400" />
@@ -180,7 +180,7 @@ function InquiriesPage() {
           <div className="text-3xl font-serif text-amber-400">{stats.pending}</div>
           <p className="text-[10px] text-muted-foreground/60 mt-1">Requires qualification</p>
         </div>
-        <div className="glass-strong rounded-2xl p-5 border border-white/5 bg-white/[0.01]">
+        <div className="glass-strong rounded-2xl p-5 border border-foreground/5 bg-foreground/[0.01]">
           <div className="flex items-center justify-between text-muted-foreground mb-2">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Qualified Leads</span>
             <Check className="size-4 text-emerald-400" />
@@ -191,7 +191,7 @@ function InquiriesPage() {
       </div>
 
       {/* Controls bar */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-foreground/[0.02] border border-foreground/5 p-4 rounded-2xl">
         {/* Search */}
         <div className="md:col-span-2 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -200,7 +200,7 @@ function InquiriesPage() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by name, company, email..."
-            className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
           />
         </div>
 
@@ -210,7 +210,7 @@ function InquiriesPage() {
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="w-full rounded-xl bg-[#07070a] border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-white"
+            className="w-full rounded-xl bg-[#07070a] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-foreground"
           >
             <option value="All" className="bg-[#0f0f12]">All Statuses</option>
             <option value="Pending" className="bg-[#0f0f12]">Pending</option>
@@ -222,7 +222,7 @@ function InquiriesPage() {
 
         {/* Metrics */}
         <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
-          {t("admin.showing")} <span className="font-semibold text-white mx-1">{requests.length}</span> {t("admin.of")} {totalCount} {t("admin.total")}
+          {t("admin.showing")} <span className="font-semibold text-foreground mx-1">{requests.length}</span> {t("admin.of")} {totalCount} {t("admin.total")}
         </div>
       </div>
 
@@ -237,10 +237,10 @@ function InquiriesPage() {
 
       {reqLoading && requests.length === 0 ? (
         /* Shimmer Skeleton Loader Rows */
-        <div className="overflow-x-auto rounded-3xl border border-white/5 glass">
+        <div className="overflow-x-auto rounded-3xl border border-foreground/5 glass">
           <table className="w-full border-collapse text-left text-sm min-w-[950px]">
             <thead>
-              <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
+              <tr className="border-b border-foreground/5 bg-foreground/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
                 <th className="px-4 py-4 w-[20%]">{t("admin.inquiryBrand")}</th>
                 <th className="px-4 py-4 w-[25%]">{t("admin.inquiryContact")}</th>
                 <th className="px-4 py-4 w-[20%]">{t("admin.inquiryProfile")}</th>
@@ -253,28 +253,28 @@ function InquiriesPage() {
               {[1, 2, 3].map((i) => (
                 <tr key={i} className="animate-pulse">
                   <td className="px-4 py-4 align-top">
-                    <div className="h-4 bg-white/5 rounded w-28 mb-2" />
-                    <div className="h-3 bg-white/5 rounded w-20" />
+                    <div className="h-4 bg-foreground/5 rounded w-28 mb-2" />
+                    <div className="h-3 bg-foreground/5 rounded w-20" />
                   </td>
                   <td className="px-4 py-4 align-top">
-                    <div className="h-4 bg-white/5 rounded w-32 mb-2" />
-                    <div className="h-3 bg-white/5 rounded w-40" />
+                    <div className="h-4 bg-foreground/5 rounded w-32 mb-2" />
+                    <div className="h-3 bg-foreground/5 rounded w-40" />
                   </td>
                   <td className="px-4 py-4 align-top">
                     <div className="flex gap-2 mb-2">
-                      <div className="h-4 bg-white/5 rounded-full w-12" />
-                      <div className="h-4 bg-white/5 rounded-full w-16" />
+                      <div className="h-4 bg-foreground/5 rounded-full w-12" />
+                      <div className="h-4 bg-foreground/5 rounded-full w-16" />
                     </div>
-                    <div className="h-3 bg-white/5 rounded w-24" />
+                    <div className="h-3 bg-foreground/5 rounded w-24" />
                   </td>
                   <td className="px-4 py-4 align-top">
-                    <div className="h-10 bg-white/5 rounded-xl w-full" />
+                    <div className="h-10 bg-foreground/5 rounded-xl w-full" />
                   </td>
                   <td className="px-4 py-4 align-top">
-                    <div className="h-6 bg-white/5 rounded-full w-20" />
+                    <div className="h-6 bg-foreground/5 rounded-full w-20" />
                   </td>
                   <td className="px-4 py-4 align-top text-right">
-                    <div className="h-8 bg-white/5 rounded-full w-8 ml-auto" />
+                    <div className="h-8 bg-foreground/5 rounded-full w-8 ml-auto" />
                   </td>
                 </tr>
               ))}
@@ -282,15 +282,15 @@ function InquiriesPage() {
           </table>
         </div>
       ) : requests.length === 0 ? (
-        <div className="glass rounded-3xl py-20 text-center border border-white/5">
+        <div className="glass rounded-3xl py-20 text-center border border-foreground/5">
           <p className="text-muted-foreground">No inquiries found matching criteria.</p>
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-3xl border border-white/5 glass min-h-[300px]">
+          <div className="overflow-x-auto rounded-3xl border border-foreground/5 glass min-h-[300px]">
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
-                <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
+                <tr className="border-b border-foreground/5 bg-foreground/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
                   <th className="px-4 py-4 w-[20%]">{t("admin.inquiryBrand")}</th>
                   <th className="px-4 py-4 w-[25%]">{t("admin.inquiryContact")}</th>
                   <th className="px-4 py-4 w-[20%]">{t("admin.inquiryProfile")}</th>
@@ -301,10 +301,10 @@ function InquiriesPage() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {requests.map((req) => (
-                  <tr key={req.id} className="hover:bg-white/[0.01] transition-colors group">
+                  <tr key={req.id} className="hover:bg-foreground/[0.01] transition-colors group">
                     {/* Company / Role */}
                     <td className="px-4 py-4 align-top">
-                      <div className="font-semibold text-white text-sm whitespace-nowrap">{req.company}</div>
+                      <div className="font-semibold text-foreground text-sm whitespace-nowrap">{req.company}</div>
                       <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1.5 whitespace-nowrap">
                         <Building2 className="size-3 shrink-0" />
                         <span>{req.company_size} • {req.region}</span>
@@ -313,13 +313,13 @@ function InquiriesPage() {
 
                     {/* Contact Details */}
                     <td className="px-4 py-4 align-top">
-                      <div className="font-medium text-white text-xs flex items-center gap-1.5 whitespace-nowrap">
+                      <div className="font-medium text-foreground text-xs flex items-center gap-1.5 whitespace-nowrap">
                         <User className="size-3.5 text-muted-foreground shrink-0" />
                         {req.full_name}
                       </div>
                       <div className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5 whitespace-nowrap">
                         <Mail className="size-3.5 text-muted-foreground shrink-0" />
-                        <a href={`mailto:${req.work_email}`} className="hover:underline hover:text-white transition-colors">{req.work_email}</a>
+                        <a href={`mailto:${req.work_email}`} className="hover:underline hover:text-foreground transition-colors">{req.work_email}</a>
                       </div>
                       <div className="text-[10px] text-muted-foreground/50 mt-1 flex items-center gap-1 whitespace-nowrap">
                         <span>Role: {req.role}</span>
@@ -329,9 +329,9 @@ function InquiriesPage() {
                     {/* Sourcing Profile */}
                     <td className="px-4 py-4 align-top min-w-[200px]">
                       <div className="flex flex-wrap gap-1.5 max-w-xs">
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/90 border border-white/5 whitespace-nowrap">{req.category}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/90 border border-white/5 whitespace-nowrap">{req.monthly_volume}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/90 border border-white/5 whitespace-nowrap">{req.timeline}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/90 border border-foreground/5 whitespace-nowrap">{req.category}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/90 border border-foreground/5 whitespace-nowrap">{req.monthly_volume}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/90 border border-foreground/5 whitespace-nowrap">{req.timeline}</span>
                       </div>
                       <div className="text-[9px] uppercase tracking-wider text-muted-foreground/50 mt-2.5 whitespace-nowrap">
                         Received: {new Date(req.created_at).toLocaleDateString()}
@@ -347,10 +347,10 @@ function InquiriesPage() {
                               const parsed = JSON.parse(req.message);
                               if (parsed.isExistingClient) {
                                 return (
-                                  <div className="text-xs text-muted-foreground bg-black/20 p-2.5 rounded-xl border border-white/5 space-y-1.5 break-words">
+                                  <div className="text-xs text-muted-foreground bg-black/20 p-2.5 rounded-xl border border-foreground/5 space-y-1.5 break-words">
                                     <div className="font-bold text-[#00f2fe] text-[10px] tracking-wide uppercase">Client PO: {parsed.poNumber}</div>
-                                    <div className="text-[11px] text-white/90">
-                                      Samples: <span className="text-white font-semibold">{parsed.samplesRequired}</span> • Delivery: <span className="text-white font-semibold">{parsed.deliveryDate}</span>
+                                    <div className="text-[11px] text-foreground/90">
+                                      Samples: <span className="text-foreground font-semibold">{parsed.samplesRequired}</span> • Delivery: <span className="text-foreground font-semibold">{parsed.deliveryDate}</span>
                                     </div>
                                     <div className="text-[11px] text-muted-foreground/80 line-clamp-2 italic">{parsed.requestDescription}</div>
                                   </div>
@@ -359,11 +359,11 @@ function InquiriesPage() {
                             } catch(e) {}
                           }
                           return req.message ? (
-                            <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-white/5 break-all">
+                            <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-foreground/5 break-all">
                               {req.message}
                             </p>
                           ) : (
-                            <p className="text-xs text-muted-foreground/50 italic p-2 bg-white/[0.02] border border-white/5 rounded-xl">
+                            <p className="text-xs text-muted-foreground/50 italic p-2 bg-foreground/[0.02] border border-foreground/5 rounded-xl">
                               No message provided
                             </p>
                           );
@@ -404,23 +404,23 @@ function InquiriesPage() {
 
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 border-t border-white/5 pt-6 text-sm">
+            <div className="flex items-center justify-between mt-6 border-t border-foreground/5 pt-6 text-sm">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-foreground/10 bg-foreground/[0.02] text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronLeft className="size-4" /> {t("admin.previous")}
               </button>
               
               <div className="text-xs text-muted-foreground">
-                Page <span className="text-white font-semibold">{page}</span> of {totalPages}
+                Page <span className="text-foreground font-semibold">{page}</span> of {totalPages}
               </div>
 
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-foreground/10 bg-foreground/[0.02] text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 {t("admin.next")} <ChevronRight className="size-4" />
               </button>
@@ -447,12 +447,12 @@ function InquiriesPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
@@ -461,24 +461,24 @@ function InquiriesPage() {
               <div className="space-y-6">
                 <div>
                   <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">Inquiry Details</span>
-                  <h2 className="font-serif text-3xl mt-3 text-white">{selectedRequest.company}</h2>
+                  <h2 className="font-serif text-3xl mt-3 text-foreground">{selectedRequest.company}</h2>
                   <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
                     <Globe className="size-3.5 text-muted-foreground" />
                     {selectedRequest.region} • {selectedRequest.company_size} employees
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 border-t border-b border-white/5 py-4">
+                <div className="grid grid-cols-2 gap-4 border-t border-b border-foreground/5 py-4">
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Contact Name</span>
-                    <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
+                    <span className="text-sm font-medium text-foreground mt-1 block flex items-center gap-1.5">
                       <User className="size-3.5 text-muted-foreground" />
                       {selectedRequest.full_name}
                     </span>
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Role</span>
-                    <span className="text-sm font-medium text-white mt-1 block">{selectedRequest.role}</span>
+                    <span className="text-sm font-medium text-foreground mt-1 block">{selectedRequest.role}</span>
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Email</span>
@@ -489,7 +489,7 @@ function InquiriesPage() {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Received Date</span>
-                    <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
+                    <span className="text-sm font-medium text-foreground mt-1 block flex items-center gap-1.5">
                       <Calendar className="size-3.5 text-muted-foreground" />
                       {new Date(selectedRequest.created_at).toLocaleString()}
                     </span>
@@ -514,23 +514,23 @@ function InquiriesPage() {
                         </div>
 
                         <div className="grid grid-cols-3 gap-3">
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">PO Number</span>
-                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.poNumber || "—"}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{parsedMsg.poNumber || "—"}</span>
                           </div>
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">Samples Req.</span>
-                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.samplesRequired || 0}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{parsedMsg.samplesRequired || 0}</span>
                           </div>
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">Delivery Date</span>
-                            <span className="font-semibold mt-0.5 block text-white">{parsedMsg.deliveryDate || "—"}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{parsedMsg.deliveryDate || "—"}</span>
                           </div>
                         </div>
 
                         <div>
                           <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">Request Description</h4>
-                          <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                          <p className="text-sm text-muted-foreground/90 bg-foreground/[0.04] border border-foreground/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
                             {parsedMsg.requestDescription || "—"}
                           </p>
                         </div>
@@ -538,7 +538,7 @@ function InquiriesPage() {
                         {parsedMsg.otherSpecifications && (
                           <div>
                             <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1.5">Other Specifications</h4>
-                            <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                            <p className="text-sm text-muted-foreground/90 bg-foreground/[0.04] border border-foreground/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
                               {parsedMsg.otherSpecifications}
                             </p>
                           </div>
@@ -548,7 +548,7 @@ function InquiriesPage() {
                           <div className="px-3.5 py-3 rounded-xl bg-electric/5 border border-electric/15 text-xs flex items-center justify-between">
                             <div className="space-y-0.5">
                               <span className="text-[9px] text-muted-foreground block uppercase">Uploaded Document</span>
-                              <span className="text-white font-medium">{parsedMsg.file.name}</span>
+                              <span className="text-foreground font-medium">{parsedMsg.file.name}</span>
                             </div>
                             <a
                               href={parsedMsg.file.url}
@@ -569,17 +569,17 @@ function InquiriesPage() {
                       <div>
                         <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2.5">Sourcing Profile</h4>
                         <div className="flex flex-wrap gap-2">
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">Category</span>
-                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.category}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{selectedRequest.category}</span>
                           </div>
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">Volume</span>
-                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.monthly_volume}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{selectedRequest.monthly_volume}</span>
                           </div>
-                          <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90">
+                          <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90">
                             <span className="text-[9px] text-muted-foreground block uppercase">Timeline</span>
-                            <span className="font-semibold mt-0.5 block text-white">{selectedRequest.timeline}</span>
+                            <span className="font-semibold mt-0.5 block text-foreground">{selectedRequest.timeline}</span>
                           </div>
                         </div>
                       </div>
@@ -589,7 +589,7 @@ function InquiriesPage() {
                           <MessageSquare className="size-3.5" />
                           Client Message
                         </h4>
-                        <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                        <p className="text-sm text-muted-foreground/90 bg-foreground/[0.04] border border-foreground/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
                           {selectedRequest.message || "No additional message was provided."}
                         </p>
                       </div>
@@ -597,7 +597,7 @@ function InquiriesPage() {
                   );
                 })()}
 
-                <div className="flex items-center justify-between border-t border-white/5 pt-5">
+                <div className="flex items-center justify-between border-t border-foreground/5 pt-5">
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Status:</span>
                     <StatusDropdown
@@ -615,7 +615,7 @@ function InquiriesPage() {
                         navigator.clipboard.writeText(url);
                         toast.success("Client inquiry link copied!");
                       }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl border border-white/10 hover:border-electric/50 hover:bg-electric/5 text-white transition-all cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-xl border border-foreground/10 hover:border-electric/50 hover:bg-electric/5 text-foreground transition-all cursor-pointer"
                     >
                       <Link2 className="size-3.5" /> Share Form
                     </button>

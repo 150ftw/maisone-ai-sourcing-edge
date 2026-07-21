@@ -92,7 +92,7 @@ export function StatusDropdown({ currentStatus, onChange, options = ["Pending", 
       default:
         return {
           bg: "bg-zinc-500/10 hover:bg-zinc-500/20",
-          text: "text-zinc-400",
+          text: "text-muted-foreground",
           border: "border-zinc-500/20",
           dot: "bg-zinc-400"
         };

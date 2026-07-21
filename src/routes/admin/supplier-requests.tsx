@@ -158,7 +158,7 @@ function SupplierRequestsPage() {
           <button 
             onClick={fetchRequests}
             disabled={reqLoading}
-            className="p-2.5 rounded-full border border-white/10 hover:bg-white/5 disabled:opacity-50 transition-colors cursor-pointer"
+            className="p-2.5 rounded-full border border-foreground/10 hover:bg-foreground/5 disabled:opacity-50 transition-colors cursor-pointer"
             title="Refresh Data"
           >
             <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
@@ -166,7 +166,7 @@ function SupplierRequestsPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-foreground/[0.02] border border-foreground/5 p-4 rounded-2xl mt-4">
         <div className="md:col-span-2 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <input
@@ -174,7 +174,7 @@ function SupplierRequestsPage() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder={t("admin.searchBy")}
-            className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
           />
         </div>
 
@@ -183,7 +183,7 @@ function SupplierRequestsPage() {
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="w-full rounded-xl bg-[#07070a] border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-white"
+            className="w-full rounded-xl bg-[#07070a] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-foreground"
           >
             <option value="All" className="bg-[#0f0f12]">All Statuses</option>
             <option value="Pending" className="bg-[#0f0f12]">Pending</option>
@@ -194,7 +194,7 @@ function SupplierRequestsPage() {
         </div>
 
         <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
-          {t("admin.showing")} <span className="font-semibold text-white mx-1">{requests.length}</span> {t("admin.of")} {totalCount} apps
+          {t("admin.showing")} <span className="font-semibold text-foreground mx-1">{requests.length}</span> {t("admin.of")} {totalCount} apps
         </div>
       </div>
 
@@ -207,10 +207,10 @@ function SupplierRequestsPage() {
       )}
 
       {reqLoading && requests.length === 0 ? (
-        <div className="overflow-x-auto rounded-3xl border border-white/5 glass">
+        <div className="overflow-x-auto rounded-3xl border border-foreground/5 glass">
           <table className="w-full border-collapse text-left text-sm min-w-[950px]">
             <thead>
-              <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
+              <tr className="border-b border-foreground/5 bg-foreground/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
                 <th className="px-4 py-4 w-[20%]">Factory</th>
                 <th className="px-4 py-4 w-[25%]">Contact</th>
                 <th className="px-4 py-4 w-[20%]">Capabilities</th>
@@ -222,27 +222,27 @@ function SupplierRequestsPage() {
             <tbody className="divide-y divide-white/5">
               {[1, 2, 3].map((i) => (
                 <tr key={i} className="animate-pulse">
-                  <td className="px-4 py-4 align-top"><div className="h-4 bg-white/5 rounded w-28 mb-2" /></td>
-                  <td className="px-4 py-4 align-top"><div className="h-4 bg-white/5 rounded w-32 mb-2" /></td>
-                  <td className="px-4 py-4 align-top"><div className="h-4 bg-white/5 rounded-full w-24 mb-2" /></td>
-                  <td className="px-4 py-4 align-top"><div className="h-10 bg-white/5 rounded-xl w-full" /></td>
-                  <td className="px-4 py-4 align-top"><div className="h-6 bg-white/5 rounded-full w-20" /></td>
-                  <td className="px-4 py-4 align-top text-right"><div className="h-8 bg-white/5 rounded-full w-8 ml-auto" /></td>
+                  <td className="px-4 py-4 align-top"><div className="h-4 bg-foreground/5 rounded w-28 mb-2" /></td>
+                  <td className="px-4 py-4 align-top"><div className="h-4 bg-foreground/5 rounded w-32 mb-2" /></td>
+                  <td className="px-4 py-4 align-top"><div className="h-4 bg-foreground/5 rounded-full w-24 mb-2" /></td>
+                  <td className="px-4 py-4 align-top"><div className="h-10 bg-foreground/5 rounded-xl w-full" /></td>
+                  <td className="px-4 py-4 align-top"><div className="h-6 bg-foreground/5 rounded-full w-20" /></td>
+                  <td className="px-4 py-4 align-top text-right"><div className="h-8 bg-foreground/5 rounded-full w-8 ml-auto" /></td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : requests.length === 0 ? (
-        <div className="glass rounded-3xl py-20 text-center border border-white/5">
+        <div className="glass rounded-3xl py-20 text-center border border-foreground/5">
           <p className="text-muted-foreground">No applications found matching criteria.</p>
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-3xl border border-white/5 glass min-h-[300px]">
+          <div className="overflow-x-auto rounded-3xl border border-foreground/5 glass min-h-[300px]">
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
-                <tr className="border-b border-white/5 bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
+                <tr className="border-b border-foreground/5 bg-foreground/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
                   <th className="px-4 py-4 w-[20%]">Factory</th>
                   <th className="px-4 py-4 w-[25%]">Contact</th>
                   <th className="px-4 py-4 w-[20%]">Capabilities</th>
@@ -253,9 +253,9 @@ function SupplierRequestsPage() {
               </thead>
               <tbody className="divide-y divide-white/5">
                 {requests.map((req) => (
-                  <tr key={req.id} className="hover:bg-white/[0.01] transition-colors group">
+                  <tr key={req.id} className="hover:bg-foreground/[0.01] transition-colors group">
                     <td className="px-4 py-4 align-top">
-                      <div className="font-semibold text-white text-sm whitespace-nowrap">{req.factory_name}</div>
+                      <div className="font-semibold text-foreground text-sm whitespace-nowrap">{req.factory_name}</div>
                       <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1.5 whitespace-nowrap">
                         <Globe className="size-3 shrink-0" />
                         <span>{req.region}</span>
@@ -263,13 +263,13 @@ function SupplierRequestsPage() {
                     </td>
 
                     <td className="px-4 py-4 align-top">
-                      <div className="font-medium text-white text-xs flex items-center gap-1.5 whitespace-nowrap">
+                      <div className="font-medium text-foreground text-xs flex items-center gap-1.5 whitespace-nowrap">
                         <User className="size-3.5 text-muted-foreground shrink-0" />
                         {req.full_name}
                       </div>
                       <div className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1.5 whitespace-nowrap">
                         <Mail className="size-3.5 text-muted-foreground shrink-0" />
-                        <a href={`mailto:${req.work_email}`} className="hover:underline hover:text-white transition-colors">{req.work_email}</a>
+                        <a href={`mailto:${req.work_email}`} className="hover:underline hover:text-foreground transition-colors">{req.work_email}</a>
                       </div>
                     </td>
 
@@ -278,19 +278,19 @@ function SupplierRequestsPage() {
                         {(req.categories || []).map(cat => (
                           <span key={cat} className="text-[10px] px-2 py-0.5 rounded-full bg-electric/10 text-electric border border-electric/20 whitespace-nowrap">{cat}</span>
                         ))}
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/90 border border-white/5 whitespace-nowrap">MOQ: {req.moq}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-white/90 border border-white/5 whitespace-nowrap">Lead: {req.lead_time}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/90 border border-foreground/5 whitespace-nowrap">MOQ: {req.moq}</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/90 border border-foreground/5 whitespace-nowrap">Lead: {req.lead_time}</span>
                       </div>
                     </td>
 
                     <td className="px-4 py-4 align-top max-w-xs">
                       <div className="space-y-1">
                         {req.message ? (
-                          <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-white/5 break-all">
+                          <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-foreground/5 break-all">
                             {req.message}
                           </p>
                         ) : (
-                          <p className="text-xs text-muted-foreground/50 italic p-2 bg-white/[0.02] border border-white/5 rounded-xl">
+                          <p className="text-xs text-muted-foreground/50 italic p-2 bg-foreground/[0.02] border border-foreground/5 rounded-xl">
                             No message provided
                           </p>
                         )}
@@ -327,23 +327,23 @@ function SupplierRequestsPage() {
           </div>
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 border-t border-white/5 pt-6 text-sm">
+            <div className="flex items-center justify-between mt-6 border-t border-foreground/5 pt-6 text-sm">
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-foreground/10 bg-foreground/[0.02] text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 <ChevronLeft className="size-4" /> {t("admin.previous")}
               </button>
               
               <div className="text-xs text-muted-foreground">
-                Page <span className="text-white font-semibold">{page}</span> of {totalPages}
+                Page <span className="text-foreground font-semibold">{page}</span> of {totalPages}
               </div>
 
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.02] text-muted-foreground hover:text-white disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-foreground/10 bg-foreground/[0.02] text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
               >
                 {t("admin.next")} <ChevronRight className="size-4" />
               </button>
@@ -367,11 +367,11 @@ function SupplierRequestsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <button
                 onClick={() => setSelectedRequest(null)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
@@ -379,17 +379,17 @@ function SupplierRequestsPage() {
               <div className="space-y-6">
                 <div>
                   <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">Factory Details</span>
-                  <h2 className="font-serif text-3xl mt-3 text-white">{selectedRequest.factory_name}</h2>
+                  <h2 className="font-serif text-3xl mt-3 text-foreground">{selectedRequest.factory_name}</h2>
                   <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
                     <Globe className="size-3.5 text-muted-foreground" />
                     {selectedRequest.region}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 border-t border-b border-white/5 py-4">
+                <div className="grid grid-cols-2 gap-4 border-t border-b border-foreground/5 py-4">
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Contact Name</span>
-                    <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
+                    <span className="text-sm font-medium text-foreground mt-1 block flex items-center gap-1.5">
                       <User className="size-3.5 text-muted-foreground" />
                       {selectedRequest.full_name}
                     </span>
@@ -403,7 +403,7 @@ function SupplierRequestsPage() {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-wider text-muted-foreground block">Received Date</span>
-                    <span className="text-sm font-medium text-white mt-1 block flex items-center gap-1.5">
+                    <span className="text-sm font-medium text-foreground mt-1 block flex items-center gap-1.5">
                       <Calendar className="size-3.5 text-muted-foreground" />
                       {new Date(selectedRequest.created_at).toLocaleString()}
                     </span>
@@ -413,7 +413,7 @@ function SupplierRequestsPage() {
                 <div>
                   <h4 className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2.5">Manufacturing Capabilities</h4>
                   <div className="flex flex-wrap gap-2">
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90 w-full mb-1">
+                    <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90 w-full mb-1">
                       <span className="text-[9px] text-muted-foreground block uppercase">Categories</span>
                       <div className="flex flex-wrap gap-1 mt-1.5">
                         {(selectedRequest.categories || []).map(cat => (
@@ -421,13 +421,13 @@ function SupplierRequestsPage() {
                         ))}
                       </div>
                     </div>
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90 flex-1">
+                    <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90 flex-1">
                       <span className="text-[9px] text-muted-foreground block uppercase">MOQ</span>
-                      <span className="font-semibold mt-0.5 block text-white">{selectedRequest.moq}</span>
+                      <span className="font-semibold mt-0.5 block text-foreground">{selectedRequest.moq}</span>
                     </div>
-                    <div className="px-3.5 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-foreground/90 flex-1">
+                    <div className="px-3.5 py-2 rounded-xl bg-foreground/[0.03] border border-foreground/5 text-xs text-foreground/90 flex-1">
                       <span className="text-[9px] text-muted-foreground block uppercase">Lead Time</span>
-                      <span className="font-semibold mt-0.5 block text-white">{selectedRequest.lead_time}</span>
+                      <span className="font-semibold mt-0.5 block text-foreground">{selectedRequest.lead_time}</span>
                     </div>
                   </div>
                 </div>
@@ -437,12 +437,12 @@ function SupplierRequestsPage() {
                     <MessageSquare className="size-3.5" />
                     Additional Details / Message
                   </h4>
-                  <p className="text-sm text-muted-foreground/90 bg-black/40 border border-white/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
+                  <p className="text-sm text-muted-foreground/90 bg-foreground/[0.04] border border-foreground/5 p-4 rounded-2xl whitespace-pre-line leading-relaxed">
                     {selectedRequest.message || "No additional message was provided."}
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-white/5 pt-5">
+                <div className="flex items-center justify-between border-t border-foreground/5 pt-5">
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Status:</span>
                     <StatusDropdown

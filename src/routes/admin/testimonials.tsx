@@ -198,7 +198,7 @@ function AdminTestimonialsPage() {
         </div>
         <button
           onClick={openAddModal}
-          className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> {t("admin.addTestimonial")}
         </button>
@@ -211,14 +211,14 @@ function AdminTestimonialsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t("admin.searchBy")}
-          className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-white"
+          className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
         />
       </div>
 
       {loading ? (
         <TableSkeleton />
       ) : filteredTestimonials.length === 0 ? (
-        <div className="glass rounded-3xl py-20 text-center border border-white/5">
+        <div className="glass rounded-3xl py-20 text-center border border-foreground/5">
           <p className="text-muted-foreground">No testimonials found.</p>
         </div>
       ) : (
@@ -226,22 +226,22 @@ function AdminTestimonialsPage() {
           {filteredTestimonials.map((testimonial) => (
             <div
               key={testimonial.id}
-              className="glass-strong rounded-3xl border border-white/5 bg-white/[0.01] p-6 flex flex-col justify-between hover:border-white/10 transition-colors min-h-[280px]"
+              className="glass-strong rounded-3xl border border-foreground/5 bg-foreground/[0.01] p-6 flex flex-col justify-between hover:border-foreground/10 transition-colors min-h-[280px]"
             >
               <div className="space-y-4">
                 <blockquote className="font-serif text-xl leading-snug text-balance">
                   "{testimonial.quote}"
                 </blockquote>
                 <figcaption className="mt-8 border-l-2 border-electric/50 pl-4">
-                  <p className="text-sm font-medium text-white">{testimonial.name}</p>
+                  <p className="text-sm font-medium text-foreground">{testimonial.name}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">{testimonial.role}</p>
                 </figcaption>
               </div>
 
-              <div className="flex items-center justify-end gap-3 mt-6 border-t border-white/5 pt-4">
+              <div className="flex items-center justify-end gap-3 mt-6 border-t border-foreground/5 pt-4">
                 <button
                   onClick={() => openEditModal(testimonial)}
-                  className="p-2 text-muted-foreground hover:text-white hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
+                  className="p-2 text-muted-foreground hover:text-foreground hover:bg-foreground/5 rounded-xl transition-colors cursor-pointer"
                   title="Edit Testimonial"
                 >
                   <Edit className="size-4" />
@@ -274,16 +274,16 @@ function AdminTestimonialsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
             >
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
+              <h2 className="font-serif text-2xl mb-6 text-foreground tracking-tight">
                 {editingTestimonial ? t("admin.editTestimonial") : t("admin.addTestimonial")}
               </h2>
 
@@ -297,7 +297,7 @@ function AdminTestimonialsPage() {
                       value={name}
                       onChange={e => setName(e.target.value)}
                       placeholder="e.g. Aiko Tanaka"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -308,7 +308,7 @@ function AdminTestimonialsPage() {
                       value={role}
                       onChange={e => setRole(e.target.value)}
                       placeholder="e.g. Head of Production · Maison Kyō"
-                      className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                      className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -321,13 +321,13 @@ function AdminTestimonialsPage() {
                     value={quote}
                     onChange={e => setQuote(e.target.value)}
                     placeholder="Write the customer's quote here..."
-                    className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-3 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none resize-none"
+                    className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-3 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-2 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {editingTestimonial ? "Update Testimonial" : "Publish Testimonial"}
                 </button>

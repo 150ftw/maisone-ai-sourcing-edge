@@ -275,12 +275,12 @@ function SuppliersRoute() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("admin.searchBy")}
-            className="w-full rounded-xl bg-black/30 border border-white/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
           />
         </div>
         <button
           onClick={openAddModal}
-          className="bg-white text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> {t("admin.addSupplier")}
         </button>
@@ -313,25 +313,25 @@ function SuppliersRoute() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-white/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 shadow-2xl overflow-y-auto max-h-[90vh]"
             >
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="absolute right-6 top-6 p-2 rounded-full hover:bg-white/5 border border-white/5 transition-colors cursor-pointer text-muted-foreground hover:text-white"
+                className="absolute right-6 top-6 p-2 rounded-full hover:bg-foreground/5 border border-foreground/5 transition-colors cursor-pointer text-muted-foreground hover:text-foreground"
               >
                 <X className="size-4" />
               </button>
 
-              <h2 className="font-serif text-2xl mb-6 text-white tracking-tight">
+              <h2 className="font-serif text-2xl mb-6 text-foreground tracking-tight">
                 {editingSupplier ? t("admin.editSupplier") : t("admin.addSupplier")}
               </h2>
 
               {/* Tab Selector */}
-              <div className="flex border-b border-white/10 mb-6 gap-4 text-xs font-semibold">
+              <div className="flex border-b border-foreground/10 mb-6 gap-4 text-xs font-semibold">
                 <button
                   type="button"
                   onClick={() => setModalTab("basic")}
-                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "basic" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "basic" ? "border-electric text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   Basic Info
@@ -339,7 +339,7 @@ function SuppliersRoute() {
                 <button
                   type="button"
                   onClick={() => setModalTab("caps")}
-                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "caps" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "caps" ? "border-electric text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   Capabilities & Production
@@ -347,7 +347,7 @@ function SuppliersRoute() {
                 <button
                   type="button"
                   onClick={() => setModalTab("compliance")}
-                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "compliance" ? "border-electric text-white" : "border-transparent text-muted-foreground hover:text-white"
+                  className={`pb-2 border-b-2 transition-all cursor-pointer ${modalTab === "compliance" ? "border-electric text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
                     }`}
                 >
                   Compliance & Standards
@@ -365,7 +365,7 @@ function SuppliersRoute() {
                         value={name}
                         onChange={e => setName(e.target.value)}
                         placeholder="e.g. Kyoto Atelier"
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
@@ -377,7 +377,7 @@ function SuppliersRoute() {
                           value={city}
                           onChange={e => setCity(e.target.value)}
                           placeholder="e.g. Kyoto"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -397,7 +397,7 @@ function SuppliersRoute() {
                           value={lead}
                           onChange={e => setLead(e.target.value)}
                           placeholder="e.g. 21"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -410,7 +410,7 @@ function SuppliersRoute() {
                           value={otd}
                           onChange={e => setOtd(e.target.value)}
                           placeholder="e.g. 96"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -421,7 +421,7 @@ function SuppliersRoute() {
                           value={rating}
                           onChange={e => setRating(e.target.value)}
                           placeholder="e.g. 4.9"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -434,7 +434,7 @@ function SuppliersRoute() {
                           value={ownerDetails}
                           onChange={e => setOwnerDetails(e.target.value)}
                           placeholder="e.g. Kenji Tanaka (Founder)"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -444,7 +444,7 @@ function SuppliersRoute() {
                           value={contactNo}
                           onChange={e => setContactNo(e.target.value)}
                           placeholder="e.g. +81 90-1234-5678"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -457,7 +457,7 @@ function SuppliersRoute() {
                           value={emailId}
                           onChange={e => setEmailId(e.target.value)}
                           placeholder="e.g. tanaka@kyotoatelier.jp"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -467,7 +467,7 @@ function SuppliersRoute() {
                           value={clientele}
                           onChange={e => setClientele(e.target.value)}
                           placeholder="e.g. Acne Studios, A.P.C."
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -494,7 +494,7 @@ function SuppliersRoute() {
                               }}
                               className={`px-3 py-1.5 rounded-full text-[10px] border font-medium transition-all duration-200 cursor-pointer ${isSelected
                                 ? "bg-electric border-electric text-background shadow-md shadow-electric/25 font-bold"
-                                : "bg-white/[0.02] border-white/10 text-muted-foreground hover:text-white hover:border-white/20"
+                                : "bg-foreground/[0.02] border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/20"
                                 }`}
                             >
                               {cat}
@@ -503,13 +503,13 @@ function SuppliersRoute() {
                         })}
                       </div>
 
-                      <div className="flex items-center gap-2 mt-3 pt-2 border-t border-white/5">
+                      <div className="flex items-center gap-2 mt-3 pt-2 border-t border-foreground/5">
                         <input
                           type="text"
                           value={newCategoryName}
                           onChange={(e) => setNewCategoryName(e.target.value)}
                           placeholder="Add custom category..."
-                          className="rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-3 py-1.5 text-[11px] text-white placeholder:text-muted-foreground/30 focus:outline-none w-48"
+                          className="rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-3 py-1.5 text-[11px] text-foreground placeholder:text-muted-foreground/30 focus:outline-none w-48"
                         />
                         <button
                           type="button"
@@ -521,7 +521,7 @@ function SuppliersRoute() {
                               setNewCategoryName("");
                             }
                           }}
-                          className="bg-white/10 hover:bg-white/20 text-white rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer"
+                          className="bg-foreground/10 hover:bg-foreground/20 text-foreground rounded-xl px-3 py-1.5 text-[11px] font-semibold transition-all cursor-pointer"
                         >
                           + Add Category
                         </button>
@@ -535,7 +535,7 @@ function SuppliersRoute() {
                         value={fabrics}
                         onChange={e => setFabrics(e.target.value)}
                         placeholder="e.g. Organic Cotton, Selvedge Denim, Silk"
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -546,7 +546,7 @@ function SuppliersRoute() {
                         onChange={e => setCapabilities(e.target.value)}
                         rows={3}
                         placeholder="Special machinery, hand-embroidery, wash treatments..."
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -558,7 +558,7 @@ function SuppliersRoute() {
                           value={productionCapacity}
                           onChange={e => setProductionCapacity(e.target.value)}
                           placeholder="e.g. 50,000 units"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -568,7 +568,7 @@ function SuppliersRoute() {
                           value={samplingLeadTime}
                           onChange={e => setSamplingLeadTime(e.target.value)}
                           placeholder="e.g. 7-14 days"
-                          className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                          className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -589,7 +589,7 @@ function SuppliersRoute() {
                         onChange={e => setQualityControl(e.target.value)}
                         rows={2}
                         placeholder="Inspection processes, AQL 2.5 standards..."
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -600,7 +600,7 @@ function SuppliersRoute() {
                         value={certifications}
                         onChange={e => setCertifications(e.target.value)}
                         placeholder="e.g. GOTS, OEKO-TEX, BSCI, WRAP"
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -611,7 +611,7 @@ function SuppliersRoute() {
                         onChange={e => setSustainability(e.target.value)}
                         rows={2}
                         placeholder="Recycling, zero waste, energy mitigations..."
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -622,7 +622,7 @@ function SuppliersRoute() {
                         onChange={e => setCompliance(e.target.value)}
                         rows={2}
                         placeholder="Audited labor standards, safety guidelines..."
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
 
@@ -633,7 +633,7 @@ function SuppliersRoute() {
                         value={paymentTerms}
                         onChange={e => setPaymentTerms(e.target.value)}
                         placeholder="e.g. 30% Deposit, 70% Balance"
-                        className="w-full rounded-xl bg-white/[0.02] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.04] transition-all px-4 py-2.5 text-xs text-white placeholder:text-muted-foreground/30 focus:outline-none"
+                        className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                       />
                     </div>
                   </>
@@ -641,7 +641,7 @@ function SuppliersRoute() {
 
                 <button
                   type="submit"
-                  className="w-full mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {editingSupplier ? "Update Supplier" : "Save Supplier"}
                 </button>
