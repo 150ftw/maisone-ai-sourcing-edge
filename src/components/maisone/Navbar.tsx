@@ -147,9 +147,9 @@ export function Navbar() {
                       initial={{ opacity: 0, y: 10, scale: 0.9 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                      className="absolute right-0 top-full mt-3 w-48 glass-strong rounded-xl p-3 border border-electric/40 shadow-[0_0_20px_rgba(200,200,200,0.1)] z-50 pointer-events-none"
+                      className="absolute right-0 top-full mt-3 w-48 bg-background rounded-xl p-3 border border-border shadow-lg z-50 pointer-events-none"
                     >
-                      <div className="absolute -top-2 right-4 w-4 h-4 glass-strong border-l border-t border-electric/40 rotate-45" />
+                      <div className="absolute -top-2 right-[12px] w-4 h-4 bg-background border-l border-t border-border rotate-45" />
                       <p className="text-xs text-foreground font-medium text-center relative z-10">
                         Customize theme & language here!
                       </p>
