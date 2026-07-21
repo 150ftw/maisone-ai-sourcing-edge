@@ -30,16 +30,21 @@ export function Loader() {
   
   useEffect(() => {
     // If it's already done from session storage, do nothing
-    if (phase === "done") return;
+    if (phase === "done") {
+      document.body.style.overflow = "";
+      return;
+    }
+    
+    document.body.style.overflow = "hidden";
     
     // 4.5s for loading bar
     const t1 = setTimeout(() => {
       setPhase("sewing");
     }, 4500);
 
-    // 4.5s + 3.0s (sewing animation) = 7.5s total before exiting
     const t2 = setTimeout(() => {
       setPhase("done");
+      document.body.style.overflow = "";
       try {
         sessionStorage.setItem("maisone_has_loaded", "true");
       } catch (e) {
