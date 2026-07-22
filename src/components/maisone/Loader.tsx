@@ -1,24 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Logo } from "./Logo";
-
-// Minimalist Sewing Machine SVG
-const SewingMachine = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    {/* Machine Body */}
-    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" fill="currentColor" className="text-foreground" opacity="0.1" />
-    <path d="M16 8 L56 8 C58.2 8 60 9.8 60 12 L60 28 L28 28 L28 44 L20 44 L20 56 L12 56 L12 12 C12 9.8 13.8 8 16 8 Z" className="text-foreground" />
-    {/* Needle Bar */}
-    <line x1="24" y1="44" x2="24" y2="52" className="text-foreground" />
-    {/* Needle */}
-    <path d="M24 52 L24 62 L22 56" className="text-foreground" />
-    {/* Thread */}
-    <path d="M28 20 C34 20 38 24 38 30 C38 36 24 36 24 44" strokeDasharray="2 2" className="text-electric" />
-    {/* Spool */}
-    <circle cx="20" cy="16" r="3" className="text-electric" fill="currentColor" />
-    <circle cx="54" cy="18" r="4" fill="currentColor" className="text-foreground" opacity="0.3" />
-  </svg>
-);
+import { SewingMachine } from "./SewingMachineIcon";
 
 export function Loader() {
   const [phase, setPhase] = useState<"loading" | "sewing" | "done">(() => {
@@ -50,7 +33,7 @@ export function Loader() {
       } catch (e) {
         console.error(e);
       }
-    }, 7500);
+    }, 8550);
 
     return () => {
       clearTimeout(t1);
@@ -88,36 +71,91 @@ export function Loader() {
           />
         )}
 
-        {/* Stitched Seam */}
+        {/* Sewing Phase Container */}
         {phase === "sewing" && (
-          <motion.div
-            key="seam"
-            initial={{ width: "0%", opacity: 1 }}
-            animate={{ width: "100%" }}
+          <motion.div 
+            key="sewing-phase"
+            className="absolute inset-0 z-[105] pointer-events-none overflow-hidden"
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
-            transition={{ duration: 3.0, ease: "linear" }}
-            className="absolute top-1/2 left-0 h-[10px] -translate-y-1/2 overflow-hidden z-[103]"
           >
-             <div className="w-[100vw] absolute left-0 top-[4px] h-[2px] border-t-2 border-dashed border-electric/80 shadow-[0_0_10px_var(--electric)]" />
-          </motion.div>
-        )}
-
-        {/* Sewing Machine Animation */}
-        {phase === "sewing" && (
-          <motion.div
-            key="machine"
-            initial={{ left: "0%", x: "-50%", y: "-50%" }}
-            animate={{ left: "100%" }}
-            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.3 } }}
-            transition={{ left: { duration: 3.0, ease: "linear" } }}
-            className="absolute top-1/2 z-[105] origin-center"
-          >
-            <motion.div
-              animate={{ y: [-4, 6, -4] }}
-              transition={{ duration: 0.1, repeat: Infinity, ease: "linear" }}
+            {/* Left Machine */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="absolute left-0 top-1/2 -translate-y-[69%] z-30"
             >
-              <SewingMachine className="w-16 h-16 drop-shadow-[0_10px_20px_rgba(255,255,255,0.2)]" />
+              <motion.div animate={{ x: [-2, 2, -2] }} transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}>
+                <img src="/sewing-machine.png" alt="Sewing Machine" className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert" />
+              </motion.div>
             </motion.div>
+
+            {/* Right Machine */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="absolute right-0 top-1/2 -translate-y-[69%] z-30"
+            >
+              <motion.div animate={{ x: [-2, 2, -2] }} transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}>
+                <img src="/sewing-machine.png" alt="Sewing Machine" className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert" style={{ transform: 'scaleX(-1)' }} />
+              </motion.div>
+            </motion.div>
+
+            {/* Sewing flex row for perfect alignment */}
+            <div className="absolute w-full top-1/2 -translate-y-1/2 flex items-center px-[5%] sm:px-[10%] z-40">
+              
+              {/* Left Thread Container */}
+              <div className="flex-grow flex items-center justify-start h-full">
+                 <motion.div
+                    className="h-[2.5px] bg-foreground origin-left"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 1.0, ease: "linear" }}
+                 />
+              </div>
+
+              {/* Text */}
+              <div className="relative flex-shrink-0 flex items-center px-1 overflow-hidden">
+                  <motion.div
+                    initial={{ clipPath: "inset(0 100% 0 0)" }}
+                    animate={{ clipPath: "inset(0 0% 0 0)" }}
+                    transition={{ duration: 1.8, delay: 1.0, ease: "linear" }}
+                  >
+                    <h2 className="text-4xl sm:text-6xl font-serif italic text-foreground whitespace-nowrap">
+                      Maisone&nbsp;
+                    </h2>
+                  </motion.div>
+                  <motion.div
+                    initial={{ clipPath: "inset(0 0 0 100%)" }}
+                    animate={{ clipPath: "inset(0 0 0 0%)" }}
+                    transition={{ duration: 1.8, delay: 1.0, ease: "linear" }}
+                  >
+                    <h2 className="text-4xl sm:text-6xl font-serif italic text-foreground whitespace-nowrap">
+                      Global
+                    </h2>
+                  </motion.div>
+
+                  {/* Diagonal Shine Sweep (Bottom-Left to Top-Right) */}
+                  <motion.div 
+                    className="absolute w-[80px] sm:w-[150px] h-[800px] bg-gradient-to-r from-transparent via-white/80 to-transparent z-50 pointer-events-none"
+                    style={{ marginTop: "-400px", marginLeft: "-40px" }}
+                    initial={{ left: "-150%", top: "250%", rotate: 45, opacity: 0 }}
+                    animate={{ left: "250%", top: "-150%", rotate: 45, opacity: [0, 1, 1, 0] }}
+                    transition={{ duration: 1.0, delay: 2.8, ease: "linear" }}
+                  />
+              </div>
+
+              {/* Right Thread Container */}
+              <div className="flex-grow flex items-center justify-end h-full">
+                 <motion.div
+                    className="h-[2.5px] bg-foreground origin-right"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: 1.0, ease: "linear" }}
+                 />
+              </div>
+            </div>
           </motion.div>
         )}
 
