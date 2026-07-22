@@ -13,7 +13,7 @@ export const Route = createFileRoute("/founders")({
   head: () => ({
     meta: [
       { title: "Our Leadership & Founders — Maisone Global" },
-      { name: "description", content: "Meet Shashank Jain and Subha Arora, the Co-Founders behind Maisone Global's sourcing network." }
+      { name: "description", content: "Meet Shashank Jain and Subah Arora, the Co-Founders behind Maisone Global's sourcing network." }
     ],
   }),
   component: FoundersPage,
@@ -32,7 +32,7 @@ function FoundersPage() {
       image: shashankImg
     },
     {
-      name: "Subha Arora",
+      name: "Subah Arora",
       role: t("founders.coFounder"),
       roleDetail: t("foundersPageRoute.subahRoleDetail"),
       quote: t("foundersPageRoute.subahQuote"),
@@ -110,7 +110,7 @@ function FoundersPage() {
               </p>
             </div>
             <div className="pt-4 border-t border-white/5 flex gap-4 text-xs font-semibold text-muted-foreground">
-              <span>— Shashank Jain & Subha Arora</span>
+              <span>— Shashank Jain & Subah Arora</span>
             </div>
           </section>
         </main>

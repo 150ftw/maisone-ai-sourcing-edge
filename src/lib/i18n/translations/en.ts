@@ -535,7 +535,7 @@ export const en = {
     shashankBio: "Shashank brings over 18 years of expertise in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing. Throughout his career, he has collaborated with premier global design houses including Valentino, Balmain, Stella McCartney, Giorgio Armani, and Dolce & Gabbana. At Maisone, he directs global operations and maps sustainable supply loops.",
     subahQuote: "Fashion is a dialogue between creative vision and technical execution. Maisone translates that dialogue into transparent, beautifully crafted collections.",
     subahRoleDetail: "Creative & Client Partnerships",
-    subahBio: "Subha Arora specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
+    subahBio: "Subah Arora specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers. Her expertise ensures that creative design concepts are executed with absolute technical precision and material integrity.",
   },
 
   // ── Blogs Section ──

@@ -446,7 +446,7 @@ export const fr = {
     shashankBio: "Shashank apporte plus de 18 ans d'expertise dans le sourcing de mode de luxe, l'ingénierie textile et la gestion de la chaîne d'approvisionnement mondiale. Tout au long de sa carrière, il a collaboré avec des maisons de mode internationales emblématiques comme Valentino, Balmain, Stella McCartney, Giorgio Armani et Dolce & Gabbana. Chez Maisone, il dirige les opérations mondiales et cartographie les boucles d'approvisionnement durables.",
     subahQuote: "La mode est un dialogue entre la vision créative et l'exécution technique. Maisone traduit ce dialogue en collections transparentes et superbement conçues.",
     subahRoleDetail: "Partenariats Créatifs et Clients",
-    subahBio: "Subha Arora est spécialisée dans la coordination du design, le développement de produits de luxe, l'engagement client et les collaborations créatives. Elle fait le lien entre les maisons de design internationales et les fabricants spécialisés. Son expertise garantit que les concepts créatifs sont exécutés avec une précision technique absolue et une intégrité matérielle totale.",
+    subahBio: "Subah Arora est spécialisée dans la coordination du design, le développement de produits de luxe, l'engagement client et les collaborations créatives. Elle fait le lien entre les maisons de design internationales et les fabricants spécialisés. Son expertise garantit que les concepts créatifs sont exécutés avec une précision technique absolue et une intégrité matérielle totale.",
   },
 
   // ── Blogs Section ──

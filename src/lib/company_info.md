@@ -107,7 +107,7 @@ Maisone-verified factories support the following compliance standards across its
 *   **Shashank Jain (Co-Founder · Operations & Strategy)**
     *   *Experience:* 18+ years of experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.
     *   *Past Brands Worked With:* Valentino, Balmain, Stella McCartney, Giorgio Armani, Dolce & Gabbana.
-*   **Subha Arora (Co-Founder · Creative & Client Partnerships)**
+*   **Subah Arora (Co-Founder · Creative & Client Partnerships)**
     *   *Specialization:* Design coordination, luxury product development, client engagement, and creative collaboration between brands and manufacturers.
 
 ---
