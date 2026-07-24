@@ -33,7 +33,7 @@ export function Loader() {
       } catch (e) {
         console.error(e);
       }
-    }, 8550);
+    }, 6000);
 
     return () => {
       clearTimeout(t1);
@@ -115,36 +115,7 @@ export function Loader() {
                  />
               </div>
 
-              {/* Text */}
-              <div className="relative flex-shrink-0 flex items-center px-1 overflow-hidden">
-                  <motion.div
-                    initial={{ clipPath: "inset(0 100% 0 0)" }}
-                    animate={{ clipPath: "inset(0 0% 0 0)" }}
-                    transition={{ duration: 1.8, delay: 1.0, ease: "linear" }}
-                  >
-                    <h2 className="text-4xl sm:text-6xl font-serif italic text-foreground whitespace-nowrap">
-                      Maisone&nbsp;
-                    </h2>
-                  </motion.div>
-                  <motion.div
-                    initial={{ clipPath: "inset(0 0 0 100%)" }}
-                    animate={{ clipPath: "inset(0 0 0 0%)" }}
-                    transition={{ duration: 1.8, delay: 1.0, ease: "linear" }}
-                  >
-                    <h2 className="text-4xl sm:text-6xl font-serif italic text-foreground whitespace-nowrap">
-                      Global
-                    </h2>
-                  </motion.div>
 
-                  {/* Diagonal Shine Sweep (Bottom-Left to Top-Right) */}
-                  <motion.div 
-                    className="absolute w-[80px] sm:w-[150px] h-[800px] bg-gradient-to-r from-transparent via-white/80 to-transparent z-50 pointer-events-none"
-                    style={{ marginTop: "-400px", marginLeft: "-40px" }}
-                    initial={{ left: "-150%", top: "250%", rotate: 45, opacity: 0 }}
-                    animate={{ left: "250%", top: "-150%", rotate: 45, opacity: [0, 1, 1, 0] }}
-                    transition={{ duration: 1.0, delay: 2.8, ease: "linear" }}
-                  />
-              </div>
 
               {/* Right Thread Container */}
               <div className="flex-grow flex items-center justify-end h-full">

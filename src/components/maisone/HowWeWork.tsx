@@ -11,21 +11,25 @@ export function HowWeWork() {
     {
       n: "01",
       title: t("howWeWork.phase1Title"),
+      desc: t("howWeWork.phase1Desc"),
       points: tArray("howWeWork.phase1Points") || []
     },
     {
       n: "02",
       title: t("howWeWork.phase2Title"),
+      desc: t("howWeWork.phase2Desc"),
       points: tArray("howWeWork.phase2Points") || []
     },
     {
       n: "03",
       title: t("howWeWork.phase3Title"),
+      desc: t("howWeWork.phase3Desc"),
       points: tArray("howWeWork.phase3Points") || []
     },
     {
       n: "04",
       title: t("howWeWork.phase4Title"),
+      desc: t("howWeWork.phase4Desc"),
       points: tArray("howWeWork.phase4Points") || []
     }
   ];
@@ -131,9 +135,14 @@ export function HowWeWork() {
                   {/* Subtle top-left glow on hover */}
                   <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-                  <h3 className="font-serif text-lg leading-snug text-foreground mb-3 relative z-10 text-center lg:text-left">{p.title}</h3>
+                  {/* Text Content Group */}
+                  <div className="relative z-10 flex flex-col">
+                    <h3 className="font-serif text-lg leading-snug text-foreground mb-3 text-center lg:text-left lg:min-h-[3.5rem]">{p.title}</h3>
+                    <p className="text-sm text-muted-foreground text-center lg:text-left line-clamp-3">{p.desc}</p>
+                  </div>
                   
-                  <div className="mt-4 flex items-center justify-center lg:justify-start gap-2 text-electric text-xs font-semibold uppercase tracking-wider group-hover:text-electric/80 transition-colors">
+                  {/* Button pushed to bottom */}
+                  <div className="mt-auto pt-6 flex items-center justify-center lg:justify-start gap-2 text-electric text-xs font-semibold uppercase tracking-wider group-hover:text-electric/80 transition-colors relative z-10">
                     View Details <ArrowRight className="size-3" />
                   </div>
 
