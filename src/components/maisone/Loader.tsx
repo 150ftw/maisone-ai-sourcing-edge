@@ -33,7 +33,7 @@ export function Loader() {
       } catch (e) {
         console.error(e);
       }
-    }, 6000);
+    }, 7500);
 
     return () => {
       clearTimeout(t1);
@@ -78,32 +78,25 @@ export function Loader() {
             className="absolute inset-0 z-[105] pointer-events-none overflow-hidden"
             exit={{ opacity: 0, transition: { duration: 0.3 } }}
           >
-            {/* Left Machine */}
+            {/* Left Machine (Moving) */}
             <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="absolute left-0 top-1/2 -translate-y-[69%] z-30"
+              initial={{ left: "0%", opacity: 0 }}
+              animate={{ left: "100%", opacity: 1 }}
+              transition={{ 
+                left: { duration: 2.5, ease: "linear" },
+                opacity: { duration: 0.2 }
+              }}
+              className="absolute top-1/2 -translate-y-[69%] z-30 -translate-x-[80%]"
             >
               <motion.div animate={{ x: [-2, 2, -2] }} transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}>
                 <img src="/sewing-machine.png" alt="Sewing Machine" className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert" />
               </motion.div>
             </motion.div>
 
-            {/* Right Machine */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="absolute right-0 top-1/2 -translate-y-[69%] z-30"
-            >
-              <motion.div animate={{ x: [-2, 2, -2] }} transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}>
-                <img src="/sewing-machine.png" alt="Sewing Machine" className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert" style={{ transform: 'scaleX(-1)' }} />
-              </motion.div>
-            </motion.div>
+
 
             {/* Sewing flex row for perfect alignment */}
-            <div className="absolute w-full top-1/2 -translate-y-1/2 flex items-center px-[5%] sm:px-[10%] z-40">
+            <div className="absolute w-full top-1/2 -translate-y-1/2 flex items-center z-40">
               
               {/* Left to Right Thread Container */}
               <div className="flex-grow flex items-center justify-start h-full">
@@ -111,7 +104,7 @@ export function Loader() {
                     className="h-[2.5px] bg-foreground origin-left"
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
-                    transition={{ duration: 1.0, ease: "linear" }}
+                    transition={{ duration: 2.5, ease: "linear" }}
                  />
               </div>
             </div>

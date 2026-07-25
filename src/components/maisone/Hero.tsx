@@ -370,12 +370,25 @@ export function Hero() {
                 <div className="flex items-center gap-6 pt-2">
                   <MotionLink
                     to="/book-demo"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-electric hover:bg-[#d4b57e] text-black font-bold text-xs uppercase tracking-widest shadow-lg transition-colors cursor-pointer"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    animate={{ 
+                      boxShadow: [
+                        "0px 4px 14px 0px rgba(212, 181, 126, 0.2)", 
+                        "0px 4px 20px 4px rgba(212, 181, 126, 0.6)", 
+                        "0px 4px 14px 0px rgba(212, 181, 126, 0.2)"
+                      ] 
+                    }}
+                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-electric hover:bg-[#d4b57e] text-black font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer group"
                   >
                     <span>{t("hero.requestLowMoqQuote")}</span>
-                    <ArrowRight className="size-4 stroke-[2.5]" />
+                    <motion.div
+                      animate={{ x: [0, 4, 0] }}
+                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                    >
+                      <ArrowRight className="size-4 stroke-[2.5]" />
+                    </motion.div>
                   </MotionLink>
                 </div>
               </div>
