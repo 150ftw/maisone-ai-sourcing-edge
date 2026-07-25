@@ -132,7 +132,7 @@ Maisone-verified factories support the following compliance standards across its
 
 ### Compliance & Certifications
 *   **Do you work with certified and compliant factories? / Can you source certified factories (BSCI, SEDEX, GOTS, etc.)?**
-    *   Yes, we connect brands with fully certified and ethically compliant factories. Our verified network supports major standards including BSCI, OCS 100, GOTS, GRS, LEED, Sedex, REACH, Intertek, UL Solutions, ISO 9001, SA8000, and SGS (see full master list in Section 5).
+    *   Yes, we connect brands with fully certified and ethically compliant factories. Our verified network supports major standards including BSCI, OCS 100, GOTS, GRS, LEED, Sedex, REACH, Intertek, UL Solutions, ISO 9001, SA8000, and SGS.
 *   **What all compliances does (your leather factory/ knit factory/woven factory) have?**
     *   **Leather Factory:** OEKO-TEX Leather Standard, REACH, AFIRM Group, Evergreen Leather, LWG Gold Rated, SA8000.
     *   **Circular Knits Factory:** BSCI, OCS, GOTS, GRS, LEED.
