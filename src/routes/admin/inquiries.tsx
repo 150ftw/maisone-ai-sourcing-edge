@@ -249,7 +249,7 @@ function InquiriesPage() {
                 <th className="px-4 py-4 w-[5%] text-right">{t("admin.actions")}</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border">
               {[1, 2, 3].map((i) => (
                 <tr key={i} className="animate-pulse">
                   <td className="px-4 py-4 align-top">
@@ -299,7 +299,7 @@ function InquiriesPage() {
                   <th className="px-4 py-4 w-[5%] text-right">{t("admin.actions")}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-border">
                 {requests.map((req) => (
                   <tr key={req.id} className="hover:bg-foreground/[0.01] transition-colors group">
                     {/* Company / Role */}
@@ -347,8 +347,8 @@ function InquiriesPage() {
                               const parsed = JSON.parse(req.message);
                               if (parsed.isExistingClient) {
                                 return (
-                                  <div className="text-xs text-muted-foreground bg-black/20 p-2.5 rounded-xl border border-foreground/5 space-y-1.5 break-words">
-                                    <div className="font-bold text-[#00f2fe] text-[10px] tracking-wide uppercase">Client PO: {parsed.poNumber}</div>
+                                  <div className="text-xs text-muted-foreground bg-foreground/[0.03] p-2.5 rounded-xl border border-foreground/5 space-y-1.5 break-words">
+                                    <div className="font-bold text-cyan-800 dark:text-[#00f2fe] text-[10px] tracking-wide uppercase">Client PO: {parsed.poNumber}</div>
                                     <div className="text-[11px] text-foreground/90">
                                       Samples: <span className="text-foreground font-semibold">{parsed.samplesRequired}</span> • Delivery: <span className="text-foreground font-semibold">{parsed.deliveryDate}</span>
                                     </div>
@@ -359,7 +359,7 @@ function InquiriesPage() {
                             } catch(e) {}
                           }
                           return req.message ? (
-                            <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-foreground/5 break-all">
+                            <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-foreground/[0.03] p-2.5 rounded-xl border border-foreground/5 break-all">
                               {req.message}
                             </p>
                           ) : (
@@ -390,7 +390,7 @@ function InquiriesPage() {
                     <td className="px-4 py-4 align-top text-right">
                       <button
                         onClick={() => deleteRequest(req.id)}
-                        className="p-2 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                        className="p-2 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"
                         title="Delete request"
                       >
                         <Trash2 className="size-4" />
@@ -439,7 +439,7 @@ function InquiriesPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedRequest(null)}
-              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             />
 
             {/* Modal Card */}
@@ -510,7 +510,7 @@ function InquiriesPage() {
                     return (
                       <>
                         <div>
-                          <span className="text-[10px] tracking-[0.2em] bg-[#00f2fe]/10 text-[#00f2fe] border border-[#00f2fe]/20 px-2.5 py-0.5 rounded-full uppercase font-medium">Existing Client PO Request</span>
+                          <span className="text-[10px] tracking-[0.2em] bg-cyan-500/10 dark:bg-[#00f2fe]/10 text-cyan-800 dark:text-[#00f2fe] border border-cyan-500/20 dark:border-[#00f2fe]/20 px-2.5 py-0.5 rounded-full uppercase font-medium">Existing Client PO Request</span>
                         </div>
 
                         <div className="grid grid-cols-3 gap-3">

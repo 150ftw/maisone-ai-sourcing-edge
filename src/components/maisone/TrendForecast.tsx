@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingUp, Sparkles, Activity, Loader2 } from "lucide-react";
+import { TrendingUp, Activity, Loader2 } from "lucide-react";
 import { createServerFn } from "@tanstack/react-start";
 import { supabase } from "@/lib/supabase";
 import { useLanguage } from "@/lib/i18n";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 
 export type Region = "Japan" | "United Kingdom" | "Europe" | "United States" | "India" | "China";
 
@@ -210,8 +211,15 @@ export function TrendForecast() {
   const [region, setRegion] = useState<Region>("Japan");
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [cache, setCache] = useState<Record<string, Forecast>>({});
 
   const fetchForecast = async () => {
+    if (cache[region]) {
+      setForecast(cache[region]);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase
@@ -222,21 +230,31 @@ export function TrendForecast() {
         .limit(1)
         .maybeSingle();
 
+      let resolvedForecast: Forecast | null = null;
       if (error) {
         console.warn("Could not query 'trends' database table:", error.message);
-        setForecast(DEFAULT_DATA[region] || null);
+        resolvedForecast = DEFAULT_DATA[region] || null;
       } else if (data) {
-        setForecast({
+        resolvedForecast = {
           fabrics: typeof data.fabrics === "string" ? JSON.parse(data.fabrics) : data.fabrics,
           colors: typeof data.colors === "string" ? JSON.parse(data.colors) : data.colors,
           silhouettes: typeof data.silhouettes === "string" ? JSON.parse(data.silhouettes) : data.silhouettes,
-        });
+        };
       } else {
-        setForecast(DEFAULT_DATA[region] || null);
+        resolvedForecast = DEFAULT_DATA[region] || null;
+      }
+
+      setForecast(resolvedForecast);
+      if (resolvedForecast) {
+        setCache((prev) => ({ ...prev, [region]: resolvedForecast! }));
       }
     } catch (err) {
       console.warn("Failed to load forecast:", err);
-      setForecast(DEFAULT_DATA[region] || null);
+      const fallback = DEFAULT_DATA[region] || null;
+      setForecast(fallback);
+      if (fallback) {
+        setCache((prev) => ({ ...prev, [region]: fallback }));
+      }
     } finally {
       setLoading(false);
     }
@@ -276,10 +294,86 @@ export function TrendForecast() {
         </div>
 
         {loading ? (
-          <div className="h-[400px] flex items-center justify-center rounded-3xl border border-white/5 glass bg-white/[0.01]">
-            <div className="flex flex-col items-center gap-3">
-              <Loader2 className="size-8 animate-spin text-electric" />
-              <p className="text-xs text-muted-foreground">{t("trendForecast.loadingText")}</p>
+          <div className="grid lg:grid-cols-3 gap-5">
+            {/* Fabrics Skeleton */}
+            <div className="glass-strong rounded-3xl p-5 animate-pulse">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
+                    <Activity className="size-3.5 text-muted-foreground/30" />
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelFabrics")}</p>
+                </div>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+              </div>
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="flex justify-between">
+                      <div className="h-4 w-24 bg-foreground/5 rounded" />
+                      <div className="h-3 w-6 bg-foreground/5 rounded" />
+                    </div>
+                    <div className="h-1.5 rounded-full bg-foreground/5" />
+                    <div className="h-3 w-32 bg-foreground/5 rounded opacity-60" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Colors Skeleton */}
+            <div className="glass-strong rounded-3xl p-5 animate-pulse">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
+                    <RobotSparkIcon className="size-3.5 text-muted-foreground/30" />
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelColors")}</p>
+                </div>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+              </div>
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center gap-3 rounded-xl p-2.5 glass border border-border/40">
+                    <div className="size-10 rounded-lg bg-foreground/5 shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="flex justify-between items-center">
+                        <div className="h-4 w-20 bg-foreground/5 rounded" />
+                        <div className="h-3 w-6 bg-foreground/5 rounded" />
+                      </div>
+                      <div className="h-3 w-28 bg-foreground/5 rounded opacity-60" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Silhouettes Skeleton */}
+            <div className="glass-strong rounded-3xl p-5 animate-pulse">
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
+                    <TrendingUp className="size-3.5 text-muted-foreground/30" />
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelSilhouettes")}</p>
+                </div>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+              </div>
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="rounded-xl p-3 glass border border-border/40 space-y-2">
+                    <div className="flex justify-between items-center">
+                      <div className="h-4 w-24 bg-foreground/5 rounded" />
+                      <div className="h-3 w-6 bg-foreground/5 rounded" />
+                    </div>
+                    <div className="h-1 rounded-full bg-foreground/5" />
+                    <div className="h-3 w-20 bg-foreground/5 rounded opacity-60" />
+                  </div>
+                ))}
+                <div className="mt-4 pt-4 border-t border-border/40 flex items-center justify-between">
+                  <div className="h-3 w-24 bg-foreground/5 rounded" />
+                  <div className="h-3 w-16 bg-foreground/5 rounded" />
+                </div>
+              </div>
             </div>
           </div>
         ) : forecast ? (
@@ -317,7 +411,7 @@ export function TrendForecast() {
             </Panel>
 
             {/* Colors */}
-            <Panel title={t("trendForecast.panelColors")} icon={Sparkles}>
+            <Panel title={t("trendForecast.panelColors")} icon={RobotSparkIcon}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={region + "-colors"}

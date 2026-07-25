@@ -282,7 +282,7 @@ export function Blogs() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="text-[9px] uppercase tracking-widest font-semibold bg-black/85 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full text-electric">
+                      <span className="text-[9px] uppercase tracking-widest font-semibold bg-white/90 dark:bg-black/85 backdrop-blur-sm border border-black/5 dark:border-white/10 px-3 py-1 rounded-full text-electric">
                         {t(`blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any) || blog.category}
                       </span>
                     </div>

@@ -261,3 +261,24 @@
   background: color-mix(in oklab, var(--foreground) 40%, transparent);
 }
 
+/* Light mode readability enhancement for glass-strong modals */
+:root:not(.dark) .glass-strong input,
+:root:not(.dark) .glass-strong textarea,
+:root:not(.dark) .glass-strong select,
+:root:not(.dark) .glass-strong .custom-select-btn {
+  background-color: #ffffff !important;
+  border-color: rgba(44, 44, 44, 0.18) !important;
+  color: #2c2c2c !important;
+}
+
+:root:not(.dark) .glass-strong input::placeholder,
+:root:not(.dark) .glass-strong textarea::placeholder {
+  color: rgba(155, 142, 125, 0.75) !important;
+  opacity: 1 !important;
+}
+
+:root:not(.dark) .glass-strong label {
+  color: rgba(44, 44, 44, 0.8) !important;
+  font-weight: 600 !important;
+}
+

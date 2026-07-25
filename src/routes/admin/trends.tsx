@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Activity, Sparkles, TrendingUp, Loader2 } from "lucide-react";
+import { Activity, TrendingUp, Loader2 } from "lucide-react";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { generateTrendForecastFn, DEFAULT_DATA } from "@/components/maisone/TrendForecast";
@@ -144,7 +145,7 @@ function TrendsRoute() {
             type="button"
             onClick={handleGenerateAI}
             disabled={generating || loading}
-            className="bg-gradient-to-r from-electric to-violet-glow hover:opacity-95 text-foreground font-semibold text-xs py-2.5 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 shadow-lg shadow-electric/15 disabled:opacity-50 disabled:pointer-events-none"
+            className="bg-gradient-to-r from-electric to-violet-glow hover:opacity-95 text-background font-semibold text-xs py-2.5 px-5 rounded-xl transition-all active:scale-[0.98] cursor-pointer flex items-center gap-2 shadow-lg shadow-electric/15 disabled:opacity-50 disabled:pointer-events-none"
           >
             {generating && <Loader2 className="size-4 animate-spin" />}
             {t("admin.generateAI")}
@@ -232,7 +233,7 @@ function TrendsRoute() {
             <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
               <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
                 <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
-                  <Sparkles className="size-3.5 text-electric" />
+                  <RobotSparkIcon className="size-3.5 text-electric" />
                 </div>
                 <div>
                   <h3 className="text-sm font-semibold">Color Forecast</h3>

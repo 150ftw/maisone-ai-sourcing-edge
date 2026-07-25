@@ -28,7 +28,7 @@ export function SettingsMenu() {
         onClick={() => setSettingsOpen(!settingsOpen)}
         aria-label="Preferences"
         className={`size-11 rounded-full flex items-center justify-center transition-all border border-border shadow-lg ${
-          settingsOpen ? "bg-electric text-black scale-105" : "glass-strong text-foreground hover:bg-foreground/10"
+          settingsOpen ? "bg-foreground text-background dark:bg-electric dark:text-black scale-105" : "glass-strong text-foreground hover:bg-foreground/10"
         }`}
       >
         <Info className="size-5" />

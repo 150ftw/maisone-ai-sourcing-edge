@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Briefcase, Store, FileText, MessageSquare, BarChart3, Truck, Sparkles, Upload } from "lucide-react";
+import { Briefcase, Store, FileText, MessageSquare, BarChart3, Truck, Upload } from "lucide-react";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 
 function MiniBars({ data }: { data: number[] }) {
   return (
@@ -96,7 +97,7 @@ export function Portals() {
                     <p className="text-[10px] text-emerald-400 mt-2">Customs · ETA Mar 16</p>
                   </div>
                   <div className="rounded-xl bg-background border border-border p-4">
-                    <p className="text-xs font-medium flex items-center gap-2 mb-2"><Sparkles className="size-3 text-electric" /> AI Recommendations</p>
+                    <p className="text-xs font-medium flex items-center gap-2 mb-2"><RobotSparkIcon className="size-3.5 text-electric" /> AI Recommendations</p>
                     <ul className="space-y-1 text-[11px] text-muted-foreground">
                       <li>· Switch denim to Osaka Mill #042</li>
                       <li>· Pre-book Milan silk for Q3</li>

@@ -188,10 +188,10 @@ export function Overview({ query, data, hideShipments, metrics }: {
           { label: t("dashboard.avgLeadTime"), value: metrics ? metrics.avgLeadTime : "27d", delta: "-3.1d", up: true },
           { label: t("dashboard.onTimeRate"), value: metrics ? metrics.onTimeRate : "94.7%", delta: "+1.8%", up: true },
         ].map((k) => (
-          <div key={k.label} className="rounded-xl p-4 bg-background border border-border">
+          <div key={k.label} className="rounded-xl p-4 bg-card border border-border">
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{k.label}</p>
             <p className="text-2xl font-semibold mt-1 tabular-nums">{k.value}</p>
-            <div className={`mt-1 inline-flex items-center gap-1 text-[11px] ${k.up ? "text-emerald-400" : "text-red-400"}`}>
+            <div className={`mt-1 inline-flex items-center gap-1 text-[11px] ${k.up ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}`}>
               {k.up ? <ArrowUpRight className="size-3" /> : <ArrowDownRight className="size-3" />}
               {k.delta}
             </div>
@@ -200,7 +200,7 @@ export function Overview({ query, data, hideShipments, metrics }: {
       </div>
 
       <div className="grid grid-cols-1 gap-3">
-        <div className="rounded-xl p-5 bg-background border border-border">
+        <div className="rounded-xl p-5 bg-card border border-border">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm font-medium">{t("dashboard.sourcingVolume")}</p>
@@ -355,7 +355,7 @@ export function Suppliers({
         <span className="text-[11px] text-muted-foreground">{filtered.length} {t("dashboard.verifiedSuppliers")}</span>
       </div>
 
-      <div className="rounded-xl bg-background border border-border overflow-hidden">
+      <div className="rounded-xl bg-card border border-border overflow-hidden">
         <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
           <span className="col-span-2">ID</span>
           <span className="col-span-3">{t("dashboard.tabSuppliers")}</span>
@@ -382,7 +382,7 @@ export function Suppliers({
                   }`}
                 >
                   <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
-                  <span className="col-span-3 font-medium text-white">{s.name}</span>
+                  <span className="col-span-3 font-medium text-foreground">{s.name}</span>
                   <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5">
                     <MapPin className="size-3" /> {s.city}
                   </span>
@@ -390,7 +390,7 @@ export function Suppliers({
                     <span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span>
                   </span>
                   <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
-                  <span className="col-span-1 text-right tabular-nums text-emerald-400">{s.otd}%</span>
+                  <span className="col-span-1 text-right tabular-nums text-emerald-600 dark:text-emerald-400">{s.otd}%</span>
                   <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
                 </motion.div>
 
@@ -422,7 +422,7 @@ export function Suppliers({
                                 </div>
                                 <div className="space-y-1">
                                   <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.ownerDetails")}</span>
-                                  <span className="text-white font-medium block text-[13px]">{ownerText}</span>
+                                  <span className="text-foreground font-medium block text-[13px]">{ownerText}</span>
                                 </div>
                               </div>
                               <div className="flex gap-3.5">
@@ -431,7 +431,7 @@ export function Suppliers({
                                 </div>
                                 <div className="space-y-1">
                                   <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.contactNo")}</span>
-                                  <span className="text-white font-medium block text-[13px]">{s.contact_no || "—"}</span>
+                                  <span className="text-foreground font-medium block text-[13px]">{s.contact_no || "—"}</span>
                                 </div>
                               </div>
                               <div className="flex gap-3.5">
@@ -461,26 +461,26 @@ export function Suppliers({
                               {parsedDetails ? (
                                 <div className="space-y-2">
                                   <div>
-                                    <span className="text-muted-foreground font-medium">Clientele:</span> <span className="text-white ml-1">{parsedDetails.clientele || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">Clientele:</span> <span className="text-foreground ml-1">{parsedDetails.clientele || "—"}</span>
                                   </div>
                                   <div>
-                                    <span className="text-muted-foreground font-medium">Fabrics:</span> <span className="text-white ml-1">{parsedDetails.fabrics || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">Fabrics:</span> <span className="text-foreground ml-1">{parsedDetails.fabrics || "—"}</span>
                                   </div>
                                   <div>
-                                    <span className="text-muted-foreground font-medium">Capabilities:</span> <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.capabilities || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">Capabilities:</span> <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.capabilities || "—"}</span>
                                   </div>
                                   <div className="grid grid-cols-2 gap-2 pt-1">
                                     <div>
                                       <span className="text-muted-foreground font-medium block">Monthly Capacity</span>
-                                      <span className="text-white font-medium">{parsedDetails.productionCapacity || "—"}</span>
+                                      <span className="text-foreground font-medium">{parsedDetails.productionCapacity || "—"}</span>
                                     </div>
                                     <div>
                                       <span className="text-muted-foreground font-medium block">Sampling Lead</span>
-                                      <span className="text-white font-medium">{parsedDetails.samplingLeadTime || "—"}</span>
+                                      <span className="text-foreground font-medium">{parsedDetails.samplingLeadTime || "—"}</span>
                                     </div>
                                   </div>
                                   <div>
-                                    <span className="text-muted-foreground font-medium">MOQ:</span> <span className="text-white ml-1">{parsedDetails.moq || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">MOQ:</span> <span className="text-foreground ml-1">{parsedDetails.moq || "—"}</span>
                                   </div>
                                 </div>
                               ) : (
@@ -495,21 +495,21 @@ export function Suppliers({
                                 <div className="space-y-2">
                                   <div>
                                     <span className="text-muted-foreground font-medium block">Quality Control</span>
-                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
+                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
                                   </div>
                                   <div>
-                                    <span className="text-muted-foreground font-medium">Certifications:</span> <span className="text-white ml-1">{parsedDetails.certifications || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">Certifications:</span> <span className="text-foreground ml-1">{parsedDetails.certifications || "—"}</span>
                                   </div>
                                   <div>
                                     <span className="text-muted-foreground font-medium block">Sustainability</span>
-                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.sustainability || "—"}</span>
+                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.sustainability || "—"}</span>
                                   </div>
                                   <div>
                                     <span className="text-muted-foreground font-medium block">Compliance & Labor</span>
-                                    <span className="text-white block mt-0.5 leading-relaxed">{parsedDetails.compliance || "—"}</span>
+                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.compliance || "—"}</span>
                                   </div>
                                   <div>
-                                    <span className="text-muted-foreground font-medium">Payment Terms:</span> <span className="text-white ml-1">{parsedDetails.paymentTerms || "—"}</span>
+                                    <span className="text-muted-foreground font-medium">Payment Terms:</span> <span className="text-foreground ml-1">{parsedDetails.paymentTerms || "—"}</span>
                                   </div>
                                 </div>
                               ) : (
@@ -529,9 +529,9 @@ export function Suppliers({
                                 e.stopPropagation();
                                 onEdit(s);
                               }}
-                              className="px-4 py-2 rounded-xl border border-white/10 hover:border-electric/50 hover:bg-electric/5 transition-all text-white font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                              className="px-4 py-2 rounded-xl border border-foreground/15 hover:border-electric/50 hover:bg-electric/5 transition-all text-foreground hover:text-foreground font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
                             >
-                              <Pencil className="size-3.5 text-muted-foreground group-hover:text-white" /> {t("dashboard.editDetails")}
+                              <Pencil className="size-3.5 text-muted-foreground group-hover:text-foreground" /> {t("dashboard.editDetails")}
                             </button>
                           )}
                           {onDelete && (
@@ -646,7 +646,7 @@ export function Shipments({ query, onSelect, data }: { query: string; onSelect?:
           </button>
         ))}
       </div>
-      <div className="rounded-xl bg-background border border-border overflow-hidden">
+      <div className="rounded-xl bg-card border border-border overflow-hidden">
         <div className="grid grid-cols-12 gap-4 px-5 py-2.5 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground bg-white/[0.01]">
           <span className="col-span-2">ID</span>
           <span className="col-span-4">Route / Cargo</span>
@@ -672,7 +672,7 @@ export function Shipments({ query, onSelect, data }: { query: string; onSelect?:
                   transition={{ duration: 0.8 }}
                 />
               </div>
-              <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-400" : s.status === "Customs" ? "text-amber-400" : "text-electric"}`}>{s.status}</span>
+              <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-600 dark:text-emerald-400" : s.status === "Customs" ? "text-amber-600 dark:text-amber-400" : "text-electric"}`}>{s.status}</span>
             </div>
           ))}
           {paginated.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
@@ -761,7 +761,7 @@ export function Inventory({ data }: { data?: any[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl bg-background border border-border overflow-hidden">
+      <div className="rounded-xl bg-card border border-border overflow-hidden">
         <div className="px-5 py-3 border-b border-border text-sm font-medium">{t("dashboard.inventoryLevels")}</div>
         <div className="grid grid-cols-12 gap-4 px-5 py-2 border-b border-border bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
           <div className="col-span-2">SKU</div>
@@ -777,7 +777,7 @@ export function Inventory({ data }: { data?: any[] }) {
                 <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
                 <span className="col-span-5">{i.name}</span>
                 <span className="col-span-3 tabular-nums">{i.stock.toLocaleString()} u</span>
-                <span className={`col-span-2 text-right text-[11px] ${low ? "text-amber-400" : "text-emerald-400"}`}>{low ? t("dashboard.reorder") : t("dashboard.healthy")}</span>
+                <span className={`col-span-2 text-right text-[11px] ${low ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400"}`}>{low ? t("dashboard.reorder") : t("dashboard.healthy")}</span>
               </div>
             );
           })}

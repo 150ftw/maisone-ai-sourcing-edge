@@ -219,7 +219,7 @@ function SupplierRequestsPage() {
                 <th className="px-4 py-4 w-[5%] text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border">
               {[1, 2, 3].map((i) => (
                 <tr key={i} className="animate-pulse">
                   <td className="px-4 py-4 align-top"><div className="h-4 bg-foreground/5 rounded w-28 mb-2" /></td>
@@ -251,7 +251,7 @@ function SupplierRequestsPage() {
                   <th className="px-4 py-4 w-[5%] text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className="divide-y divide-border">
                 {requests.map((req) => (
                   <tr key={req.id} className="hover:bg-foreground/[0.01] transition-colors group">
                     <td className="px-4 py-4 align-top">
@@ -286,7 +286,7 @@ function SupplierRequestsPage() {
                     <td className="px-4 py-4 align-top max-w-xs">
                       <div className="space-y-1">
                         {req.message ? (
-                          <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-black/20 p-2.5 rounded-xl border border-foreground/5 break-all">
+                          <p className="text-xs text-muted-foreground line-clamp-3 whitespace-pre-line bg-foreground/[0.03] p-2.5 rounded-xl border border-foreground/5 break-all">
                             {req.message}
                           </p>
                         ) : (
@@ -315,7 +315,7 @@ function SupplierRequestsPage() {
                     <td className="px-4 py-4 align-top text-right">
                       <button
                         onClick={() => deleteRequest(req.id)}
-                        className="p-2 text-muted-foreground hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer"
+                        className="p-2 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"
                       >
                         <Trash2 className="size-4" />
                       </button>
@@ -360,7 +360,7 @@ function SupplierRequestsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedRequest(null)}
-              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             />
 
             <motion.div

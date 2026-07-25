@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Sparkles, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
 import { supabase } from "@/lib/supabase";
@@ -214,7 +215,7 @@ function BookDemoPage() {
           {/* Left intro */}
           <aside className="lg:col-span-2 space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[10px] tracking-[0.25em] uppercase text-muted-foreground">
-              <Sparkles className="size-3 text-electric animate-pulse" /> {isPreFilled ? "ORDER REQUEST" : t("bookDemo.pageTitle")}
+              <RobotSparkIcon className="size-3.5 text-electric animate-pulse" /> {isPreFilled ? "ORDER REQUEST" : t("bookDemo.pageTitle")}
             </div>
             <h1 className="font-serif text-4xl sm:text-5xl tracking-tight text-balance">
               {isPreFilled ? "Submit Order Request" : t("bookDemo.pageTitle")} <span className="italic gradient-text">Maisone</span>.

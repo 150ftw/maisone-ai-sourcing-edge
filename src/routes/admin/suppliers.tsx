@@ -307,7 +307,7 @@ function SuppliersRoute() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
@@ -641,7 +641,7 @@ function SuppliersRoute() {
 
                 <button
                   type="submit"
-                  className="w-full mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-black font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
+                  className="w-full mt-4 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-foreground hover:bg-foreground/90 text-background font-semibold text-xs transition-all active:scale-[0.98] cursor-pointer"
                 >
                   {editingSupplier ? "Update Supplier" : "Save Supplier"}
                 </button>
