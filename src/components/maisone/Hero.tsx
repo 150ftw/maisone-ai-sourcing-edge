@@ -370,7 +370,12 @@ export function Hero() {
                 <div className="flex items-center gap-6 pt-2">
                   <MotionLink
                     to="/book-demo"
-                    whileHover={{ scale: 1.08 }}
+                    whileHover={{ 
+                      scale: 1.08,
+                      boxShadow: isDark 
+                        ? "0px 0px 40px 15px rgba(212, 181, 126, 1)"
+                        : "0px 0px 40px 15px rgba(212, 181, 126, 0.8)"
+                    }}
                     whileTap={{ scale: 0.95 }}
                     animate={{ 
                       scale: [1, 1.04, 1],
@@ -387,7 +392,7 @@ export function Hero() {
                           ]
                     }}
                     transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-electric hover:bg-[#d4b57e] text-black font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer group relative overflow-visible z-10"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#d4b57e] hover:bg-[#e0c087] text-black font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer group relative overflow-visible z-10"
                   >
                     <span>{t("hero.requestLowMoqQuote")}</span>
                     <motion.div
