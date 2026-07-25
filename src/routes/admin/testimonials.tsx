@@ -198,7 +198,7 @@ function AdminTestimonialsPage() {
         </div>
         <button
           onClick={openAddModal}
-          className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          className="bg-foreground text-background font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> {t("admin.addTestimonial")}
         </button>

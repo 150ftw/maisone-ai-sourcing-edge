@@ -210,13 +210,13 @@ function InquiriesPage() {
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="w-full rounded-xl bg-[#07070a] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-foreground"
+            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-foreground"
           >
-            <option value="All" className="bg-[#0f0f12]">All Statuses</option>
-            <option value="Pending" className="bg-[#0f0f12]">Pending</option>
-            <option value="Contacted" className="bg-[#0f0f12]">Contacted</option>
-            <option value="Completed" className="bg-[#0f0f12]">Completed</option>
-            <option value="Archived" className="bg-[#0f0f12]">Archived</option>
+            <option value="All" className="bg-background">All Statuses</option>
+            <option value="Pending" className="bg-background">Pending</option>
+            <option value="Contacted" className="bg-background">Contacted</option>
+            <option value="Completed" className="bg-background">Completed</option>
+            <option value="Archived" className="bg-background">Archived</option>
           </select>
         </div>
 

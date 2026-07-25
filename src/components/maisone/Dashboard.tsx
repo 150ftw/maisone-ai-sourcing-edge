@@ -136,7 +136,17 @@ export function Dashboard() {
   );
 }
 
-export function Overview({ query, data, hideShipments }: { query: string; data?: any[]; hideShipments?: boolean }) {
+export function Overview({ query, data, hideShipments, metrics }: { 
+  query: string; 
+  data?: any[]; 
+  hideShipments?: boolean;
+  metrics?: {
+    activeSuppliers: string | number;
+    openPos: string | number;
+    avgLeadTime: string | number;
+    onTimeRate: string | number;
+  };
+}) {
   const { t } = useLanguage();
   const [shipmentsList, setShipmentsList] = useState(() => {
     if (typeof window !== "undefined") {
@@ -173,10 +183,10 @@ export function Overview({ query, data, hideShipments }: { query: string; data?:
     <>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { label: t("dashboard.activeSuppliers"), value: "2,418", delta: "+12.6%", up: true },
-          { label: t("dashboard.openPos"), value: "184", delta: "+4.2%", up: true },
-          { label: t("dashboard.avgLeadTime"), value: "27d", delta: "-3.1d", up: true },
-          { label: t("dashboard.onTimeRate"), value: "94.7%", delta: "+1.8%", up: true },
+          { label: t("dashboard.activeSuppliers"), value: metrics ? metrics.activeSuppliers : "2,418", delta: "+12.6%", up: true },
+          { label: t("dashboard.openPos"), value: metrics ? metrics.openPos : "184", delta: "+4.2%", up: true },
+          { label: t("dashboard.avgLeadTime"), value: metrics ? metrics.avgLeadTime : "27d", delta: "-3.1d", up: true },
+          { label: t("dashboard.onTimeRate"), value: metrics ? metrics.onTimeRate : "94.7%", delta: "+1.8%", up: true },
         ].map((k) => (
           <div key={k.label} className="rounded-xl p-4 bg-background border border-border">
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{k.label}</p>

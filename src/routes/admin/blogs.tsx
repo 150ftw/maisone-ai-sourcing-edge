@@ -214,7 +214,7 @@ function AdminBlogsPage() {
         </div>
         <button
           onClick={openAddModal}
-          className="bg-foreground text-black font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+          className="bg-foreground text-background font-semibold text-xs py-2.5 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
         >
           <Plus className="size-4" /> {t("admin.addBlogPost")}
         </button>
@@ -345,10 +345,10 @@ function AdminBlogsPage() {
                     <select
                       value={category}
                       onChange={e => setCategory(e.target.value)}
-                      className="w-full rounded-xl bg-[#0f0f12] border border-foreground/10 px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground cursor-pointer"
+                      className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 px-4 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-electric text-foreground cursor-pointer"
                     >
                       {categories.map(c => (
-                        <option key={c} value={c} className="bg-[#0f0f12]">{c}</option>
+                        <option key={c} value={c} className="bg-background">{c}</option>
                       ))}
                     </select>
                   </div>

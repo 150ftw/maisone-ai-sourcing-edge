@@ -31,7 +31,7 @@ function PrivacyPage() {
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-4">{t("privacyPage.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-5xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-5xl text-foreground tracking-tight leading-tight">
               {t("privacyPage.heading")} <span className="italic gradient-text font-serif">{t("privacyPage.headingHighlight")}</span>{t("privacyPage.headingEnd")}
             </h1>
             <p className="text-xs text-muted-foreground mt-2">{t("privacyPage.lastUpdated")}</p>
@@ -41,7 +41,7 @@ function PrivacyPage() {
           <div className="glass-strong rounded-3xl p-8 border border-white/5 space-y-8 text-sm text-muted-foreground/80 leading-relaxed max-w-3xl">
             
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <Eye className="size-4 text-electric" />
                 <h3>{t("privacyPage.sec1Title")}</h3>
               </div>
@@ -51,7 +51,7 @@ function PrivacyPage() {
             </section>
 
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <ShieldCheck className="size-4 text-electric" />
                 <h3>{t("privacyPage.sec2Title")}</h3>
               </div>
@@ -67,7 +67,7 @@ function PrivacyPage() {
             </section>
 
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <Key className="size-4 text-electric" />
                 <h3>{t("privacyPage.sec3Title")}</h3>
               </div>

@@ -54,7 +54,7 @@ function FoundersPage() {
               <ArrowLeft className="size-4" /> {t("aboutPage.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric bg-black/50 px-2 py-0.5 rounded w-max">{t("foundersPageRoute.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
               {t("foundersPageRoute.heading")} <span className="italic gradient-text font-serif">{t("foundersPageRoute.headingHighlight")}</span>{t("foundersPageRoute.headingEnd")}
             </h1>
           </div>
@@ -70,14 +70,14 @@ function FoundersPage() {
                     <div className="absolute bottom-4 left-4">
                       <div className="text-[9px] uppercase tracking-widest font-semibold bg-black/85 border border-white/10 px-3 py-1.5 rounded-xl text-electric flex flex-col gap-0.5">
                         <span>{f.role}</span>
-                        <span className="text-white/80 text-[8px] tracking-wider">{f.roleDetail}</span>
+                        <span className="text-foreground/80 text-[8px] tracking-wider">{f.roleDetail}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Name and Quote */}
                   <div className="space-y-3">
-                    <h3 className="font-serif text-2xl text-white">{f.name}</h3>
+                    <h3 className="font-serif text-2xl text-foreground">{f.name}</h3>
                     <div className="pl-3 border-l-2 border-electric/40 text-muted-foreground italic text-xs leading-relaxed font-serif py-1">
                       "{f.quote}"
                     </div>
@@ -98,7 +98,7 @@ function FoundersPage() {
 
           {/* Founders' Manifesto */}
           <section className="glass-strong rounded-3xl p-8 md:p-10 border border-white/5 space-y-6 max-w-3xl">
-            <h2 className="text-white font-serif text-2xl tracking-tight flex items-center gap-2">
+            <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
               <Quote className="size-5 text-electric" /> {t("foundersPageRoute.manifestoTitle")}
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground/90 leading-relaxed italic font-serif">

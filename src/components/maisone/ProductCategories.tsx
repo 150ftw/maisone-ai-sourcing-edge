@@ -315,7 +315,7 @@ export function ProductCategories() {
                                <InteractiveFolderGallery
                                  key={c.name}
                                  photos={c.images.slice(0, 5).map((img, idx) => ({ id: idx, image: img }))}
-                                 folderName={`${c.name}.swatch`}
+                                 folderName={`Maisone.${c.name}`}
                                  dragHintText="Drag down to return"
                                  className="py-0 h-full"
                                />

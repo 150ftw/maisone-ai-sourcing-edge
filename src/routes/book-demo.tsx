@@ -318,7 +318,7 @@ function BookDemoPage() {
                                 value={newExistingCategory}
                                 onChange={(e) => setNewExistingCategory(e.target.value)}
                                 placeholder="Add custom category..."
-                                className="rounded-xl bg-background border border-border px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-electric w-48 text-white"
+                                className="rounded-xl bg-background border border-border px-3.5 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-electric w-48 text-foreground"
                               />
                               <button
                                 type="button"
@@ -353,7 +353,7 @@ function BookDemoPage() {
                                 type="date"
                                 value={deliveryDate}
                                 onChange={(e) => setDeliveryDate(e.target.value)}
-                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-white"
+                                className="mt-2 w-full rounded-xl bg-background border border-border px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-electric text-foreground"
                               />
                             </div>
 
@@ -379,7 +379,7 @@ function BookDemoPage() {
                                 ) : uploadedFile ? (
                                   <div className="flex flex-col items-center gap-2 py-2">
                                     <Check className="size-6 text-emerald-400" />
-                                    <span className="text-xs text-white font-medium break-all text-center">{uploadedFile.name}</span>
+                                    <span className="text-xs text-foreground font-medium break-all text-center">{uploadedFile.name}</span>
                                     <button
                                       type="button"
                                       onClick={() => setUploadedFile(null)}

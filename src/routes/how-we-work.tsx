@@ -31,7 +31,7 @@ function HowWeWorkPage() {
               <ArrowLeft className="size-4" /> {t("aboutPage.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("howWeWorkPage.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
               {t("howWeWorkPage.heading")} <span className="italic gradient-text font-serif">{t("howWeWorkPage.headingHighlight")}</span>{t("howWeWorkPage.headingEnd")}
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-2xl">
@@ -48,7 +48,7 @@ function HowWeWorkPage() {
                 <div className="size-12 rounded-2xl bg-electric/15 border border-electric/25 flex items-center justify-center shrink-0">
                   <FileText className="size-5 text-electric" />
                 </div>
-                <h2 className="font-serif text-2xl text-white">{t("howWeWorkPage.step1Title")}</h2>
+                <h2 className="font-serif text-2xl text-foreground">{t("howWeWorkPage.step1Title")}</h2>
               </div>
               <div className="pl-0 md:pl-16 space-y-3 text-muted-foreground text-sm leading-relaxed">
                 <p>
@@ -66,7 +66,7 @@ function HowWeWorkPage() {
                 <div className="size-12 rounded-2xl bg-electric/15 border border-electric/25 flex items-center justify-center shrink-0">
                   <GitCommit className="size-5 text-electric" />
                 </div>
-                <h2 className="font-serif text-2xl text-white">{t("howWeWorkPage.step2Title")}</h2>
+                <h2 className="font-serif text-2xl text-foreground">{t("howWeWorkPage.step2Title")}</h2>
               </div>
               <div className="pl-0 md:pl-16 space-y-3 text-muted-foreground text-sm leading-relaxed">
                 <p>
@@ -84,7 +84,7 @@ function HowWeWorkPage() {
                 <div className="size-12 rounded-2xl bg-electric/15 border border-electric/25 flex items-center justify-center shrink-0">
                   <Factory className="size-5 text-electric" />
                 </div>
-                <h2 className="font-serif text-2xl text-white">{t("howWeWorkPage.step3Title")}</h2>
+                <h2 className="font-serif text-2xl text-foreground">{t("howWeWorkPage.step3Title")}</h2>
               </div>
               <div className="pl-0 md:pl-16 space-y-3 text-muted-foreground text-sm leading-relaxed">
                 <p>
@@ -102,7 +102,7 @@ function HowWeWorkPage() {
                 <div className="size-12 rounded-2xl bg-electric/15 border border-electric/25 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="size-5 text-electric" />
                 </div>
-                <h2 className="font-serif text-2xl text-white">{t("howWeWorkPage.step4Title")}</h2>
+                <h2 className="font-serif text-2xl text-foreground">{t("howWeWorkPage.step4Title")}</h2>
               </div>
               <div className="pl-0 md:pl-16 space-y-3 text-muted-foreground text-sm leading-relaxed">
                 <p>
@@ -120,7 +120,7 @@ function HowWeWorkPage() {
                 <div className="size-12 rounded-2xl bg-electric/15 border border-electric/25 flex items-center justify-center shrink-0">
                   <Truck className="size-5 text-electric" />
                 </div>
-                <h2 className="font-serif text-2xl text-white">{t("howWeWorkPage.step5Title")}</h2>
+                <h2 className="font-serif text-2xl text-foreground">{t("howWeWorkPage.step5Title")}</h2>
               </div>
               <div className="pl-0 md:pl-16 space-y-3 text-muted-foreground text-sm leading-relaxed">
                 <p>

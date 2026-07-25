@@ -157,7 +157,7 @@ function TrendsRoute() {
                 key={r}
                 type="button"
                 onClick={() => setRegion(r)}
-                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${region === r ? "bg-foreground text-black shadow-md" : "text-muted-foreground hover:text-foreground"
+                className={`text-[10px] font-semibold px-3 py-1.5 rounded-lg transition-all duration-200 cursor-pointer ${region === r ? "bg-foreground text-background shadow-md" : "text-muted-foreground hover:text-foreground"
                   }`}
               >
                 {r}
@@ -367,7 +367,7 @@ function TrendsRoute() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="bg-foreground text-black font-semibold text-xs py-3 px-8 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-md shadow-white/5"
+              className="bg-foreground text-background font-semibold text-xs py-3 px-8 rounded-xl hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 shadow-md shadow-white/5"
             >
               {t("admin.saveForecast")}
             </button>

@@ -39,7 +39,7 @@ function CompliancePage() {
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("compliancePage.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
               {t("compliancePage.heading")} <span className="italic gradient-text font-serif">{t("compliancePage.headingHighlight")}</span>{t("compliancePage.headingEnd")}
             </h1>
           </div>
@@ -48,7 +48,7 @@ function CompliancePage() {
             {/* Auditing Philosophy */}
             <div className="space-y-8 text-sm text-muted-foreground/80 leading-relaxed">
               <div className="space-y-3">
-                <h3 className="font-serif text-2xl text-white flex items-center gap-2">
+                <h3 className="font-serif text-2xl text-foreground flex items-center gap-2">
                   <Clipboard className="size-5 text-electric" /> {t("compliancePage.vettingTitle")}
                 </h3>
                 <p>
@@ -60,7 +60,7 @@ function CompliancePage() {
               </div>
 
               <div className="space-y-3">
-                <h3 className="font-serif text-2xl text-white flex items-center gap-2">
+                <h3 className="font-serif text-2xl text-foreground flex items-center gap-2">
                   <HeartHandshake className="size-5 text-electric" /> {t("compliancePage.aqlTitle")}
                 </h3>
                 <p>
@@ -74,14 +74,14 @@ function CompliancePage() {
 
             {/* Certifications Block */}
             <div className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6">
-              <div className="flex items-center gap-2 text-white">
+              <div className="flex items-center gap-2 text-foreground">
                 <Award className="size-5 text-electric" />
                 <h3 className="font-serif text-xl">{t("compliancePage.approvedCerts")}</h3>
               </div>
               <ul className="space-y-4">
                 {certifications.map((c, idx) => (
                   <li key={idx} className="space-y-1 text-xs">
-                    <h4 className="font-bold text-white flex items-center gap-2">
+                    <h4 className="font-bold text-foreground flex items-center gap-2">
                       <CheckCircle2 className="size-3.5 text-electric shrink-0" />
                       {c.name}
                     </h4>

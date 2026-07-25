@@ -38,14 +38,14 @@ function AboutPage() {
           {/* Heading */}
           <div className="space-y-4">
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("aboutPage.executiveOverview")}</p>
-            <h1 className="font-serif text-4xl sm:text-6xl tracking-tight text-white leading-tight">
+            <h1 className="font-serif text-4xl sm:text-6xl tracking-tight text-foreground leading-tight">
               {t("aboutPage.heading")} <span className="italic gradient-text">{t("aboutPage.headingHighlight")}</span>{t("aboutPage.headingEnd")}
             </h1>
           </div>
 
           {/* Introduction Narrative */}
           <section className="space-y-6 text-muted-foreground/90 leading-relaxed text-sm sm:text-base">
-            <h2 className="text-white font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.paradigmShift")}</h2>
+            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.paradigmShift")}</h2>
             <p>
               {t("aboutPage.paradigmP1")}
             </p>
@@ -56,7 +56,7 @@ function AboutPage() {
 
           {/* History Timeline */}
           <section className="space-y-8">
-            <h2 className="text-white font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.heritageTitle")}</h2>
+            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.heritageTitle")}</h2>
             <div className="space-y-8 pl-4 border-l border-white/5">
               <div className="space-y-2 relative">
                 <span className="absolute -left-[21px] top-1.5 size-2.5 rounded-full bg-electric" />
@@ -88,7 +88,7 @@ function AboutPage() {
               <div className="size-10 rounded-xl bg-electric/15 border border-electric/25 flex items-center justify-center">
                 <Compass className="size-4.5 text-electric" />
               </div>
-              <h3 className="font-serif text-lg text-white">{t("aboutPage.value1Title")}</h3>
+              <h3 className="font-serif text-lg text-foreground">{t("aboutPage.value1Title")}</h3>
               <p className="text-muted-foreground/80 text-xs leading-relaxed">
                 {t("aboutPage.value1Text")}
               </p>
@@ -97,7 +97,7 @@ function AboutPage() {
               <div className="size-10 rounded-xl bg-electric/15 border border-electric/25 flex items-center justify-center">
                 <Shield className="size-4.5 text-electric" />
               </div>
-              <h3 className="font-serif text-lg text-white">{t("aboutPage.value2Title")}</h3>
+              <h3 className="font-serif text-lg text-foreground">{t("aboutPage.value2Title")}</h3>
               <p className="text-muted-foreground/80 text-xs leading-relaxed">
                 {t("aboutPage.value2Text")}
               </p>
@@ -106,7 +106,7 @@ function AboutPage() {
               <div className="size-10 rounded-xl bg-electric/15 border border-electric/25 flex items-center justify-center">
                 <Heart className="size-4.5 text-electric" />
               </div>
-              <h3 className="font-serif text-lg text-white">{t("aboutPage.value3Title")}</h3>
+              <h3 className="font-serif text-lg text-foreground">{t("aboutPage.value3Title")}</h3>
               <p className="text-muted-foreground/80 text-xs leading-relaxed">
                 {t("aboutPage.value3Text")}
               </p>
@@ -115,7 +115,7 @@ function AboutPage() {
 
           {/* Strategic Framework */}
           <section className="space-y-6 text-muted-foreground/90 leading-relaxed text-sm sm:text-base max-w-3xl">
-            <h2 className="text-white font-serif text-2xl tracking-tight flex items-center gap-2">
+            <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
               <Target className="size-5 text-electric" /> {t("aboutPage.frameworkTitle")}
             </h2>
             <p>

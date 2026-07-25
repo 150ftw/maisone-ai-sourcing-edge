@@ -49,7 +49,7 @@ function SustainabilityPage() {
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("sustainabilityPage.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
               {t("sustainabilityPage.heading")} <span className="italic gradient-text font-serif">{t("sustainabilityPage.headingHighlight")}</span>{t("sustainabilityPage.headingEnd")}
             </h1>
           </div>
@@ -64,7 +64,7 @@ function SustainabilityPage() {
                     <div className="size-10 rounded-xl bg-electric/15 border border-electric/25 flex items-center justify-center">
                       <Icon className="size-4.5 text-electric" />
                     </div>
-                    <h3 className="font-serif text-xl text-white">{p.title}</h3>
+                    <h3 className="font-serif text-xl text-foreground">{p.title}</h3>
                     <p className="text-muted-foreground text-xs leading-relaxed font-normal">{p.desc}</p>
                   </div>
                   <div className="pt-2 text-[10px] text-electric font-semibold uppercase tracking-wider">
@@ -77,7 +77,7 @@ function SustainabilityPage() {
 
           {/* Sustainability Framework Details */}
           <section className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6 max-w-3xl">
-            <h2 className="text-white font-serif text-2xl tracking-tight flex items-center gap-2">
+            <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
               <Sparkles className="size-5 text-electric" /> {t("sustainabilityPage.goalsTitle")}
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground/80 leading-relaxed">

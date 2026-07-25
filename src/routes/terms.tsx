@@ -31,7 +31,7 @@ function TermsPage() {
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
             <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-4">{t("termsPage.label")}</p>
-            <h1 className="font-serif text-4xl sm:text-5xl text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-4xl sm:text-5xl text-foreground tracking-tight leading-tight">
               {t("termsPage.heading")} <span className="italic gradient-text font-serif">{t("termsPage.headingHighlight")}</span>{t("termsPage.headingEnd")}
             </h1>
             <p className="text-xs text-muted-foreground mt-2">{t("termsPage.effectiveDate")}</p>
@@ -41,7 +41,7 @@ function TermsPage() {
           <div className="glass-strong rounded-3xl p-8 border border-white/5 space-y-8 text-sm text-muted-foreground/80 leading-relaxed max-w-3xl">
             
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <Scale className="size-4 text-electric" />
                 <h3>{t("termsPage.sec1Title")}</h3>
               </div>
@@ -51,7 +51,7 @@ function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <ShieldAlert className="size-4 text-electric" />
                 <h3>{t("termsPage.sec2Title")}</h3>
               </div>
@@ -61,7 +61,7 @@ function TermsPage() {
             </section>
 
             <section className="space-y-3">
-              <div className="flex gap-2 items-center text-white font-serif text-lg">
+              <div className="flex gap-2 items-center text-foreground font-serif text-lg">
                 <Gavel className="size-4 text-electric" />
                 <h3>{t("termsPage.sec3Title")}</h3>
               </div>

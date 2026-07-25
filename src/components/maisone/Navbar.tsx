@@ -96,10 +96,10 @@ export function Navbar() {
 
               {/* Platform Dropdown */}
               <div className="relative group">
-                <button className="flex items-center gap-1 text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground group-hover:text-black dark:group-hover:text-foreground transition-colors py-2 cursor-pointer">
-                  <span>{t("nav.platform")}</span>
+                <div className="flex items-center gap-1 text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground group-hover:text-black dark:group-hover:text-foreground transition-colors py-2 cursor-pointer">
+                  <a href="/#dashboard" className="outline-none">{t("nav.platform")}</a>
                   <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
-                </button>
+                </div>
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
                   <a
                     href="/#dashboard"
@@ -222,7 +222,7 @@ export function Navbar() {
 
             {/* Mobile Platform Links */}
             <div className="flex flex-col gap-1.5 pl-3 border-l border-border/50 my-1">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60 px-2 py-1">{t("nav.platform")}</p>
+              <a href="/#dashboard" onClick={() => setOpen(false)} className="text-[10px] uppercase tracking-widest text-muted-foreground/60 hover:text-foreground px-2 py-1">{t("nav.platform")}</a>
               <a
                 href="/#dashboard"
                 onClick={() => setOpen(false)}

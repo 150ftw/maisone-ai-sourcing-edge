@@ -105,22 +105,10 @@ export function Loader() {
             {/* Sewing flex row for perfect alignment */}
             <div className="absolute w-full top-1/2 -translate-y-1/2 flex items-center px-[5%] sm:px-[10%] z-40">
               
-              {/* Left Thread Container */}
+              {/* Left to Right Thread Container */}
               <div className="flex-grow flex items-center justify-start h-full">
                  <motion.div
                     className="h-[2.5px] bg-foreground origin-left"
-                    initial={{ width: "0%" }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 1.0, ease: "linear" }}
-                 />
-              </div>
-
-
-
-              {/* Right Thread Container */}
-              <div className="flex-grow flex items-center justify-end h-full">
-                 <motion.div
-                    className="h-[2.5px] bg-foreground origin-right"
                     initial={{ width: "0%" }}
                     animate={{ width: "100%" }}
                     transition={{ duration: 1.0, ease: "linear" }}
@@ -150,16 +138,7 @@ export function Loader() {
             >
               <Logo className="h-72 w-72 relative z-10" showText={false} />
               
-              <div className="mt-8 overflow-hidden">
-                <motion.p 
-                  initial={{ y: "100%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 1.0, delay: 0.2, ease: [0.76, 0, 0.24, 1] }}
-                  className="text-sm sm:text-base uppercase tracking-[0.8em] text-foreground font-medium relative z-10"
-                >
-                  Maisone Global
-                </motion.p>
-              </div>
+              {/* Text Removed as requested */}
 
               {/* Tape Measure Loading Bar */}
               <motion.div 
