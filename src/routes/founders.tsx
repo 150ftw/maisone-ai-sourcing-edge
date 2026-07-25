@@ -68,7 +68,7 @@ function FoundersPage() {
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/5 relative animate-fade-in">
                     <img src={f.image} alt={f.name} className="w-full h-full object-cover object-[center_20%] transition-all duration-500" />
                     <div className="absolute bottom-4 left-4">
-                      <div className="text-[9px] uppercase tracking-widest font-semibold bg-black/85 border border-white/10 px-3 py-1.5 rounded-xl text-electric flex flex-col gap-0.5">
+                      <div className="text-[9px] uppercase tracking-widest font-semibold bg-white/90 dark:bg-black/85 border border-black/5 dark:border-white/10 px-3 py-1.5 rounded-xl text-electric flex flex-col gap-0.5">
                         <span>{f.role}</span>
                         <span className="text-foreground/80 text-[8px] tracking-wider">{f.roleDetail}</span>
                       </div>

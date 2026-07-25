@@ -140,7 +140,7 @@ export function Navbar() {
                   onClick={() => setSettingsOpen(!settingsOpen)}
                   aria-label="Preferences"
                   className={`size-10 rounded-full flex items-center justify-center transition-all shadow-sm ${
-                    settingsOpen ? "bg-electric text-black scale-105" : "glass text-foreground hover:bg-white/10"
+                    settingsOpen ? "bg-foreground text-background dark:bg-electric dark:text-black scale-105" : "glass text-foreground hover:bg-white/10"
                   }`}
                 >
                   <Info className="size-4" />

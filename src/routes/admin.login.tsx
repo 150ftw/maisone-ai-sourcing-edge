@@ -91,7 +91,7 @@ function AdminLoginPage() {
                 <div className="mx-auto size-14 rounded-2xl bg-foreground/5 border border-border flex items-center justify-center mb-5">
                   <UserCircle2 className="size-7 text-muted-foreground" />
                 </div>
-                <h1 className="font-serif text-3xl mb-2 tracking-tight">Atelier Access</h1>
+                <h1 className="font-serif text-3xl mb-2 tracking-tight">Admin Access</h1>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Sign in to manage inquiries and suppliers.
                 </p>

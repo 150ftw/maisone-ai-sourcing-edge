@@ -156,7 +156,7 @@ export function CustomSelect({ value, onChange, options }: { value: string; onCh
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-foreground/[0.02] border border-border hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all text-xs text-foreground cursor-pointer focus:outline-none"
+        className="custom-select-btn w-full flex items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-foreground/[0.02] border border-border hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all text-xs text-foreground cursor-pointer focus:outline-none"
       >
         <span>{value}</span>
         <ChevronDown className={`size-3.5 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
@@ -350,7 +350,7 @@ function AdminPage() {
           <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
 
           {/* Header */}
-          <header className="relative z-50 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0">
+          <header className="relative z-40 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0">
             <div className="flex items-center gap-3">
               <Link to="/"><Logo /></Link>
               <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">{t("admin.badge")}</span>
@@ -361,12 +361,12 @@ function AdminPage() {
               {session ? (
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground border border-border px-4 py-2 rounded-full hover:bg-secondary/50 transition-all cursor-pointer glass-strong"
+                  className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground border border-border px-4 py-2 rounded-full hover:bg-secondary/50 transition-all cursor-pointer glass-strong"
                 >
                   <LogOut className="size-4" /> {t("admin.signOut")}
                 </button>
               ) : (
-                <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
+                <Link to="/" className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground">
                   <ArrowLeft className="size-4" /> {t("admin.backToSite")}
                 </Link>
               )}
@@ -374,7 +374,7 @@ function AdminPage() {
           </header>
 
           {/* Main Content */}
-          <main className="relative z-10 mx-auto max-w-7xl px-6 py-12">
+          <main className="relative mx-auto max-w-7xl px-6 py-12">
             <div className="grid grid-cols-12 gap-8 items-start">
               {/* Sidebar navigation */}
               <div className="col-span-12 md:col-span-2 space-y-1">

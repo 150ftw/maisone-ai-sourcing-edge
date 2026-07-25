@@ -115,7 +115,7 @@ function BlogDetailPage() {
                   {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
                 </h1>
                 
-                <div className="flex flex-wrap items-center gap-6 text-xs text-muted-foreground/80 font-semibold border-b border-white/5 pb-6 uppercase tracking-wider">
+                <div className="flex flex-wrap items-center gap-6 text-xs text-muted-foreground font-semibold border-b border-black/5 dark:border-white/5 pb-6 uppercase tracking-wider">
                   <span className="flex items-center gap-1.5"><User className="size-3.5 text-electric" /> {blog.author}</span>
                   <span className="hidden sm:inline">•</span>
                   <span className="flex items-center gap-1.5"><Calendar className="size-3.5" /> {new Date(blog.created_at).toLocaleDateString()}</span>
@@ -126,7 +126,7 @@ function BlogDetailPage() {
 
               {/* Cover Image */}
               {blog.image_url && (
-                <div className="aspect-[21/9] w-full overflow-hidden rounded-3xl border border-white/5 shadow-2xl">
+                <div className="aspect-[21/9] w-full overflow-hidden rounded-3xl border border-black/5 dark:border-white/5 shadow-2xl">
                   <img 
                     src={blog.image_url} 
                     alt={blog.title} 
@@ -136,7 +136,7 @@ function BlogDetailPage() {
               )}
 
               {/* Body Content */}
-              <div className="max-w-3xl mx-auto text-muted-foreground/90 whitespace-pre-line leading-relaxed text-base sm:text-lg font-normal space-y-6 pt-4">
+              <div className="max-w-3xl mx-auto text-foreground/85 whitespace-pre-line leading-relaxed text-base sm:text-lg font-normal space-y-6 pt-4">
                 {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content) : blog.content}
               </div>
             </article>

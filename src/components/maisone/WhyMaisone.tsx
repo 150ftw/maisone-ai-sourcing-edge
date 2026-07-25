@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import { Layers, ShieldCheck, Handshake, Sparkles } from "lucide-react";
+import { Layers, ShieldCheck, Handshake } from "lucide-react";
 import abstractBg from "@/assets/fashion_startup_studio.png";
 import { useLanguage } from "@/lib/i18n";
 import { PatternHover } from "@/components/ui/PatternHover";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 
 export function WhyMaisone() {
   const { t } = useLanguage();
@@ -28,7 +29,7 @@ export function WhyMaisone() {
     },
     {
       id: "card4",
-      icon: Sparkles,
+      icon: RobotSparkIcon,
       title: t("why.card4Title"),
       text: t("why.card4Text"),
     },

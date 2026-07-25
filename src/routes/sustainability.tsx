@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, Leaf, Recycle, Droplet, Wind, Sparkles } from "lucide-react";
+import { ArrowLeft, Leaf, Recycle, Droplet, Wind } from "lucide-react";
+import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/maisone/Navbar";
 import { Footer } from "@/components/maisone/Footer";
@@ -78,7 +79,7 @@ function SustainabilityPage() {
           {/* Sustainability Framework Details */}
           <section className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6 max-w-3xl">
             <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
-              <Sparkles className="size-5 text-electric" /> {t("sustainabilityPage.goalsTitle")}
+              <RobotSparkIcon className="size-6 text-electric" /> {t("sustainabilityPage.goalsTitle")}
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground/80 leading-relaxed">
               <p>

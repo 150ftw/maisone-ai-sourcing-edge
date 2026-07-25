@@ -47,7 +47,10 @@ const categories = [
       "/Collection/Contemporary Ready to wear/a8bd5aab-32c3-41b9-aa9e-3069ce14c649.JPG",
       "/Collection/Contemporary Ready to wear/d39b0b24-051a-4216-8007-0ff7dae8c983 2.jpg",
       "/Collection/Contemporary Ready to wear/d39b0b24-051a-4216-8007-0ff7dae8c983 3.jpg",
-      "/Collection/Contemporary Ready to wear/e68f411a-661f-4aa7-994c-a0e1862d2849 3.jpg"
+      "/Collection/Contemporary Ready to wear/e68f411a-661f-4aa7-994c-a0e1862d2849 3.jpg",
+      "/Collection/Contemporary Ready to wear/CRTW 01.PNG",
+      "/Collection/Contemporary Ready to wear/CRTW 02.PNG",
+      "/Collection/Contemporary Ready to wear/CRTW 03.PNG"
     ],
     hue: "from-violet-500/30 to-fuchsia-700/40"
   },
@@ -73,10 +76,11 @@ const categories = [
   {
     name: "Flat Knits",
     images: [
-      "/Collection/Flat Knits/50e30627-3abb-4ecc-8c6a-9ba0b34333ea 2.jpg",
-      "/Collection/Flat Knits/50e30627-3abb-4ecc-8c6a-9ba0b34333ea.jpg",
       "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983 4.jpg",
-      "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983.jpg"
+      "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983.jpg",
+      "/Collection/Flat Knits/Flat knit 01.PNG",
+      "/Collection/Flat Knits/Flat knit 02.PNG",
+      "/Collection/Flat Knits/Flat knit 03.PNG"
     ],
     hue: "from-rose-500/30 to-amber-700/40"
   },
@@ -315,7 +319,7 @@ export function ProductCategories() {
                                <InteractiveFolderGallery
                                  key={c.name}
                                  photos={c.images.slice(0, 5).map((img, idx) => ({ id: idx, image: img }))}
-                                 folderName={`Maisone.${c.name}`}
+                                 folderName={c.name}
                                  dragHintText="Drag down to return"
                                  className="py-0 h-full"
                                />
