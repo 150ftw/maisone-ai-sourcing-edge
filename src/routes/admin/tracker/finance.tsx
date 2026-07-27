@@ -61,12 +61,13 @@ export function FinanceRoute() {
     }
   };
 
-  const handleDeletePayment = (pmtId: string, invNum: string) => {
-    if (window.confirm(`Are you sure you want to delete payment record for ${invNum}?`)) {
+  const handleDeletePayment = (pmtId: string, invNum?: string) => {
+    const label = invNum || "Payment Record";
+    if (window.confirm(`Are you sure you want to delete payment record for ${label}?`)) {
       const updatedPmts = payments.filter(p => p.id !== pmtId);
       saveTrackerPayments(updatedPmts);
       setPayments(updatedPmts);
-      toast.success(`Payment record for ${invNum} deleted.`);
+      toast.success(`Payment record for ${label} deleted.`);
     }
   };
 
@@ -386,7 +387,7 @@ export function FinanceRoute() {
 
                 <div className="col-span-1 flex justify-center">
                   <button
-                    onClick={() => handleDeletePayment(p.id, p.invoice_number)}
+                    onClick={() => handleDeletePayment(p.id, p.invoice_number || "Payment Record")}
                     title="Delete Payment Record"
                     className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 cursor-pointer shadow-sm"
                   >
