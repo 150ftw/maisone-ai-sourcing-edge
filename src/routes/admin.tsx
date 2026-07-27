@@ -341,6 +341,20 @@ function AdminPage() {
     }
   };
 
+  const [dbConnected, setDbConnected] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    async function checkHealth() {
+      try {
+        const { error } = await supabase.from("tracker_settings").select("key").limit(1);
+        setDbConnected(!error);
+      } catch {
+        setDbConnected(false);
+      }
+    }
+    checkHealth();
+  }, []);
+
   // Re-fetch triggers
   useEffect(() => {
     if (session) {
@@ -381,6 +395,10 @@ function AdminPage() {
             </div>
             
             <div className="flex items-center gap-4">
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-border bg-foreground/[0.02] text-[11px] font-semibold text-muted-foreground shadow-sm">
+                <span className={`size-2 rounded-full ${dbConnected === true ? "bg-emerald-400 animate-pulse" : dbConnected === false ? "bg-amber-400" : "bg-muted animate-pulse"}`} />
+                <span>{dbConnected === true ? "Supabase DB Live" : dbConnected === false ? "Local Storage Mode" : "Checking DB..."}</span>
+              </div>
               <SettingsMenu />
               {session ? (
                 <button

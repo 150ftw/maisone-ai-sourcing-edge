@@ -161,10 +161,30 @@ export interface TrackerPayment {
   status: "Not Due" | "Due" | "Reminder Sent" | "Overdue" | "Partially Paid" | "Paid";
 }
 
+export type CurrencyCode = "USD" | "EUR" | "GBP" | "INR" | "RMB";
+
+export const CURRENCY_SYMBOLS: Record<CurrencyCode, string> = {
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+  INR: "₹",
+  RMB: "¥"
+};
+
+export const DEFAULT_EXCHANGE_RATES: Record<CurrencyCode, number> = {
+  USD: 1.0,
+  EUR: 0.92,
+  GBP: 0.79,
+  INR: 83.50,
+  RMB: 7.23
+};
+
 export interface TrackerSettings {
   agency_name: string;
-  currency: string;
+  currency: CurrencyCode;
   fiscal_year_start: string;
+  exchange_rates?: Record<CurrencyCode, number>;
+  hedging_buffer_percent?: number;
   active_roles: UserRole[];
   permissions: Record<string, string[]>;
 }
@@ -182,6 +202,8 @@ const DEFAULT_SETTINGS: TrackerSettings = {
   agency_name: "Maisone Global Sourcing ERP",
   currency: "USD",
   fiscal_year_start: "January 1",
+  exchange_rates: DEFAULT_EXCHANGE_RATES,
+  hedging_buffer_percent: 0,
   active_roles: ["Admin", "Staff"],
   permissions: {
     "Admin": ["All Access", "Create/Edit/Delete All", "Manage Finance", "Manage Roles"],
@@ -368,5 +390,70 @@ export function exportToCSV(filename: string, rows: Record<string, any>[]) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+}
+
+export function convertCurrency(
+  amount: number,
+  from: CurrencyCode = "USD",
+  to: CurrencyCode = "USD",
+  rates: Record<CurrencyCode, number> = DEFAULT_EXCHANGE_RATES,
+  hedgingBufferPercent: number = 0
+): number {
+  if (!amount || isNaN(amount)) return 0;
+  if (from === to && hedgingBufferPercent === 0) return amount;
+  const rateFrom = rates[from] || 1.0;
+  const rateTo = rates[to] || 1.0;
+  const inUSD = amount / rateFrom;
+  const inTarget = inUSD * rateTo;
+  const buffered = inTarget * (1 + hedgingBufferPercent / 100);
+  return Math.round(buffered * 100) / 100;
+}
+
+export function exportFullSystemBackup() {
+  const backupData = {
+    version: "2.0",
+    timestamp: new Date().toISOString(),
+    clients: getTrackerClients(),
+    factories: getTrackerFactories(),
+    agents: getTrackerAgents(),
+    enquiries: getTrackerEnquiries(),
+    communication_logs: getTrackerCommunicationLogs(),
+    invoices: getTrackerInvoices(),
+    payments: getTrackerPayments(),
+    settings: getTrackerSettings()
+  };
+
+  const jsonStr = JSON.stringify(backupData, null, 2);
+  const blob = new Blob([jsonStr], { type: "application/json" });
+  const filename = `Maisone_ERP_Full_Backup_${new Date().toISOString().split("T")[0]}.json`;
+
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.setAttribute("href", url);
+  link.setAttribute("download", filename);
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+export function importFullSystemBackup(jsonData: any): boolean {
+  try {
+    if (!jsonData || typeof jsonData !== "object") return false;
+
+    if (Array.isArray(jsonData.clients)) saveTrackerClients(jsonData.clients);
+    if (Array.isArray(jsonData.factories)) saveTrackerFactories(jsonData.factories);
+    if (Array.isArray(jsonData.agents)) saveTrackerAgents(jsonData.agents);
+    if (Array.isArray(jsonData.enquiries)) saveTrackerEnquiries(jsonData.enquiries);
+    if (Array.isArray(jsonData.communication_logs)) saveTrackerCommunicationLogs(jsonData.communication_logs);
+    if (Array.isArray(jsonData.invoices)) saveTrackerInvoices(jsonData.invoices);
+    if (Array.isArray(jsonData.payments)) saveTrackerPayments(jsonData.payments);
+    if (jsonData.settings && typeof jsonData.settings === "object") saveTrackerSettings(jsonData.settings);
+
+    return true;
+  } catch (err) {
+    console.error("Failed to import full system backup:", err);
+    return false;
   }
 }

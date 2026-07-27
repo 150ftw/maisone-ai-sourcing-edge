@@ -1,12 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock, Trash2 } from "lucide-react";
+import { createFileRoute } from '@tanstack/react-router'
+import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock, Trash2, Globe } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import {
   TrackerInvoice,
   TrackerPayment,
-  TrackerEnquiry
+  TrackerEnquiry,
+  TrackerSettings,
+  CurrencyCode,
+  CURRENCY_SYMBOLS,
+  DEFAULT_EXCHANGE_RATES,
+  convertCurrency,
+  getTrackerSettings
 } from "@/lib/tracker-store";
 import { CustomSelect } from "../../admin";
 
@@ -20,6 +25,8 @@ function FinanceRoute() {
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "sample" | "bulk" | "payments">("all");
   const [loading, setLoading] = useState(true);
+  const [displayCurrency, setDisplayCurrency] = useState<CurrencyCode>("USD");
+  const [settings, setSettings] = useState<TrackerSettings | null>(null);
 
   // Modal State for Invoice Creation
   const [isInvModalOpen, setIsInvModalOpen] = useState(false);
@@ -121,11 +128,6 @@ function FinanceRoute() {
       }
     }
   };
-
-  // Financial summary metrics
-  const totalInvoiced = invoices.reduce((sum, i) => sum + i.amount, 0);
-  const totalCollected = payments.reduce((sum, p) => sum + p.amount_received, 0);
-  const totalOutstanding = payments.reduce((sum, p) => sum + (p.amount_due - p.amount_received), 0);
 
   const handleCreateInvoice = async () => {
     if (!invNumber.trim() || !invAmount) {
@@ -309,6 +311,19 @@ function FinanceRoute() {
     );
   }
 
+  const rates = settings?.exchange_rates || DEFAULT_EXCHANGE_RATES;
+  const buffer = settings?.hedging_buffer_percent || 0;
+  const symbol = CURRENCY_SYMBOLS[displayCurrency] || "$";
+
+  // Financial summary metrics
+  const totalInvoiced = invoices.reduce((sum, i) => sum + i.amount, 0);
+  const totalCollected = payments.reduce((sum, p) => sum + p.amount_received, 0);
+  const totalOutstanding = payments.reduce((sum, p) => sum + (p.amount_due - p.amount_received), 0);
+
+  const totalInvoicedConv = convertCurrency(totalInvoiced, "USD", displayCurrency, rates, buffer);
+  const totalCollectedConv = convertCurrency(totalCollected, "USD", displayCurrency, rates, buffer);
+  const totalOutstandingConv = convertCurrency(totalOutstanding, "USD", displayCurrency, rates, buffer);
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -321,6 +336,21 @@ function FinanceRoute() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-foreground/[0.02] shadow-sm">
+            <Globe className="size-3.5 text-electric shrink-0" />
+            <select
+              value={displayCurrency}
+              onChange={(e) => setDisplayCurrency(e.target.value as CurrencyCode)}
+              className="bg-transparent text-xs font-bold text-electric cursor-pointer outline-none"
+            >
+              {(["USD", "EUR", "GBP", "INR", "RMB"] as CurrencyCode[]).map((c) => (
+                <option key={c} value={c}>
+                  {c} ({CURRENCY_SYMBOLS[c]})
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             onClick={() => setIsPmtModalOpen(true)}
             className="px-4 py-2.5 rounded-xl border border-border bg-card text-foreground font-semibold text-xs shadow-sm hover:bg-foreground/5 transition-all cursor-pointer"
@@ -341,20 +371,20 @@ function FinanceRoute() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Total Invoiced Amount</p>
-          <p className="text-2xl font-serif font-bold text-foreground">${totalInvoiced.toLocaleString()}</p>
-          <p className="text-[11px] text-muted-foreground">{invoices.length} Invoices Generated</p>
+          <p className="text-2xl font-serif font-bold text-foreground">{symbol}{totalInvoicedConv.toLocaleString()}</p>
+          <p className="text-[11px] text-muted-foreground">{invoices.length} Invoices ({displayCurrency})</p>
         </div>
 
         <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Total Collected Payments</p>
-          <p className="text-2xl font-serif font-bold text-emerald-600 dark:text-emerald-400">${totalCollected.toLocaleString()}</p>
-          <p className="text-[11px] text-emerald-700/80 dark:text-emerald-500/80">Funds Received & Cleared</p>
+          <p className="text-2xl font-serif font-bold text-emerald-600 dark:text-emerald-400">{symbol}{totalCollectedConv.toLocaleString()}</p>
+          <p className="text-[11px] text-emerald-700/80 dark:text-emerald-500/80">Funds Received & Cleared ({displayCurrency})</p>
         </div>
 
         <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Outstanding Balance Due</p>
-          <p className="text-2xl font-serif font-bold text-amber-600 dark:text-amber-400">${totalOutstanding.toLocaleString()}</p>
-          <p className="text-[11px] text-amber-700/80 dark:text-amber-500/80">Calculated automatically</p>
+          <p className="text-2xl font-serif font-bold text-amber-600 dark:text-amber-400">{symbol}{totalOutstandingConv.toLocaleString()}</p>
+          <p className="text-[11px] text-amber-700/80 dark:text-amber-500/80">Calculated ({displayCurrency})</p>
         </div>
       </div>
 
@@ -409,48 +439,51 @@ function FinanceRoute() {
 
             {invoices
               .filter(inv => activeTab === "all" || (activeTab === "sample" && inv.invoice_type === "Sample") || (activeTab === "bulk" && inv.invoice_type === "Bulk"))
-              .map((inv) => (
-                <div key={inv.id} className="p-4 grid grid-cols-12 gap-4 items-center text-xs hover:bg-foreground/[0.02]">
-                  <div className="col-span-3">
-                    <p className="font-mono font-bold text-electric">{inv.invoice_number}</p>
-                    <p className="font-medium text-foreground">{inv.client_name}</p>
-                  </div>
+              .map((inv) => {
+                const convAmt = convertCurrency(inv.amount, "USD", displayCurrency, rates, buffer);
+                return (
+                  <div key={inv.id} className="p-4 grid grid-cols-12 gap-4 items-center text-xs hover:bg-foreground/[0.02]">
+                    <div className="col-span-3">
+                      <p className="font-mono font-bold text-electric">{inv.invoice_number}</p>
+                      <p className="font-medium text-foreground">{inv.client_name}</p>
+                    </div>
 
-                  <div className="col-span-2">
-                    <p className="font-semibold text-foreground">{inv.enquiry_number}</p>
-                    <p className="text-[10px] text-muted-foreground">Due: {inv.due_date}</p>
-                  </div>
+                    <div className="col-span-2">
+                      <p className="font-semibold text-foreground">{inv.enquiry_number}</p>
+                      <p className="text-[10px] text-muted-foreground">Due: {inv.due_date}</p>
+                    </div>
 
-                  <div className="col-span-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-electric/15 text-electric">
-                      {inv.invoice_type}
-                    </span>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{inv.invoice_date}</p>
-                  </div>
+                    <div className="col-span-2">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-electric/15 text-electric">
+                        {inv.invoice_type}
+                      </span>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">{inv.invoice_date}</p>
+                    </div>
 
-                  <div className="col-span-2 text-right font-mono font-bold text-foreground">
-                    ${inv.amount.toLocaleString()}
-                  </div>
+                    <div className="col-span-2 text-right font-mono font-bold text-foreground">
+                      {symbol}{convAmt.toLocaleString()}
+                    </div>
 
-                  <div className="col-span-2 text-right pr-2">
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                      inv.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
-                    }`}>
-                      {inv.status}
-                    </span>
-                  </div>
+                    <div className="col-span-2 text-right pr-2">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
+                        inv.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
+                      }`}>
+                        {inv.status}
+                      </span>
+                    </div>
 
-                  <div className="col-span-1 flex justify-center">
-                    <button
-                      onClick={() => handleDeleteInvoice(inv.id, inv.invoice_number)}
-                      title="Delete Invoice"
-                      className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 cursor-pointer shadow-sm"
-                    >
-                      <Trash2 className="size-3.5" />
-                    </button>
+                    <div className="col-span-1 flex justify-center">
+                      <button
+                        onClick={() => handleDeleteInvoice(inv.id, inv.invoice_number)}
+                        title="Delete Invoice"
+                        className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 cursor-pointer shadow-sm"
+                      >
+                        <Trash2 className="size-3.5" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
         ) : (
           <div className="divide-y divide-border overflow-x-auto">
@@ -463,32 +496,36 @@ function FinanceRoute() {
               <div className="col-span-1 text-center">Action</div>
             </div>
 
-            {payments.map((p) => (
-              <div key={p.id} className="p-4 grid grid-cols-12 gap-4 items-center text-xs hover:bg-foreground/[0.02]">
-                <div className="col-span-3">
-                  <p className="font-mono font-bold text-electric">{p.invoice_number}</p>
-                  <p className="font-medium text-foreground">{p.client_name}</p>
-                </div>
+            {payments.map((p) => {
+              const convDue = convertCurrency(p.amount_due, "USD", displayCurrency, rates, buffer);
+              const convRec = convertCurrency(p.amount_received, "USD", displayCurrency, rates, buffer);
+              const convBal = convertCurrency(p.outstanding_balance, "USD", displayCurrency, rates, buffer);
+              return (
+                <div key={p.id} className="p-4 grid grid-cols-12 gap-4 items-center text-xs hover:bg-foreground/[0.02]">
+                  <div className="col-span-3">
+                    <p className="font-mono font-bold text-electric">{p.invoice_number}</p>
+                    <p className="font-medium text-foreground">{p.client_name}</p>
+                  </div>
 
-                <div className="col-span-2 text-right font-mono font-semibold">
-                  ${p.amount_due.toLocaleString()}
-                </div>
+                  <div className="col-span-2 text-right font-mono font-semibold">
+                    {symbol}{convDue.toLocaleString()}
+                  </div>
 
-                <div className="col-span-2 text-right font-mono font-semibold text-emerald-600 dark:text-emerald-400">
-                  ${p.amount_received.toLocaleString()}
-                </div>
+                  <div className="col-span-2 text-right font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                    {symbol}{convRec.toLocaleString()}
+                  </div>
 
-                <div className="col-span-2 text-right font-mono font-bold text-amber-600 dark:text-amber-400">
-                  ${p.outstanding_balance.toLocaleString()}
-                </div>
+                  <div className="col-span-2 text-right font-mono font-bold text-amber-600 dark:text-amber-400">
+                    {symbol}{convBal.toLocaleString()}
+                  </div>
 
-                <div className="col-span-2 text-right pr-2">
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                    p.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
-                  }`}>
-                    {p.status}
-                  </span>
-                </div>
+                  <div className="col-span-2 text-right pr-2">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
+                      p.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
+                    }`}>
+                      {p.status}
+                    </span>
+                  </div>
 
                 <div className="col-span-1 flex justify-center">
                   <button
@@ -500,8 +537,9 @@ function FinanceRoute() {
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         )}
       </div>
 
