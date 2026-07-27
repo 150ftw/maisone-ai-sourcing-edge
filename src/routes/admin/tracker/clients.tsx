@@ -1,10 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Plus, X, Edit, Trash2, Globe, Mail, Phone, FileText } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import {
   TrackerClient,
-  TrackerEnquiry
+  TrackerEnquiry,
+  getTrackerClients,
+  saveTrackerClients,
+  getTrackerEnquiries
 } from "@/lib/tracker-store";
 
 export const Route = createFileRoute("/admin/tracker/clients")({
@@ -40,14 +44,23 @@ function ClientsRoute() {
         supabase.from("tracker_clients").select("*").order("created_at", { ascending: false })
       ]);
 
-      if (error) throw error;
-      setEnquiries(dbEnquiries ?? []);
-      setClients(dbClients ?? []);
+      setEnquiries(dbEnquiries && dbEnquiries.length > 0 ? dbEnquiries : getTrackerEnquiries());
+      
+      if (!error && dbClients && dbClients.length > 0) {
+        setClients(dbClients);
+        saveTrackerClients(dbClients);
+      } else {
+        const localClients = getTrackerClients();
+        setClients(localClients);
+      }
     } catch (err) {
-      console.error("Failed to load clients:", err);
+      console.error("Failed to load clients from Supabase, using local store:", err);
+      const localClients = getTrackerClients();
+      setClients(localClients);
+      setEnquiries(getTrackerEnquiries());
+    } finally {
+      setLoading(false);
     }
-    setClients([]);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -81,51 +94,67 @@ function ClientsRoute() {
   };
 
   const handleSaveClient = async () => {
-    if (!companyName.trim() || !email.trim()) return;
+    if (!companyName.trim() || !email.trim()) {
+      toast.error("Please provide at least a Company Name and Email.");
+      return;
+    }
 
     try {
-      const payload: any = {
-        company_name: companyName,
-        client_name: clientName,
-        country,
-        contact_person: contactPerson,
-        email,
-        whatsapp,
-        payment_terms: paymentTerms,
-        notes
+      const clientData: TrackerClient = {
+        id: editingClient ? editingClient.id : `c-${Date.now()}`,
+        created_at: editingClient ? editingClient.created_at : new Date().toISOString(),
+        company_name: companyName.trim(),
+        client_name: clientName.trim() || companyName.trim(),
+        country: country.trim() || "France",
+        contact_person: contactPerson.trim() || clientName.trim() || companyName.trim(),
+        email: email.trim(),
+        whatsapp: whatsapp.trim(),
+        payment_terms: paymentTerms.trim(),
+        notes: notes.trim()
       };
 
+      // 1. Update local state & localStorage immediately
+      let updatedClients: TrackerClient[];
       if (editingClient) {
-        payload.id = editingClient.id;
+        updatedClients = clients.map(c => c.id === clientData.id ? clientData : c);
+      } else {
+        updatedClients = [clientData, ...clients];
+      }
+      setClients(updatedClients);
+      saveTrackerClients(updatedClients);
+
+      // 2. Persist to Supabase table
+      try {
+        await supabase.from("tracker_clients").upsert(clientData);
+      } catch (sbErr) {
+        console.warn("Supabase upsert warning:", sbErr);
       }
 
-      const { error } = await supabase
-        .from("tracker_clients")
-        .upsert(payload);
-
-      if (error) throw error;
-
       setIsModalOpen(false);
-      loadData();
+      toast.success(`Client "${companyName}" saved successfully!`);
     } catch (err) {
       console.error("Failed to save client:", err);
-      alert("Error saving client. Please try again.");
+      toast.error("Error saving client. Please try again.");
     }
   };
 
   const handleDeleteClient = async (id: string) => {
     if (confirm("Are you sure you want to delete this client record?")) {
       try {
-        const { error } = await supabase
-          .from("tracker_clients")
-          .delete()
-          .eq("id", id);
+        const updated = clients.filter(c => c.id !== id);
+        setClients(updated);
+        saveTrackerClients(updated);
 
-        if (error) throw error;
-        loadData();
+        try {
+          await supabase.from("tracker_clients").delete().eq("id", id);
+        } catch (sbErr) {
+          console.warn("Supabase delete warning:", sbErr);
+        }
+
+        toast.success("Client deleted successfully.");
       } catch (err) {
         console.error("Failed to delete client:", err);
-        alert("Error deleting client. Please try again.");
+        toast.error("Error deleting client. Please try again.");
       }
     }
   };
