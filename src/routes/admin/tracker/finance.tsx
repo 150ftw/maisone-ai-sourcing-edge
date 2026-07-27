@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock } from "lucide-react";
+import { toast } from "sonner";
 import {
   getTrackerInvoices,
   saveTrackerInvoices,
@@ -38,9 +39,14 @@ export function FinanceRoute() {
   const [pmtDate, setPmtDate] = useState(new Date().toISOString().split("T")[0]);
 
   useEffect(() => {
-    setInvoices(getTrackerInvoices());
-    setPayments(getTrackerPayments());
+    const invs = getTrackerInvoices();
+    const pmts = getTrackerPayments();
+    setInvoices(invs);
+    setPayments(pmts);
     setEnquiries(getTrackerEnquiries());
+    if (invs.length > 0 && !selectedInvoiceId) {
+      setSelectedInvoiceId(invs[0].id);
+    }
   }, []);
 
   // Financial summary metrics
@@ -49,7 +55,10 @@ export function FinanceRoute() {
   const totalOutstanding = payments.reduce((sum, p) => sum + p.outstanding_balance, 0);
 
   const handleCreateInvoice = () => {
-    if (!invNumber.trim() || !invAmount) return;
+    if (!invNumber.trim() || !invAmount) {
+      toast.error("Please enter a valid invoice number and amount.");
+      return;
+    }
 
     const matchedEnquiry = enquiries.find(e => e.id === selectedEnquiryId) || enquiries[0];
 
@@ -99,17 +108,50 @@ export function FinanceRoute() {
 
     setInvNumber("");
     setInvAmount("");
+    toast.success(`Invoice ${newInv.invoice_number} created successfully!`);
   };
 
   const handleRecordPayment = () => {
-    if (!selectedInvoiceId || !pmtReceived) return;
+    const targetInvoiceId = selectedInvoiceId || invoices[0]?.id;
+    if (!targetInvoiceId || !pmtReceived || parseFloat(pmtReceived) <= 0) {
+      toast.error("Please select an invoice and enter a valid payment amount.");
+      return;
+    }
 
     const allPayments = [...payments];
-    const pmtIndex = allPayments.findIndex(p => p.invoice_id === selectedInvoiceId);
-    if (pmtIndex === -1) return;
+    let pmtIndex = allPayments.findIndex(p => p.invoice_id === targetInvoiceId);
+    
+    const targetInv = invoices.find(i => i.id === targetInvoiceId);
+    if (!targetInv) {
+      toast.error("Invoice not found.");
+      return;
+    }
+
+    // If payment record doesn't exist yet, auto-create one
+    if (pmtIndex === -1) {
+      const createdPmt: TrackerPayment = {
+        id: `pmt-${Date.now()}`,
+        created_at: new Date().toISOString(),
+        invoice_id: targetInv.id,
+        invoice_number: targetInv.invoice_number,
+        enquiry_id: targetInv.enquiry_id,
+        enquiry_number: targetInv.enquiry_number,
+        client_id: targetInv.client_id,
+        client_name: targetInv.client_name,
+        payment_type: targetInv.invoice_type,
+        due_date: targetInv.due_date,
+        amount_due: targetInv.amount,
+        amount_received: 0,
+        outstanding_balance: targetInv.amount,
+        status: "Due"
+      };
+      allPayments.unshift(createdPmt);
+      pmtIndex = 0;
+    }
 
     const existingPmt = allPayments[pmtIndex];
-    const newReceived = (existingPmt.amount_received || 0) + (parseFloat(pmtReceived) || 0);
+    const addedAmount = parseFloat(pmtReceived) || 0;
+    const newReceived = (existingPmt.amount_received || 0) + addedAmount;
     const newBalance = Math.max(0, existingPmt.amount_due - newReceived);
     const newStatus = newBalance === 0 ? "Paid" : newReceived > 0 ? "Partially Paid" : "Due";
 
@@ -125,7 +167,7 @@ export function FinanceRoute() {
 
     // Also update invoice status if paid
     const allInvoices = invoices.map(inv =>
-      inv.id === selectedInvoiceId
+      inv.id === targetInvoiceId
         ? { ...inv, status: (newBalance === 0 ? "Paid" : "Sent") as any }
         : inv
     );
@@ -137,6 +179,7 @@ export function FinanceRoute() {
     setInvoices(allInvoices);
     setIsPmtModalOpen(false);
     setPmtReceived("");
+    toast.success(`Payment of $${addedAmount.toLocaleString()} recorded for ${targetInv.invoice_number}!`);
   };
 
   return (
@@ -405,14 +448,20 @@ export function FinanceRoute() {
             <div className="space-y-3 text-xs">
               <div>
                 <label className="text-[10px] uppercase font-bold text-muted-foreground">Select Invoice</label>
-                <CustomSelect
-                  value={invoices.find(i => i.id === selectedInvoiceId)?.invoice_number || invoices[0]?.invoice_number || "Select Invoice"}
-                  onChange={(val) => {
-                    const matched = invoices.find(i => i.invoice_number === val);
-                    if (matched) setSelectedInvoiceId(matched.id);
-                  }}
-                  options={invoices.map(i => `${i.invoice_number} (${i.client_name} - $${i.amount})`)}
-                />
+                {(() => {
+                  const getInvLabel = (inv: TrackerInvoice) => `${inv.invoice_number} (${inv.client_name} - $${inv.amount})`;
+                  const selInv = invoices.find(i => i.id === selectedInvoiceId) || invoices[0];
+                  return (
+                    <CustomSelect
+                      value={selInv ? getInvLabel(selInv) : "Select Invoice"}
+                      onChange={(val) => {
+                        const matched = invoices.find(i => getInvLabel(i) === val || i.invoice_number === val);
+                        if (matched) setSelectedInvoiceId(matched.id);
+                      }}
+                      options={invoices.map(getInvLabel)}
+                    />
+                  );
+                })()}
               </div>
 
               <div>
