@@ -63,38 +63,38 @@ export function StatusDropdown({ currentStatus, onChange, options = ["Pending", 
       case "Pending":
         return {
           bg: "bg-amber-500/10 hover:bg-amber-500/20",
-          text: "text-amber-400",
+          text: "text-amber-800 dark:text-amber-400",
           border: "border-amber-500/20",
-          dot: "bg-amber-400"
+          dot: "bg-amber-800 dark:bg-amber-400"
         };
       case "Contacted":
         return {
           bg: "bg-blue-500/10 hover:bg-blue-500/20",
-          text: "text-blue-400",
+          text: "text-blue-600 dark:text-blue-400",
           border: "border-blue-500/20",
-          dot: "bg-blue-400"
+          dot: "bg-blue-500 dark:bg-blue-400"
         };
       case "Completed":
       case "Approved":
         return {
           bg: "bg-emerald-500/10 hover:bg-emerald-500/20",
-          text: "text-emerald-400",
+          text: "text-emerald-600 dark:text-emerald-400",
           border: "border-emerald-500/20",
-          dot: "bg-emerald-400"
+          dot: "bg-emerald-500 dark:bg-emerald-400"
         };
       case "Rejected":
         return {
           bg: "bg-red-500/10 hover:bg-red-500/20",
-          text: "text-red-400",
+          text: "text-red-600 dark:text-red-400",
           border: "border-red-500/20",
-          dot: "bg-red-400"
+          dot: "bg-red-500 dark:bg-red-400"
         };
       default:
         return {
           bg: "bg-zinc-500/10 hover:bg-zinc-500/20",
           text: "text-muted-foreground",
           border: "border-zinc-500/20",
-          dot: "bg-zinc-400"
+          dot: "bg-zinc-500 dark:bg-zinc-400"
         };
     }
   };
@@ -266,10 +266,22 @@ function AdminPage() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useLanguage();
+  
+  const activeTab = ADMIN_TABS.find(tab => {
+    if (tab.to === "/admin") {
+      return pathname === "/admin" || pathname === "/admin/";
+    }
+    return pathname.startsWith(tab.to);
+  }) || ADMIN_TABS[0];
 
   // State hooks
   const [session, setSession] = useState<any>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // Stats summary State
   const [stats, setStats] = useState({
@@ -361,9 +373,11 @@ function AdminPage() {
               {session ? (
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground border border-border px-4 py-2 rounded-full hover:bg-secondary/50 transition-all cursor-pointer glass-strong"
+                  title={t("admin.signOut")}
+                  className="size-11 rounded-full flex items-center justify-center border border-border text-foreground/80 hover:text-foreground hover:bg-secondary/50 transition-all cursor-pointer glass-strong shadow-lg shrink-0 sm:w-auto sm:h-11 sm:px-5 sm:rounded-full sm:inline-flex sm:items-center sm:gap-2 sm:text-sm whitespace-nowrap"
                 >
-                  <LogOut className="size-4" /> {t("admin.signOut")}
+                  <LogOut className="size-4 shrink-0" />
+                  <span className="hidden sm:inline">{t("admin.signOut")}</span>
                 </button>
               ) : (
                 <Link to="/" className="inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-foreground">
@@ -377,26 +391,76 @@ function AdminPage() {
           <main className="relative mx-auto max-w-7xl px-6 py-12">
             <div className="grid grid-cols-12 gap-8 items-start">
               {/* Sidebar navigation */}
-              <div className="col-span-12 md:col-span-2 space-y-1">
-                {ADMIN_TABS.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <Link
-                      key={tab.id}
-                      to={tab.to}
-                      activeOptions={{ exact: true }}
-                      activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
-                      inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
-                      className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
-                    >
-                      <Icon className="size-3.5 shrink-0 mr-2" />
-                      <span>{t(tab.labelKey)}</span>
-                      {tab.id === "inquiries" && stats.pending > 0 && (
-                        <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
-                      )}
-                    </Link>
-                  );
-                })}
+              <div className="col-span-12 md:col-span-2">
+                {/* Mobile Dropdown Trigger */}
+                <div className="md:hidden mb-2">
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-border bg-card text-foreground font-semibold text-xs transition-all shadow-sm cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      {activeTab && <activeTab.icon className="size-4 text-electric" />}
+                      <span>{activeTab ? t(activeTab.labelKey) : "Select Section"}</span>
+                    </div>
+                    <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${mobileMenuOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  <AnimatePresence>
+                    {mobileMenuOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden border border-border/60 bg-card rounded-xl mt-2 p-1.5 space-y-1 shadow-xl"
+                      >
+                        {ADMIN_TABS.map((tab) => {
+                          const Icon = tab.icon;
+                          const isCurrent = activeTab.id === tab.id;
+                          return (
+                            <Link
+                              key={tab.id}
+                              to={tab.to}
+                              activeOptions={{ exact: true }}
+                              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
+                                isCurrent ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                              }`}
+                            >
+                              <Icon className="size-3.5 shrink-0 mr-2" />
+                              <span>{t(tab.labelKey)}</span>
+                              {tab.id === "inquiries" && stats.pending > 0 && (
+                                <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                              )}
+                            </Link>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Desktop sidebar */}
+                <div className="hidden md:block space-y-1">
+                  {ADMIN_TABS.map((tab) => {
+                    const Icon = tab.icon;
+                    return (
+                      <Link
+                        key={tab.id}
+                        to={tab.to}
+                        activeOptions={{ exact: true }}
+                        activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
+                        inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
+                        className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
+                      >
+                        <Icon className="size-3.5 shrink-0 mr-2" />
+                        <span>{t(tab.labelKey)}</span>
+                        {tab.id === "inquiries" && stats.pending > 0 && (
+                          <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Main content pane */}

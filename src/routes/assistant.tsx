@@ -473,34 +473,34 @@ function AssistantRoute() {
   const showCTA = messages.length > 2 && messages[messages.length - 1].role === 'ai' && (aiInvitedContact || userRequestedContact || userAgreedToConnect);
 
   return (
-    <div className="min-h-screen pt-32 pb-16 px-4 sm:px-6">
-      <div className="w-full relative">
+    <div className="h-screen pt-20 pb-4 px-4 sm:px-6 flex flex-col overflow-hidden">
+      <div className="w-full relative flex-1 flex flex-col min-h-0">
         <Link
           to="/"
-          className="fixed top-8 left-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 px-5 py-2.5 rounded-full glass hover:bg-secondary/50 z-50 border border-border"
+          className="fixed top-4 left-6 sm:top-6 sm:left-8 flex items-center justify-center sm:gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 rounded-full glass hover:bg-secondary/50 z-50 border border-border size-11 sm:size-auto sm:px-5 sm:py-2.5"
         >
-          <ArrowLeft className="size-4" />
-          <span>Back Home</span>
+          <ArrowLeft className="size-4 shrink-0" />
+          <span className="hidden sm:inline">Back Home</span>
         </Link>
-
+ 
         {messages.length > 1 && (
           <button
             onClick={handleClearChat}
-            className="fixed top-8 right-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 px-5 py-2.5 rounded-full glass hover:bg-secondary/50 z-50 border border-border cursor-pointer animate-fade-in"
+            className="fixed top-4 right-6 sm:top-6 sm:right-8 flex items-center justify-center sm:gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors bg-secondary/30 rounded-full glass hover:bg-secondary/50 z-50 border border-border cursor-pointer animate-fade-in size-11 sm:size-auto sm:px-5 sm:py-2.5"
           >
-            <Trash2 className="size-4 text-destructive" />
-            <span>Clear Chat</span>
+            <Trash2 className="size-4 text-destructive shrink-0" />
+            <span className="hidden sm:inline">Clear Chat</span>
           </button>
         )}
 
-        <div className="mb-10 text-center relative flex flex-col items-center">
-          <h1 className="font-serif text-4xl sm:text-5xl tracking-tight mb-3">Maisone <span className="italic gradient-text">AI Assistant</span></h1>
-          <p className="text-muted-foreground max-w-lg mx-auto text-sm sm:text-base">Chat with our intelligent sourcing assistant to find your perfect manufacturing partner.</p>
+        <div className="mb-6 text-center relative flex flex-col items-center shrink-0">
+          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight mb-2">Maisone <span className="italic gradient-text">AI Assistant</span></h1>
+          <p className="text-muted-foreground max-w-lg mx-auto text-xs sm:text-sm">Chat with our intelligent sourcing assistant to find your perfect manufacturing partner.</p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
+        <div className="relative max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
           <div className="absolute -inset-10 bg-gradient-to-br from-electric/10 via-violet-glow/10 to-cyan-glow/5 blur-3xl pointer-events-none" />
-          <div className="relative glass-strong rounded-3xl border border-electric/20 overflow-hidden flex flex-col h-[680px] shadow-2xl">
+          <div className="relative glass-strong rounded-3xl border border-electric/20 overflow-hidden flex flex-col flex-1 min-h-0 shadow-2xl">
 
             {/* Chat Body */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 scroll-smooth bg-background/20">
@@ -629,8 +629,8 @@ function AssistantRoute() {
               
               {/* Persistent Quick Suggestion Chips (when conversation has started) */}
               {messages.length > 1 && (
-                <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground shrink-0 font-medium mr-1">Suggestions:</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Suggestions:</span>
                   {QUICK_OPTIONS.map((opt) => (
                     <button
                       key={opt.label}
@@ -656,7 +656,7 @@ function AssistantRoute() {
                   onKeyDown={handleKeyDown}
                   placeholder="Ask about a supplier, category, or compliance (Shift+Enter for newline)..."
                   rows={1}
-                  className="w-full glass rounded-2xl pl-5 pr-14 py-3.5 text-sm outline-none placeholder:text-muted-foreground resize-none max-h-36 scrollbar-thin disabled:opacity-60 transition-all focus:border-electric/50"
+                  className="w-full glass rounded-2xl pl-5 pr-14 py-3.5 text-sm outline-none placeholder:text-muted-foreground resize-none max-h-36 no-scrollbar disabled:opacity-60 transition-all focus:border-electric/50"
                 />
                 
                 {isLoading ? (

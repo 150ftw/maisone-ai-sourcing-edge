@@ -247,9 +247,6 @@ export function Blogs() {
           <h2 className="font-serif text-4xl sm:text-5xl tracking-tight mb-6">
             Maisone <span className="italic gradient-text font-serif">Journal</span>
           </h2>
-          <p className="text-muted-foreground text-sm max-w-xl leading-relaxed">
-            {t("blogs.headingHighlight")}
-          </p>
         </div>
 
         {loading ? (

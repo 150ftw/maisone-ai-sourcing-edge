@@ -132,6 +132,14 @@ export function HowWeWork() {
                   className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 pt-8 lg:pt-6 h-full transition-all duration-500 group-hover:border-electric/40 group-hover:-translate-y-2 group-hover:shadow-[0_15px_40px_-10px_rgba(194,164,109,0.15)] cursor-pointer flex flex-col justify-between"
                   onClick={() => setSelectedPhase(i)}
                 >
+                  {/* Background Images */}
+                  <div className="absolute inset-0 z-0 opacity-50 group-hover:opacity-75 transition-opacity duration-500 pointer-events-none">
+                    <img src={`/images/phase${i + 1}_light.png`} alt={`Phase ${i + 1}`} className="w-full h-full object-cover dark:hidden" />
+                    <img src={`/images/phase${i + 1}_dark.png`} alt={`Phase ${i + 1} dark`} className="w-full h-full object-cover hidden dark:block" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-card via-card/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-card/15" />
+                  </div>
+
                   {/* Subtle top-left glow on hover */}
                   <div className="absolute -top-10 -left-10 size-32 rounded-full bg-electric/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
