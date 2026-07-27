@@ -505,45 +505,45 @@ export function EnquiriesRoute() {
       {/* Main Table */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         <div className="divide-y divide-border overflow-x-auto">
-          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1050px]">
-            <div className="col-span-2">Enquiry / Client</div>
-            <div className="col-span-2">Product Reference</div>
-            <div className="col-span-2">Current Stage</div>
-            <div className="col-span-2">Assigned Factory</div>
-            <div className="col-span-2">Assigned Agent</div>
-            <div className="col-span-1">Status</div>
-            <div className="col-span-1 text-right">Action</div>
+          <div className="px-6 py-4 bg-foreground/[0.02] flex items-center justify-between gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider min-w-[1150px]">
+            <div className="w-[17%]">Enquiry / Client</div>
+            <div className="w-[17%]">Product Reference</div>
+            <div className="w-[18%]">Current Stage</div>
+            <div className="w-[15%]">Assigned Factory</div>
+            <div className="w-[15%]">Assigned Agent</div>
+            <div className="w-[11%]">Status</div>
+            <div className="w-[7%] text-right">Action</div>
           </div>
 
           {filteredEnquiries.map((e) => (
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1050px]"
+              className="px-6 py-4 flex items-center justify-between gap-4 hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1150px]"
             >
-              <div className="col-span-2">
+              <div className="w-[17%]">
                 <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
                 <p className="font-medium text-foreground">{e.client_name}</p>
                 <p className="text-[10px] text-muted-foreground">{e.country}</p>
               </div>
 
-              <div className="col-span-2">
+              <div className="w-[17%]">
                 <p className="font-semibold text-foreground">{e.product_reference}</p>
                 <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
               </div>
 
-              <div className="col-span-2">
+              <div className="w-[18%]">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
                   Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
                 </span>
               </div>
 
-              <div className="col-span-2">
+              <div className="w-[15%]">
                 <p className="font-medium text-foreground">{e.factory_name || "Unassigned"}</p>
                 <p className="text-[10px] text-muted-foreground">Factory Partner</p>
               </div>
 
-              <div className="col-span-2">
+              <div className="w-[15%]">
                 <p className="font-semibold text-foreground flex items-center gap-1.5">
                   <User className="size-3 text-electric shrink-0" />
                   <span className="truncate">{e.agent_name || "Direct / Unassigned"}</span>
@@ -551,20 +551,20 @@ export function EnquiriesRoute() {
                 <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
               </div>
 
-              <div className="col-span-1 flex items-center">
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
+              <div className="w-[11%] flex items-center">
+                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
                   <span className="size-1.5 rounded-full bg-current" />
                   {e.current_status}
                 </span>
               </div>
 
-              <div className="col-span-1 text-right flex items-center justify-end">
+              <div className="w-[7%] text-right flex items-center justify-end">
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
                     setSelectedEnquiry(e);
                   }}
-                  className="px-3 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
+                  className="px-3.5 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Manage
                 </button>
