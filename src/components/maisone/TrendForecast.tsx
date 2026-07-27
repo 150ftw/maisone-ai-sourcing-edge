@@ -278,12 +278,12 @@ export function TrendForecast() {
             </p>
           </div>
           
-          <div className="flex flex-wrap gap-1.5 p-1 glass rounded-full border border-border">
+          <div className="flex gap-1.5 p-1 glass rounded-full border border-border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {REGIONS.map((r) => (
               <button
                 key={r}
                 onClick={() => setRegion(r)}
-                className={`text-xs px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
+                className={`whitespace-nowrap shrink-0 text-xs px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
                   region === r ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
