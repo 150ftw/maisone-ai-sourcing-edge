@@ -57,10 +57,12 @@ function TrackerDashboard() {
   const COLORS = ["#C2A46D", "#60A5FA", "#34D399", "#F59E0B", "#F87171", "#A78BFA"];
 
   const monthlyOrdersData = [
-    { month: "Mar", orders: 3, revenue: 12400 },
-    { month: "Apr", orders: 5, revenue: 24500 },
-    { month: "May", orders: 8, revenue: 38900 },
-    { month: "Jun", orders: 6, revenue: 42000 },
+    { month: "Jan", orders: 0, revenue: 0 },
+    { month: "Feb", orders: 0, revenue: 0 },
+    { month: "Mar", orders: 0, revenue: 0 },
+    { month: "Apr", orders: 0, revenue: 0 },
+    { month: "May", orders: 0, revenue: 0 },
+    { month: "Jun", orders: 0, revenue: 0 },
     { month: "Jul", orders: totalEnquiries, revenue: totalRevenue }
   ];
 
@@ -182,7 +184,7 @@ function TrackerDashboard() {
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="month" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v}`} />
+                <YAxis domain={[0, 'auto']} stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v}`} />
                 <Tooltip contentStyle={{ backgroundColor: "#1A1A1A", borderColor: "#333", borderRadius: "12px", fontSize: "12px" }} />
                 <Area type="monotone" dataKey="revenue" stroke="#C2A46D" strokeWidth={2} fillOpacity={1} fill="url(#colorRev)" />
               </AreaChart>
