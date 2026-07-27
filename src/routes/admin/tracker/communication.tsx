@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, Plus, X, MessageSquare, Mail, Phone, Video, Paperclip, ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { Search, Plus, X, MessageSquare, Mail, Phone, Video, Paperclip, ArrowDownLeft, ArrowUpRight, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import {
   getTrackerCommunicationLogs,
   saveTrackerCommunicationLogs,
@@ -32,6 +33,15 @@ export function CommunicationRoute() {
     setLogs(getTrackerCommunicationLogs());
     setEnquiries(getTrackerEnquiries());
   }, []);
+
+  const handleDeleteLog = (logId: string) => {
+    if (window.confirm("Are you sure you want to delete this communication log entry?")) {
+      const updated = logs.filter(l => l.id !== logId);
+      saveTrackerCommunicationLogs(updated);
+      setLogs(updated);
+      toast.success("Communication log entry deleted.");
+    }
+  };
 
   const handleCreateLog = () => {
     if (!summary.trim()) return;
@@ -137,6 +147,13 @@ export function CommunicationRoute() {
                       {log.channel} ({log.direction})
                     </span>
                     <span>{log.date} at {log.time}</span>
+                    <button
+                      onClick={() => handleDeleteLog(log.id)}
+                      title="Delete Entry"
+                      className="p-1 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors ml-1 cursor-pointer"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
                   </div>
                 </div>
 

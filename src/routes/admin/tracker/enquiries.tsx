@@ -1197,7 +1197,23 @@ export function EnquiriesRoute() {
                         <div key={l.id} className="p-4 rounded-xl border border-border bg-card space-y-1">
                           <div className="flex items-center justify-between text-xs">
                             <span className="font-bold text-electric">{l.channel} ({l.direction})</span>
-                            <span className="text-[10px] text-muted-foreground">{l.date} at {l.time}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] text-muted-foreground">{l.date} at {l.time}</span>
+                              <button
+                                onClick={() => {
+                                  if (window.confirm("Are you sure you want to delete this communication log entry?")) {
+                                    const updated = logs.filter(item => item.id !== l.id);
+                                    saveTrackerCommunicationLogs(updated);
+                                    setLogs(updated);
+                                    toast.success("Communication log entry deleted.");
+                                  }
+                                }}
+                                title="Delete Entry"
+                                className="p-1 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
+                              >
+                                <Trash2 className="size-3.5" />
+                              </button>
+                            </div>
                           </div>
                           <p className="text-xs text-foreground">{l.summary}</p>
                           <p className="text-[10px] text-muted-foreground">Logged by: {l.user_name}</p>
