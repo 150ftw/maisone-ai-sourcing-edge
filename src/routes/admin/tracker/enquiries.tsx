@@ -119,6 +119,7 @@ export function EnquiriesRoute() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedClient, setSelectedClient] = useState("All");
   const [selectedFactory, setSelectedFactory] = useState("All");
+  const [selectedAgent, setSelectedAgent] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedStage, setSelectedStage] = useState("All");
 
@@ -136,6 +137,7 @@ export function EnquiriesRoute() {
   const [isNewModalOpen, setIsNewModalOpen] = useState(false);
   const [newEnquiryNumber, setNewEnquiryNumber] = useState("");
   const [newClientId, setNewClientId] = useState("");
+  const [newAgentName, setNewAgentName] = useState("");
   const [newProductRef, setNewProductRef] = useState("");
   const [newChannel, setNewChannel] = useState("Email");
   const [newDetails, setNewDetails] = useState("");
@@ -198,12 +200,19 @@ export function EnquiriesRoute() {
 
     const existingEnquiry = allEnquiries[index];
 
-    // Check if factory is selected/shortlisted in stageFormData
+    // Check if factory or agent is selected in stageFormData
     const updatedFactoryName = stageFormData.factory_name || stageFormData.factory || existingEnquiry.factory_name;
     let updatedFactoryId = existingEnquiry.factory_id;
     if (updatedFactoryName) {
       const matchedFac = factories.find(f => f.factory_name === updatedFactoryName);
       if (matchedFac) updatedFactoryId = matchedFac.id;
+    }
+
+    const updatedAgentName = stageFormData.agent_name || existingEnquiry.agent_name;
+    let updatedAgentId = existingEnquiry.agent_id;
+    if (updatedAgentName) {
+      const matchedAg = agents.find(a => a.agent_name === updatedAgentName);
+      if (matchedAg) updatedAgentId = matchedAg.id;
     }
 
     const updatedStageData = {
@@ -295,6 +304,8 @@ export function EnquiriesRoute() {
       current_status: nextStatus,
       factory_name: updatedFactoryName,
       factory_id: updatedFactoryId,
+      agent_name: updatedAgentName,
+      agent_id: updatedAgentId,
       stage_data: updatedStageData,
       history: [newHistoryRecord, ...(existingEnquiry.history || [])]
     };
@@ -348,6 +359,7 @@ export function EnquiriesRoute() {
   const handleCreateEnquiry = () => {
     if (!newProductRef.trim()) return;
     const matchedClient = clients.find(c => c.id === newClientId) || clients[0];
+    const matchedAgent = agents.find(a => a.agent_name === newAgentName);
 
     const nextNumber = `ENQ-2026-00${enquiries.length + 1}`;
     const newEnq: TrackerEnquiry = {
@@ -358,6 +370,8 @@ export function EnquiriesRoute() {
       client_id: matchedClient?.id || "c-101",
       client_name: matchedClient?.company_name || "Client Agency",
       country: matchedClient?.country || "France",
+      agent_id: matchedAgent?.id,
+      agent_name: newAgentName || matchedAgent?.agent_name || "Direct",
       product_reference: newProductRef,
       communication_channel: newChannel,
       enquiry_details: newDetails,
@@ -407,14 +421,16 @@ export function EnquiriesRoute() {
       e.enquiry_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.client_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       e.product_reference.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (e.agent_name && e.agent_name.toLowerCase().includes(searchQuery.toLowerCase())) ||
       e.country.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesClient = selectedClient === "All" || e.client_name === selectedClient;
     const matchesFactory = selectedFactory === "All" || e.factory_name === selectedFactory;
+    const matchesAgent = selectedAgent === "All" || e.agent_name === selectedAgent;
     const matchesStatus = selectedStatus === "All" || e.current_status === selectedStatus;
     const matchesStage = selectedStage === "All" || e.current_stage.toString() === selectedStage;
 
-    return matchesSearch && matchesClient && matchesFactory && matchesStatus && matchesStage;
+    return matchesSearch && matchesClient && matchesFactory && matchesAgent && matchesStatus && matchesStage;
   });
 
   return (
@@ -447,12 +463,12 @@ export function EnquiriesRoute() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by Enquiry #, Client, Product, Country..."
+              placeholder="Search by Enquiry #, Client, Agent, Product, Country..."
               className="w-full pl-10 pr-4 py-2 rounded-xl bg-foreground/[0.02] border border-border text-xs focus:outline-none focus:border-electric transition-colors"
             />
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full md:w-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 w-full md:w-auto">
             <CustomSelect
               value={selectedClient === "All" ? "Filter Client" : selectedClient}
               onChange={(v) => setSelectedClient(v === "Filter Client" ? "All" : v)}
@@ -463,6 +479,12 @@ export function EnquiriesRoute() {
               value={selectedFactory === "All" ? "Filter Factory" : selectedFactory}
               onChange={(v) => setSelectedFactory(v === "Filter Factory" ? "All" : v)}
               options={["All", ...factories.map(f => f.factory_name)]}
+            />
+
+            <CustomSelect
+              value={selectedAgent === "All" ? "Filter Agent" : selectedAgent}
+              onChange={(v) => setSelectedAgent(v === "Filter Agent" ? "All" : v)}
+              options={["All", ...agents.map(a => a.agent_name)]}
             />
 
             <CustomSelect
@@ -483,12 +505,13 @@ export function EnquiriesRoute() {
       {/* Main Table */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         <div className="divide-y divide-border overflow-x-auto">
-          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center">
+          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1000px]">
             <div className="col-span-2">Enquiry / Client</div>
             <div className="col-span-2">Product Reference</div>
-            <div className="col-span-3">Current Stage</div>
+            <div className="col-span-2">Current Stage</div>
             <div className="col-span-2">Assigned Factory</div>
-            <div className="col-span-2">Status</div>
+            <div className="col-span-2">Assigned Agent</div>
+            <div className="col-span-1">Status</div>
             <div className="col-span-1 text-right">Action</div>
           </div>
 
@@ -496,7 +519,7 @@ export function EnquiriesRoute() {
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[850px]"
+              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1000px]"
             >
               <div className="col-span-2">
                 <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
@@ -509,7 +532,7 @@ export function EnquiriesRoute() {
                 <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-2">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
                   Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
                 </span>
@@ -517,7 +540,15 @@ export function EnquiriesRoute() {
 
               <div className="col-span-2">
                 <p className="font-medium text-foreground">{e.factory_name || "Unassigned"}</p>
-                <p className="text-[10px] text-muted-foreground">{e.agent_name || "Direct"}</p>
+                <p className="text-[10px] text-muted-foreground">Factory Partner</p>
+              </div>
+
+              <div className="col-span-2">
+                <p className="font-semibold text-foreground flex items-center gap-1.5">
+                  <User className="size-3 text-electric shrink-0" />
+                  <span>{e.agent_name || "Direct / Unassigned"}</span>
+                </p>
+                <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
               </div>
 
               <div className="col-span-2 flex items-center">
@@ -683,13 +714,24 @@ export function EnquiriesRoute() {
                           <h3 className="font-serif text-lg font-bold">{STAGE_NAMES[activeStageNumber - 1]}</h3>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <label className="text-xs text-muted-foreground font-semibold">Status:</label>
-                          <CustomSelect
-                            value={stageStatus || STAGE_STATUS_OPTIONS[activeStageNumber]?.[0] || "New"}
-                            onChange={(val) => setStageStatus(val)}
-                            options={STAGE_STATUS_OPTIONS[activeStageNumber] || ["Pending", "Completed"]}
-                          />
+                        <div className="flex flex-wrap items-center gap-3">
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs text-muted-foreground font-semibold">Assigned Agent:</label>
+                            <CustomSelect
+                              value={stageFormData.agent_name || selectedEnquiry.agent_name || "Direct / Unassigned"}
+                              onChange={(val) => setStageFormData({ ...stageFormData, agent_name: val })}
+                              options={["Direct / Unassigned", ...agents.map(a => a.agent_name)]}
+                            />
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <label className="text-xs text-muted-foreground font-semibold">Status:</label>
+                            <CustomSelect
+                              value={stageStatus || STAGE_STATUS_OPTIONS[activeStageNumber]?.[0] || "New"}
+                              onChange={(val) => setStageStatus(val)}
+                              options={STAGE_STATUS_OPTIONS[activeStageNumber] || ["Pending", "Completed"]}
+                            />
+                          </div>
                         </div>
                       </div>
 
@@ -1125,16 +1167,27 @@ export function EnquiriesRoute() {
             </div>
 
             <div className="space-y-3 text-xs">
-              <div>
-                <label className="text-[10px] uppercase font-bold text-muted-foreground">Select Client</label>
-                <CustomSelect
-                  value={clients.find(c => c.id === newClientId)?.company_name || clients[0]?.company_name || "Select Client"}
-                  onChange={(val) => {
-                    const matched = clients.find(c => c.company_name === val);
-                    if (matched) setNewClientId(matched.id);
-                  }}
-                  options={clients.map(c => c.company_name)}
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-muted-foreground">Select Client</label>
+                  <CustomSelect
+                    value={clients.find(c => c.id === newClientId)?.company_name || clients[0]?.company_name || "Select Client"}
+                    onChange={(val) => {
+                      const matched = clients.find(c => c.company_name === val);
+                      if (matched) setNewClientId(matched.id);
+                    }}
+                    options={clients.map(c => c.company_name)}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] uppercase font-bold text-muted-foreground">Assigned Agent</label>
+                  <CustomSelect
+                    value={newAgentName || "Direct / Unassigned"}
+                    onChange={(val) => setNewAgentName(val)}
+                    options={["Direct / Unassigned", ...agents.map(a => a.agent_name)]}
+                  />
+                </div>
               </div>
 
               <div>
