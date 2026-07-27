@@ -103,7 +103,6 @@ function TrendsRoute() {
             fabrics,
             colors,
             silhouettes,
-            updated_at: new Date().toISOString(),
           },
           { onConflict: "region,season" }
         );

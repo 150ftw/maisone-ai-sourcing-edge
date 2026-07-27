@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Settings as SettingsIcon, ShieldCheck, Lock, Users, Save, Check } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerSettings,
-  saveTrackerSettings,
   TrackerSettings,
   UserRole
 } from "@/lib/tracker-store";
@@ -12,20 +11,133 @@ export const Route = createFileRoute("/admin/tracker/settings")({
   component: SettingsRoute,
 });
 
-export function SettingsRoute() {
+function SettingsRoute() {
   const [settings, setSettings] = useState<TrackerSettings | null>(null);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const loadSettings = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("tracker_settings")
+        .select("value")
+        .eq("key", "agency_settings")
+        .single();
+
+      if (!error && data) {
+        setSettings(data.value as TrackerSettings);
+      } else {
+        // Seed default settings if the key is missing
+        const defaultSettings: TrackerSettings = {
+          agency_name: "Maisone Global Sourcing ERP",
+          currency: "USD",
+          fiscal_year_start: "January 1",
+          active_roles: ["Admin", "Staff"],
+          permissions: {
+            "Admin": ["All Access", "Create/Edit/Delete All", "Manage Finance", "Manage Roles"],
+            "Staff": ["View All", "Create/Edit Enquiries", "Add Communication Logs", "View Finance"],
+            "Finance": ["View Enquiries", "Manage Invoices", "Record Payments", "Export Financial Reports"],
+            "Factory": ["View Assigned Enquiries", "Update Production Stage", "Upload QC Photos"],
+            "Agent": ["View Regional Enquiries", "Add Client Logs", "Submit Costing"],
+            "Read Only": ["View Dashboards", "View Reports"]
+          }
+        };
+
+        const { error: seedError } = await supabase
+          .from("tracker_settings")
+          .insert([{ key: "agency_settings", value: defaultSettings }]);
+
+        if (!seedError) {
+          setSettings(defaultSettings);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load settings:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setSettings(getTrackerSettings());
+    loadSettings();
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!settings) return;
-    saveTrackerSettings(settings);
-    setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 3000);
+    try {
+      const { error } = await supabase
+        .from("tracker_settings")
+        .upsert({ key: "agency_settings", value: settings }, { onConflict: "key" });
+
+      if (error) throw error;
+      setSavedSuccess(true);
+      setTimeout(() => setSavedSuccess(false), 3000);
+    } catch (err) {
+      console.error("Failed to save settings:", err);
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        {/* Header skeleton */}
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-7 w-64 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-80 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="h-9 w-32 bg-foreground/10 rounded-xl" />
+        </div>
+
+        {/* General config panel skeleton */}
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-4">
+          <div className="flex items-center gap-2">
+            <div className="size-5 bg-foreground/10 rounded" />
+            <div className="h-5 w-56 bg-foreground/10 rounded-lg" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-2.5 w-24 bg-foreground/10 rounded-full" />
+                <div className="h-9 w-full bg-foreground/10 rounded-xl" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RBAC panel skeleton */}
+        <div className="p-6 rounded-2xl border border-border bg-card space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="size-5 bg-foreground/10 rounded" />
+                <div className="h-5 w-64 bg-foreground/10 rounded-lg" />
+              </div>
+              <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+            </div>
+            <div className="h-6 w-28 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="p-4 rounded-xl border border-border space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="h-4 w-20 bg-foreground/10 rounded-lg" />
+                  <div className="h-5 w-24 bg-foreground/10 rounded-full" />
+                </div>
+                <div className="h-2.5 w-32 bg-foreground/10 rounded-full" />
+                <div className="space-y-1.5">
+                  {[...Array(3)].map((_, j) => (
+                    <div key={j} className="h-2.5 bg-foreground/10 rounded-full" style={{ width: `${60 + j * 10}%` }} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!settings) return null;
 

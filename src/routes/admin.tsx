@@ -51,6 +51,7 @@ export type DemoRequest = {
   timeline: string;
   message: string;
   status: string;
+  erp_enquiry_id?: string | null;
 };
 
 export const AdminContext = createContext<any>(null);
@@ -436,7 +437,7 @@ function AdminPage() {
                                 to={tab.to}
                                 activeOptions={{ exact: tab.to === "/admin/tracker" }}
                                 className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
-                                  isCurrent ? "bg-electric/15 text-electric font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                                  isCurrent ? "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
                               >
                                 <Icon className="size-3.5 shrink-0" />
@@ -457,7 +458,7 @@ function AdminPage() {
                                 to={tab.to}
                                 activeOptions={{ exact: true }}
                                 className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
-                                  isCurrent ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                                  isCurrent ? "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
                               >
                                 <Icon className="size-3.5 shrink-0" />
@@ -509,7 +510,7 @@ function AdminPage() {
                           key={tab.id}
                           to={tab.to}
                           activeOptions={{ exact: true }}
-                          activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
+                          activeProps={{ className: "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" }}
                           inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
                           className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
                         >

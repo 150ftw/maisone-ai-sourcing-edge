@@ -2,15 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { BarChart3, Download, FileSpreadsheet, FileText, Filter, RefreshCw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerEnquiries,
-  saveTrackerEnquiries,
-  getTrackerClients,
-  saveTrackerClients,
-  getTrackerFactories,
-  saveTrackerFactories,
-  getTrackerPayments,
-  saveTrackerPayments,
   exportToCSV,
   TrackerEnquiry,
   TrackerClient,
@@ -22,54 +15,127 @@ export const Route = createFileRoute("/admin/tracker/reports")({
   component: ReportsRoute,
 });
 
-export function ReportsRoute() {
+function ReportsRoute() {
   const [reportType, setReportType] = useState<"client" | "factory" | "order" | "payment">("order");
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [clients, setClients] = useState<TrackerClient[]>([]);
   const [factories, setFactories] = useState<TrackerFactory[]>([]);
   const [payments, setPayments] = useState<TrackerPayment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadAllReportsData = async () => {
+    setLoading(true);
+    try {
+      const { data: dbEnquiries } = await supabase.from("tracker_enquiries").select("*").order("created_at", { ascending: false });
+      if (dbEnquiries) setEnquiries(dbEnquiries);
+
+      const { data: dbClients } = await supabase.from("tracker_clients").select("*").order("created_at", { ascending: false });
+      if (dbClients) setClients(dbClients);
+
+      const { data: dbFactories } = await supabase.from("suppliers").select("*").order("created_at", { ascending: false });
+      if (dbFactories) {
+        setFactories(dbFactories.map((db: any) => {
+          let contactPersonStr = db.owner_details || db.contact_person || "Unknown";
+          if (typeof contactPersonStr === "string" && contactPersonStr.startsWith("{")) {
+            try {
+              const parsed = JSON.parse(contactPersonStr);
+              contactPersonStr = parsed.owner || "Unknown";
+            } catch (e) {}
+          }
+          return {
+            id: db.id,
+            created_at: db.created_at,
+            factory_name: db.name || "Unknown",
+            category: db.category || "General",
+            location: `${db.city || ""}, ${db.region || ""}`.replace(/^, |^,/g, ''),
+            contact_person: contactPersonStr,
+            email: db.email_id || db.email || "",
+            whatsapp: db.contact_no || "",
+            lead_time: db.lead_time?.toString() || "30-45 Days",
+            quality_rating: parseFloat(db.rating) || 4.5
+          };
+        }));
+      }
+
+      const { data: dbInvoices } = await supabase.from("tracker_invoices").select("*");
+      const { data: dbPayments } = await supabase.from("tracker_payments").select("*").order("created_at", { ascending: false });
+      if (dbPayments) {
+        // Map invoice number and client name in memory
+        const mappedPmts = dbPayments.map((pmt: any) => {
+          const client = (dbClients || []).find((c: any) => c.id === pmt.client_id);
+          const invoice = (dbInvoices || []).find((i: any) => i.id === pmt.invoice_id);
+          return {
+            ...pmt,
+            client_name: client?.company_name || "Unknown Client",
+            invoice_number: invoice?.invoice_number || "INV-UNKNOWN"
+          };
+        });
+        setPayments(mappedPmts);
+      }
+    } catch (err) {
+      console.error("Failed to load reports data:", err);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    setEnquiries(getTrackerEnquiries());
-    setClients(getTrackerClients());
-    setFactories(getTrackerFactories());
-    setPayments(getTrackerPayments());
+    loadAllReportsData();
   }, []);
 
-  const handleDeleteEnquiry = (id: string, num: string) => {
+  const handleDeleteEnquiry = async (id: string, num: string) => {
     if (window.confirm(`Delete enquiry ${num}?`)) {
-      const updated = enquiries.filter(e => e.id !== id);
-      saveTrackerEnquiries(updated);
-      setEnquiries(updated);
-      toast.success(`Enquiry ${num} deleted.`);
+      try {
+        const { error } = await supabase.from("tracker_enquiries").delete().eq("id", id);
+        if (error) throw error;
+        loadAllReportsData();
+        toast.success(`Enquiry ${num} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete enquiry");
+      }
     }
   };
 
-  const handleDeleteClient = (id: string, name: string) => {
+  const handleDeleteClient = async (id: string, name: string) => {
     if (window.confirm(`Delete client record ${name}?`)) {
-      const updated = clients.filter(c => c.id !== id);
-      saveTrackerClients(updated);
-      setClients(updated);
-      toast.success(`Client ${name} deleted.`);
+      try {
+        const { error } = await supabase.from("tracker_clients").delete().eq("id", id);
+        if (error) throw error;
+        loadAllReportsData();
+        toast.success(`Client ${name} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete client");
+      }
     }
   };
 
-  const handleDeleteFactory = (id: string, name: string) => {
+  const handleDeleteFactory = async (id: string, name: string) => {
     if (window.confirm(`Delete factory record ${name}?`)) {
-      const updated = factories.filter(f => f.id !== id);
-      saveTrackerFactories(updated);
-      setFactories(updated);
-      toast.success(`Factory ${name} deleted.`);
+      try {
+        const { error } = await supabase.from("suppliers").delete().eq("id", id);
+        if (error) throw error;
+        loadAllReportsData();
+        toast.success(`Factory ${name} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete factory");
+      }
     }
   };
 
-  const handleDeletePayment = (id: string, num?: string) => {
+  const handleDeletePayment = async (id: string, num?: string) => {
     const label = num || "Payment Record";
     if (window.confirm(`Delete payment record ${label}?`)) {
-      const updated = payments.filter(p => p.id !== id);
-      saveTrackerPayments(updated);
-      setPayments(updated);
-      toast.success(`Payment record for ${label} deleted.`);
+      try {
+        const { error } = await supabase.from("tracker_payments").delete().eq("id", id);
+        if (error) throw error;
+        loadAllReportsData();
+        toast.success(`Payment record for ${label} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete payment");
+      }
     }
   };
 

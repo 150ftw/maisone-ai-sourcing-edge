@@ -21,8 +21,6 @@ create policy "Public can view trends"
   on public.trends for select
   using (true);
 
-create policy "Authenticated can manage trends"
+create policy "Allow public all trends"
   on public.trends for all
-  to authenticated
-  using (true)
-  with check (true);
+  using (true);

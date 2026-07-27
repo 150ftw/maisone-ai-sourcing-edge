@@ -226,7 +226,6 @@ export function TrendForecast() {
         .from("trends")
         .select("fabrics, colors, silhouettes")
         .eq("region", region)
-        .order("updated_at", { ascending: false })
         .limit(1)
         .maybeSingle();
 

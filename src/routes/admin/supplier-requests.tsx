@@ -117,103 +117,40 @@ function SupplierRequestsPage() {
 
       if (error) throw error;
 
-      // If status is Approved, add to suppliers table automatically
+      // If status is Approved, add to BOTH suppliers (Supabase) and tracker_factories (Local Storage)
       if (status === "Approved") {
         const req = requests.find(r => r.id === id);
         if (req) {
-          // Check if supplier with this email already exists
-          const { data: existing } = await supabase
+          // 1. Add to Core Admin Suppliers (Supabase)
+          const { data: existingSupplier } = await supabase
             .from("suppliers")
-            .select("supplier_id")
-            .eq("email_id", req.work_email)
+            .select("id")
+            .eq("email", req.work_email)
             .maybeSingle();
 
-          if (!existing) {
-            // Fetch all suppliers to generate next sequential SUP-XXX ID
-            const { data: allSuppliers } = await supabase
-              .from("suppliers")
-              .select("supplier_id");
-
-            let maxNum = 0;
-            if (allSuppliers) {
-              allSuppliers.forEach(s => {
-                const idStr = s.supplier_id;
-                if (idStr && typeof idStr === "string" && idStr.startsWith("SUP-")) {
-                  const num = parseInt(idStr.replace("SUP-", ""), 10);
-                  if (!isNaN(num) && num > maxNum) {
-                    maxNum = num;
-                  }
-                }
-              });
-            }
-            const nextNum = maxNum + 1;
-            const nextId = `SUP-${String(nextNum).padStart(3, "0")}`;
-
-            // Parse lead time value or default
-            let parsedLeadTime = 21; // Default
-            if (req.lead_time) {
-              const match = req.lead_time.match(/\d+/);
-              if (match) {
-                parsedLeadTime = parseInt(match[0], 10);
-              }
-            }
-
-            const serializedDetails = JSON.stringify({
-              owner: req.full_name || "",
-              clientele: "",
-              fabrics: "",
-              capabilities: req.message || "",
-              productionCapacity: "",
-              moq: req.moq || "100–500 units",
-              samplingLeadTime: "",
-              qualityControl: "",
-              certifications: "",
-              sustainability: "",
-              compliance: "",
-              paymentTerms: "30% Deposit, 70% Balance"
-            });
-
+          if (!existingSupplier) {
             const newSupplier = {
-              supplier_id: nextId,
               name: req.factory_name,
-              region: req.region || "Other",
-              city: "TBD",
-              category: (req.categories || []).join(", "),
-              lead_time: parsedLeadTime,
-              otd: 95,
-              rating: 4.5,
-              contact_no: null,
-              owner_details: serializedDetails,
-              email_id: req.work_email
+              contact_person: req.full_name,
+              email: req.work_email,
+              country: req.region || "Unknown",
+              categories: (req.categories || []).join(", ") || "Woven & Knit",
+              status: "Active",
+              rating: 5,
+              notes: `Approved from Supplier Requests. MOQ: ${req.moq}, Lead time: ${req.lead_time}`
             };
-
+            
             const { error: insertError } = await supabase
               .from("suppliers")
               .insert([newSupplier]);
-
+              
             if (insertError) {
               console.error("Failed to auto-create supplier:", insertError);
             }
           }
 
-          // Sync directly to Tracker Platform Factories/Suppliers
-          const allTrackerFactories = getTrackerFactories();
-          const existsInTracker = allTrackerFactories.some(f => f.email === req.work_email || f.factory_name === req.factory_name);
-          if (!existsInTracker) {
-            const newTrackerFac: TrackerFactory = {
-              id: `fac-${Date.now()}`,
-              created_at: new Date().toISOString(),
-              factory_name: req.factory_name,
-              category: (req.categories || []).join(", ") || "Woven & Knit",
-              location: req.region || "Vietnam",
-              contact_person: req.full_name,
-              email: req.work_email,
-              whatsapp: "+1 555-0192",
-              lead_time: req.lead_time || "21-30 Days",
-              quality_rating: 4.8
-            };
-            saveTrackerFactories([newTrackerFac, ...allTrackerFactories]);
-          }
+          // 2. Add to Tracker Factories (Local Storage)
+          // Removed: The systems are now unified. Tracker Factories fetches directly from the Supabase suppliers table!
         }
       }
       
