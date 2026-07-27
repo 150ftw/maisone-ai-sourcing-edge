@@ -394,19 +394,20 @@ function AdminPage() {
               <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">{t("admin.badge")}</span>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-border bg-foreground/[0.02] text-[11px] font-semibold text-muted-foreground shadow-sm">
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl border border-border bg-foreground/[0.02] text-[10px] sm:text-[11px] font-semibold text-muted-foreground shadow-sm">
                 <span className={`size-2 rounded-full ${dbConnected === true ? "bg-emerald-400 animate-pulse" : dbConnected === false ? "bg-amber-400" : "bg-muted animate-pulse"}`} />
-                <span>{dbConnected === true ? "Supabase DB Live" : dbConnected === false ? "Local Storage Mode" : "Checking DB..."}</span>
+                <span className="hidden xs:inline">{dbConnected === true ? "Supabase DB Live" : dbConnected === false ? "Local Storage Mode" : "Checking DB..."}</span>
+                <span className="xs:hidden">{dbConnected === true ? "DB Live" : dbConnected === false ? "Local Mode" : "Syncing..."}</span>
               </div>
               <SettingsMenu />
               {session ? (
                 <button
                   onClick={handleLogout}
                   title={t("admin.signOut")}
-                  className="size-11 rounded-full flex items-center justify-center border border-border text-foreground/80 hover:text-foreground hover:bg-secondary/50 transition-all cursor-pointer glass-strong shadow-lg shrink-0 sm:w-auto sm:h-11 sm:px-5 sm:rounded-full sm:inline-flex sm:items-center sm:gap-2 sm:text-sm whitespace-nowrap"
+                  className="size-9 sm:size-11 rounded-full flex items-center justify-center border border-border text-foreground/80 hover:text-foreground hover:bg-secondary/50 transition-all cursor-pointer glass-strong shadow-lg shrink-0 sm:w-auto sm:h-11 sm:px-5 sm:rounded-full sm:inline-flex sm:items-center sm:gap-2 sm:text-sm whitespace-nowrap"
                 >
-                  <LogOut className="size-4 shrink-0" />
+                  <LogOut className="size-3.5 sm:size-4 shrink-0" />
                   <span className="hidden sm:inline">{t("admin.signOut")}</span>
                 </button>
               ) : (
@@ -418,7 +419,7 @@ function AdminPage() {
           </header>
 
           {/* Main Content */}
-          <main className="relative w-full px-6 sm:px-10 py-8">
+          <main className="relative w-full px-4 sm:px-10 py-6 pb-24 md:pb-8">
             <div className="flex flex-col md:flex-row gap-8 items-start w-full">
               {/* Sidebar navigation */}
               <div className="w-full md:w-56 shrink-0 space-y-6">
@@ -454,6 +455,7 @@ function AdminPage() {
                                 key={tab.id}
                                 to={tab.to}
                                 activeOptions={{ exact: tab.to === "/admin/tracker" }}
+                                onClick={() => setMobileMenuOpen(false)}
                                 className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
                                   isCurrent ? "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
@@ -475,6 +477,7 @@ function AdminPage() {
                                 key={tab.id}
                                 to={tab.to}
                                 activeOptions={{ exact: true }}
+                                onClick={() => setMobileMenuOpen(false)}
                                 className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
                                   isCurrent ? "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
                                 }`}
@@ -560,6 +563,56 @@ function AdminPage() {
               </div>
             </div>
           </main>
+
+          {/* Mobile Bottom Navigation Dock */}
+          <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-card/95 backdrop-blur-xl border-t border-border/80 px-2 py-1.5 flex items-center justify-around shadow-2xl">
+            <Link
+              to="/admin/tracker"
+              activeOptions={{ exact: true }}
+              activeProps={{ className: "text-electric font-bold" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+              className="flex flex-col items-center gap-0.5 text-[10px] p-1.5 cursor-pointer"
+            >
+              <LayoutDashboard className="size-4" />
+              <span>Dashboard</span>
+            </Link>
+            <Link
+              to="/admin/tracker/enquiries"
+              activeProps={{ className: "text-electric font-bold" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+              className="flex flex-col items-center gap-0.5 text-[10px] p-1.5 cursor-pointer"
+            >
+              <Briefcase className="size-4" />
+              <span>Enquiries</span>
+            </Link>
+            <Link
+              to="/admin/tracker/finance"
+              activeProps={{ className: "text-electric font-bold" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+              className="flex flex-col items-center gap-0.5 text-[10px] p-1.5 cursor-pointer"
+            >
+              <DollarSign className="size-4" />
+              <span>Finance</span>
+            </Link>
+            <Link
+              to="/admin/tracker/clients"
+              activeProps={{ className: "text-electric font-bold" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+              className="flex flex-col items-center gap-0.5 text-[10px] p-1.5 cursor-pointer"
+            >
+              <Users className="size-4" />
+              <span>Clients</span>
+            </Link>
+            <Link
+              to="/admin/tracker/settings"
+              activeProps={{ className: "text-electric font-bold" }}
+              inactiveProps={{ className: "text-muted-foreground hover:text-foreground" }}
+              className="flex flex-col items-center gap-0.5 text-[10px] p-1.5 cursor-pointer"
+            >
+              <Settings className="size-4" />
+              <span>Settings</span>
+            </Link>
+          </nav>
         </div>
       </AdminContext.Provider>
     </ThemeProvider>

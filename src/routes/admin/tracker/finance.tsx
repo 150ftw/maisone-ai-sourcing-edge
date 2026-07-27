@@ -336,8 +336,8 @@ function FinanceRoute() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-foreground/[0.02] shadow-sm">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
+          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border bg-foreground/[0.02] shadow-sm shrink-0">
             <Globe className="size-3.5 text-electric shrink-0" />
             <select
               value={displayCurrency}
@@ -354,43 +354,43 @@ function FinanceRoute() {
 
           <button
             onClick={() => setIsPmtModalOpen(true)}
-            className="px-4 py-2.5 rounded-xl border border-border bg-card text-foreground font-semibold text-xs shadow-sm hover:bg-foreground/5 transition-all cursor-pointer"
+            className="flex-1 sm:flex-initial px-3.5 py-2.5 rounded-xl border border-border bg-card text-foreground font-semibold text-xs shadow-sm hover:bg-foreground/5 transition-all cursor-pointer whitespace-nowrap text-center"
           >
             Record Payment
           </button>
           <button
             onClick={() => setIsInvModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-electric text-background font-bold text-xs shadow-lg hover:brightness-110 transition-all cursor-pointer"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-electric text-background font-bold text-xs shadow-lg hover:brightness-110 transition-all cursor-pointer whitespace-nowrap"
           >
-            <Plus className="size-4" />
+            <Plus className="size-4 shrink-0" />
             Create Invoice
           </button>
         </div>
       </div>
 
       {/* Financial Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+        <div className="p-4 sm:p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Total Invoiced Amount</p>
-          <p className="text-2xl font-serif font-bold text-foreground">{symbol}{totalInvoicedConv.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-serif font-bold text-foreground">{symbol}{totalInvoicedConv.toLocaleString()}</p>
           <p className="text-[11px] text-muted-foreground">{invoices.length} Invoices ({displayCurrency})</p>
         </div>
 
-        <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
+        <div className="p-4 sm:p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Total Collected Payments</p>
-          <p className="text-2xl font-serif font-bold text-emerald-600 dark:text-emerald-400">{symbol}{totalCollectedConv.toLocaleString()}</p>
-          <p className="text-[11px] text-emerald-700/80 dark:text-emerald-500/80">Funds Received & Cleared ({displayCurrency})</p>
+          <p className="text-xl sm:text-2xl font-serif font-bold text-emerald-600 dark:text-emerald-400">{symbol}{totalCollectedConv.toLocaleString()}</p>
+          <p className="text-[11px] text-emerald-700/80 dark:text-emerald-500/80">Funds Received ({displayCurrency})</p>
         </div>
 
-        <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
+        <div className="p-4 sm:p-5 rounded-2xl border border-border bg-card space-y-1 sm:col-span-2 md:col-span-1">
           <p className="text-xs font-semibold text-muted-foreground">Outstanding Balance Due</p>
-          <p className="text-2xl font-serif font-bold text-amber-600 dark:text-amber-400">{symbol}{totalOutstandingConv.toLocaleString()}</p>
+          <p className="text-xl sm:text-2xl font-serif font-bold text-amber-600 dark:text-amber-400">{symbol}{totalOutstandingConv.toLocaleString()}</p>
           <p className="text-[11px] text-amber-700/80 dark:text-amber-500/80">Calculated ({displayCurrency})</p>
         </div>
       </div>
 
       {/* Sub-tabs */}
-      <div className="flex border-b border-border gap-6 text-xs font-semibold">
+      <div className="flex border-b border-border gap-4 sm:gap-6 text-xs font-semibold overflow-x-auto no-scrollbar pb-0.5">
         <button
           onClick={() => setActiveTab("all")}
           className={`py-2.5 border-b-2 transition-colors cursor-pointer ${

@@ -669,71 +669,55 @@ function EnquiriesRoute() {
         </div>
       </div>
 
-      {/* Main Table */}
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="divide-y divide-border overflow-x-auto custom-scrollbar">
-          <div className="px-6 py-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1350px]">
-            <div className="col-span-2">Enquiry / Client</div>
-            <div className="col-span-2">Product Reference</div>
-            <div className="col-span-2">Current Stage</div>
-            <div className="col-span-2">Assigned Factory</div>
-            <div className="col-span-1">Agent</div>
-            <div className="col-span-2">Status</div>
-            <div className="col-span-1 text-center font-bold">Action</div>
-          </div>
-
+      {/* Main Container - Responsive Mobile Cards + Desktop Table */}
+      <div className="space-y-4">
+        {/* Mobile View: Touch-Friendly Card List */}
+        <div className="block md:hidden space-y-3">
           {filteredEnquiries.map((e) => (
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="px-6 py-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1350px]"
+              className="p-4 rounded-2xl border border-border bg-card space-y-3 shadow-sm hover:border-electric/40 transition-all cursor-pointer"
             >
-              <div className="col-span-2">
-                <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
-                <p className="font-medium text-foreground">{e.client_name}</p>
-                <p className="text-[10px] text-muted-foreground">{e.country}</p>
-              </div>
-
-              <div className="col-span-2">
-                <p className="font-semibold text-foreground">{e.product_reference}</p>
-                <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
-              </div>
-
-              <div className="col-span-2">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
-                  Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
-                </span>
-              </div>
-
-              <div className="col-span-2">
-                <p className="font-medium text-foreground">{e.factory_name || "Unassigned"}</p>
-                <p className="text-[10px] text-muted-foreground">Factory Partner</p>
-              </div>
-
-              <div className="col-span-1">
-                <p className="font-semibold text-foreground flex items-center gap-1">
-                  <User className="size-3 text-electric shrink-0" />
-                  <span className="truncate">{e.agent_name || "Direct"}</span>
-                </p>
-                <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
-              </div>
-
-              <div className="col-span-2 flex items-center">
-                <span className={`px-3 py-1 rounded-full text-[11px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
-                  <span className="size-1.5 rounded-full bg-current" />
+              <div className="flex items-center justify-between gap-2 border-b border-border/60 pb-2.5">
+                <div>
+                  <span className="font-mono font-bold text-electric text-sm">{e.enquiry_number}</span>
+                  <p className="font-medium text-foreground text-xs">{e.client_name} ({e.country})</p>
+                </div>
+                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeStyles(e.current_status)}`}>
                   {e.current_status}
                 </span>
               </div>
 
-              <div className="col-span-1 flex items-center justify-center gap-2">
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase font-bold">Product Reference</p>
+                  <p className="font-semibold text-foreground truncate">{e.product_reference}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] text-muted-foreground uppercase font-bold">Target Price</p>
+                  <p className="font-mono font-bold text-foreground">${e.target_price}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-xs pt-1">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px]">
+                  Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
+                </span>
+                <span className="text-[11px] text-muted-foreground font-medium">
+                  {e.factory_name || "No Factory"}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2 border-t border-border/40">
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
                     setSelectedEnquiry(e);
                   }}
-                  className="px-3.5 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
+                  className="flex-1 py-2 rounded-xl bg-electric text-background text-xs font-bold shadow-md hover:brightness-110 transition-all text-center"
                 >
-                  Manage
+                  Manage Stage Updates
                 </button>
                 <button
                   onClick={(event) => {
@@ -741,19 +725,107 @@ function EnquiriesRoute() {
                     handleDeleteEnquiry(e.id, e.enquiry_number);
                   }}
                   title="Delete Enquiry"
-                  className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 shrink-0 shadow-sm cursor-pointer"
+                  className="p-2 rounded-xl border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all shadow-sm cursor-pointer"
                 >
-                  <Trash2 className="size-3.5" />
+                  <Trash2 className="size-4" />
                 </button>
               </div>
             </div>
           ))}
 
           {filteredEnquiries.length === 0 && (
-            <div className="p-12 text-center text-muted-foreground text-xs">
+            <div className="p-8 text-center text-muted-foreground text-xs rounded-2xl border border-border bg-card">
               No enquiries match the selected filters.
             </div>
           )}
+        </div>
+
+        {/* Desktop View: Full Table */}
+        <div className="hidden md:block rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="divide-y divide-border overflow-x-auto custom-scrollbar">
+            <div className="px-6 py-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1350px]">
+              <div className="col-span-2">Enquiry / Client</div>
+              <div className="col-span-2">Product Reference</div>
+              <div className="col-span-2">Current Stage</div>
+              <div className="col-span-2">Assigned Factory</div>
+              <div className="col-span-1">Agent</div>
+              <div className="col-span-2">Status</div>
+              <div className="col-span-1 text-center font-bold">Action</div>
+            </div>
+
+            {filteredEnquiries.map((e) => (
+              <div
+                key={e.id}
+                onClick={() => setSelectedEnquiry(e)}
+                className="px-6 py-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1350px]"
+              >
+                <div className="col-span-2">
+                  <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
+                  <p className="font-medium text-foreground">{e.client_name}</p>
+                  <p className="text-[10px] text-muted-foreground">{e.country}</p>
+                </div>
+
+                <div className="col-span-2">
+                  <p className="font-semibold text-foreground">{e.product_reference}</p>
+                  <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
+                </div>
+
+                <div className="col-span-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
+                    Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
+                  </span>
+                </div>
+
+                <div className="col-span-2">
+                  <p className="font-medium text-foreground">{e.factory_name || "Unassigned"}</p>
+                  <p className="text-[10px] text-muted-foreground">Factory Partner</p>
+                </div>
+
+                <div className="col-span-1">
+                  <p className="font-semibold text-foreground flex items-center gap-1">
+                    <User className="size-3 text-electric shrink-0" />
+                    <span className="truncate">{e.agent_name || "Direct"}</span>
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
+                </div>
+
+                <div className="col-span-2 flex items-center">
+                  <span className={`px-3 py-1 rounded-full text-[11px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
+                    <span className="size-1.5 rounded-full bg-current" />
+                    {e.current_status}
+                  </span>
+                </div>
+
+                <div className="col-span-1 flex items-center justify-center gap-2">
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setSelectedEnquiry(e);
+                    }}
+                    className="px-3.5 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
+                  >
+                    Manage
+                  </button>
+                  <button
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleDeleteEnquiry(e.id, e.enquiry_number);
+                    }}
+                    title="Delete Enquiry"
+                    className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 shrink-0 shadow-sm cursor-pointer"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {filteredEnquiries.length === 0 && (
+              <div className="p-12 text-center text-muted-foreground text-xs">
+                No enquiries match the selected filters.
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
