@@ -169,10 +169,17 @@ export function EnquiriesRoute() {
 
   useEffect(() => {
     if (selectedEnquiry) {
-      setActiveStageNumber(selectedEnquiry.current_stage);
-      const currentData = selectedEnquiry.stage_data?.[selectedEnquiry.current_stage] || {};
+      const stageNum = selectedEnquiry.current_stage;
+      setActiveStageNumber(stageNum);
+      const currentData = selectedEnquiry.stage_data?.[stageNum] || {};
       setStageFormData(currentData);
-      setStageStatus(selectedEnquiry.current_status);
+
+      const validOptions = STAGE_STATUS_OPTIONS[stageNum] || [];
+      const statusToUse = currentData.status && validOptions.includes(currentData.status)
+        ? currentData.status
+        : (validOptions.includes(selectedEnquiry.current_status) ? selectedEnquiry.current_status : validOptions[0] || "New");
+
+      setStageStatus(statusToUse);
       setStageNotes(currentData.notes || "");
     }
   }, [selectedEnquiry]);
@@ -186,7 +193,13 @@ export function EnquiriesRoute() {
     setActiveStageNumber(stageNum);
     const existing = selectedEnquiry.stage_data?.[stageNum] || {};
     setStageFormData(existing);
-    setStageStatus(existing.status || STAGE_STATUS_OPTIONS[stageNum]?.[0] || "New");
+
+    const validOptions = STAGE_STATUS_OPTIONS[stageNum] || [];
+    const statusToUse = existing.status && validOptions.includes(existing.status)
+      ? existing.status
+      : (validOptions[0] || "New");
+
+    setStageStatus(statusToUse);
     setStageNotes(existing.notes || "");
   };
 
@@ -282,18 +295,22 @@ export function EnquiriesRoute() {
 
     // Calculate progression stage and status
     let nextStage: StageNumber;
-    let nextStatus: string = stageStatus;
+    let nextStatus: string;
 
     if (isBlocking) {
       nextStage = activeStageNumber;
+      nextStatus = stageStatus;
     } else if (activeStageNumber === 13) {
       nextStage = 13;
+      nextStatus = stageStatus;
     } else {
       nextStage = Math.min(13, activeStageNumber + 1) as StageNumber;
-      // Use next stage's status if already filled, otherwise stageStatus
       const nextStageData = updatedStageData[nextStage];
-      if (nextStageData?.status) {
+      const validNextOptions = STAGE_STATUS_OPTIONS[nextStage] || [];
+      if (nextStageData?.status && validNextOptions.includes(nextStageData.status)) {
         nextStatus = nextStageData.status;
+      } else {
+        nextStatus = validNextOptions[0] || "New";
       }
     }
 
@@ -324,7 +341,7 @@ export function EnquiriesRoute() {
       setActiveStageNumber(nextStage);
       const nextStageExisting = updatedStageData[nextStage] || {};
       setStageFormData(nextStageExisting);
-      setStageStatus(nextStageExisting.status || STAGE_STATUS_OPTIONS[nextStage]?.[0] || "New");
+      setStageStatus(nextStatus);
       setStageNotes(nextStageExisting.notes || "");
       toast.success(`Stage #${activeStageNumber} saved successfully!`);
     }
@@ -760,11 +777,17 @@ export function EnquiriesRoute() {
 
                           <div className="flex items-center gap-2">
                             <label className="text-xs text-muted-foreground font-semibold">Status:</label>
-                            <CustomSelect
-                              value={stageStatus || STAGE_STATUS_OPTIONS[activeStageNumber]?.[0] || "New"}
-                              onChange={(val) => setStageStatus(val)}
-                              options={STAGE_STATUS_OPTIONS[activeStageNumber] || ["Pending", "Completed"]}
-                            />
+                            {(() => {
+                              const validOpts = STAGE_STATUS_OPTIONS[activeStageNumber] || ["Pending", "Completed"];
+                              const validVal = validOpts.includes(stageStatus) ? stageStatus : validOpts[0];
+                              return (
+                                <CustomSelect
+                                  value={validVal}
+                                  onChange={(val) => setStageStatus(val)}
+                                  options={validOpts}
+                                />
+                              );
+                            })()}
                           </div>
                         </div>
                       </div>
