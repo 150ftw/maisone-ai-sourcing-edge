@@ -16,60 +16,14 @@ export function Navbar() {
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
-    let hintTimeout: NodeJS.Timeout;
-
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      // Trigger hint when scrolling past Hero section (approx 1 screen height)
-      if (typeof window !== "undefined" && window.location.pathname === "/") {
-        const hasShown = localStorage.getItem("maisone_settings_hint_v7");
-        const loaderDone = sessionStorage.getItem("maisone_has_loaded");
-        
-        // Only trigger if they haven't seen it, AND the loader is finished
-        if (!hasShown && loaderDone) {
-          // Trigger when scrolling down approx 80% of the screen
-          if (window.scrollY > window.innerHeight * 0.8) {
-            localStorage.setItem("maisone_settings_hint_v7", "true");
-            setShowHint(true);
-              
-              // Subtle pop sound via Web Audio API
-              try {
-                const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-                if (AudioContext) {
-                  const ctx = new AudioContext();
-                  const osc = ctx.createOscillator();
-                  const gain = ctx.createGain();
-                  osc.connect(gain);
-                  gain.connect(ctx.destination);
-                  
-                  osc.type = "sine";
-                  osc.frequency.setValueAtTime(800, ctx.currentTime);
-                  osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
-                  
-                  gain.gain.setValueAtTime(0, ctx.currentTime);
-                  gain.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.02);
-                  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-                  
-                  osc.start(ctx.currentTime);
-                  osc.stop(ctx.currentTime + 0.3);
-                }
-              } catch (e) {
-                console.error("Audio play failed", e);
-              }
-
-              // Hide after 6 seconds
-              hintTimeout = setTimeout(() => setShowHint(false), 6000);
-            }
-          }
-      }
     };
 
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      clearTimeout(hintTimeout);
     };
   }, []);
 
@@ -146,35 +100,7 @@ export function Navbar() {
                   <Info className="size-4" />
                 </button>
 
-                <AnimatePresence>
-                  {showHint && !settingsOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                      className="absolute left-0 top-full mt-3 w-72 bg-card rounded-xl border-2 border-dashed border-electric/40 shadow-[0_10px_40px_-10px_rgba(194,164,109,0.4)] z-50 pointer-events-none hidden md:block"
-                    >
-                      {/* Background ambient glow */}
-                      <div className="absolute inset-0 overflow-hidden rounded-xl pointer-events-none">
-                        <div className="absolute -top-10 -right-10 size-32 bg-electric/15 rounded-full blur-2xl" />
-                        <div className="absolute -bottom-10 -left-10 size-32 bg-electric/10 rounded-full blur-2xl" />
-                      </div>
-                      
-                      {/* Arrow */}
-                      <div className="absolute -top-[10px] left-[12px] w-4 h-4 bg-card border-l-2 border-t-2 border-dashed border-electric/40 rotate-45" />
-                      
-                      <div className="relative z-10 p-3 flex flex-col gap-1.5 items-center">
-                        <div className="flex items-center gap-2 text-electric bg-electric/10 px-3 py-1 rounded-full border border-electric/20 mb-1">
-                          <Scissors className="w-3.5 h-3.5" />
-                          <span className="text-[10px] uppercase tracking-widest font-bold">{t("nav.tailorYourView") || "Tailor Your View"}</span>
-                        </div>
-                        <p className="text-xs text-foreground font-medium text-center leading-relaxed px-1">
-                          {t("nav.customizeTheme") || "Customize your theme & language settings here."}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+
 
                 {settingsOpen && (
                   <motion.div

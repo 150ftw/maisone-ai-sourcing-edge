@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Loader2, Search, Filter, Trash2, Mail, Building2, User, Globe,
   Calendar, MessageSquare, ShieldAlert, Check, RefreshCw,
-  ChevronLeft, ChevronRight, X, Layers
+  ChevronLeft, ChevronRight, X, Layers, ChevronDown
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { AdminContext, StatusDropdown } from "../admin";
@@ -38,6 +38,7 @@ function SupplierRequestsPage() {
   const [reqError, setReqError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [filterOpen, setFilterOpen] = useState(false);
   
   // Pagination States
   const [page, setPage] = useState(1);
@@ -110,6 +111,87 @@ function SupplierRequestsPage() {
         .eq("id", id);
 
       if (error) throw error;
+
+      // If status is Approved, add to suppliers table automatically
+      if (status === "Approved") {
+        const req = requests.find(r => r.id === id);
+        if (req) {
+          // Check if supplier with this email already exists
+          const { data: existing } = await supabase
+            .from("suppliers")
+            .select("supplier_id")
+            .eq("email_id", req.work_email)
+            .maybeSingle();
+
+          if (!existing) {
+            // Fetch all suppliers to generate next sequential SUP-XXX ID
+            const { data: allSuppliers } = await supabase
+              .from("suppliers")
+              .select("supplier_id");
+
+            let maxNum = 0;
+            if (allSuppliers) {
+              allSuppliers.forEach(s => {
+                const idStr = s.supplier_id;
+                if (idStr && typeof idStr === "string" && idStr.startsWith("SUP-")) {
+                  const num = parseInt(idStr.replace("SUP-", ""), 10);
+                  if (!isNaN(num) && num > maxNum) {
+                    maxNum = num;
+                  }
+                }
+              });
+            }
+            const nextNum = maxNum + 1;
+            const nextId = `SUP-${String(nextNum).padStart(3, "0")}`;
+
+            // Parse lead time value or default
+            let parsedLeadTime = 21; // Default
+            if (req.lead_time) {
+              const match = req.lead_time.match(/\d+/);
+              if (match) {
+                parsedLeadTime = parseInt(match[0], 10);
+              }
+            }
+
+            const serializedDetails = JSON.stringify({
+              owner: req.full_name || "",
+              clientele: "",
+              fabrics: "",
+              capabilities: req.message || "",
+              productionCapacity: "",
+              moq: req.moq || "100–500 units",
+              samplingLeadTime: "",
+              qualityControl: "",
+              certifications: "",
+              sustainability: "",
+              compliance: "",
+              paymentTerms: "30% Deposit, 70% Balance"
+            });
+
+            const newSupplier = {
+              supplier_id: nextId,
+              name: req.factory_name,
+              region: req.region || "Other",
+              city: "TBD",
+              category: (req.categories || []).join(", "),
+              lead_time: parsedLeadTime,
+              otd: 95,
+              rating: 4.5,
+              contact_no: null,
+              owner_details: serializedDetails,
+              email_id: req.work_email
+            };
+
+            const { error: insertError } = await supabase
+              .from("suppliers")
+              .insert([newSupplier]);
+
+            if (insertError) {
+              console.error("Failed to auto-create supplier:", insertError);
+            }
+          }
+        }
+      }
       
       setRequests(prev => prev.map(req => req.id === id ? { ...req, status } : req));
       if (selectedRequest?.id === id) {
@@ -149,21 +231,19 @@ function SupplierRequestsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="font-serif text-4xl tracking-tight">{t("admin.supplierReqTitle")}</h1>
+          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight">{t("admin.supplierReqTitle")}</h1>
           <p className="text-sm text-muted-foreground mt-1">{t("admin.supplierReqDesc")}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={fetchRequests}
-            disabled={reqLoading}
-            className="p-2.5 rounded-full border border-foreground/10 hover:bg-foreground/5 disabled:opacity-50 transition-colors cursor-pointer"
-            title="Refresh Data"
-          >
-            <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
-          </button>
-        </div>
+        <button 
+          onClick={fetchRequests}
+          disabled={reqLoading}
+          className="p-2.5 rounded-full border border-foreground/10 hover:bg-foreground/5 disabled:opacity-50 transition-colors cursor-pointer shrink-0 mt-1"
+          title="Refresh Data"
+        >
+          <RefreshCw className={`size-4 ${reqLoading ? "animate-spin" : ""}`} />
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-foreground/[0.02] border border-foreground/5 p-4 rounded-2xl mt-4">
@@ -179,18 +259,40 @@ function SupplierRequestsPage() {
         </div>
 
         <div className="relative">
-          <Filter className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-          <select
-            value={statusFilter}
-            onChange={e => setStatusFilter(e.target.value)}
-            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-electric appearance-none cursor-pointer text-foreground"
+          <button
+            type="button"
+            onClick={() => setFilterOpen(!filterOpen)}
+            className="w-full rounded-xl bg-foreground/[0.03] border border-foreground/10 pl-11 pr-4 py-2.5 text-sm text-left focus:outline-none focus:ring-1 focus:ring-electric cursor-pointer text-foreground flex items-center justify-between min-w-[160px]"
           >
-            <option value="All" className="bg-background">All Statuses</option>
-            <option value="Pending" className="bg-background">Pending</option>
-            <option value="Contacted" className="bg-background">Contacted</option>
-            <option value="Approved" className="bg-background">Approved</option>
-            <option value="Rejected" className="bg-background">Rejected</option>
-          </select>
+            <span className="flex items-center gap-2">
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+              {statusFilter === "All" ? "All Statuses" : statusFilter}
+            </span>
+            <ChevronDown className="size-4 text-muted-foreground" />
+          </button>
+          
+          {filterOpen && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setFilterOpen(false)} />
+              <div className="absolute right-0 left-0 mt-2 z-50 glass-strong border border-foreground/10 rounded-2xl shadow-xl py-1.5 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150 bg-background/95">
+                {["All", "Pending", "Contacted", "Approved", "Rejected"].map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => {
+                      setStatusFilter(opt);
+                      setFilterOpen(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 text-xs transition-colors hover:bg-foreground/5 cursor-pointer block ${
+                      statusFilter === opt ? "text-electric font-semibold bg-electric/5" : "text-foreground/80"
+                    }`}
+                  >
+                    {opt === "All" ? "All Statuses" : opt}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="flex items-center justify-end px-2 text-xs text-muted-foreground">
@@ -239,7 +341,82 @@ function SupplierRequestsPage() {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-3xl border border-foreground/5 glass min-h-[300px]">
+          {/* Mobile Card List */}
+          <div className="md:hidden space-y-4">
+            {requests.map((req) => (
+              <div key={req.id} className="glass rounded-2xl p-4 border border-foreground/5 space-y-3 shadow-sm bg-card">
+                <div className="flex items-start justify-between gap-3 border-b border-foreground/5 pb-3">
+                  <div>
+                    <h3 className="font-bold text-foreground text-sm">{req.factory_name}</h3>
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 mt-0.5">
+                      <Globe className="size-3 shrink-0" />
+                      <span>{req.region}</span>
+                    </p>
+                  </div>
+                  <StatusDropdown
+                    currentStatus={req.status}
+                    onChange={(status) => updateRequestStatus(req.id, status)}
+                    options={["Pending", "Contacted", "Approved", "Rejected"]}
+                  />
+                </div>
+
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center gap-2">
+                    <User className="size-3.5 text-muted-foreground shrink-0" />
+                    <span className="font-medium text-foreground">{req.full_name}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Mail className="size-3.5 text-muted-foreground shrink-0" />
+                    <a href={`mailto:${req.work_email}`} className="text-electric hover:underline">{req.work_email}</a>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {(req.categories || []).map(cat => (
+                    <span key={cat} className="text-[9px] px-2 py-0.5 rounded-full bg-electric/10 text-electric border border-electric/20">{cat}</span>
+                  ))}
+                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/80 border border-foreground/5">MOQ: {req.moq}</span>
+                  <span className="text-[9px] px-2 py-0.5 rounded-full bg-foreground/5 text-foreground/80 border border-foreground/5">Lead: {req.lead_time}</span>
+                </div>
+
+                {/* Message */}
+                <div className="bg-foreground/[0.02] p-2.5 rounded-xl border border-foreground/5">
+                  {req.message ? (
+                    <p className="text-[11px] text-muted-foreground break-words whitespace-pre-line line-clamp-3">
+                      {req.message}
+                    </p>
+                  ) : (
+                    <p className="text-[11px] text-muted-foreground/50 italic">No message provided</p>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-foreground/5">
+                  <span className="text-[9px] text-muted-foreground/60">
+                    Received: {new Date(req.created_at).toLocaleDateString()}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      type="button"
+                      onClick={() => setSelectedRequest(req)}
+                      className="text-xs text-electric hover:underline font-semibold px-2 py-1 cursor-pointer"
+                    >
+                      View Details
+                    </button>
+                    <button
+                      onClick={() => deleteRequest(req.id)}
+                      className="p-1.5 text-muted-foreground hover:text-red-600 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"
+                      title="Delete request"
+                    >
+                      <Trash2 className="size-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto rounded-3xl border border-foreground/5 glass min-h-[300px]">
             <table className="w-full border-collapse text-left text-sm min-w-[950px]">
               <thead>
                 <tr className="border-b border-foreground/5 bg-foreground/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -367,7 +544,7 @@ function SupplierRequestsPage() {
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
+              className="relative z-10 glass-strong border border-foreground/10 rounded-3xl max-w-xl w-full p-5 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl"
             >
               <button
                 onClick={() => setSelectedRequest(null)}
@@ -442,9 +619,9 @@ function SupplierRequestsPage() {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between border-t border-foreground/5 pt-5">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Status:</span>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-t border-foreground/5 pt-5">
+                  <div className="flex items-center justify-between sm:justify-start gap-3">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">Status:</span>
                     <StatusDropdown
                       currentStatus={selectedRequest.status}
                       onChange={(status) => updateRequestStatus(selectedRequest.id, status)}
@@ -454,7 +631,7 @@ function SupplierRequestsPage() {
 
                   <button
                     onClick={() => deleteRequest(selectedRequest.id)}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/10 transition-colors cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/10 transition-colors cursor-pointer whitespace-nowrap"
                   >
                     <Trash2 className="size-3.5" /> Delete
                   </button>

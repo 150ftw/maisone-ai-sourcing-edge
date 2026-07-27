@@ -72,6 +72,7 @@ function SuppliersRoute() {
     }
   };
 
+
   useEffect(() => {
     fetchSuppliers();
   }, []);
@@ -387,8 +388,8 @@ function SuppliersRoute() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Production Lead Time (Days)</label>
+                      <div className="space-y-1.5 flex flex-col justify-end">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium min-h-[28px] flex items-end">Production Lead Time (Days)</label>
                         <input
                           type="text"
                           inputMode="numeric"
@@ -400,8 +401,8 @@ function SuppliersRoute() {
                           className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">OTD Rate (%)</label>
+                      <div className="space-y-1.5 flex flex-col justify-end">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium min-h-[28px] flex items-end">OTD Rate (%)</label>
                         <input
                           type="text"
                           inputMode="numeric"
@@ -413,8 +414,8 @@ function SuppliersRoute() {
                           className="w-full rounded-xl bg-foreground/[0.02] border border-foreground/10 hover:border-foreground/20 focus:border-foreground/40 focus:bg-foreground/[0.04] transition-all px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground/30 focus:outline-none"
                         />
                       </div>
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Rating (1-5)</label>
+                      <div className="space-y-1.5 flex flex-col justify-end">
+                        <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium min-h-[28px] flex items-end">Rating (1-5)</label>
                         <input
                           type="text"
                           required

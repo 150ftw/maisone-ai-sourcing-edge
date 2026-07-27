@@ -110,7 +110,21 @@ export function Dashboard() {
               </div>
 
               {/* main */}
-              <div className="col-span-12 md:col-span-10 space-y-3 min-h-[480px]">
+              <div className="col-span-12 md:col-span-10 space-y-3 min-h-[620px]">
+                {/* Mobile Nav Tabs */}
+                <div className="md:hidden flex border border-border rounded-xl p-1 gap-1 bg-muted/30">
+                  {NAV.map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => setView(l)}
+                      className={`flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold transition-colors ${view === l ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                    >
+                      {NAV_LABELS[l]}
+                    </button>
+                  ))}
+                </div>
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={view}
@@ -120,7 +134,7 @@ export function Dashboard() {
                     transition={{ duration: 0.25 }}
                     className="space-y-3"
                   >
-                    {view === "Overview" && <Overview query={query} />}
+                    {view === "Overview" && <Overview query={query} hideShipments={true} />}
                     {view === "Suppliers" && (
                       <Suppliers query={query} region={region} setRegion={setRegion} />
                     )}
@@ -180,7 +194,7 @@ export function Overview({ query, data, hideShipments, metrics }: {
   ).slice(0, 5);
 
   return (
-    <>
+    <div className="space-y-3 min-h-[565px]">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
           { label: t("dashboard.activeSuppliers"), value: metrics ? metrics.activeSuppliers : "2,418", delta: "+12.6%", up: true },
@@ -263,7 +277,7 @@ export function Overview({ query, data, hideShipments, metrics }: {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -316,15 +330,17 @@ export function Suppliers({
   const listToUse = data ?? suppliersList;
 
   const filtered = useMemo(
-    () =>
-      listToUse.filter(
+    () => {
+      const result = listToUse.filter(
         (s: any) =>
           (region === "All" || s.region === region) &&
           (!query ||
             s.name.toLowerCase().includes(query.toLowerCase()) ||
             s.id.toLowerCase().includes(query.toLowerCase()) ||
             s.category.toLowerCase().includes(query.toLowerCase()))
-      ),
+      );
+      return result.sort((a: any, b: any) => a.id.localeCompare(b.id, undefined, { numeric: true, sensitivity: 'base' }));
+    },
     [listToUse, query, region]
   );
 
@@ -336,9 +352,11 @@ export function Suppliers({
 
   return (
     <>
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Filter className="size-3" /> {t("dashboard.region")}:
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-wrap bg-foreground/[0.01] border border-border/15 p-3 rounded-2xl mb-2">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 mr-1 font-semibold uppercase tracking-wider text-[10px]">
+            <Filter className="size-3" /> {t("dashboard.region")}:
+          </div>
           {regions.map((r) => (
             <button
               key={r}
@@ -346,54 +364,71 @@ export function Suppliers({
                 setRegion(r);
                 setPage(1);
               }}
-              className={`px-3 py-1 rounded-full border text-[11px] ${region === r ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:text-foreground"}`}
+              className={`whitespace-nowrap px-3 py-1 rounded-full border text-[11px] transition-all cursor-pointer ${
+                region === r
+                  ? "bg-foreground text-background border-foreground font-semibold"
+                  : "border-border text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+              }`}
             >
               {r}
             </button>
           ))}
         </div>
-        <span className="text-[11px] text-muted-foreground">{filtered.length} {t("dashboard.verifiedSuppliers")}</span>
+        <span className="text-[11px] text-muted-foreground font-medium">{filtered.length} {t("dashboard.verifiedSuppliers")}</span>
       </div>
 
-      <div className="rounded-xl bg-card border border-border overflow-hidden">
-        <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
-          <span className="col-span-2">ID</span>
-          <span className="col-span-3">{t("dashboard.tabSuppliers")}</span>
-          <span className="col-span-2">{t("dashboard.region")}</span>
-          <span className="col-span-2">Category</span>
-          <span className="col-span-1 text-right">Lead</span>
-          <span className="col-span-1 text-right">OTD Rate</span>
-          <span className="col-span-1 text-right">★</span>
-        </div>
-        <div className="divide-y divide-border text-xs">
-          {paginated.length === 0 && (
-            <div className="px-6 py-8 text-center text-muted-foreground">{t("dashboard.noSuppliers")}</div>
-          )}
-          {paginated.map((s: any) => {
+      {/* Mobile Card List */}
+      <div className="md:hidden space-y-4">
+        {paginated.length === 0 ? (
+          <div className="px-6 py-8 text-center text-muted-foreground">{t("dashboard.noSuppliers")}</div>
+        ) : (
+          paginated.map((s: any) => {
             const isExpanded = expandedId === s.id;
+            
+            let parsedDetails: any = null;
+            let ownerText = s.owner_details || "—";
+            if (s.owner_details && s.owner_details.startsWith("{")) {
+              try {
+                parsedDetails = JSON.parse(s.owner_details);
+                ownerText = parsedDetails.owner || "—";
+              } catch (e) {}
+            }
+            
             return (
-              <div key={s.id} className="border-b border-border/20 last:border-0">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  onClick={() => setExpandedId(isExpanded ? null : s.id)}
-                  className={`grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-accent/30 cursor-pointer transition-colors ${
-                    isExpanded ? "bg-accent/25" : ""
-                  }`}
-                >
-                  <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
-                  <span className="col-span-3 font-medium text-foreground">{s.name}</span>
-                  <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5">
-                    <MapPin className="size-3" /> {s.city}
-                  </span>
-                  <span className="col-span-2">
-                    <span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span>
-                  </span>
-                  <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
-                  <span className="col-span-1 text-right tabular-nums text-emerald-600 dark:text-emerald-400">{s.otd}%</span>
-                  <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
-                </motion.div>
+              <div key={s.id} className="glass rounded-2xl p-4 border border-border space-y-3 bg-card shadow-sm text-xs">
+                {/* Header row */}
+                <div className="flex items-start justify-between gap-3 border-b border-border/5 pb-3">
+                  <div>
+                    <span className="text-[10px] tabular-nums text-muted-foreground/60">{s.id}</span>
+                    <h3 className="font-bold text-foreground text-sm mt-0.5">{s.name}</h3>
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 mt-1">
+                      <MapPin className="size-3 shrink-0" />
+                      <span>{s.city}, {s.region}</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setExpandedId(isExpanded ? null : s.id)}
+                    className="px-3 py-1.5 rounded-lg border border-border hover:border-electric/30 text-[10px] font-semibold text-electric cursor-pointer hover:bg-electric/5"
+                  >
+                    {isExpanded ? "Hide Details" : "View Profile"}
+                  </button>
+                </div>
 
+                {/* Categories & quick metrics */}
+                <div className="flex items-center justify-between text-xs pt-1">
+                  <div className="flex flex-wrap gap-1">
+                    {(s.category ? s.category.split(", ") : []).map((cat: string) => (
+                      <span key={cat} className="px-2 py-0.5 rounded-full bg-muted text-[9px] font-medium text-foreground/80">{cat}</span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0 font-medium tabular-nums text-[11px]">
+                    <span>Lead: <span className="text-foreground font-semibold">{s.lead}d</span></span>
+                    <span>OTD: <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{s.otd}%</span></span>
+                    <span className="flex items-center gap-0.5">★ <span className="text-foreground font-semibold">{s.rating}</span></span>
+                  </div>
+                </div>
+
+                {/* Collapsible Details */}
                 <AnimatePresence initial={false}>
                   {isExpanded && (
                     <motion.div
@@ -401,137 +436,95 @@ export function Suppliers({
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.2 }}
-                      className="overflow-hidden bg-white/[0.01]"
+                      className="overflow-hidden border-t border-border/20 pt-3 space-y-4 text-xs"
                     >
-                      {(() => {
-                        let parsedDetails: any = null;
-                        let ownerText = s.owner_details || "—";
-                        if (s.owner_details && s.owner_details.startsWith("{")) {
-                          try {
-                            parsedDetails = JSON.parse(s.owner_details);
-                            ownerText = parsedDetails.owner || "—";
-                          } catch (e) {}
-                        }
-                        return (
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 px-8 py-6 border-t border-border/30 text-xs bg-white/[0.005]">
-                            {/* Left: Contact Info */}
-                            <div className="space-y-4">
-                              <div className="flex gap-3.5">
-                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                                  <User className="size-4 text-electric" />
-                                </div>
-                                <div className="space-y-1">
-                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.ownerDetails")}</span>
-                                  <span className="text-foreground font-medium block text-[13px]">{ownerText}</span>
-                                </div>
-                              </div>
-                              <div className="flex gap-3.5">
-                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                                  <Phone className="size-4 text-electric" />
-                                </div>
-                                <div className="space-y-1">
-                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.contactNo")}</span>
-                                  <span className="text-foreground font-medium block text-[13px]">{s.contact_no || "—"}</span>
-                                </div>
-                              </div>
-                              <div className="flex gap-3.5">
-                                <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
-                                  <Mail className="size-4 text-electric" />
-                                </div>
-                                <div className="space-y-1">
-                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.emailAddress")}</span>
-                                  {s.email_id ? (
-                                    <a
-                                      href={`mailto:${s.email_id}`}
-                                      onClick={(e) => e.stopPropagation()}
-                                      className="text-electric hover:underline font-medium block text-[13px] transition-colors"
-                                    >
-                                      {s.email_id}
-                                    </a>
-                                  ) : (
-                                    <span className="text-muted-foreground block text-[13px]">—</span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Center: Capabilities & Production */}
-                            <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
-                              <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Capabilities & Production</span>
-                              {parsedDetails ? (
-                                <div className="space-y-2">
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">Clientele:</span> <span className="text-foreground ml-1">{parsedDetails.clientele || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">Fabrics:</span> <span className="text-foreground ml-1">{parsedDetails.fabrics || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">Capabilities:</span> <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.capabilities || "—"}</span>
-                                  </div>
-                                  <div className="grid grid-cols-2 gap-2 pt-1">
-                                    <div>
-                                      <span className="text-muted-foreground font-medium block">Monthly Capacity</span>
-                                      <span className="text-foreground font-medium">{parsedDetails.productionCapacity || "—"}</span>
-                                    </div>
-                                    <div>
-                                      <span className="text-muted-foreground font-medium block">Sampling Lead</span>
-                                      <span className="text-foreground font-medium">{parsedDetails.samplingLeadTime || "—"}</span>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">MOQ:</span> <span className="text-foreground ml-1">{parsedDetails.moq || "—"}</span>
-                                  </div>
-                                </div>
-                              ) : (
-                                <span className="text-muted-foreground italic">No additional profile details saved.</span>
-                              )}
-                            </div>
-
-                            {/* Right: Compliance & Standards */}
-                            <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
-                              <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Compliance & Standards</span>
-                              {parsedDetails ? (
-                                <div className="space-y-2">
-                                  <div>
-                                    <span className="text-muted-foreground font-medium block">Quality Control</span>
-                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">Certifications:</span> <span className="text-foreground ml-1">{parsedDetails.certifications || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium block">Sustainability</span>
-                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.sustainability || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium block">Compliance & Labor</span>
-                                    <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.compliance || "—"}</span>
-                                  </div>
-                                  <div>
-                                    <span className="text-muted-foreground font-medium">Payment Terms:</span> <span className="text-foreground ml-1">{parsedDetails.paymentTerms || "—"}</span>
-                                  </div>
-                                </div>
-                              ) : (
-                                <span className="text-muted-foreground italic">No compliance data saved.</span>
-                              )}
-                            </div>
+                      {/* Contact information */}
+                      <div className="grid grid-cols-1 gap-2.5 bg-foreground/[0.01] p-3 rounded-xl border border-border/10">
+                        <div className="flex items-center gap-2">
+                          <User className="size-3.5 text-electric shrink-0" />
+                          <span className="text-muted-foreground mr-1.5">{t("dashboard.ownerDetails")}:</span>
+                          <span className="text-foreground font-medium">{ownerText}</span>
+                        </div>
+                        {s.contact_no && (
+                          <div className="flex items-center gap-2">
+                            <Phone className="size-3.5 text-electric shrink-0" />
+                            <span className="text-muted-foreground mr-1.5">{t("dashboard.contactNo")}:</span>
+                            <span className="text-foreground font-medium">{s.contact_no}</span>
                           </div>
-                        );
-                      })()}
+                        )}
+                        {s.email_id && (
+                          <div className="flex items-center gap-2">
+                            <Mail className="size-3.5 text-electric shrink-0" />
+                            <span className="text-muted-foreground mr-1.5">{t("dashboard.emailAddress")}:</span>
+                            <a href={`mailto:${s.email_id}`} className="text-electric hover:underline font-medium">{s.email_id}</a>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Capabilities */}
+                      {parsedDetails && (
+                        <div className="space-y-3 bg-foreground/[0.01] p-3 rounded-xl border border-border/10">
+                          {parsedDetails.clientele && (
+                            <div>
+                              <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Key Clientele</span>
+                              <span className="text-foreground leading-relaxed block mt-0.5">{parsedDetails.clientele}</span>
+                            </div>
+                          )}
+                          {parsedDetails.fabrics && (
+                            <div>
+                              <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Fabrics & Materials</span>
+                              <span className="text-foreground leading-relaxed block mt-0.5">{parsedDetails.fabrics}</span>
+                            </div>
+                          )}
+                          {parsedDetails.capabilities && (
+                            <div>
+                              <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Core Capabilities</span>
+                              <span className="text-foreground leading-relaxed block mt-0.5">{parsedDetails.capabilities}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Logistics & Compliance */}
+                      {parsedDetails && (
+                        <div className="grid grid-cols-2 gap-3 bg-foreground/[0.01] p-3 rounded-xl border border-border/10">
+                          <div>
+                            <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Production Cap</span>
+                            <span className="text-foreground font-medium block mt-0.5">{parsedDetails.productionCapacity || "—"}</span>
+                          </div>
+                          <div>
+                            <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Min Order (MOQ)</span>
+                            <span className="text-foreground font-medium block mt-0.5">{parsedDetails.moq || "100–500 units"}</span>
+                          </div>
+                          <div className="col-span-2 border-t border-border/5 pt-2 mt-1">
+                            <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Sampling Lead Time</span>
+                            <span className="text-foreground font-medium block mt-0.5">{parsedDetails.samplingLeadTime || "—"}</span>
+                          </div>
+                          <div className="col-span-2 border-t border-border/5 pt-2">
+                            <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Quality Control (QC)</span>
+                            <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
+                          </div>
+                          {parsedDetails.certifications && (
+                            <div className="col-span-2 border-t border-border/5 pt-2">
+                              <span className="text-[9px] uppercase tracking-wider text-muted-foreground block font-bold">Certifications</span>
+                              <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.certifications}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Admin action buttons */}
                       {(onEdit || onDelete) && (
-                        <div className="px-8 pb-6 flex justify-end gap-3 border-t border-border/10 pt-4 bg-white/[0.01]">
+                        <div className="flex justify-end gap-2.5 pt-2 border-t border-border/10">
                           {onEdit && (
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 onEdit(s);
                               }}
-                              className="px-4 py-2 rounded-xl border border-foreground/15 hover:border-electric/50 hover:bg-electric/5 transition-all text-foreground hover:text-foreground font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                              className="px-3 py-1.5 rounded-lg border border-border hover:border-electric/50 text-[10px] font-semibold text-foreground cursor-pointer flex items-center gap-1.5"
                             >
-                              <Pencil className="size-3.5 text-muted-foreground group-hover:text-foreground" /> {t("dashboard.editDetails")}
+                              <Pencil className="size-3.5" /> Edit
                             </button>
                           )}
                           {onDelete && (
@@ -540,9 +533,9 @@ export function Suppliers({
                                 e.stopPropagation();
                                 onDelete(s.id);
                               }}
-                              className="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                              className="px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-[10px] font-semibold text-red-400 cursor-pointer flex items-center gap-1.5"
                             >
-                              <Trash2 className="size-3.5" /> {t("dashboard.delete")}
+                              <Trash2 className="size-3.5" /> Delete
                             </button>
                           )}
                         </div>
@@ -552,7 +545,213 @@ export function Suppliers({
                 </AnimatePresence>
               </div>
             );
-          })}
+          })
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block w-full overflow-x-auto">
+        <div className="min-w-[800px]">
+          <div className="rounded-xl bg-card border border-border overflow-hidden">
+            <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground">
+              <span className="col-span-2">ID</span>
+              <span className="col-span-3">{t("dashboard.tabSuppliers")}</span>
+              <span className="col-span-2">{t("dashboard.region")}</span>
+              <span className="col-span-2">Category</span>
+              <span className="col-span-1 text-right">Lead</span>
+              <span className="col-span-1 text-right">OTD Rate</span>
+              <span className="col-span-1 text-right">★</span>
+            </div>
+            <div className="divide-y divide-border text-xs">
+              {paginated.length === 0 && (
+                <div className="px-6 py-8 text-center text-muted-foreground">{t("dashboard.noSuppliers")}</div>
+              )}
+              {paginated.map((s: any) => {
+                const isExpanded = expandedId === s.id;
+                return (
+                  <div key={s.id} className="border-b border-border/20 last:border-0">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      onClick={() => setExpandedId(isExpanded ? null : s.id)}
+                      className={`grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-accent/30 cursor-pointer transition-colors ${
+                        isExpanded ? "bg-accent/25" : ""
+                      }`}
+                    >
+                      <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+                      <span className="col-span-3 font-medium text-foreground">{s.name}</span>
+                      <span className="col-span-2 text-muted-foreground inline-flex items-center gap-1.5">
+                        <MapPin className="size-3" /> {s.city}
+                      </span>
+                      <span className="col-span-2">
+                        <span className="px-2 py-0.5 rounded-full bg-muted text-[10px]">{s.category}</span>
+                      </span>
+                      <span className="col-span-1 text-right tabular-nums">{s.lead}d</span>
+                      <span className="col-span-1 text-right tabular-nums text-emerald-600 dark:text-emerald-400">{s.otd}%</span>
+                      <span className="col-span-1 text-right tabular-nums">{s.rating}</span>
+                    </motion.div>
+
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden bg-white/[0.01]"
+                        >
+                          {(() => {
+                            let parsedDetails: any = null;
+                            let ownerText = s.owner_details || "—";
+                            if (s.owner_details && s.owner_details.startsWith("{")) {
+                              try {
+                                parsedDetails = JSON.parse(s.owner_details);
+                                ownerText = parsedDetails.owner || "—";
+                              } catch (e) {}
+                            }
+                            return (
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 px-8 py-6 border-t border-border/30 text-xs bg-white/[0.005]">
+                                {/* Left: Contact Info */}
+                                <div className="space-y-4">
+                                  <div className="flex gap-3.5">
+                                    <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                      <User className="size-4 text-electric" />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.ownerDetails")}</span>
+                                      <span className="text-foreground font-medium block text-[13px]">{ownerText}</span>
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-3.5">
+                                    <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                      <Phone className="size-4 text-electric" />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.contactNo")}</span>
+                                      <span className="text-foreground font-medium block text-[13px]">{s.contact_no || "—"}</span>
+                                    </div>
+                                  </div>
+                                  <div className="flex gap-3.5">
+                                    <div className="size-9 rounded-xl bg-electric/10 border border-electric/20 flex items-center justify-center shrink-0">
+                                      <Mail className="size-4 text-electric" />
+                                    </div>
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-semibold">{t("dashboard.emailAddress")}</span>
+                                      {s.email_id ? (
+                                        <a
+                                          href={`mailto:${s.email_id}`}
+                                          onClick={(e) => e.stopPropagation()}
+                                          className="text-electric hover:underline font-medium block text-[13px] transition-colors"
+                                        >
+                                          {s.email_id}
+                                        </a>
+                                      ) : (
+                                        <span className="text-muted-foreground block text-[13px]">—</span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Center: Capabilities & Production */}
+                                <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Capabilities & Production</span>
+                                  {parsedDetails ? (
+                                    <div className="space-y-2">
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">Clientele:</span> <span className="text-foreground ml-1">{parsedDetails.clientele || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">Fabrics:</span> <span className="text-foreground ml-1">{parsedDetails.fabrics || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">Capabilities:</span> <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.capabilities || "—"}</span>
+                                      </div>
+                                      <div className="grid grid-cols-2 gap-2 pt-1">
+                                        <div>
+                                          <span className="text-muted-foreground font-medium block">Monthly Capacity</span>
+                                          <span className="text-foreground font-medium">{parsedDetails.productionCapacity || "—"}</span>
+                                        </div>
+                                        <div>
+                                          <span className="text-muted-foreground font-medium block">Sampling Lead</span>
+                                          <span className="text-foreground font-medium">{parsedDetails.samplingLeadTime || "—"}</span>
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">MOQ:</span> <span className="text-foreground ml-1">{parsedDetails.moq || "—"}</span>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <span className="text-muted-foreground italic">No additional profile details saved.</span>
+                                  )}
+                                </div>
+
+                                {/* Right: Compliance & Standards */}
+                                <div className="space-y-3 border-t sm:border-t-0 sm:border-l border-border/20 pt-4 sm:pt-0 sm:pl-8">
+                                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground block font-bold mb-1">Compliance & Standards</span>
+                                  {parsedDetails ? (
+                                    <div className="space-y-2">
+                                      <div>
+                                        <span className="text-muted-foreground font-medium block">Quality Control</span>
+                                        <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.qualityControl || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">Certifications:</span> <span className="text-foreground ml-1">{parsedDetails.certifications || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium block">Sustainability</span>
+                                        <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.sustainability || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium block">Compliance & Labor</span>
+                                        <span className="text-foreground block mt-0.5 leading-relaxed">{parsedDetails.compliance || "—"}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-muted-foreground font-medium">Payment Terms:</span> <span className="text-foreground ml-1">{parsedDetails.paymentTerms || "—"}</span>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <span className="text-muted-foreground italic">No compliance data saved.</span>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })()}
+
+                          {/* Admin action buttons */}
+                          {(onEdit || onDelete) && (
+                            <div className="px-8 pb-6 flex justify-end gap-3 border-t border-border/10 pt-4 bg-white/[0.01]">
+                              {onEdit && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onEdit(s);
+                                  }}
+                                  className="px-4 py-2 rounded-xl border border-foreground/15 hover:border-electric/50 hover:bg-electric/5 transition-all text-foreground hover:text-foreground font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                                >
+                                  <Pencil className="size-3.5 text-muted-foreground group-hover:text-foreground" /> {t("dashboard.editDetails")}
+                                </button>
+                              )}
+                              {onDelete && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDelete(s.id);
+                                  }}
+                                  className="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-semibold text-[11px] cursor-pointer flex items-center gap-1.5 active:scale-95 hover:scale-102"
+                                >
+                                  <Trash2 className="size-3.5" /> {t("dashboard.delete")}
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -646,36 +845,40 @@ export function Shipments({ query, onSelect, data }: { query: string; onSelect?:
           </button>
         ))}
       </div>
-      <div className="rounded-xl bg-card border border-border overflow-hidden">
-        <div className="grid grid-cols-12 gap-4 px-5 py-2.5 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground bg-white/[0.01]">
-          <span className="col-span-2">ID</span>
-          <span className="col-span-4">Route / Cargo</span>
-          <span className="col-span-2">ETA</span>
-          <span className="col-span-3">Progress</span>
-          <span className="col-span-1 text-right">{t("dashboard.status")}</span>
-        </div>
-        <div className="divide-y divide-border text-xs">
-          {paginated.map((s: any) => (
-            <div
-              key={s.id}
-              onClick={() => onSelect?.(s)}
-              className={`grid grid-cols-12 gap-4 px-5 py-3 items-center transition-colors ${onSelect ? "hover:bg-accent/30 cursor-pointer" : ""}`}
-            >
-              <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
-              <span className="col-span-4">{s.route}</span>
-              <span className="col-span-2 text-muted-foreground">{s.eta}</span>
-              <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-electric to-cyan-glow"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${s.prog}%` }}
-                  transition={{ duration: 0.8 }}
-                />
-              </div>
-              <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-600 dark:text-emerald-400" : s.status === "Customs" ? "text-amber-600 dark:text-amber-400" : "text-electric"}`}>{s.status}</span>
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[700px]">
+          <div className="rounded-xl bg-card border border-border overflow-hidden">
+            <div className="grid grid-cols-12 gap-4 px-5 py-2.5 border-b border-border text-[10px] uppercase tracking-widest text-muted-foreground bg-white/[0.01]">
+              <span className="col-span-2">ID</span>
+              <span className="col-span-4">Route / Cargo</span>
+              <span className="col-span-2">ETA</span>
+              <span className="col-span-3">Progress</span>
+              <span className="col-span-1 text-right">{t("dashboard.status")}</span>
             </div>
-          ))}
-          {paginated.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
+            <div className="divide-y divide-border text-xs">
+              {paginated.map((s: any) => (
+                <div
+                  key={s.id}
+                  onClick={() => onSelect?.(s)}
+                  className={`grid grid-cols-12 gap-4 px-5 py-3 items-center transition-colors ${onSelect ? "hover:bg-accent/30 cursor-pointer" : ""}`}
+                >
+                  <span className="col-span-2 tabular-nums text-muted-foreground">{s.id}</span>
+                  <span className="col-span-4">{s.route}</span>
+                  <span className="col-span-2 text-muted-foreground">{s.eta}</span>
+                  <div className="col-span-3 h-1 rounded-full bg-muted overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-electric to-cyan-glow"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${s.prog}%` }}
+                      transition={{ duration: 0.8 }}
+                    />
+                  </div>
+                  <span className={`col-span-1 text-right ${s.status === "Delivered" ? "text-emerald-600 dark:text-emerald-400" : s.status === "Customs" ? "text-amber-600 dark:text-amber-400" : "text-electric"}`}>{s.status}</span>
+                </div>
+              ))}
+              {paginated.length === 0 && <div className="px-5 py-8 text-center text-muted-foreground">No shipments match.</div>}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -761,26 +964,30 @@ export function Inventory({ data }: { data?: any[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl bg-card border border-border overflow-hidden">
-        <div className="px-5 py-3 border-b border-border text-sm font-medium">{t("dashboard.inventoryLevels")}</div>
-        <div className="grid grid-cols-12 gap-4 px-5 py-2 border-b border-border bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-          <div className="col-span-2">SKU</div>
-          <div className="col-span-5">{t("dashboard.productName")}</div>
-          <div className="col-span-3">{t("dashboard.stockLevel")}</div>
-          <div className="col-span-2 text-right">{t("dashboard.status")}</div>
-        </div>
-        <div className="divide-y divide-border text-xs">
-          {paginated.map((i: any) => {
-            const low = i.stock < i.reorder;
-            return (
-              <div key={i.sku} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
-                <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
-                <span className="col-span-5">{i.name}</span>
-                <span className="col-span-3 tabular-nums">{i.stock.toLocaleString()} u</span>
-                <span className={`col-span-2 text-right text-[11px] ${low ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400"}`}>{low ? t("dashboard.reorder") : t("dashboard.healthy")}</span>
-              </div>
-            );
-          })}
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[700px]">
+          <div className="rounded-xl bg-card border border-border overflow-hidden">
+            <div className="px-5 py-3 border-b border-border text-sm font-medium">{t("dashboard.inventoryLevels")}</div>
+            <div className="grid grid-cols-12 gap-4 px-5 py-2 border-b border-border bg-white/[0.01] text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+              <div className="col-span-2">SKU</div>
+              <div className="col-span-5">{t("dashboard.productName")}</div>
+              <div className="col-span-3">{t("dashboard.stockLevel")}</div>
+              <div className="col-span-2 text-right">{t("dashboard.status")}</div>
+            </div>
+            <div className="divide-y divide-border text-xs">
+              {paginated.map((i: any) => {
+                const low = i.stock < i.reorder;
+                return (
+                  <div key={i.sku} className="grid grid-cols-12 gap-4 px-5 py-3 items-center">
+                    <span className="col-span-2 text-muted-foreground tabular-nums">{i.sku}</span>
+                    <span className="col-span-5">{i.name}</span>
+                    <span className="col-span-3 tabular-nums">{i.stock.toLocaleString()} u</span>
+                    <span className={`col-span-2 text-right text-[11px] ${low ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400"}`}>{low ? t("dashboard.reorder") : t("dashboard.healthy")}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 

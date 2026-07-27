@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Activity, TrendingUp, Loader2 } from "lucide-react";
+import { Activity, TrendingUp, Loader2, ChevronDown } from "lucide-react";
 import { RobotSparkIcon } from "@/components/ui/RobotSparkIcon";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -31,6 +31,9 @@ function TrendsRoute() {
   const [fabrics, setFabrics] = useState<any[]>([]);
   const [colors, setColors] = useState<any[]>([]);
   const [silhouettes, setSilhouettes] = useState<any[]>([]);
+  const [fabricsOpen, setFabricsOpen] = useState(false);
+  const [colorsOpen, setColorsOpen] = useState(false);
+  const [silhouettesOpen, setSilhouettesOpen] = useState(false);
 
   const fetchForecast = async () => {
     setLoading(true);
@@ -173,17 +176,27 @@ function TrendsRoute() {
       ) : (
         <form onSubmit={handleSave} className="space-y-6">
           <div className="grid lg:grid-cols-3 gap-6">
-            {/* Fabrics Editor */}
             <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
-                <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
-                  <Activity className="size-3.5 text-electric" />
+              <div 
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    setFabricsOpen(!fabricsOpen);
+                  }
+                }}
+                className="flex items-center justify-between border-b border-foreground/5 pb-3 cursor-pointer lg:cursor-default select-none group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
+                    <Activity className="size-3.5 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold">Trending Fabrics</h3>
+                    <p className="text-[10px] text-muted-foreground">List up to 4 materials and signals</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold">Trending Fabrics</h3>
-                  <p className="text-[10px] text-muted-foreground">List up to 4 materials and signals</p>
-                </div>
+                <ChevronDown className={`size-4 text-muted-foreground transition-transform lg:hidden ${fabricsOpen ? "rotate-180 text-foreground" : ""}`} />
               </div>
+              <div className={`space-y-5 lg:block ${fabricsOpen ? "block" : "hidden"}`}>
               {fabrics.map((f, i) => (
                 <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="space-y-1.5">
@@ -227,19 +240,30 @@ function TrendsRoute() {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
 
-            {/* Colors Editor */}
             <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
-                <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
-                  <RobotSparkIcon className="size-3.5 text-electric" />
+              <div 
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    setColorsOpen(!colorsOpen);
+                  }
+                }}
+                className="flex items-center justify-between border-b border-foreground/5 pb-3 cursor-pointer lg:cursor-default select-none group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
+                    <RobotSparkIcon className="size-3.5 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold">Color Forecast</h3>
+                    <p className="text-[10px] text-muted-foreground">Pioneering hues and Pantone codes</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold">Color Forecast</h3>
-                  <p className="text-[10px] text-muted-foreground">Pioneering hues and Pantone codes</p>
-                </div>
+                <ChevronDown className={`size-4 text-muted-foreground transition-transform lg:hidden ${colorsOpen ? "rotate-180 text-foreground" : ""}`} />
               </div>
+              <div className={`space-y-5 lg:block ${colorsOpen ? "block" : "hidden"}`}>
               {colors.map((c, i) => (
                 <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="grid grid-cols-3 gap-3">
@@ -306,19 +330,30 @@ function TrendsRoute() {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
 
-            {/* Silhouettes Editor */}
             <div className="glass-strong rounded-3xl p-5 border border-foreground/5 space-y-5">
-              <div className="flex items-center gap-2.5 border-b border-foreground/5 pb-3">
-                <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
-                  <TrendingUp className="size-3.5 text-electric" />
+              <div 
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    setSilhouettesOpen(!silhouettesOpen);
+                  }
+                }}
+                className="flex items-center justify-between border-b border-foreground/5 pb-3 cursor-pointer lg:cursor-default select-none group"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="size-7 rounded-full border border-electric/25 bg-electric/10 flex items-center justify-center">
+                    <TrendingUp className="size-3.5 text-electric" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold">Silhouettes</h3>
+                    <p className="text-[10px] text-muted-foreground">Popular structural designs</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold">Silhouettes</h3>
-                  <p className="text-[10px] text-muted-foreground">Popular structural designs</p>
-                </div>
+                <ChevronDown className={`size-4 text-muted-foreground transition-transform lg:hidden ${silhouettesOpen ? "rotate-180 text-foreground" : ""}`} />
               </div>
+              <div className={`space-y-5 lg:block ${silhouettesOpen ? "block" : "hidden"}`}>
               {silhouettes.map((s, i) => (
                 <div key={i} className="space-y-3 p-4 rounded-2xl bg-foreground/[0.01] border border-foreground/5 hover:border-foreground/10 transition-colors">
                   <div className="grid grid-cols-3 gap-3">
@@ -362,6 +397,7 @@ function TrendsRoute() {
                   </div>
                 </div>
               ))}
+              </div>
             </div>
           </div>
 
