@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Loader2, Search, Filter, Trash2, Mail, Building2, User, Globe,
   Calendar, MessageSquare, ShieldAlert, Check, RefreshCw,
-  ChevronLeft, ChevronRight, X, Layers, Link2, ChevronDown, Briefcase
+  ChevronLeft, ChevronRight, X, Layers, Link2, ChevronDown, Briefcase, Clock
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
@@ -44,75 +44,125 @@ function InquiriesPage() {
   // Selected Request Modal State
   const [selectedRequest, setSelectedRequest] = useState<DemoRequest | null>(null);
 
+  const [trackerEnquiries, setTrackerEnquiries] = useState<TrackerEnquiry[]>([]);
+
+  useEffect(() => {
+    // Load local enquiries to check for existing transfers
+    setTrackerEnquiries(getTrackerEnquiries());
+  }, []);
+
   // Transfer Website Inquiry to Tracker ERP
-  const handleTransferToTracker = (req: DemoRequest) => {
-    const existingEnquiries = getTrackerEnquiries();
-    const existingClients = getTrackerClients();
-
-    let matchedClient: TrackerClient | undefined = existingClients.find(
-      c => c.company_name.toLowerCase() === req.company.toLowerCase() || c.email.toLowerCase() === req.work_email.toLowerCase()
-    );
-
-    if (!matchedClient) {
-      matchedClient = {
-        id: `c-${Date.now()}`,
-        created_at: new Date().toISOString(),
-        company_name: req.company || req.full_name,
-        client_name: req.full_name,
-        country: req.region || "France",
-        contact_person: req.full_name,
-        email: req.work_email,
-        whatsapp: "+1 555-0192",
-        payment_terms: "30% Advance, 70% LC",
-        notes: "Created automatically from website inquiry"
-      };
-      saveTrackerClients([matchedClient, ...existingClients]);
+  const handleTransferToTracker = async (req: DemoRequest) => {
+    // Check if already transferred natively
+    if (req.erp_enquiry_id) {
+      toast.error("This inquiry has already been transferred to ERP.");
+      return;
     }
 
-    const nextNum = `ENQ-2026-00${existingEnquiries.length + 1}`;
-    const stage1Data = {
-      date_received: new Date().toISOString().split("T")[0],
-      target_price: "0",
-      fabric: req.category || "Custom Specification",
-      status: "New",
-      notes: `Transferred from Website Inquiry #${req.id.slice(0, 8)}`
-    };
+    try {
+      // 1. Get or create Client
+      let clientId = null;
+      let clientName = req.company || req.full_name;
+      let country = req.region || "France";
 
-    const newEnquiry: TrackerEnquiry = {
-      id: `enq-${Date.now()}`,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      enquiry_number: nextNum,
-      client_id: matchedClient.id,
-      client_name: matchedClient.company_name,
-      country: matchedClient.country,
-      product_reference: `${req.category || "Apparel"} Sourcing Request`,
-      communication_channel: "Website Inquiry",
-      enquiry_details: req.message || `Website Inquiry from ${req.full_name} (${req.company})`,
-      fabric_details: req.category || "Custom Specification",
-      images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop"],
-      target_price: 0,
-      current_stage: 1,
-      current_status: "New",
-      stage_data: {
-        1: stage1Data
-      },
-      history: [{
-        id: `h-${Date.now()}`,
-        enquiry_id: `enq-${Date.now()}`,
-        stage_number: 1,
-        stage_name: "Enquiry Received",
+      const { data: existingClient } = await supabase
+        .from("tracker_clients")
+        .select("id")
+        .or(`company_name.ilike.${clientName},email.ilike.${req.work_email}`)
+        .maybeSingle();
+
+      if (existingClient) {
+        clientId = existingClient.id;
+      } else {
+        const { data: newClient, error: clientError } = await supabase
+          .from("tracker_clients")
+          .insert([{
+            company_name: clientName,
+            client_name: req.full_name,
+            country: country,
+            contact_person: req.full_name,
+            email: req.work_email,
+            whatsapp: "+1 555-0192",
+            payment_terms: "30% Advance, 70% LC",
+            notes: "Created automatically from website inquiry"
+          }])
+          .select()
+          .single();
+
+        if (clientError) throw clientError;
+        clientId = newClient.id;
+      }
+
+      // 2. Generate Next Enquiry Number
+      const { count } = await supabase
+        .from("tracker_enquiries")
+        .select("*", { count: "exact", head: true });
+      const nextNum = `ENQ-2026-${String((count || 0) + 1).padStart(3, "0")}`;
+
+      // 3. Create Enquiry
+      const { data: newEnq, error: enqError } = await supabase
+        .from("tracker_enquiries")
+        .insert([{
+          enquiry_number: nextNum,
+          client_id: clientId,
+          client_name: clientName,
+          country: country,
+          product_reference: `${req.category || "Apparel"} Sourcing Request`,
+          communication_channel: "Website Inquiry",
+          enquiry_details: req.message || `Website Inquiry from ${req.full_name} (${req.company})`,
+          fabric_details: req.category || "Custom Specification",
+          images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop"],
+          target_price: 0,
+          current_stage: 1,
+          current_status: "New"
+        }])
+        .select()
+        .single();
+
+      if (enqError) throw enqError;
+
+      // 4. Create Stage History
+      const stage1Data = {
+        date_received: new Date().toISOString().split("T")[0],
+        target_price: "0",
+        fabric: req.category || "Custom Specification",
         status: "New",
-        stage_data: stage1Data,
-        notes: `Transfer from public website inquiry`,
-        updated_by: "System Admin",
-        created_at: new Date().toISOString()
-      }]
-    };
+        notes: `Transferred from Website Inquiry #${req.id.slice(0, 8)}`
+      };
 
-    saveTrackerEnquiries([newEnquiry, ...existingEnquiries]);
-    toast.success(`Transferred to Tracker Sourcing Enquiry #${nextNum}! Redirecting...`);
-    navigate({ to: "/admin/tracker/enquiries" });
+      await supabase
+        .from("tracker_enquiry_stages")
+        .insert([{
+          enquiry_id: newEnq.id,
+          stage_number: 1,
+          stage_name: "Enquiry Received",
+          status: "New",
+          stage_data: stage1Data,
+          notes: `Transfer from public website inquiry`,
+          updated_by: "System Admin"
+        }]);
+
+      // 5. Update demo_requests with erp_enquiry_id
+      const { error: updateError } = await supabase
+        .from("demo_requests")
+        .update({ erp_enquiry_id: newEnq.id })
+        .eq("id", req.id);
+
+      if (updateError) throw updateError;
+
+      // Update local UI state
+      setRequests(prev => prev.map(r => r.id === req.id ? { ...r, erp_enquiry_id: newEnq.id } : r));
+      if (selectedRequest?.id === req.id) {
+        setSelectedRequest(prev => prev ? { ...prev, erp_enquiry_id: newEnq.id } : null);
+      }
+
+      toast.success(`Transferred to Tracker Sourcing Enquiry #${nextNum}! Redirecting...`);
+      navigate({ to: "/admin/tracker/enquiries" });
+    } catch (err: any) {
+      console.error("Transfer failed:", err);
+      toast.error("Failed to transfer inquiry: " + (err.message || "Unknown error"));
+    }
+
   };
 
   // Fetch Requests (handles server-side filtering, searching, and pagination)
@@ -569,17 +619,14 @@ function InquiriesPage() {
                       </div>
                     </td>
 
-                    {/* Status Dropdown */}
+                    {/* Status */}
                     <td className="px-4 py-4 align-top">
-                      <StatusDropdown
-                        currentStatus={req.status}
-                        onChange={(status) => updateRequestStatus(req.id, status)}
-                      />
-                    </td>
-
-                    {/* Actions */}
-                    <td className="px-4 py-4 align-top text-right">
-                      <div className="flex items-center justify-end gap-2">
+                      {req.erp_enquiry_id ? (
+                        <div className="inline-flex px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px] items-center gap-1" title="Managed in Tracker ERP">
+                          <Check className="size-3" />
+                          <span>Transferred</span>
+                        </div>
+                      ) : (
                         <button
                           onClick={() => handleTransferToTracker(req)}
                           className="px-2.5 py-1 rounded-lg bg-electric/15 text-electric hover:bg-electric hover:text-background font-semibold text-[11px] transition-all cursor-pointer inline-flex items-center gap-1"
@@ -588,7 +635,12 @@ function InquiriesPage() {
                           <Briefcase className="size-3" />
                           <span>Transfer to ERP</span>
                         </button>
+                      )}
+                    </td>
 
+                    {/* Actions */}
+                    <td className="px-4 py-4 align-top text-right">
+                      <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => deleteRequest(req.id)}
                           className="p-1.5 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"

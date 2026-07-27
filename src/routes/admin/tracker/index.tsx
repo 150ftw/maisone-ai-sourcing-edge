@@ -5,10 +5,8 @@ import {
   Briefcase, TrendingUp, Clock, CheckCircle2, AlertCircle, DollarSign,
   Plus, ArrowRight, ArrowUpRight, Filter, Search, FileText
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerEnquiries,
-  getTrackerInvoices,
-  getTrackerPayments,
   STAGE_NAMES,
   TrackerEnquiry,
   TrackerInvoice,
@@ -26,11 +24,32 @@ function TrackerDashboard() {
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [invoices, setInvoices] = useState<TrackerInvoice[]>([]);
   const [payments, setPayments] = useState<TrackerPayment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadDashboardData = async () => {
+    setLoading(true);
+    try {
+      const [
+        { data: dbEnquiries },
+        { data: dbInvoices },
+        { data: dbPayments }
+      ] = await Promise.all([
+        supabase.from("tracker_enquiries").select("*").order("created_at", { ascending: false }),
+        supabase.from("tracker_invoices").select("*").order("created_at", { ascending: false }),
+        supabase.from("tracker_payments").select("*").order("created_at", { ascending: false })
+      ]);
+
+      setEnquiries(dbEnquiries ?? []);
+      setInvoices(dbInvoices ?? []);
+      setPayments(dbPayments ?? []);
+    } catch (err) {
+      console.error("Failed to load dashboard statistics:", err);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    setEnquiries(getTrackerEnquiries());
-    setInvoices(getTrackerInvoices());
-    setPayments(getTrackerPayments());
+    loadDashboardData();
   }, []);
 
   // Compute key stats
@@ -65,6 +84,95 @@ function TrackerDashboard() {
     { month: "Jun", orders: 0, revenue: 0 },
     { month: "Jul", orders: totalEnquiries, revenue: totalRevenue }
   ];
+
+  if (loading) {
+    return (
+      <div className="space-y-8 animate-pulse">
+        {/* Header skeleton */}
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-4 w-24 bg-foreground/10 rounded-full" />
+            <div className="h-8 w-56 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-80 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="h-9 w-32 bg-foreground/10 rounded-xl" />
+        </div>
+
+        {/* Metric Cards skeleton — 4 cols */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-border bg-card space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="h-3 w-24 bg-foreground/10 rounded-full" />
+                <div className="size-4 bg-foreground/10 rounded" />
+              </div>
+              <div className="h-8 w-16 bg-foreground/10 rounded-lg" />
+              <div className="h-3 w-32 bg-foreground/10 rounded-full" />
+            </div>
+          ))}
+        </div>
+
+        {/* Secondary metric row — 3 cols */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="p-4 rounded-xl border border-border bg-card/50 flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="h-2.5 w-28 bg-foreground/10 rounded-full" />
+                <div className="h-6 w-16 bg-foreground/10 rounded-lg" />
+              </div>
+              <div className="size-6 bg-foreground/10 rounded-full" />
+            </div>
+          ))}
+        </div>
+
+        {/* Charts skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-8 p-6 rounded-2xl border border-border bg-card space-y-4">
+            <div className="h-5 w-64 bg-foreground/10 rounded-full" />
+            <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+            <div className="h-[250px] w-full bg-foreground/10 rounded-xl" />
+          </div>
+          <div className="lg:col-span-4 p-6 rounded-2xl border border-border bg-card space-y-4">
+            <div className="h-5 w-40 bg-foreground/10 rounded-full" />
+            <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+            <div className="h-[200px] w-full bg-foreground/10 rounded-xl" />
+          </div>
+        </div>
+
+        {/* Recent Enquiries table skeleton */}
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="p-5 border-b border-border flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="h-5 w-56 bg-foreground/10 rounded-full" />
+              <div className="h-3 w-72 bg-foreground/10 rounded-full" />
+            </div>
+            <div className="h-4 w-28 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="divide-y divide-border">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="p-4 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="size-10 rounded-xl bg-foreground/10 shrink-0" />
+                  <div className="space-y-2">
+                    <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+                    <div className="h-2.5 w-32 bg-foreground/10 rounded-full" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="space-y-2 hidden sm:block">
+                    <div className="h-3 w-36 bg-foreground/10 rounded-full" />
+                    <div className="h-2.5 w-24 bg-foreground/10 rounded-full" />
+                  </div>
+                  <div className="h-6 w-20 bg-foreground/10 rounded-full" />
+                  <div className="size-8 rounded-lg bg-foreground/10" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

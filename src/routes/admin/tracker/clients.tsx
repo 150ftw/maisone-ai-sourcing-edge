@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Plus, X, Edit, Trash2, Globe, Mail, Phone, FileText } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerClients,
-  saveTrackerClients,
-  getTrackerEnquiries,
   TrackerClient,
   TrackerEnquiry
 } from "@/lib/tracker-store";
@@ -13,7 +11,7 @@ export const Route = createFileRoute("/admin/tracker/clients")({
   component: ClientsRoute,
 });
 
-export function ClientsRoute() {
+function ClientsRoute() {
   const [clients, setClients] = useState<TrackerClient[]>([]);
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,9 +30,28 @@ export function ClientsRoute() {
   const [paymentTerms, setPaymentTerms] = useState("30% Deposit, 70% Balance");
   const [notes, setNotes] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      const [{ data: dbEnquiries }, { data: dbClients, error }] = await Promise.all([
+        supabase.from("tracker_enquiries").select("*"),
+        supabase.from("tracker_clients").select("*").order("created_at", { ascending: false })
+      ]);
+
+      if (error) throw error;
+      setEnquiries(dbEnquiries ?? []);
+      setClients(dbClients ?? []);
+    } catch (err) {
+      console.error("Failed to load clients:", err);
+    }
+    setClients([]);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    setClients(getTrackerClients());
-    setEnquiries(getTrackerEnquiries());
+    loadData();
   }, []);
 
   const openCreateModal = () => {
@@ -63,30 +80,11 @@ export function ClientsRoute() {
     setIsModalOpen(true);
   };
 
-  const handleSaveClient = () => {
+  const handleSaveClient = async () => {
     if (!companyName.trim() || !email.trim()) return;
 
-    let updated: TrackerClient[];
-    if (editingClient) {
-      updated = clients.map(c =>
-        c.id === editingClient.id
-          ? {
-              ...c,
-              company_name: companyName,
-              client_name: clientName,
-              country,
-              contact_person: contactPerson,
-              email,
-              whatsapp,
-              payment_terms: paymentTerms,
-              notes
-            }
-          : c
-      );
-    } else {
-      const newC: TrackerClient = {
-        id: `c-${Date.now()}`,
-        created_at: new Date().toISOString(),
+    try {
+      const payload: any = {
         company_name: companyName,
         client_name: clientName,
         country,
@@ -96,19 +94,39 @@ export function ClientsRoute() {
         payment_terms: paymentTerms,
         notes
       };
-      updated = [newC, ...clients];
-    }
 
-    saveTrackerClients(updated);
-    setClients(updated);
-    setIsModalOpen(false);
+      if (editingClient) {
+        payload.id = editingClient.id;
+      }
+
+      const { error } = await supabase
+        .from("tracker_clients")
+        .upsert(payload);
+
+      if (error) throw error;
+
+      setIsModalOpen(false);
+      loadData();
+    } catch (err) {
+      console.error("Failed to save client:", err);
+      alert("Error saving client. Please try again.");
+    }
   };
 
-  const handleDeleteClient = (id: string) => {
+  const handleDeleteClient = async (id: string) => {
     if (confirm("Are you sure you want to delete this client record?")) {
-      const updated = clients.filter(c => c.id !== id);
-      saveTrackerClients(updated);
-      setClients(updated);
+      try {
+        const { error } = await supabase
+          .from("tracker_clients")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+        loadData();
+      } catch (err) {
+        console.error("Failed to delete client:", err);
+        alert("Error deleting client. Please try again.");
+      }
     }
   };
 
@@ -118,6 +136,49 @@ export function ClientsRoute() {
     c.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        {/* Header skeleton */}
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-7 w-48 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-72 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="h-9 w-28 bg-foreground/10 rounded-xl" />
+        </div>
+        {/* Search bar skeleton */}
+        <div className="h-10 w-full bg-foreground/10 rounded-xl" />
+        {/* Client card grid skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-border bg-card space-y-4">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <div className="h-6 w-40 bg-foreground/10 rounded-lg" />
+                  <div className="h-3 w-24 bg-foreground/10 rounded-full" />
+                </div>
+                <div className="flex gap-2">
+                  <div className="size-8 rounded-lg bg-foreground/10" />
+                  <div className="size-8 rounded-lg bg-foreground/10" />
+                </div>
+              </div>
+              <div className="space-y-2 pt-1">
+                <div className="h-3 w-56 bg-foreground/10 rounded-full" />
+                <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+                <div className="h-3 w-40 bg-foreground/10 rounded-full" />
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-border">
+                <div className="h-3 w-32 bg-foreground/10 rounded-full" />
+                <div className="h-5 w-20 bg-foreground/10 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

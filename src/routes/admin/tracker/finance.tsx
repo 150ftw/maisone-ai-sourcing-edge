@@ -2,12 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerInvoices,
-  saveTrackerInvoices,
-  getTrackerPayments,
-  saveTrackerPayments,
-  getTrackerEnquiries,
   TrackerInvoice,
   TrackerPayment,
   TrackerEnquiry
@@ -18,11 +14,12 @@ export const Route = createFileRoute("/admin/tracker/finance")({
   component: FinanceRoute,
 });
 
-export function FinanceRoute() {
+function FinanceRoute() {
   const [invoices, setInvoices] = useState<TrackerInvoice[]>([]);
   const [payments, setPayments] = useState<TrackerPayment[]>([]);
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "sample" | "bulk" | "payments">("all");
+  const [loading, setLoading] = useState(true);
 
   // Modal State for Invoice Creation
   const [isInvModalOpen, setIsInvModalOpen] = useState(false);
@@ -38,171 +35,279 @@ export function FinanceRoute() {
   const [pmtReceived, setPmtReceived] = useState("");
   const [pmtDate, setPmtDate] = useState(new Date().toISOString().split("T")[0]);
 
-  useEffect(() => {
-    const invs = getTrackerInvoices();
-    const pmts = getTrackerPayments();
-    setInvoices(invs);
-    setPayments(pmts);
-    setEnquiries(getTrackerEnquiries());
-    if (invs.length > 0 && !selectedInvoiceId) {
-      setSelectedInvoiceId(invs[0].id);
+  const loadFinanceData = async () => {
+    setLoading(true);
+    try {
+      const { data: dbClients } = await supabase.from("tracker_clients").select("*");
+      const { data: dbEnquiries } = await supabase.from("tracker_enquiries").select("*");
+      if (dbEnquiries) {
+        setEnquiries(dbEnquiries);
+        if (dbEnquiries.length > 0 && !selectedEnquiryId) {
+          setSelectedEnquiryId(dbEnquiries[0].id);
+        }
+      }
+
+      let { data: dbInvoices } = await supabase.from("tracker_invoices").select("*");
+      let { data: dbPayments } = await supabase.from("tracker_payments").select("*");
+
+      // Join/map Client and Enquiry details in memory
+      const mappedInvoices = (dbInvoices || []).map((inv: any) => {
+        const client = (dbClients || []).find((c: any) => c.id === inv.client_id);
+        const enquiry = (dbEnquiries || []).find((e: any) => e.id === inv.enquiry_id);
+        return {
+          ...inv,
+          client_name: client?.company_name || "Unknown Client",
+          enquiry_number: enquiry?.enquiry_number || "ENQ-UNKNOWN"
+        };
+      });
+
+      const mappedPayments = (dbPayments || []).map((pmt: any) => {
+        const client = (dbClients || []).find((c: any) => c.id === pmt.client_id);
+        const enquiry = (dbEnquiries || []).find((e: any) => e.id === pmt.enquiry_id);
+        const invoice = (dbInvoices || []).find((i: any) => i.id === pmt.invoice_id);
+        return {
+          ...pmt,
+          client_name: client?.company_name || "Unknown Client",
+          enquiry_number: enquiry?.enquiry_number || "ENQ-UNKNOWN",
+          invoice_number: invoice?.invoice_number || "INV-UNKNOWN"
+        };
+      });
+
+      setInvoices(mappedInvoices);
+      setPayments(mappedPayments);
+
+      if (mappedInvoices.length > 0 && !selectedInvoiceId) {
+        setSelectedInvoiceId(mappedInvoices[0].id);
+      }
+    } catch (err) {
+      console.error("Failed to load finance data:", err);
     }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadFinanceData();
   }, []);
 
-  const handleDeleteInvoice = (invId: string, invNum: string) => {
+  const handleDeleteInvoice = async (invId: string, invNum: string) => {
     if (window.confirm(`Are you sure you want to delete invoice ${invNum}? This will also delete its payment record.`)) {
-      const updatedInvs = invoices.filter(i => i.id !== invId);
-      const updatedPmts = payments.filter(p => p.invoice_id !== invId);
-      saveTrackerInvoices(updatedInvs);
-      saveTrackerPayments(updatedPmts);
-      setInvoices(updatedInvs);
-      setPayments(updatedPmts);
-      toast.success(`Invoice ${invNum} deleted.`);
+      try {
+        // Delete payment associated
+        await supabase.from("tracker_payments").delete().eq("invoice_id", invId);
+        // Delete invoice
+        const { error } = await supabase.from("tracker_invoices").delete().eq("id", invId);
+        if (error) throw error;
+        
+        loadFinanceData();
+        toast.success(`Invoice ${invNum} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete invoice");
+      }
     }
   };
 
-  const handleDeletePayment = (pmtId: string, invNum?: string) => {
+  const handleDeletePayment = async (pmtId: string, invNum?: string) => {
     const label = invNum || "Payment Record";
     if (window.confirm(`Are you sure you want to delete payment record for ${label}?`)) {
-      const updatedPmts = payments.filter(p => p.id !== pmtId);
-      saveTrackerPayments(updatedPmts);
-      setPayments(updatedPmts);
-      toast.success(`Payment record for ${label} deleted.`);
+      try {
+        const { error } = await supabase.from("tracker_payments").delete().eq("id", pmtId);
+        if (error) throw error;
+        loadFinanceData();
+        toast.success(`Payment record for ${label} deleted.`);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to delete payment");
+      }
     }
   };
 
   // Financial summary metrics
   const totalInvoiced = invoices.reduce((sum, i) => sum + i.amount, 0);
   const totalCollected = payments.reduce((sum, p) => sum + p.amount_received, 0);
-  const totalOutstanding = payments.reduce((sum, p) => sum + p.outstanding_balance, 0);
+  const totalOutstanding = payments.reduce((sum, p) => sum + (p.amount_due - p.amount_received), 0);
 
-  const handleCreateInvoice = () => {
+  const handleCreateInvoice = async () => {
     if (!invNumber.trim() || !invAmount) {
       toast.error("Please enter a valid invoice number and amount.");
       return;
     }
 
     const matchedEnquiry = enquiries.find(e => e.id === selectedEnquiryId) || enquiries[0];
+    if (!matchedEnquiry) {
+      toast.error("No active enquiries available to invoice.");
+      return;
+    }
 
-    const newInv: TrackerInvoice = {
-      id: `inv-${Date.now()}`,
-      created_at: new Date().toISOString(),
-      invoice_number: invNumber,
-      enquiry_id: matchedEnquiry?.id || "enq-1001",
-      enquiry_number: matchedEnquiry?.enquiry_number || "ENQ-2026-001",
-      client_id: matchedEnquiry?.client_id || "c-101",
-      client_name: matchedEnquiry?.client_name || "Atelier Saint-Germain",
-      invoice_type: invType,
-      amount: parseFloat(invAmount) || 0,
-      currency: "USD",
-      invoice_date: new Date().toISOString().split("T")[0],
-      due_date: invDueDate || new Date().toISOString().split("T")[0],
-      payment_terms: "30% Deposit, 70% Balance",
-      status: "Sent"
-    };
+    try {
+      const { data: newInv, error: invError } = await supabase
+        .from("tracker_invoices")
+        .insert([{
+          invoice_number: invNumber,
+          enquiry_id: matchedEnquiry.id,
+          client_id: matchedEnquiry.client_id,
+          invoice_type: invType,
+          amount: parseFloat(invAmount) || 0,
+          currency: "USD",
+          invoice_date: new Date().toISOString().split("T")[0],
+          due_date: invDueDate || new Date().toISOString().split("T")[0],
+          payment_terms: "30% Deposit, 70% Balance",
+          status: "Sent"
+        }])
+        .select()
+        .single();
 
-    const newPmt: TrackerPayment = {
-      id: `pmt-${Date.now()}`,
-      created_at: new Date().toISOString(),
-      invoice_id: newInv.id,
-      invoice_number: newInv.invoice_number,
-      enquiry_id: newInv.enquiry_id,
-      enquiry_number: newInv.enquiry_number,
-      client_id: newInv.client_id,
-      client_name: newInv.client_name,
-      payment_type: invType,
-      due_date: newInv.due_date,
-      amount_due: newInv.amount,
-      amount_received: 0,
-      outstanding_balance: newInv.amount,
-      status: "Due"
-    };
+      if (invError) throw invError;
 
-    const updatedInvoices = [newInv, ...invoices];
-    const updatedPayments = [newPmt, ...payments];
+      if (newInv) {
+        const { error: pmtError } = await supabase
+          .from("tracker_payments")
+          .insert([{
+            invoice_id: newInv.id,
+            enquiry_id: newInv.enquiry_id,
+            client_id: newInv.client_id,
+            payment_type: invType,
+            due_date: newInv.due_date,
+            amount_due: newInv.amount,
+            amount_received: 0,
+            status: "Due"
+          }]);
 
-    saveTrackerInvoices(updatedInvoices);
-    saveTrackerPayments(updatedPayments);
+        if (pmtError) throw pmtError;
+      }
 
-    setInvoices(updatedInvoices);
-    setPayments(updatedPayments);
-    setIsInvModalOpen(false);
-
-    setInvNumber("");
-    setInvAmount("");
-    toast.success(`Invoice ${newInv.invoice_number} created successfully!`);
+      setIsInvModalOpen(false);
+      setInvNumber("");
+      setInvAmount("");
+      loadFinanceData();
+      toast.success(`Invoice ${invNumber} created successfully!`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to create invoice");
+    }
   };
 
-  const handleRecordPayment = () => {
+  const handleRecordPayment = async () => {
     const targetInvoiceId = selectedInvoiceId || invoices[0]?.id;
     if (!targetInvoiceId || !pmtReceived || parseFloat(pmtReceived) <= 0) {
       toast.error("Please select an invoice and enter a valid payment amount.");
       return;
     }
 
-    const allPayments = [...payments];
-    let pmtIndex = allPayments.findIndex(p => p.invoice_id === targetInvoiceId);
-    
     const targetInv = invoices.find(i => i.id === targetInvoiceId);
     if (!targetInv) {
       toast.error("Invoice not found.");
       return;
     }
 
-    // If payment record doesn't exist yet, auto-create one
-    if (pmtIndex === -1) {
-      const createdPmt: TrackerPayment = {
-        id: `pmt-${Date.now()}`,
-        created_at: new Date().toISOString(),
-        invoice_id: targetInv.id,
-        invoice_number: targetInv.invoice_number,
-        enquiry_id: targetInv.enquiry_id,
-        enquiry_number: targetInv.enquiry_number,
-        client_id: targetInv.client_id,
-        client_name: targetInv.client_name,
-        payment_type: targetInv.invoice_type,
-        due_date: targetInv.due_date,
-        amount_due: targetInv.amount,
-        amount_received: 0,
-        outstanding_balance: targetInv.amount,
-        status: "Due"
-      };
-      allPayments.unshift(createdPmt);
-      pmtIndex = 0;
+    const existingPmt = payments.find(p => p.invoice_id === targetInvoiceId);
+
+    try {
+      const addedAmount = parseFloat(pmtReceived) || 0;
+      const newReceived = (existingPmt?.amount_received || 0) + addedAmount;
+      const amountDue = existingPmt?.amount_due || targetInv.amount;
+      const newBalance = Math.max(0, amountDue - newReceived);
+      const newStatus = newBalance === 0 ? "Paid" : newReceived > 0 ? "Partially Paid" : "Due";
+
+      if (existingPmt) {
+        const { error } = await supabase
+          .from("tracker_payments")
+          .update({
+            amount_received: newReceived,
+            payment_date: pmtDate,
+            status: newStatus
+          })
+          .eq("id", existingPmt.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase
+          .from("tracker_payments")
+          .insert([{
+            invoice_id: targetInv.id,
+            enquiry_id: targetInv.enquiry_id,
+            client_id: targetInv.client_id,
+            payment_type: targetInv.invoice_type,
+            due_date: targetInv.due_date,
+            amount_due: targetInv.amount,
+            amount_received: newReceived,
+            payment_date: pmtDate,
+            status: newStatus
+          }]);
+        if (error) throw error;
+      }
+
+      // Also update invoice status
+      await supabase
+        .from("tracker_invoices")
+        .update({
+          status: newBalance === 0 ? "Paid" : "Sent"
+        })
+        .eq("id", targetInvoiceId);
+
+      setIsPmtModalOpen(false);
+      setPmtReceived("");
+      loadFinanceData();
+      toast.success(`Payment of $${addedAmount.toLocaleString()} recorded for ${targetInv.invoice_number}!`);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to record payment");
     }
-
-    const existingPmt = allPayments[pmtIndex];
-    const addedAmount = parseFloat(pmtReceived) || 0;
-    const newReceived = (existingPmt.amount_received || 0) + addedAmount;
-    const newBalance = Math.max(0, existingPmt.amount_due - newReceived);
-    const newStatus = newBalance === 0 ? "Paid" : newReceived > 0 ? "Partially Paid" : "Due";
-
-    const updatedPmt: TrackerPayment = {
-      ...existingPmt,
-      amount_received: newReceived,
-      outstanding_balance: newBalance,
-      payment_date: pmtDate,
-      status: newStatus
-    };
-
-    allPayments[pmtIndex] = updatedPmt;
-
-    // Also update invoice status if paid
-    const allInvoices = invoices.map(inv =>
-      inv.id === targetInvoiceId
-        ? { ...inv, status: (newBalance === 0 ? "Paid" : "Sent") as any }
-        : inv
-    );
-
-    saveTrackerPayments(allPayments);
-    saveTrackerInvoices(allInvoices);
-
-    setPayments(allPayments);
-    setInvoices(allInvoices);
-    setIsPmtModalOpen(false);
-    setPmtReceived("");
-    toast.success(`Payment of $${addedAmount.toLocaleString()} recorded for ${targetInv.invoice_number}!`);
   };
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        {/* Header skeleton */}
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-7 w-48 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-72 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="flex gap-3">
+            <div className="h-9 w-36 bg-foreground/10 rounded-xl" />
+            <div className="h-9 w-36 bg-foreground/10 rounded-xl" />
+          </div>
+        </div>
+        {/* Summary cards skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-border bg-card space-y-2">
+              <div className="h-3 w-32 bg-foreground/10 rounded-full" />
+              <div className="h-8 w-24 bg-foreground/10 rounded-lg" />
+              <div className="h-2.5 w-40 bg-foreground/10 rounded-full" />
+            </div>
+          ))}
+        </div>
+        {/* Tab bar skeleton */}
+        <div className="flex gap-6 border-b border-border pb-0">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-8 w-24 bg-foreground/10 rounded-t-lg" />
+          ))}
+        </div>
+        {/* Invoice table skeleton */}
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="p-4 border-b border-border">
+            <div className="h-4 w-40 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="divide-y divide-border">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="p-4 flex items-center gap-4">
+                <div className="h-3 w-28 bg-foreground/10 rounded-full shrink-0" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="h-3 w-36 bg-foreground/10 rounded-full" />
+                  <div className="h-2.5 w-24 bg-foreground/10 rounded-full" />
+                </div>
+                <div className="h-3 w-20 bg-foreground/10 rounded-full shrink-0" />
+                <div className="h-3 w-20 bg-foreground/10 rounded-full shrink-0" />
+                <div className="h-6 w-20 bg-foreground/10 rounded-full shrink-0" />
+                <div className="size-8 rounded-lg bg-foreground/10 shrink-0" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -242,14 +347,14 @@ export function FinanceRoute() {
 
         <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Total Collected Payments</p>
-          <p className="text-2xl font-serif font-bold text-emerald-400">${totalCollected.toLocaleString()}</p>
-          <p className="text-[11px] text-emerald-500/80">Funds Received & Cleared</p>
+          <p className="text-2xl font-serif font-bold text-emerald-600 dark:text-emerald-400">${totalCollected.toLocaleString()}</p>
+          <p className="text-[11px] text-emerald-700/80 dark:text-emerald-500/80">Funds Received & Cleared</p>
         </div>
 
         <div className="p-5 rounded-2xl border border-border bg-card space-y-1">
           <p className="text-xs font-semibold text-muted-foreground">Outstanding Balance Due</p>
-          <p className="text-2xl font-serif font-bold text-amber-400">${totalOutstanding.toLocaleString()}</p>
-          <p className="text-[11px] text-amber-500/80">Calculated automatically</p>
+          <p className="text-2xl font-serif font-bold text-amber-600 dark:text-amber-400">${totalOutstanding.toLocaleString()}</p>
+          <p className="text-[11px] text-amber-700/80 dark:text-amber-500/80">Calculated automatically</p>
         </div>
       </div>
 
@@ -329,7 +434,7 @@ export function FinanceRoute() {
 
                   <div className="col-span-2 text-right pr-2">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                      inv.status === "Paid" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      inv.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
                     }`}>
                       {inv.status}
                     </span>
@@ -369,17 +474,17 @@ export function FinanceRoute() {
                   ${p.amount_due.toLocaleString()}
                 </div>
 
-                <div className="col-span-2 text-right font-mono font-semibold text-emerald-400">
+                <div className="col-span-2 text-right font-mono font-semibold text-emerald-600 dark:text-emerald-400">
                   ${p.amount_received.toLocaleString()}
                 </div>
 
-                <div className="col-span-2 text-right font-mono font-bold text-amber-400">
+                <div className="col-span-2 text-right font-mono font-bold text-amber-600 dark:text-amber-400">
                   ${p.outstanding_balance.toLocaleString()}
                 </div>
 
                 <div className="col-span-2 text-right pr-2">
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
-                    p.status === "Paid" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                    p.status === "Paid" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20"
                   }`}>
                     {p.status}
                   </span>

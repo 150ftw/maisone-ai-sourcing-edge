@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { Search, Plus, X, Edit, Trash2, Factory as FactoryIcon, MapPin, Mail, Phone, Star, Clock, RefreshCw } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import {
-  getTrackerFactories,
-  saveTrackerFactories,
   TrackerFactory
 } from "@/lib/tracker-store";
 
@@ -12,7 +10,7 @@ export const Route = createFileRoute("/admin/tracker/factories")({
   component: FactoriesRoute,
 });
 
-export function FactoriesRoute() {
+function FactoriesRoute() {
   const [factories, setFactories] = useState<TrackerFactory[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -33,55 +31,43 @@ export function FactoriesRoute() {
 
   const loadFactories = async () => {
     setLoading(true);
-    const local = getTrackerFactories();
     try {
-      const { data: sups, error } = await supabase
+      const { data: dbFactories, error } = await supabase
         .from("suppliers")
-        .select("*");
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      if (!error && sups && sups.length > 0) {
-        const mappedFromDb: TrackerFactory[] = sups.map((s: any) => {
-          let owner = "";
+      if (error) throw error;
+      
+      // Map Supabase suppliers to TrackerFactory format
+      const mapped = (dbFactories || []).map((db: any) => {
+        let contactPersonStr = db.owner_details || db.contact_person || "Unknown";
+        if (typeof contactPersonStr === "string" && contactPersonStr.startsWith("{")) {
           try {
-            if (s.owner_details && typeof s.owner_details === "string") {
-              const parsed = JSON.parse(s.owner_details);
-              owner = parsed.owner || "";
-            }
-          } catch {}
+            const parsed = JSON.parse(contactPersonStr);
+            contactPersonStr = parsed.owner || "Unknown";
+          } catch (e) {}
+        }
+        
+        return {
+          id: db.id,
+          created_at: db.created_at,
+          factory_name: db.name || "Unknown Factory",
+          category: db.category || "General",
+          location: `${db.city || ""}, ${db.region || ""}`.replace(/^, |^,/g, ''),
+          contact_person: contactPersonStr,
+          email: db.email_id || db.email || "",
+          whatsapp: db.contact_no || "",
+          lead_time: db.lead_time?.toString() || "30-45 Days",
+          quality_rating: parseFloat(db.rating) || 4.5
+        };
+      });
 
-          return {
-            id: s.supplier_id || s.id || `sup-${Date.now()}`,
-            created_at: s.created_at || new Date().toISOString(),
-            factory_name: s.name || s.factory_name || "Unnamed Supplier",
-            category: s.category || "General Apparel",
-            location: s.city && s.city !== "TBD" ? `${s.city}, ${s.region || ""}` : (s.region || "Global"),
-            contact_person: owner || s.contact_person || s.name,
-            email: s.email_id || s.email || "supplier@maisone.ai",
-            whatsapp: s.contact_no || s.whatsapp || "+1 555-0192",
-            lead_time: typeof s.lead_time === "number" ? `${s.lead_time} Days` : (s.lead_time || s.lead || "21-30 Days"),
-            quality_rating: Number(s.rating) || 4.8
-          };
-        });
-
-        const combinedMap = new Map<string, TrackerFactory>();
-        mappedFromDb.forEach(f => combinedMap.set((f.email || f.factory_name).toLowerCase(), f));
-        local.forEach(f => {
-          const key = (f.email || f.factory_name).toLowerCase();
-          if (!combinedMap.has(key)) {
-            combinedMap.set(key, f);
-          }
-        });
-
-        const merged = Array.from(combinedMap.values());
-        setFactories(merged);
-        saveTrackerFactories(merged);
-        setLoading(false);
-        return;
-      }
+      setFactories(mapped);
     } catch (err) {
-      console.error("Error fetching suppliers from Supabase:", err);
+      console.error("Error fetching factories from Supabase:", err);
+      setFactories([]);
     }
-    setFactories(local);
     setLoading(false);
   };
 
@@ -118,67 +104,53 @@ export function FactoriesRoute() {
   const handleSaveFactory = async () => {
     if (!factoryName.trim() || !email.trim()) return;
 
-    let updated: TrackerFactory[];
-    if (editingFactory) {
-      updated = factories.map(f =>
-        f.id === editingFactory.id
-          ? {
-              ...f,
-              factory_name: factoryName,
-              category,
-              location,
-              contact_person: contactPerson,
-              email,
-              whatsapp,
-              lead_time: leadTime,
-              quality_rating: parseFloat(qualityRating) || 4.5
-            }
-          : f
-      );
-    } else {
-      const newF: TrackerFactory = {
-        id: `f-${Date.now()}`,
-        created_at: new Date().toISOString(),
-        factory_name: factoryName,
-        category,
-        location,
-        contact_person: contactPerson,
-        email,
-        whatsapp,
-        lead_time: leadTime,
-        quality_rating: parseFloat(qualityRating) || 4.5
-      };
-      updated = [newF, ...factories];
-    }
-
-    saveTrackerFactories(updated);
-    setFactories(updated);
-    setIsModalOpen(false);
-
-    // Sync to Supabase suppliers table
     try {
-      await supabase.from("suppliers").upsert({
-        supplier_id: editingFactory?.id || `SUP-${String(Date.now()).slice(-4)}`,
+      // Map back to suppliers table schema
+      const payload: any = {
         name: factoryName,
         category,
-        region: location,
-        city: location.split(",")[0] || "TBD",
+        region: location.split(", ")[1] || "Unknown",
+        city: location.split(", ")[0] || location,
+        owner_details: contactPerson,
         email_id: email,
         contact_no: whatsapp,
-        lead_time: parseInt(leadTime) || 21,
-        rating: parseFloat(qualityRating) || 4.8,
-        owner_details: JSON.stringify({ owner: contactPerson })
-      }, { onConflict: "email_id" });
+        lead_time: leadTime,
+        rating: parseFloat(qualityRating) || 4.5,
+        supplier_id: editingFactory ? undefined : `SUP-TR-${Date.now().toString().slice(-4)}`
+      };
+
+      if (editingFactory) {
+        payload.id = editingFactory.id;
+      }
+
+      const { error } = await supabase
+        .from("suppliers")
+        .upsert(payload);
+
+      if (error) throw error;
+      
+      setIsModalOpen(false);
+      loadFactories();
     } catch (err) {
       console.error("Failed to sync factory to Supabase:", err);
+      alert("Error saving factory. Please try again.");
     }
   };
 
-  const handleDeleteFactory = (id: string) => {
+  const handleDeleteFactory = async (id: string) => {
     if (confirm("Are you sure you want to delete this factory?")) {
-      const updated = factories.filter(f => f.id !== id);
-      saveTrackerFactories(updated);
-      setFactories(updated);
+      try {
+        const { error } = await supabase
+          .from("suppliers")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+        loadFactories();
+      } catch (err) {
+        console.error("Failed to delete factory from Supabase:", err);
+        alert("Error deleting factory. Please try again.");
+      }
     }
   };
 
@@ -188,6 +160,46 @@ export function FactoriesRoute() {
     f.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
     f.contact_person.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-7 w-44 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-64 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="h-9 w-32 bg-foreground/10 rounded-xl" />
+        </div>
+        <div className="h-10 w-full bg-foreground/10 rounded-xl" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-border bg-card space-y-4">
+              <div className="flex items-start justify-between">
+                <div className="space-y-2">
+                  <div className="h-5 w-36 bg-foreground/10 rounded-lg" />
+                  <div className="h-5 w-24 bg-foreground/10 rounded-full" />
+                </div>
+                <div className="flex gap-2">
+                  <div className="size-8 rounded-lg bg-foreground/10" />
+                  <div className="size-8 rounded-lg bg-foreground/10" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-3 w-48 bg-foreground/10 rounded-full" />
+                <div className="h-3 w-40 bg-foreground/10 rounded-full" />
+                <div className="h-3 w-44 bg-foreground/10 rounded-full" />
+              </div>
+              <div className="flex items-center gap-3 pt-1 border-t border-border">
+                <div className="h-3 w-24 bg-foreground/10 rounded-full" />
+                <div className="h-3 w-20 bg-foreground/10 rounded-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

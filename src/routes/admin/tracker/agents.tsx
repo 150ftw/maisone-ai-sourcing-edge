@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { Search, Plus, X, Edit, Trash2, UserCheck, Globe, PhoneCall } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
-  getTrackerAgents,
-  saveTrackerAgents,
   TrackerAgent
 } from "@/lib/tracker-store";
 
@@ -11,9 +10,10 @@ export const Route = createFileRoute("/admin/tracker/agents")({
   component: AgentsRoute,
 });
 
-export function AgentsRoute() {
+function AgentsRoute() {
   const [agents, setAgents] = useState<TrackerAgent[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +25,25 @@ export function AgentsRoute() {
   const [clientsManaged, setClientsManaged] = useState("5");
   const [contactDetails, setContactDetails] = useState("");
 
+  const loadAgents = async () => {
+    setLoading(true);
+    try {
+      const { data: dbAgents, error } = await supabase
+        .from("tracker_agents")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setAgents(dbAgents ?? []);
+    } catch (err) {
+      console.error("Failed to load agents:", err);
+      setAgents([]);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    setAgents(getTrackerAgents());
+    loadAgents();
   }, []);
 
   const openCreateModal = () => {
@@ -47,44 +64,49 @@ export function AgentsRoute() {
     setIsModalOpen(true);
   };
 
-  const handleSaveAgent = () => {
+  const handleSaveAgent = async () => {
     if (!agentName.trim()) return;
 
-    let updated: TrackerAgent[];
-    if (editingAgent) {
-      updated = agents.map(a =>
-        a.id === editingAgent.id
-          ? {
-              ...a,
-              agent_name: agentName,
-              region,
-              clients_managed: parseInt(clientsManaged) || 0,
-              contact_details: contactDetails
-            }
-          : a
-      );
-    } else {
-      const newA: TrackerAgent = {
-        id: `a-${Date.now()}`,
-        created_at: new Date().toISOString(),
+    try {
+      const payload: any = {
         agent_name: agentName,
         region,
         clients_managed: parseInt(clientsManaged) || 0,
         contact_details: contactDetails
       };
-      updated = [newA, ...agents];
-    }
 
-    saveTrackerAgents(updated);
-    setAgents(updated);
-    setIsModalOpen(false);
+      if (editingAgent) {
+        payload.id = editingAgent.id;
+      }
+
+      const { error } = await supabase
+        .from("tracker_agents")
+        .upsert(payload);
+
+      if (error) throw error;
+
+      setIsModalOpen(false);
+      loadAgents();
+    } catch (err) {
+      console.error("Failed to save agent:", err);
+      alert("Error saving agent. Please try again.");
+    }
   };
 
-  const handleDeleteAgent = (id: string) => {
+  const handleDeleteAgent = async (id: string) => {
     if (confirm("Are you sure you want to delete this agent profile?")) {
-      const updated = agents.filter(a => a.id !== id);
-      saveTrackerAgents(updated);
-      setAgents(updated);
+      try {
+        const { error } = await supabase
+          .from("tracker_agents")
+          .delete()
+          .eq("id", id);
+
+        if (error) throw error;
+        loadAgents();
+      } catch (err) {
+        console.error("Failed to delete agent:", err);
+        alert("Error deleting agent. Please try again.");
+      }
     }
   };
 
@@ -93,6 +115,40 @@ export function AgentsRoute() {
     a.region.toLowerCase().includes(searchQuery.toLowerCase()) ||
     a.contact_details.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="flex items-center justify-between pb-4 border-b border-border">
+          <div className="space-y-2">
+            <div className="h-7 w-44 bg-foreground/10 rounded-xl" />
+            <div className="h-3 w-60 bg-foreground/10 rounded-full" />
+          </div>
+          <div className="h-9 w-28 bg-foreground/10 rounded-xl" />
+        </div>
+        <div className="h-10 w-full bg-foreground/10 rounded-xl" />
+        <div className="space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="p-5 rounded-2xl border border-border bg-card flex items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="size-12 rounded-2xl bg-foreground/10 shrink-0" />
+                <div className="space-y-2">
+                  <div className="h-4 w-36 bg-foreground/10 rounded-lg" />
+                  <div className="h-3 w-24 bg-foreground/10 rounded-full" />
+                  <div className="h-3 w-52 bg-foreground/10 rounded-full" />
+                </div>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="h-6 w-14 bg-foreground/10 rounded-full" />
+                <div className="size-8 rounded-lg bg-foreground/10" />
+                <div className="size-8 rounded-lg bg-foreground/10" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
