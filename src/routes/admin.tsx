@@ -266,7 +266,6 @@ const TRACKER_TABS = [
   { id: "tracker_clients", to: "/admin/tracker/clients", label: "Clients", icon: Users },
   { id: "tracker_factories", to: "/admin/tracker/factories", label: "Factories", icon: Factory },
   { id: "tracker_agents", to: "/admin/tracker/agents", label: "Agents", icon: UserCheck },
-  { id: "tracker_communication", to: "/admin/tracker/communication", label: "Communication Logs", icon: MessageSquareCode },
   { id: "tracker_finance", to: "/admin/tracker/finance", label: "Finance", icon: DollarSign },
   { id: "tracker_reports", to: "/admin/tracker/reports", label: "Reports", icon: BarChart3 },
   { id: "tracker_settings", to: "/admin/tracker/settings", label: "Settings", icon: Settings },

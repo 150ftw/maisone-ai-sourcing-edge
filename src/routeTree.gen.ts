@@ -36,7 +36,6 @@ import { Route as AdminTrackerReportsRouteImport } from './routes/admin/tracker/
 import { Route as AdminTrackerFinanceRouteImport } from './routes/admin/tracker/finance'
 import { Route as AdminTrackerFactoriesRouteImport } from './routes/admin/tracker/factories'
 import { Route as AdminTrackerEnquiriesRouteImport } from './routes/admin/tracker/enquiries'
-import { Route as AdminTrackerCommunicationRouteImport } from './routes/admin/tracker/communication'
 import { Route as AdminTrackerClientsRouteImport } from './routes/admin/tracker/clients'
 import { Route as AdminTrackerAgentsRouteImport } from './routes/admin/tracker/agents'
 
@@ -175,12 +174,6 @@ const AdminTrackerEnquiriesRoute = AdminTrackerEnquiriesRouteImport.update({
   path: '/tracker/enquiries',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminTrackerCommunicationRoute =
-  AdminTrackerCommunicationRouteImport.update({
-    id: '/tracker/communication',
-    path: '/tracker/communication',
-    getParentRoute: () => AdminRoute,
-  } as any)
 const AdminTrackerClientsRoute = AdminTrackerClientsRouteImport.update({
   id: '/tracker/clients',
   path: '/tracker/clients',
@@ -216,7 +209,6 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
   '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
   '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
   '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
   '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
@@ -247,7 +239,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
   '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
   '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
   '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
   '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
@@ -280,7 +271,6 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
   '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
   '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
   '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
   '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
@@ -314,7 +304,6 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/tracker/agents'
     | '/admin/tracker/clients'
-    | '/admin/tracker/communication'
     | '/admin/tracker/enquiries'
     | '/admin/tracker/factories'
     | '/admin/tracker/finance'
@@ -345,7 +334,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/tracker/agents'
     | '/admin/tracker/clients'
-    | '/admin/tracker/communication'
     | '/admin/tracker/enquiries'
     | '/admin/tracker/factories'
     | '/admin/tracker/finance'
@@ -377,7 +365,6 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/admin/tracker/agents'
     | '/admin/tracker/clients'
-    | '/admin/tracker/communication'
     | '/admin/tracker/enquiries'
     | '/admin/tracker/factories'
     | '/admin/tracker/finance'
@@ -593,13 +580,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTrackerEnquiriesRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/admin/tracker/communication': {
-      id: '/admin/tracker/communication'
-      path: '/tracker/communication'
-      fullPath: '/admin/tracker/communication'
-      preLoaderRoute: typeof AdminTrackerCommunicationRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/admin/tracker/clients': {
       id: '/admin/tracker/clients'
       path: '/tracker/clients'
@@ -628,7 +608,6 @@ interface AdminRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   AdminTrackerAgentsRoute: typeof AdminTrackerAgentsRoute
   AdminTrackerClientsRoute: typeof AdminTrackerClientsRoute
-  AdminTrackerCommunicationRoute: typeof AdminTrackerCommunicationRoute
   AdminTrackerEnquiriesRoute: typeof AdminTrackerEnquiriesRoute
   AdminTrackerFactoriesRoute: typeof AdminTrackerFactoriesRoute
   AdminTrackerFinanceRoute: typeof AdminTrackerFinanceRoute
@@ -648,7 +627,6 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   AdminTrackerAgentsRoute: AdminTrackerAgentsRoute,
   AdminTrackerClientsRoute: AdminTrackerClientsRoute,
-  AdminTrackerCommunicationRoute: AdminTrackerCommunicationRoute,
   AdminTrackerEnquiriesRoute: AdminTrackerEnquiriesRoute,
   AdminTrackerFactoriesRoute: AdminTrackerFactoriesRoute,
   AdminTrackerFinanceRoute: AdminTrackerFinanceRoute,
