@@ -504,67 +504,67 @@ export function EnquiriesRoute() {
 
       {/* Main Table */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="divide-y divide-border">
-          <div className="px-4 py-3.5 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center">
+        <div className="divide-y divide-border overflow-x-auto custom-scrollbar">
+          <div className="px-6 py-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1350px]">
             <div className="col-span-2">Enquiry / Client</div>
             <div className="col-span-2">Product Reference</div>
-            <div className="col-span-3">Current Stage</div>
+            <div className="col-span-2">Current Stage</div>
             <div className="col-span-2">Assigned Factory</div>
             <div className="col-span-1">Agent</div>
-            <div className="col-span-1">Status</div>
-            <div className="col-span-1 text-right">Action</div>
+            <div className="col-span-2">Status</div>
+            <div className="col-span-1 text-right pr-2">Action</div>
           </div>
 
           {filteredEnquiries.map((e) => (
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="px-4 py-3.5 grid grid-cols-12 gap-2 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs"
+              className="px-6 py-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1350px]"
             >
               <div className="col-span-2">
                 <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
-                <p className="font-medium text-foreground truncate">{e.client_name}</p>
+                <p className="font-medium text-foreground">{e.client_name}</p>
                 <p className="text-[10px] text-muted-foreground">{e.country}</p>
               </div>
 
               <div className="col-span-2">
-                <p className="font-semibold text-foreground truncate">{e.product_reference}</p>
+                <p className="font-semibold text-foreground">{e.product_reference}</p>
                 <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
               </div>
 
-              <div className="col-span-3">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-electric/10 text-electric font-semibold text-[10px] sm:text-[11px] truncate max-w-full">
+              <div className="col-span-2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
                   Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
                 </span>
               </div>
 
               <div className="col-span-2">
-                <p className="font-medium text-foreground truncate">{e.factory_name || "Unassigned"}</p>
-                <p className="text-[10px] text-muted-foreground">Factory</p>
+                <p className="font-medium text-foreground">{e.factory_name || "Unassigned"}</p>
+                <p className="text-[10px] text-muted-foreground">Factory Partner</p>
               </div>
 
               <div className="col-span-1">
-                <p className="font-semibold text-foreground flex items-center gap-1 truncate">
+                <p className="font-semibold text-foreground flex items-center gap-1">
                   <User className="size-3 text-electric shrink-0" />
-                  <span className="truncate">{e.agent_name ? e.agent_name.split(" ")[0] : "Direct"}</span>
+                  <span className="truncate">{e.agent_name || "Direct"}</span>
                 </p>
-                <p className="text-[10px] text-muted-foreground">Agent</p>
+                <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
               </div>
 
-              <div className="col-span-1 flex items-center">
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1 ${getStatusBadgeStyles(e.current_status)}`}>
+              <div className="col-span-2 flex items-center">
+                <span className={`px-3 py-1 rounded-full text-[11px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
                   <span className="size-1.5 rounded-full bg-current" />
                   {e.current_status}
                 </span>
               </div>
 
-              <div className="col-span-1 text-right flex items-center justify-end">
+              <div className="col-span-1 text-right flex items-center justify-end pr-2">
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
                     setSelectedEnquiry(e);
                   }}
-                  className="px-2.5 py-1 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
+                  className="px-3.5 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Manage
                 </button>
