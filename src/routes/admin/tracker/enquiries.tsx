@@ -505,7 +505,7 @@ export function EnquiriesRoute() {
       {/* Main Table */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         <div className="divide-y divide-border overflow-x-auto">
-          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1000px]">
+          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center min-w-[1050px]">
             <div className="col-span-2">Enquiry / Client</div>
             <div className="col-span-2">Product Reference</div>
             <div className="col-span-2">Current Stage</div>
@@ -519,7 +519,7 @@ export function EnquiriesRoute() {
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1000px]"
+              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[1050px]"
             >
               <div className="col-span-2">
                 <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
@@ -546,13 +546,13 @@ export function EnquiriesRoute() {
               <div className="col-span-2">
                 <p className="font-semibold text-foreground flex items-center gap-1.5">
                   <User className="size-3 text-electric shrink-0" />
-                  <span>{e.agent_name || "Direct / Unassigned"}</span>
+                  <span className="truncate">{e.agent_name || "Direct / Unassigned"}</span>
                 </p>
                 <p className="text-[10px] text-muted-foreground">Assigned Agent</p>
               </div>
 
-              <div className="col-span-2 flex items-center">
-                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
+              <div className="col-span-1 flex items-center">
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
                   <span className="size-1.5 rounded-full bg-current" />
                   {e.current_status}
                 </span>
