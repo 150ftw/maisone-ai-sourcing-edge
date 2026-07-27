@@ -63,12 +63,13 @@ export function ReportsRoute() {
     }
   };
 
-  const handleDeletePayment = (id: string, num: string) => {
-    if (window.confirm(`Delete payment record ${num}?`)) {
+  const handleDeletePayment = (id: string, num?: string) => {
+    const label = num || "Payment Record";
+    if (window.confirm(`Delete payment record ${label}?`)) {
       const updated = payments.filter(p => p.id !== id);
       saveTrackerPayments(updated);
       setPayments(updated);
-      toast.success(`Payment record for ${num} deleted.`);
+      toast.success(`Payment record for ${label} deleted.`);
     }
   };
 
@@ -313,7 +314,7 @@ export function ReportsRoute() {
                   <div className="col-span-1 font-mono text-amber-400">${p.outstanding_balance}</div>
                   <div className="col-span-1 flex justify-center">
                     <button
-                      onClick={() => handleDeletePayment(p.id, p.invoice_number)}
+                      onClick={() => handleDeletePayment(p.id, p.invoice_number || "Payment Record")}
                       title="Delete Record"
                       className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
                     >
