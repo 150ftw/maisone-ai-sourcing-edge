@@ -70,6 +70,44 @@ export const getUnlockedMaxStage = (enquiry: TrackerEnquiry): StageNumber => {
   return maxUnlocked as StageNumber;
 };
 
+export const getStatusBadgeStyles = (status: string) => {
+  switch (status) {
+    case "Approved":
+    case "Completed":
+    case "Dispatched":
+    case "Received":
+    case "Paid":
+    case "Passed":
+      return "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30";
+    case "New":
+    case "Submitted":
+    case "Sourcing":
+    case "Costing":
+    case "Sampling":
+    case "Production":
+    case "Development":
+    case "In Progress":
+      return "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30";
+    case "Pending":
+    case "Due":
+    case "Not Due":
+    case "Under Review":
+      return "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30";
+    case "Rejected":
+    case "Failed":
+    case "Dropped":
+    case "Overdue":
+    case "Hold":
+    case "Lost":
+    case "Rework Required":
+    case "Rework":
+    case "Revision Requested":
+      return "bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30";
+    default:
+      return "bg-secondary text-foreground border-border";
+  }
+};
+
 export function EnquiriesRoute() {
   const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
   const [clients, setClients] = useState<TrackerClient[]>([]);
@@ -426,12 +464,12 @@ export function EnquiriesRoute() {
       {/* Main Table */}
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         <div className="divide-y divide-border overflow-x-auto">
-          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-            <div className="col-span-3">Enquiry / Client</div>
-            <div className="col-span-3">Product Reference</div>
-            <div className="col-span-2">Current Stage</div>
+          <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-3 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center">
+            <div className="col-span-2">Enquiry / Client</div>
+            <div className="col-span-2">Product Reference</div>
+            <div className="col-span-3">Current Stage</div>
             <div className="col-span-2">Assigned Factory</div>
-            <div className="col-span-1">Status</div>
+            <div className="col-span-2">Status</div>
             <div className="col-span-1 text-right">Action</div>
           </div>
 
@@ -439,21 +477,21 @@ export function EnquiriesRoute() {
             <div
               key={e.id}
               onClick={() => setSelectedEnquiry(e)}
-              className="p-4 grid grid-cols-12 gap-4 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs"
+              className="p-4 grid grid-cols-12 gap-3 items-center hover:bg-foreground/[0.03] transition-colors cursor-pointer text-xs min-w-[850px]"
             >
-              <div className="col-span-3">
+              <div className="col-span-2">
                 <p className="font-mono font-bold text-electric">{e.enquiry_number}</p>
                 <p className="font-medium text-foreground">{e.client_name}</p>
                 <p className="text-[10px] text-muted-foreground">{e.country}</p>
               </div>
 
-              <div className="col-span-3">
+              <div className="col-span-2">
                 <p className="font-semibold text-foreground">{e.product_reference}</p>
                 <p className="text-[10px] text-muted-foreground">Target: ${e.target_price}</p>
               </div>
 
-              <div className="col-span-2">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px]">
+              <div className="col-span-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-electric/10 text-electric font-semibold text-[11px] whitespace-nowrap">
                   Stage {e.current_stage}: {STAGE_NAMES[e.current_stage - 1]}
                 </span>
               </div>
@@ -463,19 +501,20 @@ export function EnquiriesRoute() {
                 <p className="text-[10px] text-muted-foreground">{e.agent_name || "Direct"}</p>
               </div>
 
-              <div className="col-span-1">
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-secondary border border-border text-foreground">
+              <div className="col-span-2 flex items-center">
+                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border whitespace-nowrap inline-flex items-center gap-1.5 ${getStatusBadgeStyles(e.current_status)}`}>
+                  <span className="size-1.5 rounded-full bg-current" />
                   {e.current_status}
                 </span>
               </div>
 
-              <div className="col-span-1 text-right">
+              <div className="col-span-1 text-right flex items-center justify-end">
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
                     setSelectedEnquiry(e);
                   }}
-                  className="px-3 py-1.5 rounded-lg border border-border hover:bg-foreground/10 transition-colors text-xs font-semibold text-electric"
+                  className="px-3 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Manage
                 </button>
