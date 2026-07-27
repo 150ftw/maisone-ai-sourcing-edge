@@ -479,9 +479,8 @@ function AdminPage() {
                 <div className="hidden md:block space-y-6">
                   {/* Tracker Platform Group (TOP) */}
                   <div className="space-y-1">
-                    <div className="px-3 mb-2 flex items-center justify-between">
+                    <div className="px-3 mb-2">
                       <p className="text-[10px] font-bold uppercase tracking-wider text-electric">Tracker Platform</p>
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-electric/15 text-electric font-mono font-bold">ERP</span>
                     </div>
                     {TRACKER_TABS.map((tab) => {
                       const Icon = tab.icon;
