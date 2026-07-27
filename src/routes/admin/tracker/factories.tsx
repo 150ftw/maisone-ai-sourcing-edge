@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Search, Plus, X, Edit, Trash2, Factory as FactoryIcon, MapPin, Mail, Phone, Star, Clock } from "lucide-react";
+import { Search, Plus, X, Edit, Trash2, Factory as FactoryIcon, MapPin, Mail, Phone, Star, Clock, RefreshCw } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import {
   getTrackerFactories,
   saveTrackerFactories,
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/admin/tracker/factories")({
 export function FactoriesRoute() {
   const [factories, setFactories] = useState<TrackerFactory[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,8 +31,62 @@ export function FactoriesRoute() {
   const [leadTime, setLeadTime] = useState("25-30 Days");
   const [qualityRating, setQualityRating] = useState("4.8");
 
+  const loadFactories = async () => {
+    setLoading(true);
+    const local = getTrackerFactories();
+    try {
+      const { data: sups, error } = await supabase
+        .from("suppliers")
+        .select("*");
+
+      if (!error && sups && sups.length > 0) {
+        const mappedFromDb: TrackerFactory[] = sups.map((s: any) => {
+          let owner = "";
+          try {
+            if (s.owner_details && typeof s.owner_details === "string") {
+              const parsed = JSON.parse(s.owner_details);
+              owner = parsed.owner || "";
+            }
+          } catch {}
+
+          return {
+            id: s.supplier_id || s.id || `sup-${Date.now()}`,
+            created_at: s.created_at || new Date().toISOString(),
+            factory_name: s.name || s.factory_name || "Unnamed Supplier",
+            category: s.category || "General Apparel",
+            location: s.city && s.city !== "TBD" ? `${s.city}, ${s.region || ""}` : (s.region || "Global"),
+            contact_person: owner || s.contact_person || s.name,
+            email: s.email_id || s.email || "supplier@maisone.ai",
+            whatsapp: s.contact_no || s.whatsapp || "+1 555-0192",
+            lead_time: typeof s.lead_time === "number" ? `${s.lead_time} Days` : (s.lead_time || s.lead || "21-30 Days"),
+            quality_rating: Number(s.rating) || 4.8
+          };
+        });
+
+        const combinedMap = new Map<string, TrackerFactory>();
+        mappedFromDb.forEach(f => combinedMap.set((f.email || f.factory_name).toLowerCase(), f));
+        local.forEach(f => {
+          const key = (f.email || f.factory_name).toLowerCase();
+          if (!combinedMap.has(key)) {
+            combinedMap.set(key, f);
+          }
+        });
+
+        const merged = Array.from(combinedMap.values());
+        setFactories(merged);
+        saveTrackerFactories(merged);
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.error("Error fetching suppliers from Supabase:", err);
+    }
+    setFactories(local);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    setFactories(getTrackerFactories());
+    loadFactories();
   }, []);
 
   const openCreateModal = () => {
@@ -59,7 +115,7 @@ export function FactoriesRoute() {
     setIsModalOpen(true);
   };
 
-  const handleSaveFactory = () => {
+  const handleSaveFactory = async () => {
     if (!factoryName.trim() || !email.trim()) return;
 
     let updated: TrackerFactory[];
@@ -98,6 +154,24 @@ export function FactoriesRoute() {
     saveTrackerFactories(updated);
     setFactories(updated);
     setIsModalOpen(false);
+
+    // Sync to Supabase suppliers table
+    try {
+      await supabase.from("suppliers").upsert({
+        supplier_id: editingFactory?.id || `SUP-${String(Date.now()).slice(-4)}`,
+        name: factoryName,
+        category,
+        region: location,
+        city: location.split(",")[0] || "TBD",
+        email_id: email,
+        contact_no: whatsapp,
+        lead_time: parseInt(leadTime) || 21,
+        rating: parseFloat(qualityRating) || 4.8,
+        owner_details: JSON.stringify({ owner: contactPerson })
+      }, { onConflict: "email_id" });
+    } catch (err) {
+      console.error("Failed to sync factory to Supabase:", err);
+    }
   };
 
   const handleDeleteFactory = (id: string) => {
