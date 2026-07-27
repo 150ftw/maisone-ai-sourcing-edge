@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Filter, Plus, X, ChevronRight, CheckCircle2, Clock, AlertCircle,
-  FileText, ArrowRight, MessageSquare, History, User, Building, Truck, DollarSign, ShieldCheck, Lock
+  FileText, ArrowRight, MessageSquare, History, User, Building, Truck, DollarSign, ShieldCheck, Lock, Trash2
 } from "lucide-react";
 import {
   getTrackerEnquiries,
@@ -415,6 +415,19 @@ export function EnquiriesRoute() {
     setNewTargetPrice("");
   };
 
+  // Delete Enquiry completely
+  const handleDeleteEnquiry = (enquiryId: string, enquiryNumber: string) => {
+    if (window.confirm(`Are you sure you want to completely delete enquiry ${enquiryNumber}? This action cannot be undone.`)) {
+      const updated = enquiries.filter(e => e.id !== enquiryId);
+      saveTrackerEnquiries(updated);
+      setEnquiries(updated);
+      if (selectedEnquiry?.id === enquiryId) {
+        setSelectedEnquiry(null);
+      }
+      toast.success(`Enquiry ${enquiryNumber} deleted successfully.`);
+    }
+  };
+
   // Filter Enquiries
   const filteredEnquiries = enquiries.filter(e => {
     const matchesSearch =
@@ -512,7 +525,7 @@ export function EnquiriesRoute() {
             <div className="col-span-2">Assigned Factory</div>
             <div className="col-span-1">Agent</div>
             <div className="col-span-2">Status</div>
-            <div className="col-span-1 text-right pr-2">Action</div>
+            <div className="col-span-1 text-center font-bold">Action</div>
           </div>
 
           {filteredEnquiries.map((e) => (
@@ -558,7 +571,7 @@ export function EnquiriesRoute() {
                 </span>
               </div>
 
-              <div className="col-span-1 text-right flex items-center justify-end pr-2">
+              <div className="col-span-1 flex items-center justify-center gap-2">
                 <button
                   onClick={(event) => {
                     event.stopPropagation();
@@ -567,6 +580,16 @@ export function EnquiriesRoute() {
                   className="px-3.5 py-1.5 rounded-xl border border-electric/30 bg-electric/10 hover:bg-electric hover:text-background transition-all text-xs font-bold text-electric whitespace-nowrap shrink-0 shadow-sm"
                 >
                   Manage
+                </button>
+                <button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleDeleteEnquiry(e.id, e.enquiry_number);
+                  }}
+                  title="Delete Enquiry"
+                  className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 shrink-0 shadow-sm cursor-pointer"
+                >
+                  <Trash2 className="size-3.5" />
                 </button>
               </div>
             </div>
@@ -604,12 +627,23 @@ export function EnquiriesRoute() {
                   <p className="text-xs text-muted-foreground">{selectedEnquiry.client_name} ({selectedEnquiry.country})</p>
                 </div>
 
-                <button
-                  onClick={() => setSelectedEnquiry(null)}
-                  className="p-2 rounded-full hover:bg-foreground/10 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                >
-                  <X className="size-5" />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleDeleteEnquiry(selectedEnquiry.id, selectedEnquiry.enquiry_number)}
+                    title="Delete Enquiry"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-xs font-bold text-red-400 cursor-pointer shadow-sm"
+                  >
+                    <Trash2 className="size-3.5" />
+                    <span>Delete</span>
+                  </button>
+
+                  <button
+                    onClick={() => setSelectedEnquiry(null)}
+                    className="p-2 rounded-full hover:bg-foreground/10 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    <X className="size-5" />
+                  </button>
+                </div>
               </div>
 
               {/* Drawer Sub-tabs */}
