@@ -374,7 +374,7 @@ function AdminPage() {
           <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
 
           {/* Header */}
-          <header className="relative z-40 mx-auto max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0">
+          <header className="relative z-40 w-full px-6 sm:px-10 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md sticky top-0">
             <div className="flex items-center gap-3">
               <Link to="/"><Logo /></Link>
               <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-semibold">{t("admin.badge")}</span>
@@ -400,10 +400,10 @@ function AdminPage() {
           </header>
 
           {/* Main Content */}
-          <main className="relative mx-auto max-w-7xl px-6 py-8">
-            <div className="grid grid-cols-12 gap-8 items-start">
+          <main className="relative w-full px-6 sm:px-10 py-8">
+            <div className="flex flex-col md:flex-row gap-8 items-start w-full">
               {/* Sidebar navigation */}
-              <div className="col-span-12 md:col-span-3 lg:col-span-2 space-y-6">
+              <div className="w-full md:w-56 shrink-0 space-y-6">
                 {/* Mobile Dropdown Trigger */}
                 <div className="md:hidden mb-2">
                   <button
@@ -528,7 +528,7 @@ function AdminPage() {
               </div>
 
               {/* Main content pane */}
-              <div className="col-span-12 md:col-span-9 lg:col-span-10 min-h-[500px]">
+              <div className="flex-1 w-full min-w-0 min-h-[500px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={pathname}
