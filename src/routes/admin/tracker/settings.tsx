@@ -14,6 +14,7 @@ import {
   exportFullSystemBackup,
   importFullSystemBackup
 } from "@/lib/tracker-store";
+import { CustomSelect } from "../../admin";
 
 export const Route = createFileRoute("/admin/tracker/settings")({
   component: SettingsRoute,
@@ -175,38 +176,35 @@ function SettingsRoute() {
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div>
-            <label className="text-[10px] uppercase font-bold text-muted-foreground">Agency Title</label>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase font-bold text-muted-foreground block">Agency Title</label>
             <input
               type="text"
               value={settings.agency_name}
               onChange={(e) => setSettings({ ...settings, agency_name: e.target.value })}
-              className="w-full mt-1 px-3 py-2 rounded-xl bg-foreground/[0.02] border border-border font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-foreground/[0.02] border border-border font-medium text-xs focus:outline-none focus:border-electric transition-colors"
             />
           </div>
 
-          <div>
-            <label className="text-[10px] uppercase font-bold text-muted-foreground">Default System Base Currency</label>
-            <select
-              value={settings.currency}
-              onChange={(e) => setSettings({ ...settings, currency: e.target.value as CurrencyCode })}
-              className="w-full mt-1 px-3 py-2 rounded-xl bg-foreground/[0.02] border border-border font-semibold text-electric"
-            >
-              {currencyCodes.map(code => (
-                <option key={code} value={code}>
-                  {code} ({CURRENCY_SYMBOLS[code]})
-                </option>
-              ))}
-            </select>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase font-bold text-muted-foreground block">Default System Base Currency</label>
+            <CustomSelect
+              value={`${settings.currency} (${CURRENCY_SYMBOLS[settings.currency] || "$"})`}
+              onChange={(val) => {
+                const code = val.split(" ")[0] as CurrencyCode;
+                setSettings({ ...settings, currency: code });
+              }}
+              options={currencyCodes.map((code) => `${code} (${CURRENCY_SYMBOLS[code]})`)}
+            />
           </div>
 
-          <div>
-            <label className="text-[10px] uppercase font-bold text-muted-foreground">Fiscal Year Start</label>
+          <div className="space-y-1">
+            <label className="text-[10px] uppercase font-bold text-muted-foreground block">Fiscal Year Start</label>
             <input
               type="text"
               value={settings.fiscal_year_start}
               onChange={(e) => setSettings({ ...settings, fiscal_year_start: e.target.value })}
-              className="w-full mt-1 px-3 py-2 rounded-xl bg-foreground/[0.02] border border-border font-medium"
+              className="w-full px-4 py-2.5 rounded-xl bg-foreground/[0.02] border border-border font-medium text-xs focus:outline-none focus:border-electric transition-colors"
             />
           </div>
         </div>
