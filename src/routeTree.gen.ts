@@ -30,6 +30,15 @@ import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/suppli
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminInquiriesRouteImport } from './routes/admin/inquiries'
 import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
+import { Route as AdminTrackerIndexRouteImport } from './routes/admin/tracker/index'
+import { Route as AdminTrackerSettingsRouteImport } from './routes/admin/tracker/settings'
+import { Route as AdminTrackerReportsRouteImport } from './routes/admin/tracker/reports'
+import { Route as AdminTrackerFinanceRouteImport } from './routes/admin/tracker/finance'
+import { Route as AdminTrackerFactoriesRouteImport } from './routes/admin/tracker/factories'
+import { Route as AdminTrackerEnquiriesRouteImport } from './routes/admin/tracker/enquiries'
+import { Route as AdminTrackerCommunicationRouteImport } from './routes/admin/tracker/communication'
+import { Route as AdminTrackerClientsRouteImport } from './routes/admin/tracker/clients'
+import { Route as AdminTrackerAgentsRouteImport } from './routes/admin/tracker/agents'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -136,6 +145,52 @@ const AdminBlogsRoute = AdminBlogsRouteImport.update({
   path: '/blogs',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminTrackerIndexRoute = AdminTrackerIndexRouteImport.update({
+  id: '/tracker/',
+  path: '/tracker/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerSettingsRoute = AdminTrackerSettingsRouteImport.update({
+  id: '/tracker/settings',
+  path: '/tracker/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerReportsRoute = AdminTrackerReportsRouteImport.update({
+  id: '/tracker/reports',
+  path: '/tracker/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerFinanceRoute = AdminTrackerFinanceRouteImport.update({
+  id: '/tracker/finance',
+  path: '/tracker/finance',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerFactoriesRoute = AdminTrackerFactoriesRouteImport.update({
+  id: '/tracker/factories',
+  path: '/tracker/factories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerEnquiriesRoute = AdminTrackerEnquiriesRouteImport.update({
+  id: '/tracker/enquiries',
+  path: '/tracker/enquiries',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerCommunicationRoute =
+  AdminTrackerCommunicationRouteImport.update({
+    id: '/tracker/communication',
+    path: '/tracker/communication',
+    getParentRoute: () => AdminRoute,
+  } as any)
+const AdminTrackerClientsRoute = AdminTrackerClientsRouteImport.update({
+  id: '/tracker/clients',
+  path: '/tracker/clients',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminTrackerAgentsRoute = AdminTrackerAgentsRouteImport.update({
+  id: '/tracker/agents',
+  path: '/tracker/agents',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -159,6 +214,15 @@ export interface FileRoutesByFullPath {
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
+  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
+  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
+  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
+  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
+  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
+  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
+  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
+  '/admin/tracker/': typeof AdminTrackerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -181,6 +245,15 @@ export interface FileRoutesByTo {
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
+  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
+  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
+  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
+  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
+  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
+  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
+  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
+  '/admin/tracker': typeof AdminTrackerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,6 +278,15 @@ export interface FileRoutesById {
   '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
+  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
+  '/admin/tracker/communication': typeof AdminTrackerCommunicationRoute
+  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
+  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
+  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
+  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
+  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
+  '/admin/tracker/': typeof AdminTrackerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -230,6 +312,15 @@ export interface FileRouteTypes {
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin/'
+    | '/admin/tracker/agents'
+    | '/admin/tracker/clients'
+    | '/admin/tracker/communication'
+    | '/admin/tracker/enquiries'
+    | '/admin/tracker/factories'
+    | '/admin/tracker/finance'
+    | '/admin/tracker/reports'
+    | '/admin/tracker/settings'
+    | '/admin/tracker/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -252,6 +343,15 @@ export interface FileRouteTypes {
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin'
+    | '/admin/tracker/agents'
+    | '/admin/tracker/clients'
+    | '/admin/tracker/communication'
+    | '/admin/tracker/enquiries'
+    | '/admin/tracker/factories'
+    | '/admin/tracker/finance'
+    | '/admin/tracker/reports'
+    | '/admin/tracker/settings'
+    | '/admin/tracker'
   id:
     | '__root__'
     | '/'
@@ -275,6 +375,15 @@ export interface FileRouteTypes {
     | '/admin/trends'
     | '/blog/$blogId'
     | '/admin/'
+    | '/admin/tracker/agents'
+    | '/admin/tracker/clients'
+    | '/admin/tracker/communication'
+    | '/admin/tracker/enquiries'
+    | '/admin/tracker/factories'
+    | '/admin/tracker/finance'
+    | '/admin/tracker/reports'
+    | '/admin/tracker/settings'
+    | '/admin/tracker/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -442,6 +551,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBlogsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/tracker/': {
+      id: '/admin/tracker/'
+      path: '/tracker'
+      fullPath: '/admin/tracker/'
+      preLoaderRoute: typeof AdminTrackerIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/settings': {
+      id: '/admin/tracker/settings'
+      path: '/tracker/settings'
+      fullPath: '/admin/tracker/settings'
+      preLoaderRoute: typeof AdminTrackerSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/reports': {
+      id: '/admin/tracker/reports'
+      path: '/tracker/reports'
+      fullPath: '/admin/tracker/reports'
+      preLoaderRoute: typeof AdminTrackerReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/finance': {
+      id: '/admin/tracker/finance'
+      path: '/tracker/finance'
+      fullPath: '/admin/tracker/finance'
+      preLoaderRoute: typeof AdminTrackerFinanceRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/factories': {
+      id: '/admin/tracker/factories'
+      path: '/tracker/factories'
+      fullPath: '/admin/tracker/factories'
+      preLoaderRoute: typeof AdminTrackerFactoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/enquiries': {
+      id: '/admin/tracker/enquiries'
+      path: '/tracker/enquiries'
+      fullPath: '/admin/tracker/enquiries'
+      preLoaderRoute: typeof AdminTrackerEnquiriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/communication': {
+      id: '/admin/tracker/communication'
+      path: '/tracker/communication'
+      fullPath: '/admin/tracker/communication'
+      preLoaderRoute: typeof AdminTrackerCommunicationRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/clients': {
+      id: '/admin/tracker/clients'
+      path: '/tracker/clients'
+      fullPath: '/admin/tracker/clients'
+      preLoaderRoute: typeof AdminTrackerClientsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/tracker/agents': {
+      id: '/admin/tracker/agents'
+      path: '/tracker/agents'
+      fullPath: '/admin/tracker/agents'
+      preLoaderRoute: typeof AdminTrackerAgentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
@@ -454,6 +626,15 @@ interface AdminRouteChildren {
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
   AdminTrendsRoute: typeof AdminTrendsRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminTrackerAgentsRoute: typeof AdminTrackerAgentsRoute
+  AdminTrackerClientsRoute: typeof AdminTrackerClientsRoute
+  AdminTrackerCommunicationRoute: typeof AdminTrackerCommunicationRoute
+  AdminTrackerEnquiriesRoute: typeof AdminTrackerEnquiriesRoute
+  AdminTrackerFactoriesRoute: typeof AdminTrackerFactoriesRoute
+  AdminTrackerFinanceRoute: typeof AdminTrackerFinanceRoute
+  AdminTrackerReportsRoute: typeof AdminTrackerReportsRoute
+  AdminTrackerSettingsRoute: typeof AdminTrackerSettingsRoute
+  AdminTrackerIndexRoute: typeof AdminTrackerIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -465,6 +646,15 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminTestimonialsRoute: AdminTestimonialsRoute,
   AdminTrendsRoute: AdminTrendsRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminTrackerAgentsRoute: AdminTrackerAgentsRoute,
+  AdminTrackerClientsRoute: AdminTrackerClientsRoute,
+  AdminTrackerCommunicationRoute: AdminTrackerCommunicationRoute,
+  AdminTrackerEnquiriesRoute: AdminTrackerEnquiriesRoute,
+  AdminTrackerFactoriesRoute: AdminTrackerFactoriesRoute,
+  AdminTrackerFinanceRoute: AdminTrackerFinanceRoute,
+  AdminTrackerReportsRoute: AdminTrackerReportsRoute,
+  AdminTrackerSettingsRoute: AdminTrackerSettingsRoute,
+  AdminTrackerIndexRoute: AdminTrackerIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

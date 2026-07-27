@@ -174,7 +174,7 @@ function Index() {
           
           {/* Floating AI Assistant Button */}
           <div className="fixed bottom-8 right-8 z-50 size-16">
-            <span className={`bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md absolute right-20 top-1/2 -translate-y-1/2 flex flex-col items-start transition-all duration-500 origin-right ${
+            <span className={`hidden sm:flex flex-col items-start bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md absolute right-20 top-1/2 -translate-y-1/2 transition-all duration-500 origin-right ${
               showAIPopup ? "scale-100 opacity-100 translate-x-0 pointer-events-auto" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
             }`}>
               {/* Close Button */}

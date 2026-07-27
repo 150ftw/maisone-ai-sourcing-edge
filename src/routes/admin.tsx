@@ -3,7 +3,8 @@ import { useState, useEffect, createContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, LogOut, Loader2, Mail, Building2, Globe, Layers,
-  ChevronDown, TrendingUp, BookOpen, MessageSquare
+  ChevronDown, TrendingUp, BookOpen, MessageSquare,
+  LayoutDashboard, Briefcase, Users, Factory, UserCheck, MessageSquareCode, DollarSign, BarChart3, Settings
 } from "lucide-react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Logo } from "@/components/maisone/Logo";
@@ -250,10 +251,7 @@ export function OverviewSkeleton() {
   );
 }
 
-type AdminTab = "overview" | "inquiries" | "supplier_requests" | "suppliers" | "trends" | "blogs" | "testimonials";
-
 const ADMIN_TABS = [
-  { id: "overview" as const, to: "/admin" as const, labelKey: "admin.tabs.overview", icon: Layers },
   { id: "inquiries" as const, to: "/admin/inquiries" as const, labelKey: "admin.tabs.inquiries", icon: Mail },
   { id: "supplier_requests" as const, to: "/admin/supplier-requests" as const, labelKey: "admin.tabs.supplierRequests", icon: Mail },
   { id: "suppliers" as const, to: "/admin/suppliers" as const, labelKey: "admin.tabs.suppliers", icon: Building2 },
@@ -262,17 +260,31 @@ const ADMIN_TABS = [
   { id: "testimonials" as const, to: "/admin/testimonials" as const, labelKey: "admin.tabs.testimonials", icon: MessageSquare },
 ];
 
+const TRACKER_TABS = [
+  { id: "tracker_dashboard", to: "/admin/tracker", label: "Dashboard", icon: LayoutDashboard },
+  { id: "tracker_enquiries", to: "/admin/tracker/enquiries", label: "Enquiries", icon: Briefcase },
+  { id: "tracker_clients", to: "/admin/tracker/clients", label: "Clients", icon: Users },
+  { id: "tracker_factories", to: "/admin/tracker/factories", label: "Factories", icon: Factory },
+  { id: "tracker_agents", to: "/admin/tracker/agents", label: "Agents", icon: UserCheck },
+  { id: "tracker_communication", to: "/admin/tracker/communication", label: "Communication Logs", icon: MessageSquareCode },
+  { id: "tracker_finance", to: "/admin/tracker/finance", label: "Finance", icon: DollarSign },
+  { id: "tracker_reports", to: "/admin/tracker/reports", label: "Reports", icon: BarChart3 },
+  { id: "tracker_settings", to: "/admin/tracker/settings", label: "Settings", icon: Settings },
+];
+
 function AdminPage() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t } = useLanguage();
   
-  const activeTab = ADMIN_TABS.find(tab => {
-    if (tab.to === "/admin") {
-      return pathname === "/admin" || pathname === "/admin/";
+  const allTabs = [...TRACKER_TABS, ...ADMIN_TABS.map(tab => ({ ...tab, label: t(tab.labelKey) }))];
+
+  const activeTab = allTabs.find(tab => {
+    if (tab.to === "/admin/tracker") {
+      return pathname === "/admin/tracker" || pathname === "/admin/tracker/";
     }
     return pathname.startsWith(tab.to);
-  }) || ADMIN_TABS[0];
+  }) || allTabs[0];
 
   // State hooks
   const [session, setSession] = useState<any>(null);
@@ -388,10 +400,10 @@ function AdminPage() {
           </header>
 
           {/* Main Content */}
-          <main className="relative mx-auto max-w-7xl px-6 py-12">
+          <main className="relative mx-auto max-w-7xl px-6 py-8">
             <div className="grid grid-cols-12 gap-8 items-start">
               {/* Sidebar navigation */}
-              <div className="col-span-12 md:col-span-2">
+              <div className="col-span-12 md:col-span-3 lg:col-span-2 space-y-6">
                 {/* Mobile Dropdown Trigger */}
                 <div className="md:hidden mb-2">
                   <button
@@ -400,7 +412,7 @@ function AdminPage() {
                   >
                     <div className="flex items-center gap-2.5">
                       {activeTab && <activeTab.icon className="size-4 text-electric" />}
-                      <span>{activeTab ? t(activeTab.labelKey) : "Select Section"}</span>
+                      <span>{activeTab ? activeTab.label : "Select Section"}</span>
                     </div>
                     <ChevronDown className={`size-4 text-muted-foreground transition-transform duration-200 ${mobileMenuOpen ? "rotate-180" : ""}`} />
                   </button>
@@ -412,59 +424,111 @@ function AdminPage() {
                         animate={{ height: "auto", opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="overflow-hidden border border-border/60 bg-card rounded-xl mt-2 p-1.5 space-y-1 shadow-xl"
+                        className="overflow-hidden border border-border/60 bg-card rounded-xl mt-2 p-2 space-y-3 shadow-xl"
                       >
-                        {ADMIN_TABS.map((tab) => {
-                          const Icon = tab.icon;
-                          const isCurrent = activeTab.id === tab.id;
-                          return (
-                            <Link
-                              key={tab.id}
-                              to={tab.to}
-                              activeOptions={{ exact: true }}
-                              className={`w-full text-left px-3 py-2.5 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
-                                isCurrent ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-                              }`}
-                            >
-                              <Icon className="size-3.5 shrink-0 mr-2" />
-                              <span>{t(tab.labelKey)}</span>
-                              {tab.id === "inquiries" && stats.pending > 0 && (
-                                <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
-                              )}
-                            </Link>
-                          );
-                        })}
+                        <div className="space-y-1">
+                          <p className="px-2 text-[10px] font-bold uppercase tracking-wider text-electric/80 mb-1">Tracker Platform</p>
+                          {TRACKER_TABS.map((tab) => {
+                            const Icon = tab.icon;
+                            const isCurrent = activeTab.id === tab.id;
+                            return (
+                              <Link
+                                key={tab.id}
+                                to={tab.to}
+                                activeOptions={{ exact: tab.to === "/admin/tracker" }}
+                                className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
+                                  isCurrent ? "bg-electric/15 text-electric font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                                }`}
+                              >
+                                <Icon className="size-3.5 shrink-0" />
+                                <span>{tab.label}</span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+
+                        <div className="border-t border-border pt-2 space-y-1">
+                          <p className="px-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60 mb-1">Core Admin</p>
+                          {ADMIN_TABS.map((tab) => {
+                            const Icon = tab.icon;
+                            const isCurrent = activeTab.id === tab.id;
+                            return (
+                              <Link
+                                key={tab.id}
+                                to={tab.to}
+                                activeOptions={{ exact: true }}
+                                className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer ${
+                                  isCurrent ? "bg-accent text-accent-foreground font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                                }`}
+                              >
+                                <Icon className="size-3.5 shrink-0" />
+                                <span>{t(tab.labelKey)}</span>
+                                {tab.id === "inquiries" && stats.pending > 0 && (
+                                  <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                                )}
+                              </Link>
+                            );
+                          })}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
                 {/* Desktop sidebar */}
-                <div className="hidden md:block space-y-1">
-                  {ADMIN_TABS.map((tab) => {
-                    const Icon = tab.icon;
-                    return (
-                      <Link
-                        key={tab.id}
-                        to={tab.to}
-                        activeOptions={{ exact: true }}
-                        activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
-                        inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
-                        className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
-                      >
-                        <Icon className="size-3.5 shrink-0 mr-2" />
-                        <span>{t(tab.labelKey)}</span>
-                        {tab.id === "inquiries" && stats.pending > 0 && (
-                          <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
-                        )}
-                      </Link>
-                    );
-                  })}
+                <div className="hidden md:block space-y-6">
+                  {/* Tracker Platform Group (TOP) */}
+                  <div className="space-y-1">
+                    <div className="px-3 mb-2 flex items-center justify-between">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-electric">Tracker Platform</p>
+                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-electric/15 text-electric font-mono font-bold">ERP</span>
+                    </div>
+                    {TRACKER_TABS.map((tab) => {
+                      const Icon = tab.icon;
+                      return (
+                        <Link
+                          key={tab.id}
+                          to={tab.to}
+                          activeOptions={{ exact: tab.to === "/admin/tracker" }}
+                          activeProps={{ className: "bg-electric/15 text-electric font-semibold border-l-2 border-electric pl-2.5" }}
+                          inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
+                          className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
+                        >
+                          <Icon className="size-3.5 shrink-0" />
+                          <span>{tab.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+
+                  {/* Core Admin Group (BELOW TRACKER) */}
+                  <div className="space-y-1 border-t border-border pt-4">
+                    <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60 mb-2">Core Admin</p>
+                    {ADMIN_TABS.map((tab) => {
+                      const Icon = tab.icon;
+                      return (
+                        <Link
+                          key={tab.id}
+                          to={tab.to}
+                          activeOptions={{ exact: true }}
+                          activeProps={{ className: "bg-accent text-accent-foreground font-semibold" }}
+                          inactiveProps={{ className: "text-muted-foreground hover:text-foreground hover:bg-foreground/5" }}
+                          className="w-full text-left px-3 py-2 rounded-lg text-xs transition-colors flex items-center gap-2.5 cursor-pointer"
+                        >
+                          <Icon className="size-3.5 shrink-0" />
+                          <span>{t(tab.labelKey)}</span>
+                          {tab.id === "inquiries" && stats.pending > 0 && (
+                            <span className="ml-auto size-1.5 rounded-full bg-amber-400 animate-pulse" />
+                          )}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
 
               {/* Main content pane */}
-              <div className="col-span-12 md:col-span-10 min-h-[500px]">
+              <div className="col-span-12 md:col-span-9 lg:col-span-10 min-h-[500px]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={pathname}

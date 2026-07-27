@@ -9,6 +9,11 @@ import {
 import { supabase } from "@/lib/supabase";
 import { AdminContext, StatusDropdown } from "../admin";
 import { useLanguage } from "@/lib/i18n";
+import {
+  getTrackerFactories,
+  saveTrackerFactories,
+  TrackerFactory
+} from "@/lib/tracker-store";
 
 export const Route = createFileRoute("/admin/supplier-requests")({
   component: SupplierRequestsPage,
@@ -189,6 +194,25 @@ function SupplierRequestsPage() {
             if (insertError) {
               console.error("Failed to auto-create supplier:", insertError);
             }
+          }
+
+          // Sync directly to Tracker Platform Factories/Suppliers
+          const allTrackerFactories = getTrackerFactories();
+          const existsInTracker = allTrackerFactories.some(f => f.email === req.work_email || f.factory_name === req.factory_name);
+          if (!existsInTracker) {
+            const newTrackerFac: TrackerFactory = {
+              id: `fac-${Date.now()}`,
+              created_at: new Date().toISOString(),
+              factory_name: req.factory_name,
+              category: (req.categories || []).join(", ") || "Woven & Knit",
+              location: req.region || "Vietnam",
+              contact_person: req.full_name,
+              email: req.work_email,
+              whatsapp: "+1 555-0192",
+              lead_time: req.lead_time || "21-30 Days",
+              quality_rating: 4.8
+            };
+            saveTrackerFactories([newTrackerFac, ...allTrackerFactories]);
           }
         }
       }

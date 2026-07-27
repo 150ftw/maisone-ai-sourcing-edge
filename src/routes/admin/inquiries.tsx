@@ -1,21 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Loader2, Search, Filter, Trash2, Mail, Building2, User, Globe,
   Calendar, MessageSquare, ShieldAlert, Check, RefreshCw,
-  ChevronLeft, ChevronRight, X, Layers, Link2, ChevronDown
+  ChevronLeft, ChevronRight, X, Layers, Link2, ChevronDown, Briefcase
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import { AdminContext, StatusDropdown, type DemoRequest } from "../admin";
 import { useLanguage } from "@/lib/i18n";
+import {
+  getTrackerEnquiries,
+  saveTrackerEnquiries,
+  getTrackerClients,
+  saveTrackerClients,
+  TrackerEnquiry,
+  TrackerClient
+} from "@/lib/tracker-store";
 
 export const Route = createFileRoute("/admin/inquiries")({
   component: InquiriesPage,
 });
 
 function InquiriesPage() {
+  const navigate = useNavigate();
   const { session, stats, fetchStats } = useContext(AdminContext);
   const { t } = useLanguage();
   
@@ -34,6 +43,77 @@ function InquiriesPage() {
 
   // Selected Request Modal State
   const [selectedRequest, setSelectedRequest] = useState<DemoRequest | null>(null);
+
+  // Transfer Website Inquiry to Tracker ERP
+  const handleTransferToTracker = (req: DemoRequest) => {
+    const existingEnquiries = getTrackerEnquiries();
+    const existingClients = getTrackerClients();
+
+    let matchedClient: TrackerClient | undefined = existingClients.find(
+      c => c.company_name.toLowerCase() === req.company.toLowerCase() || c.email.toLowerCase() === req.work_email.toLowerCase()
+    );
+
+    if (!matchedClient) {
+      matchedClient = {
+        id: `c-${Date.now()}`,
+        created_at: new Date().toISOString(),
+        company_name: req.company || req.full_name,
+        client_name: req.full_name,
+        country: req.region || "France",
+        contact_person: req.full_name,
+        email: req.work_email,
+        whatsapp: "+1 555-0192",
+        payment_terms: "30% Advance, 70% LC",
+        notes: "Created automatically from website inquiry"
+      };
+      saveTrackerClients([matchedClient, ...existingClients]);
+    }
+
+    const nextNum = `ENQ-2026-00${existingEnquiries.length + 1}`;
+    const stage1Data = {
+      date_received: new Date().toISOString().split("T")[0],
+      target_price: "0",
+      fabric: req.category || "Custom Specification",
+      status: "New",
+      notes: `Transferred from Website Inquiry #${req.id.slice(0, 8)}`
+    };
+
+    const newEnquiry: TrackerEnquiry = {
+      id: `enq-${Date.now()}`,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      enquiry_number: nextNum,
+      client_id: matchedClient.id,
+      client_name: matchedClient.company_name,
+      country: matchedClient.country,
+      product_reference: `${req.category || "Apparel"} Sourcing Request`,
+      communication_channel: "Website Inquiry",
+      enquiry_details: req.message || `Website Inquiry from ${req.full_name} (${req.company})`,
+      fabric_details: req.category || "Custom Specification",
+      images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop"],
+      target_price: 0,
+      current_stage: 1,
+      current_status: "New",
+      stage_data: {
+        1: stage1Data
+      },
+      history: [{
+        id: `h-${Date.now()}`,
+        enquiry_id: `enq-${Date.now()}`,
+        stage_number: 1,
+        stage_name: "Enquiry Received",
+        status: "New",
+        stage_data: stage1Data,
+        notes: `Transfer from public website inquiry`,
+        updated_by: "System Admin",
+        created_at: new Date().toISOString()
+      }]
+    };
+
+    saveTrackerEnquiries([newEnquiry, ...existingEnquiries]);
+    toast.success(`Transferred to Tracker Sourcing Enquiry #${nextNum}! Redirecting...`);
+    navigate({ to: "/admin/tracker/enquiries" });
+  };
 
   // Fetch Requests (handles server-side filtering, searching, and pagination)
   const fetchRequests = async () => {
@@ -499,13 +579,24 @@ function InquiriesPage() {
 
                     {/* Actions */}
                     <td className="px-4 py-4 align-top text-right">
-                      <button
-                        onClick={() => deleteRequest(req.id)}
-                        className="p-2 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"
-                        title="Delete request"
-                      >
-                        <Trash2 className="size-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleTransferToTracker(req)}
+                          className="px-2.5 py-1 rounded-lg bg-electric/15 text-electric hover:bg-electric hover:text-background font-semibold text-[11px] transition-all cursor-pointer inline-flex items-center gap-1"
+                          title="Transfer to Sourcing Enquiry Tracker"
+                        >
+                          <Briefcase className="size-3" />
+                          <span>Transfer to ERP</span>
+                        </button>
+
+                        <button
+                          onClick={() => deleteRequest(req.id)}
+                          className="p-1.5 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors cursor-pointer"
+                          title="Delete request"
+                        >
+                          <Trash2 className="size-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
