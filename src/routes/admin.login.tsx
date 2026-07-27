@@ -62,7 +62,7 @@ function AdminLoginPage() {
         <div className="absolute inset-0 hero-aura pointer-events-none opacity-40" />
 
         {/* Header */}
-        <header className="relative z-10 mx-auto w-full max-w-7xl px-6 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md">
+        <header className="relative z-10 w-full px-6 sm:px-10 py-5 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <Link to="/"><Logo /></Link>
             <span className="text-[10px] tracking-[0.2em] bg-electric/15 text-electric px-2.5 py-0.5 rounded-full uppercase font-medium">
