@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock } from "lucide-react";
+import { DollarSign, FileText, Plus, X, ArrowUpRight, AlertCircle, CheckCircle2, Clock, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import {
   getTrackerInvoices,
@@ -48,6 +48,27 @@ export function FinanceRoute() {
       setSelectedInvoiceId(invs[0].id);
     }
   }, []);
+
+  const handleDeleteInvoice = (invId: string, invNum: string) => {
+    if (window.confirm(`Are you sure you want to delete invoice ${invNum}? This will also delete its payment record.`)) {
+      const updatedInvs = invoices.filter(i => i.id !== invId);
+      const updatedPmts = payments.filter(p => p.invoice_id !== invId);
+      saveTrackerInvoices(updatedInvs);
+      saveTrackerPayments(updatedPmts);
+      setInvoices(updatedInvs);
+      setPayments(updatedPmts);
+      toast.success(`Invoice ${invNum} deleted.`);
+    }
+  };
+
+  const handleDeletePayment = (pmtId: string, invNum: string) => {
+    if (window.confirm(`Are you sure you want to delete payment record for ${invNum}?`)) {
+      const updatedPmts = payments.filter(p => p.id !== pmtId);
+      saveTrackerPayments(updatedPmts);
+      setPayments(updatedPmts);
+      toast.success(`Payment record for ${invNum} deleted.`);
+    }
+  };
 
   // Financial summary metrics
   const totalInvoiced = invoices.reduce((sum, i) => sum + i.amount, 0);
@@ -271,12 +292,13 @@ export function FinanceRoute() {
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         {activeTab !== "payments" ? (
           <div className="divide-y divide-border overflow-x-auto">
-            <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+            <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center">
               <div className="col-span-3">Invoice Number / Client</div>
-              <div className="col-span-3">Enquiry Reference</div>
+              <div className="col-span-2">Enquiry Reference</div>
               <div className="col-span-2">Type / Date</div>
               <div className="col-span-2 text-right">Amount</div>
-              <div className="col-span-2 text-right">Status</div>
+              <div className="col-span-2 text-right pr-2">Status</div>
+              <div className="col-span-1 text-center">Action</div>
             </div>
 
             {invoices
@@ -288,7 +310,7 @@ export function FinanceRoute() {
                     <p className="font-medium text-foreground">{inv.client_name}</p>
                   </div>
 
-                  <div className="col-span-3">
+                  <div className="col-span-2">
                     <p className="font-semibold text-foreground">{inv.enquiry_number}</p>
                     <p className="text-[10px] text-muted-foreground">Due: {inv.due_date}</p>
                   </div>
@@ -304,24 +326,35 @@ export function FinanceRoute() {
                     ${inv.amount.toLocaleString()}
                   </div>
 
-                  <div className="col-span-2 text-right">
+                  <div className="col-span-2 text-right pr-2">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
                       inv.status === "Paid" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                     }`}>
                       {inv.status}
                     </span>
                   </div>
+
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleDeleteInvoice(inv.id, inv.invoice_number)}
+                      title="Delete Invoice"
+                      className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 cursor-pointer shadow-sm"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
           </div>
         ) : (
           <div className="divide-y divide-border overflow-x-auto">
-            <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+            <div className="p-4 bg-foreground/[0.02] grid grid-cols-12 gap-4 text-[11px] font-bold text-muted-foreground uppercase tracking-wider items-center">
               <div className="col-span-3">Invoice / Client</div>
               <div className="col-span-2 text-right">Amount Due</div>
               <div className="col-span-2 text-right">Received</div>
-              <div className="col-span-3 text-right">Outstanding Balance</div>
-              <div className="col-span-2 text-right">Status</div>
+              <div className="col-span-2 text-right">Outstanding</div>
+              <div className="col-span-2 text-right pr-2">Status</div>
+              <div className="col-span-1 text-center">Action</div>
             </div>
 
             {payments.map((p) => (
@@ -339,16 +372,26 @@ export function FinanceRoute() {
                   ${p.amount_received.toLocaleString()}
                 </div>
 
-                <div className="col-span-3 text-right font-mono font-bold text-amber-400">
+                <div className="col-span-2 text-right font-mono font-bold text-amber-400">
                   ${p.outstanding_balance.toLocaleString()}
                 </div>
 
-                <div className="col-span-2 text-right">
+                <div className="col-span-2 text-right pr-2">
                   <span className={`px-2.5 py-1 rounded-full text-[10px] font-semibold border ${
                     p.status === "Paid" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-amber-500/10 text-amber-400 border-amber-500/20"
                   }`}>
                     {p.status}
                   </span>
+                </div>
+
+                <div className="col-span-1 flex justify-center">
+                  <button
+                    onClick={() => handleDeletePayment(p.id, p.invoice_number)}
+                    title="Delete Payment Record"
+                    className="p-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500 hover:text-white transition-all text-red-400 cursor-pointer shadow-sm"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
                 </div>
               </div>
             ))}

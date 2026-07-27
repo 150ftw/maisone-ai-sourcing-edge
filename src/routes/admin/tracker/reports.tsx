@@ -1,11 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { BarChart3, Download, FileSpreadsheet, FileText, Filter, RefreshCw } from "lucide-react";
+import { BarChart3, Download, FileSpreadsheet, FileText, Filter, RefreshCw, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import {
   getTrackerEnquiries,
+  saveTrackerEnquiries,
   getTrackerClients,
+  saveTrackerClients,
   getTrackerFactories,
+  saveTrackerFactories,
   getTrackerPayments,
+  saveTrackerPayments,
   exportToCSV,
   TrackerEnquiry,
   TrackerClient,
@@ -30,6 +35,42 @@ export function ReportsRoute() {
     setFactories(getTrackerFactories());
     setPayments(getTrackerPayments());
   }, []);
+
+  const handleDeleteEnquiry = (id: string, num: string) => {
+    if (window.confirm(`Delete enquiry ${num}?`)) {
+      const updated = enquiries.filter(e => e.id !== id);
+      saveTrackerEnquiries(updated);
+      setEnquiries(updated);
+      toast.success(`Enquiry ${num} deleted.`);
+    }
+  };
+
+  const handleDeleteClient = (id: string, name: string) => {
+    if (window.confirm(`Delete client record ${name}?`)) {
+      const updated = clients.filter(c => c.id !== id);
+      saveTrackerClients(updated);
+      setClients(updated);
+      toast.success(`Client ${name} deleted.`);
+    }
+  };
+
+  const handleDeleteFactory = (id: string, name: string) => {
+    if (window.confirm(`Delete factory record ${name}?`)) {
+      const updated = factories.filter(f => f.id !== id);
+      saveTrackerFactories(updated);
+      setFactories(updated);
+      toast.success(`Factory ${name} deleted.`);
+    }
+  };
+
+  const handleDeletePayment = (id: string, num: string) => {
+    if (window.confirm(`Delete payment record ${num}?`)) {
+      const updated = payments.filter(p => p.id !== id);
+      saveTrackerPayments(updated);
+      setPayments(updated);
+      toast.success(`Payment record for ${num} deleted.`);
+    }
+  };
 
   const handleExportCSV = () => {
     let data: any[] = [];
@@ -166,20 +207,30 @@ export function ReportsRoute() {
         <div className="divide-y divide-border overflow-x-auto rounded-xl border border-border">
           {reportType === "order" && (
             <>
-              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase">
+              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase items-center">
                 <div className="col-span-2">Enquiry #</div>
                 <div className="col-span-3">Client / Country</div>
-                <div className="col-span-3">Product</div>
+                <div className="col-span-2">Product</div>
                 <div className="col-span-2">Current Stage</div>
                 <div className="col-span-2">Status</div>
+                <div className="col-span-1 text-center">Action</div>
               </div>
               {enquiries.map(e => (
                 <div key={e.id} className="p-3 grid grid-cols-12 gap-2 text-xs items-center">
                   <div className="col-span-2 font-mono font-bold text-electric">{e.enquiry_number}</div>
                   <div className="col-span-3">{e.client_name} ({e.country})</div>
-                  <div className="col-span-3 font-medium">{e.product_reference}</div>
+                  <div className="col-span-2 font-medium">{e.product_reference}</div>
                   <div className="col-span-2 text-muted-foreground">Stage #{e.current_stage}</div>
                   <div className="col-span-2 font-semibold text-emerald-400">{e.current_status}</div>
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleDeleteEnquiry(e.id, e.enquiry_number)}
+                      title="Delete Record"
+                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
@@ -187,18 +238,28 @@ export function ReportsRoute() {
 
           {reportType === "client" && (
             <>
-              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase">
+              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase items-center">
                 <div className="col-span-3">Company Name</div>
                 <div className="col-span-3">Contact Person</div>
                 <div className="col-span-3">Email</div>
-                <div className="col-span-3">Country</div>
+                <div className="col-span-2">Country</div>
+                <div className="col-span-1 text-center">Action</div>
               </div>
               {clients.map(c => (
                 <div key={c.id} className="p-3 grid grid-cols-12 gap-2 text-xs items-center">
                   <div className="col-span-3 font-bold text-foreground">{c.company_name}</div>
                   <div className="col-span-3">{c.contact_person}</div>
                   <div className="col-span-3 font-mono text-muted-foreground">{c.email}</div>
-                  <div className="col-span-3">{c.country}</div>
+                  <div className="col-span-2">{c.country}</div>
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleDeleteClient(c.id, c.company_name)}
+                      title="Delete Record"
+                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
@@ -206,18 +267,28 @@ export function ReportsRoute() {
 
           {reportType === "factory" && (
             <>
-              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase">
+              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase items-center">
                 <div className="col-span-3">Factory Name</div>
                 <div className="col-span-3">Category</div>
                 <div className="col-span-3">Location</div>
-                <div className="col-span-3">Rating / Lead Time</div>
+                <div className="col-span-2">Rating / Lead Time</div>
+                <div className="col-span-1 text-center">Action</div>
               </div>
               {factories.map(f => (
                 <div key={f.id} className="p-3 grid grid-cols-12 gap-2 text-xs items-center">
                   <div className="col-span-3 font-bold text-foreground">{f.factory_name}</div>
                   <div className="col-span-3">{f.category}</div>
                   <div className="col-span-3">{f.location}</div>
-                  <div className="col-span-3 text-muted-foreground">{f.quality_rating} ★ ({f.lead_time})</div>
+                  <div className="col-span-2 text-muted-foreground">{f.quality_rating} ★ ({f.lead_time})</div>
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleDeleteFactory(f.id, f.factory_name)}
+                      title="Delete Record"
+                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
@@ -225,12 +296,13 @@ export function ReportsRoute() {
 
           {reportType === "payment" && (
             <>
-              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase">
+              <div className="p-3 bg-foreground/[0.02] grid grid-cols-12 gap-2 text-[10px] font-bold text-muted-foreground uppercase items-center">
                 <div className="col-span-3">Invoice Number</div>
                 <div className="col-span-3">Client</div>
                 <div className="col-span-2">Amount Due</div>
                 <div className="col-span-2">Received</div>
-                <div className="col-span-2">Outstanding</div>
+                <div className="col-span-1 font-bold">Outstanding</div>
+                <div className="col-span-1 text-center">Action</div>
               </div>
               {payments.map(p => (
                 <div key={p.id} className="p-3 grid grid-cols-12 gap-2 text-xs items-center">
@@ -238,7 +310,16 @@ export function ReportsRoute() {
                   <div className="col-span-3">{p.client_name}</div>
                   <div className="col-span-2 font-mono">${p.amount_due}</div>
                   <div className="col-span-2 font-mono text-emerald-400">${p.amount_received}</div>
-                  <div className="col-span-2 font-mono text-amber-400">${p.outstanding_balance}</div>
+                  <div className="col-span-1 font-mono text-amber-400">${p.outstanding_balance}</div>
+                  <div className="col-span-1 flex justify-center">
+                    <button
+                      onClick={() => handleDeletePayment(p.id, p.invoice_number)}
+                      title="Delete Record"
+                      className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </>
