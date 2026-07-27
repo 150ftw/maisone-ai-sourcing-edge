@@ -150,10 +150,10 @@ export function InteractiveFolderGallery({
   const [hoverFolder, setHoverFolder] = useState(false);
 
   return (
-    <div className={`w-full py-8 relative ${className || ""}`}>
-      <div className="relative w-full min-h-[460px] flex flex-col items-center justify-center">
+    <div className={`w-full h-full relative flex flex-col items-center justify-end sm:justify-center ${className || "py-8"}`}>
+      <div className="relative w-full h-full min-h-[320px] sm:min-h-[460px] flex flex-col items-center justify-end sm:justify-center pb-2 sm:pb-0">
 
-        <div className="relative w-[400px] h-[460px] flex justify-center pointer-events-none z-0 scale-[0.7] min-[400px]:scale-[0.85] sm:scale-100 origin-center transition-transform">
+        <div className="relative w-[400px] h-[400px] sm:h-[460px] flex justify-center pointer-events-none z-0 scale-[0.6] min-[375px]:scale-[0.7] min-[400px]:scale-[0.8] sm:scale-100 origin-bottom sm:origin-center transition-transform">
 
           <motion.div 
             className="absolute bottom-6 w-80 h-56"

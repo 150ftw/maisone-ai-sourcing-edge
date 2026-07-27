@@ -267,7 +267,7 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
             <div className="relative size-2 rounded-full bg-electric ring-2 ring-background transition-transform duration-300 group-hover:scale-150 group-hover:bg-violet-glow" />
             {!compact && (
               <div 
-                className="absolute whitespace-nowrap z-10"
+                className="absolute whitespace-nowrap z-10 opacity-0 pointer-events-none group-hover:opacity-100 md:opacity-100 transition-opacity duration-300"
                 style={getLabelStyle(p.align)}
               >
                 <span className="text-xs font-semibold tracking-widest uppercase text-foreground bg-background/60 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/10 shadow-lg">
