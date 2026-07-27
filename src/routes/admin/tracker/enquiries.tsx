@@ -22,6 +22,7 @@ import {
   TrackerAgent,
   TrackerCommunicationLog
 } from "@/lib/tracker-store";
+import { toast } from "sonner";
 import { CustomSelect } from "../../admin";
 
 export const Route = createFileRoute("/admin/tracker/enquiries")({
@@ -50,11 +51,9 @@ export const getUnlockedMaxStage = (enquiry: TrackerEnquiry): StageNumber => {
 
   for (let s = 1; s <= 13; s++) {
     const stageData = enquiry.stage_data?.[s];
-    const status = stageData?.status || (s === enquiry.current_stage ? enquiry.current_status : undefined);
-
-    if (stageData || s <= enquiry.current_stage) {
+    if (stageData) {
       maxUnlocked = s as StageNumber;
-      if (isStatusBlocking(status)) {
+      if (isStatusBlocking(stageData.status)) {
         return s as StageNumber;
       }
     } else {
@@ -62,7 +61,8 @@ export const getUnlockedMaxStage = (enquiry: TrackerEnquiry): StageNumber => {
     }
   }
 
-  const lastStageStatus = enquiry.stage_data?.[maxUnlocked]?.status || enquiry.current_status;
+  const lastStageData = enquiry.stage_data?.[maxUnlocked];
+  const lastStageStatus = lastStageData?.status || enquiry.current_status;
   if (!isStatusBlocking(lastStageStatus) && maxUnlocked < 13) {
     return (maxUnlocked + 1) as StageNumber;
   }
@@ -271,16 +271,28 @@ export function EnquiriesRoute() {
       setLogs(updatedLogs);
     }
 
-    // Advance to next stage if not blocking and activeStageNumber < 13
-    const nextStage = (!isBlocking && activeStageNumber < 13)
-      ? ((activeStageNumber + 1) as StageNumber)
-      : activeStageNumber;
+    // Calculate progression stage and status
+    let nextStage: StageNumber;
+    let nextStatus: string = stageStatus;
+
+    if (isBlocking) {
+      nextStage = activeStageNumber;
+    } else if (activeStageNumber === 13) {
+      nextStage = 13;
+    } else {
+      nextStage = Math.min(13, activeStageNumber + 1) as StageNumber;
+      // Use next stage's status if already filled, otherwise stageStatus
+      const nextStageData = updatedStageData[nextStage];
+      if (nextStageData?.status) {
+        nextStatus = nextStageData.status;
+      }
+    }
 
     const updatedEnquiry: TrackerEnquiry = {
       ...existingEnquiry,
       updated_at: new Date().toISOString(),
-      current_stage: Math.max(existingEnquiry.current_stage, nextStage) as StageNumber,
-      current_status: stageStatus,
+      current_stage: nextStage,
+      current_status: nextStatus,
       factory_name: updatedFactoryName,
       factory_id: updatedFactoryId,
       stage_data: updatedStageData,
@@ -290,14 +302,21 @@ export function EnquiriesRoute() {
     allEnquiries[index] = updatedEnquiry;
     saveTrackerEnquiries(allEnquiries);
     setEnquiries(allEnquiries);
-    setSelectedEnquiry(updatedEnquiry);
 
-    // Auto navigate to nextStage and prep its form!
-    setActiveStageNumber(nextStage);
-    const nextStageExisting = updatedStageData[nextStage] || {};
-    setStageFormData(nextStageExisting);
-    setStageStatus(nextStageExisting.status || STAGE_STATUS_OPTIONS[nextStage]?.[0] || "New");
-    setStageNotes(nextStageExisting.notes || "");
+    if (activeStageNumber === 13 && !isBlocking) {
+      // Exit enquiry view on Stage 13 save
+      setSelectedEnquiry(null);
+      toast.success(`Enquiry ${existingEnquiry.enquiry_number} Stage #13 (Bulk Payment) saved! Order tracking completed.`);
+    } else {
+      setSelectedEnquiry(updatedEnquiry);
+      // Auto navigate to nextStage and prep its form
+      setActiveStageNumber(nextStage);
+      const nextStageExisting = updatedStageData[nextStage] || {};
+      setStageFormData(nextStageExisting);
+      setStageStatus(nextStageExisting.status || STAGE_STATUS_OPTIONS[nextStage]?.[0] || "New");
+      setStageNotes(nextStageExisting.notes || "");
+      toast.success(`Stage #${activeStageNumber} saved successfully!`);
+    }
   };
 
   // Add Communication Log (tagged with current stage)
