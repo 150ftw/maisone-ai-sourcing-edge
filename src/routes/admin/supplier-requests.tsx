@@ -117,11 +117,10 @@ function SupplierRequestsPage() {
 
       if (error) throw error;
 
-      // If status is Approved, add to BOTH Core Admin Suppliers and Tracker Factories
+      // If status is Approved, add to unified Suppliers table
       if (status === "Approved") {
         const req = requests.find(r => r.id === id);
         if (req) {
-          // 1. Add to Core Admin Suppliers (Supabase `suppliers` table)
           try {
             const { data: existingSupplier } = await supabase
               .from("suppliers")
@@ -130,12 +129,14 @@ function SupplierRequestsPage() {
               .maybeSingle();
 
             if (!existingSupplier) {
+              const generatedId = `SUP-${Math.floor(100 + Math.random() * 900)}`;
               const newSupplier = {
+                supplier_id: generatedId,
                 name: req.factory_name,
                 region: req.region || "Global",
                 city: req.region || "Global",
                 category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
-                lead_time: parseInt(req.lead_time) || 30,
+                lead_time: req.lead_time?.toString() || "30 Days",
                 otd: 98,
                 rating: 5.0,
                 contact_no: null,
@@ -151,42 +152,17 @@ function SupplierRequestsPage() {
                 console.error("Failed to auto-create supplier:", insertError);
               }
             }
-          } catch (suppErr) {
-            console.error("Suppliers DB error:", suppErr);
-          }
 
-          // 2. Add to Tracker Factories (Local Storage + Supabase tracker_factories)
-          try {
+            // Sync LocalStorage fallback store
             const localFactories = getTrackerFactories();
             const existsInTracker = localFactories.some(
               f => (f.email && f.email === req.work_email) || f.factory_name === req.factory_name
             );
 
-            const newTrackerFactory: TrackerFactory = {
-              id: `fac-${Date.now()}`,
-              created_at: new Date().toISOString(),
-              factory_name: req.factory_name,
-              category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
-              location: req.region || "Global",
-              contact_person: req.full_name,
-              email: req.work_email,
-              whatsapp: "",
-              lead_time: req.lead_time || "30-45 Days",
-              quality_rating: 5.0
-            };
-
             if (!existsInTracker) {
-              saveTrackerFactories([newTrackerFactory, ...localFactories]);
-            }
-
-            const { data: existingTrackDb } = await supabase
-              .from("tracker_factories")
-              .select("id")
-              .eq("email", req.work_email)
-              .maybeSingle();
-
-            if (!existingTrackDb) {
-              await supabase.from("tracker_factories").insert([{
+              const newTrackerFactory: TrackerFactory = {
+                id: `fac-${Date.now()}`,
+                created_at: new Date().toISOString(),
                 factory_name: req.factory_name,
                 category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
                 location: req.region || "Global",
@@ -195,33 +171,25 @@ function SupplierRequestsPage() {
                 whatsapp: "",
                 lead_time: req.lead_time || "30-45 Days",
                 quality_rating: 5.0
-              }]);
+              };
+              saveTrackerFactories([newTrackerFactory, ...localFactories]);
             }
-          } catch (trackErr) {
-            console.warn("Tracker factories save notice:", trackErr);
+          } catch (suppErr) {
+            console.error("Suppliers DB error:", suppErr);
           }
         }
       } else if (status === "Rejected" || status === "Pending") {
-        // If status changed away from Approved, revoke supplier from active directories
+        // If status changed away from Approved, revoke supplier from active directory
         const req = requests.find(r => r.id === id);
         if (req) {
           try {
-            // Remove from Supabase `suppliers` table
             await supabase
               .from("suppliers")
               .delete()
               .eq("email_id", req.work_email);
           } catch (e) {}
 
-          try {
-            // Remove from Supabase `tracker_factories` table
-            await supabase
-              .from("tracker_factories")
-              .delete()
-              .eq("email", req.work_email);
-          } catch (e) {}
-
-          // Remove from LocalStorage
+          // Sync LocalStorage fallback store
           try {
             const localFactories = getTrackerFactories();
             const filtered = localFactories.filter(f => f.email !== req.work_email && f.factory_name !== req.factory_name);
@@ -245,6 +213,21 @@ function SupplierRequestsPage() {
     if (!confirm("Are you sure you want to delete this application permanently?")) return;
     
     try {
+      const req = requests.find(r => r.id === id);
+
+      // If deleted request was Approved, revoke supplier from active directory
+      if (req && req.status === "Approved") {
+        try {
+          await supabase.from("suppliers").delete().eq("email_id", req.work_email);
+        } catch (e) {}
+
+        try {
+          const localFactories = getTrackerFactories();
+          const filtered = localFactories.filter(f => f.email !== req.work_email && f.factory_name !== req.factory_name);
+          saveTrackerFactories(filtered);
+        } catch (e) {}
+      }
+
       const { error } = await supabase
         .from("supplier_requests")
         .delete()

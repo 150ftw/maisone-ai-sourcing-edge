@@ -99,6 +99,7 @@ export interface TrackerEnquiry {
   fabric_details: string;
   images: string[];
   target_price: number;
+  currency?: string;
   current_stage: StageNumber;
   current_status: string;
   factory_id?: string;

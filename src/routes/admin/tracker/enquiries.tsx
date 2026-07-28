@@ -16,6 +16,19 @@ import {
   TrackerAgent,
   TrackerCommunicationLog
 } from "@/lib/tracker-store";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  useTrackerEnquiries,
+  useTrackerClients,
+  useTrackerFactories,
+  useTrackerAgents,
+  useTrackerLogs,
+  useUpdateStageMutation,
+  useCreateEnquiryMutation,
+  useAddCommunicationLogMutation,
+  TRACKER_QUERY_KEYS
+} from "@/hooks/useTrackerData";
+import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
 import { toast } from "sonner";
 import { CustomSelect } from "../../admin";
 
@@ -103,11 +116,20 @@ export const getStatusBadgeStyles = (status: string) => {
 };
 
 function EnquiriesRoute() {
-  const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
-  const [clients, setClients] = useState<TrackerClient[]>([]);
-  const [factories, setFactories] = useState<TrackerFactory[]>([]);
-  const [agents, setAgents] = useState<TrackerAgent[]>([]);
-  const [logs, setLogs] = useState<TrackerCommunicationLog[]>([]);
+  useRealtimeTracker();
+  const queryClient = useQueryClient();
+
+  const { data: enquiries = [], isLoading: loadingEnquiries } = useTrackerEnquiries();
+  const { data: clients = [] } = useTrackerClients();
+  const { data: factories = [] } = useTrackerFactories();
+  const { data: agents = [] } = useTrackerAgents();
+  const { data: logs = [] } = useTrackerLogs();
+
+  const updateStageMutation = useUpdateStageMutation();
+  const createEnquiryMutation = useCreateEnquiryMutation();
+  const addLogMutation = useAddCommunicationLogMutation();
+
+  const loading = loadingEnquiries;
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState("");
@@ -143,115 +165,13 @@ function EnquiriesRoute() {
   const [newLogChannel, setNewLogChannel] = useState<"Email" | "WhatsApp" | "Phone" | "Meeting" | "WeChat">("Email");
   const [newLogDirection, setNewLogDirection] = useState<"Inbound" | "Outbound">("Outbound");
 
-  const [loading, setLoading] = useState(true);
-
-  const loadAllData = async () => {
-    setLoading(true);
-    try {
-      // 1. Fetch clients, factories, agents
-      const { data: dbClients } = await supabase.from("tracker_clients").select("*");
-      if (dbClients) setClients(dbClients);
-
-      const { data: dbFactories } = await supabase.from("suppliers").select("*");
-      if (dbFactories) {
-        setFactories(dbFactories.map((db: any) => {
-          let contactPersonStr = db.owner_details || db.contact_person || "Unknown";
-          if (typeof contactPersonStr === "string" && contactPersonStr.startsWith("{")) {
-            try {
-              const parsed = JSON.parse(contactPersonStr);
-              contactPersonStr = parsed.owner || "Unknown";
-            } catch (e) {}
-          }
-          return {
-            id: db.id,
-            created_at: db.created_at,
-            factory_name: db.name || "Unknown",
-            category: db.category || "General",
-            location: `${db.city || ""}, ${db.region || ""}`.replace(/^, |^,/g, ''),
-            contact_person: contactPersonStr,
-            email: db.email_id || db.email || "",
-            whatsapp: db.contact_no || "",
-            lead_time: db.lead_time?.toString() || "30-45 Days",
-            quality_rating: parseFloat(db.rating) || 4.5
-          };
-        }));
-      }
-
-      const { data: dbAgents } = await supabase.from("tracker_agents").select("*");
-      if (dbAgents) setAgents(dbAgents);
-
-      // 2. Fetch enquiries
-      let { data: dbEnquiries, error: enqsError } = await supabase
-        .from("tracker_enquiries")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (enqsError) throw enqsError;
-
-
-      // 3. Fetch stages
-      const { data: dbStages } = await supabase
-        .from("tracker_enquiry_stages")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      // 4. Fetch logs
-      const { data: dbLogs } = await supabase
-        .from("tracker_communication_logs")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      // Assemble stage_data and history for each enquiry
-      const assembledEnquiries = (dbEnquiries || []).map((e: any) => {
-        const stagesForEnq = (dbStages || []).filter((s: any) => s.enquiry_id === e.id);
-
-        const stage_data: Record<number, any> = {};
-        [...stagesForEnq]
-          .sort((a, b) => new Date(a.created_at || 0).getTime() - new Date(b.created_at || 0).getTime())
-          .forEach((s: any) => {
-            stage_data[s.stage_number] = {
-              ...(s.stage_data || {}),
-              status: s.status,
-              notes: s.notes,
-              updated_at: s.created_at
-            };
-          });
-
-        const history = stagesForEnq.map((s: any) => ({
-          id: s.id,
-          enquiry_id: s.enquiry_id,
-          stage_number: s.stage_number,
-          stage_name: s.stage_name,
-          status: s.status,
-          stage_data: s.stage_data,
-          notes: s.notes,
-          updated_by: s.updated_by || "Admin User",
-          created_at: s.created_at
-        }));
-
-        return {
-          ...e,
-          stage_data,
-          history
-        };
-      });
-
-      setEnquiries(assembledEnquiries);
-      setLogs(dbLogs || []);
-
-      if (selectedEnquiry) {
-        const updated = assembledEnquiries.find(enq => enq.id === selectedEnquiry.id);
-        if (updated) setSelectedEnquiry(updated);
-      }
-    } catch (err) {
-      console.error("Failed to load all tracker data:", err);
-    }
-    setLoading(false);
-  };
-
+  // Sync open selectedEnquiry when enquiries query updates (e.g. via realtime WebSockets)
   useEffect(() => {
-    loadAllData();
-  }, []);
+    if (selectedEnquiry && enquiries.length > 0) {
+      const updated = enquiries.find((enq) => enq.id === selectedEnquiry.id);
+      if (updated) setSelectedEnquiry(updated);
+    }
+  }, [enquiries]);
 
   useEffect(() => {
     if (selectedEnquiry) {
@@ -308,39 +228,26 @@ function EnquiriesRoute() {
       if (matchedAg) updatedAgentId = matchedAg.id;
     }
 
-    const updatedStageData = {
-      ...(selectedEnquiry.stage_data || {}),
-      [activeStageNumber]: {
-        ...stageFormData,
-        status: stageStatus,
-        notes: stageNotes,
-        updated_at: new Date().toISOString()
-      }
-    };
-
     const previousStatus = selectedEnquiry.stage_data?.[activeStageNumber]?.status || (activeStageNumber === selectedEnquiry.current_stage ? selectedEnquiry.current_status : undefined);
     const wasBlocking = isStatusBlocking(previousStatus);
     const isBlocking = isStatusBlocking(stageStatus);
 
     try {
-      // 1. Insert history record in tracker_enquiry_stages
-      const { error: stageError } = await supabase
-        .from("tracker_enquiry_stages")
-        .insert([{
-          enquiry_id: selectedEnquiry.id,
-          stage_number: activeStageNumber,
-          stage_name: STAGE_NAMES[activeStageNumber - 1],
-          status: stageStatus,
-          stage_data: stageFormData,
-          notes: stageNotes,
-          updated_by: "Admin User"
-        }]);
+      await updateStageMutation.mutateAsync({
+        enquiryId: selectedEnquiry.id,
+        stageNumber: activeStageNumber,
+        stageName: STAGE_NAMES[activeStageNumber - 1],
+        status: stageStatus,
+        stageData: stageFormData,
+        notes: stageNotes,
+        updatedBy: "Admin User"
+      });
 
-      if (stageError) throw stageError;
-
-      // 2. Automatically log blocking or unblocking status changes into Communication Logs
+      // Automatically log blocking or unblocking status changes into Communication Logs
       if (isBlocking) {
-        await supabase.from("tracker_communication_logs").insert([{
+        await addLogMutation.mutateAsync({
+          id: `log-${Date.now()}`,
+          created_at: new Date().toISOString(),
           enquiry_id: selectedEnquiry.id,
           client_id: selectedEnquiry.client_id,
           date: new Date().toISOString().split("T")[0],
@@ -349,9 +256,11 @@ function EnquiriesRoute() {
           channel: "Email",
           direction: "Outbound",
           summary: `⚠️ [AUTOMATIC STAGE ALERT - Stage #${activeStageNumber}: ${STAGE_NAMES[activeStageNumber - 1]}] Status set to '${stageStatus}'. ${stageNotes ? `Notes: "${stageNotes}"` : "Progression halted until resolution."}`
-        }]);
+        });
       } else if (wasBlocking && !isBlocking) {
-        await supabase.from("tracker_communication_logs").insert([{
+        await addLogMutation.mutateAsync({
+          id: `log-${Date.now()}`,
+          created_at: new Date().toISOString(),
           enquiry_id: selectedEnquiry.id,
           client_id: selectedEnquiry.client_id,
           date: new Date().toISOString().split("T")[0],
@@ -360,46 +269,8 @@ function EnquiriesRoute() {
           channel: "Email",
           direction: "Outbound",
           summary: `✅ [AUTOMATIC RESOLUTION ALERT - Stage #${activeStageNumber}: ${STAGE_NAMES[activeStageNumber - 1]}] Status unblocked from '${previousStatus}' to '${stageStatus}'. ${stageNotes ? `Notes: "${stageNotes}"` : "Progression resumed."}`
-        }]);
+        });
       }
-
-      // Calculate progression stage and status
-      let nextStage: StageNumber;
-      let nextStatus: string;
-
-      if (isBlocking) {
-        nextStage = activeStageNumber;
-        nextStatus = stageStatus;
-      } else if (activeStageNumber === 13) {
-        nextStage = 13;
-        nextStatus = stageStatus;
-      } else {
-        nextStage = Math.min(13, activeStageNumber + 1) as StageNumber;
-        const nextStageData = updatedStageData[nextStage];
-        const validNextOptions = STAGE_STATUS_OPTIONS[nextStage] || [];
-        if (nextStageData?.status && validNextOptions.includes(nextStageData.status)) {
-          nextStatus = nextStageData.status;
-        } else {
-          nextStatus = validNextOptions[0] || "New";
-        }
-      }
-
-      const { error: enqError } = await supabase
-        .from("tracker_enquiries")
-        .update({
-          current_stage: nextStage,
-          current_status: nextStatus,
-          factory_name: updatedFactoryName,
-          factory_id: updatedFactoryId,
-          agent_name: updatedAgentName,
-          agent_id: updatedAgentId,
-          updated_at: new Date().toISOString()
-        })
-        .eq("id", selectedEnquiry.id);
-
-      if (enqError) throw enqError;
-
-      await loadAllData();
 
       if (activeStageNumber === 13 && !isBlocking) {
         setSelectedEnquiry(null);
@@ -418,22 +289,20 @@ function EnquiriesRoute() {
     if (!selectedEnquiry || !newLogSummary.trim()) return;
 
     try {
-      const { error } = await supabase
-        .from("tracker_communication_logs")
-        .insert([{
-          enquiry_id: selectedEnquiry.id,
-          client_id: selectedEnquiry.client_id,
-          date: new Date().toISOString().split("T")[0],
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          user_name: "Admin User",
-          channel: newLogChannel,
-          direction: newLogDirection,
-          summary: `[Stage #${activeStageNumber}: ${STAGE_NAMES[activeStageNumber - 1]}] ${newLogSummary}`
-        }]);
+      await addLogMutation.mutateAsync({
+        id: `log-${Date.now()}`,
+        created_at: new Date().toISOString(),
+        enquiry_id: selectedEnquiry.id,
+        client_id: selectedEnquiry.client_id,
+        date: new Date().toISOString().split("T")[0],
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        user_name: "Admin User",
+        channel: newLogChannel,
+        direction: newLogDirection,
+        summary: `[Stage #${activeStageNumber}: ${STAGE_NAMES[activeStageNumber - 1]}] ${newLogSummary}`
+      });
 
-      if (error) throw error;
       setNewLogSummary("");
-      await loadAllData();
       toast.success("Log added successfully");
     } catch (err) {
       console.error(err);
@@ -446,60 +315,58 @@ function EnquiriesRoute() {
     if (!newProductRef.trim()) return;
     const matchedClient = clients.find(c => c.id === newClientId) || clients[0];
     const matchedAgent = agents.find(a => a.agent_name === newAgentName);
-
     const nextNumber = `ENQ-2026-00${enquiries.length + 1}`;
+
     try {
-      const { data: newEnq, error: createError } = await supabase
-        .from("tracker_enquiries")
-        .insert([{
-          enquiry_number: newEnquiryNumber || nextNumber,
-          client_id: matchedClient?.id || "c-101",
-          client_name: matchedClient?.company_name || "Client Agency",
-          country: matchedClient?.country || "France",
-          agent_id: matchedAgent?.id || null,
-          agent_name: newAgentName || matchedAgent?.agent_name || "Direct",
-          product_reference: newProductRef,
-          communication_channel: newChannel,
-          enquiry_details: newDetails,
-          fabric_details: newFabric,
-          images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop"],
-          target_price: parseFloat(newTargetPrice) || 0,
-          current_stage: 1,
-          current_status: "New"
-        }])
-        .select()
-        .single();
+      const newEnq: TrackerEnquiry = {
+        id: `enq-${Date.now()}`,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        enquiry_number: newEnquiryNumber || nextNumber,
+        client_id: matchedClient?.id || "c-101",
+        client_name: matchedClient?.company_name || "Client Agency",
+        country: matchedClient?.country || "France",
+        agent_id: matchedAgent?.id,
+        agent_name: newAgentName || matchedAgent?.agent_name || "Direct",
+        product_reference: newProductRef,
+        communication_channel: newChannel,
+        enquiry_details: newDetails,
+        fabric_details: newFabric,
+        images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop"],
+        target_price: parseFloat(newTargetPrice) || 0,
+        currency: "USD",
+        current_stage: 1,
+        current_status: "New",
+        stage_data: {
+          1: {
+            date_received: new Date().toISOString().split("T")[0],
+            channel: newChannel,
+            details: newDetails,
+            fabric: newFabric,
+            target_price: parseFloat(newTargetPrice) || 0,
+            status: "New"
+          }
+        },
+        history: [{
+          id: `s-${Date.now()}`,
+          enquiry_id: `enq-${Date.now()}`,
+          stage_number: 1,
+          stage_name: "Enquiry Received",
+          status: "New",
+          stage_data: {},
+          notes: "Initial enquiry created.",
+          updated_by: "Admin User",
+          created_at: new Date().toISOString()
+        }]
+      };
 
-      if (createError) throw createError;
-
-      if (newEnq) {
-        // Create initial stage history
-        await supabase
-          .from("tracker_enquiry_stages")
-          .insert([{
-            enquiry_id: newEnq.id,
-            stage_number: 1,
-            stage_name: "Enquiry Received",
-            status: "New",
-            stage_data: {
-              date_received: new Date().toISOString().split("T")[0],
-              channel: newChannel,
-              details: newDetails,
-              fabric: newFabric,
-              target_price: parseFloat(newTargetPrice) || 0,
-              status: "New"
-            },
-            updated_by: "Admin User"
-          }]);
-      }
+      await createEnquiryMutation.mutateAsync(newEnq);
 
       setIsNewModalOpen(false);
-      // Reset form
       setNewProductRef("");
       setNewDetails("");
       setNewFabric("");
       setNewTargetPrice("");
-      await loadAllData();
       toast.success("Enquiry created successfully!");
     } catch (err) {
       console.error(err);
@@ -516,11 +383,11 @@ function EnquiriesRoute() {
           .delete()
           .eq("id", enquiryId);
 
-        if (error) throw error;
+        if (error) console.warn("Supabase delete warning:", error);
+
         if (selectedEnquiry?.id === enquiryId) {
           setSelectedEnquiry(null);
         }
-        await loadAllData();
         toast.success(`Enquiry ${enquiryNumber} deleted successfully.`);
       } catch (err) {
         console.error(err);
@@ -1417,7 +1284,8 @@ function EnquiriesRoute() {
                                         .delete()
                                         .eq("id", l.id);
                                       if (error) throw error;
-                                      loadAllData();
+                                      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.LOGS });
+                                      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.ENQUIRIES });
                                       toast.success("Communication log entry deleted.");
                                     } catch (err) {
                                       console.error(err);

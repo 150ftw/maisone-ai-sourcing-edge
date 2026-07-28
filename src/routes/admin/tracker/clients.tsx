@@ -5,19 +5,22 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import {
   TrackerClient,
-  TrackerEnquiry,
-  getTrackerClients,
-  saveTrackerClients,
-  getTrackerEnquiries
+  TrackerEnquiry
 } from "@/lib/tracker-store";
+import { useTrackerClients, useTrackerEnquiries, useSaveClientMutation, useDeleteClientMutation } from "@/hooks/useTrackerData";
+import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
 
 export const Route = createFileRoute("/admin/tracker/clients")({
   component: ClientsRoute,
 });
 
 function ClientsRoute() {
-  const [clients, setClients] = useState<TrackerClient[]>([]);
-  const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
+  useRealtimeTracker();
+  const { data: clients = [], isLoading: clientsLoading } = useTrackerClients();
+  const { data: enquiries = [] } = useTrackerEnquiries();
+  const saveClientMutation = useSaveClientMutation();
+  const deleteClientMutation = useDeleteClientMutation();
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Modal State
@@ -33,39 +36,6 @@ function ClientsRoute() {
   const [whatsapp, setWhatsapp] = useState("");
   const [paymentTerms, setPaymentTerms] = useState("30% Deposit, 70% Balance");
   const [notes, setNotes] = useState("");
-
-  const [loading, setLoading] = useState(true);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const [{ data: dbEnquiries }, { data: dbClients, error }] = await Promise.all([
-        supabase.from("tracker_enquiries").select("*"),
-        supabase.from("tracker_clients").select("*").order("created_at", { ascending: false })
-      ]);
-
-      setEnquiries(dbEnquiries && dbEnquiries.length > 0 ? dbEnquiries : getTrackerEnquiries());
-      
-      if (!error && dbClients && dbClients.length > 0) {
-        setClients(dbClients);
-        saveTrackerClients(dbClients);
-      } else {
-        const localClients = getTrackerClients();
-        setClients(localClients);
-      }
-    } catch (err) {
-      console.error("Failed to load clients from Supabase, using local store:", err);
-      const localClients = getTrackerClients();
-      setClients(localClients);
-      setEnquiries(getTrackerEnquiries());
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const openCreateModal = () => {
     setEditingClient(null);
@@ -113,22 +83,7 @@ function ClientsRoute() {
         notes: notes.trim()
       };
 
-      // 1. Update local state & localStorage immediately
-      let updatedClients: TrackerClient[];
-      if (editingClient) {
-        updatedClients = clients.map(c => c.id === clientData.id ? clientData : c);
-      } else {
-        updatedClients = [clientData, ...clients];
-      }
-      setClients(updatedClients);
-      saveTrackerClients(updatedClients);
-
-      // 2. Persist to Supabase table
-      try {
-        await supabase.from("tracker_clients").upsert(clientData);
-      } catch (sbErr) {
-        console.warn("Supabase upsert warning:", sbErr);
-      }
+      await saveClientMutation.mutateAsync(clientData);
 
       setIsModalOpen(false);
       toast.success(`Client "${companyName}" saved successfully!`);
@@ -141,16 +96,7 @@ function ClientsRoute() {
   const handleDeleteClient = async (id: string) => {
     if (confirm("Are you sure you want to delete this client record?")) {
       try {
-        const updated = clients.filter(c => c.id !== id);
-        setClients(updated);
-        saveTrackerClients(updated);
-
-        try {
-          await supabase.from("tracker_clients").delete().eq("id", id);
-        } catch (sbErr) {
-          console.warn("Supabase delete warning:", sbErr);
-        }
-
+        await deleteClientMutation.mutateAsync(id);
         toast.success("Client deleted successfully.");
       } catch (err) {
         console.error("Failed to delete client:", err);
@@ -166,7 +112,7 @@ function ClientsRoute() {
     c.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (loading) {
+  if (clientsLoading) {
     return (
       <div className="space-y-6 animate-pulse">
         {/* Header skeleton */}
