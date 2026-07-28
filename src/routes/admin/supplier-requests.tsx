@@ -117,40 +117,81 @@ function SupplierRequestsPage() {
 
       if (error) throw error;
 
-      // If status is Approved, add to BOTH suppliers (Supabase) and tracker_factories (Local Storage)
+      // If status is Approved, add to BOTH Core Admin Suppliers and Tracker Factories
       if (status === "Approved") {
         const req = requests.find(r => r.id === id);
         if (req) {
-          // 1. Add to Core Admin Suppliers (Supabase)
-          const { data: existingSupplier } = await supabase
-            .from("suppliers")
-            .select("id")
-            .eq("email", req.work_email)
-            .maybeSingle();
-
-          if (!existingSupplier) {
-            const newSupplier = {
-              name: req.factory_name,
-              contact_person: req.full_name,
-              email: req.work_email,
-              country: req.region || "Unknown",
-              categories: (req.categories || []).join(", ") || "Woven & Knit",
-              status: "Active",
-              rating: 5,
-              notes: `Approved from Supplier Requests. MOQ: ${req.moq}, Lead time: ${req.lead_time}`
-            };
-            
-            const { error: insertError } = await supabase
+          // 1. Add to Core Admin Suppliers (Supabase `suppliers` table)
+          try {
+            const { data: existingSupplier } = await supabase
               .from("suppliers")
-              .insert([newSupplier]);
+              .select("supplier_id")
+              .eq("email_id", req.work_email)
+              .maybeSingle();
+
+            if (!existingSupplier) {
+              const newSupplier = {
+                name: req.factory_name,
+                region: req.region || "Global",
+                city: req.region || "Global",
+                category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
+                lead_time: parseInt(req.lead_time) || 30,
+                otd: 98,
+                rating: 5.0,
+                contact_no: null,
+                owner_details: req.full_name,
+                email_id: req.work_email
+              };
               
-            if (insertError) {
-              console.error("Failed to auto-create supplier:", insertError);
+              const { error: insertError } = await supabase
+                .from("suppliers")
+                .insert([newSupplier]);
+                
+              if (insertError) {
+                console.error("Failed to auto-create supplier:", insertError);
+              }
             }
+          } catch (suppErr) {
+            console.error("Suppliers DB error:", suppErr);
           }
 
-          // 2. Add to Tracker Factories (Local Storage)
-          // Removed: The systems are now unified. Tracker Factories fetches directly from the Supabase suppliers table!
+          // 2. Add to Tracker Factories (Local Storage + Supabase tracker_factories)
+          try {
+            const localFactories = getTrackerFactories();
+            const existsInTracker = localFactories.some(
+              f => (f.email && f.email === req.work_email) || f.factory_name === req.factory_name
+            );
+
+            const newTrackerFactory: TrackerFactory = {
+              id: `fac-${Date.now()}`,
+              created_at: new Date().toISOString(),
+              factory_name: req.factory_name,
+              category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
+              location: req.region || "Global",
+              contact_person: req.full_name,
+              email: req.work_email,
+              whatsapp: "",
+              lead_time: req.lead_time || "30-45 Days",
+              quality_rating: 5.0
+            };
+
+            if (!existsInTracker) {
+              saveTrackerFactories([newTrackerFactory, ...localFactories]);
+            }
+
+            await supabase.from("tracker_factories").insert([{
+              factory_name: req.factory_name,
+              category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
+              location: req.region || "Global",
+              contact_person: req.full_name,
+              email: req.work_email,
+              whatsapp: "",
+              lead_time: req.lead_time || "30-45 Days",
+              quality_rating: 5.0
+            }]);
+          } catch (trackErr) {
+            console.warn("Tracker factories save notice:", trackErr);
+          }
         }
       }
       
