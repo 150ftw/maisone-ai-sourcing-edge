@@ -130,13 +130,16 @@ function SupplierRequestsPage() {
 
             if (!existingSupplier) {
               const generatedId = `SUP-${Math.floor(100 + Math.random() * 900)}`;
+              const rawLeadTime = req.lead_time?.toString() || "30";
+              const parsedLead = parseInt(rawLeadTime.replace(/\D/g, ""), 10) || 30;
+
               const newSupplier = {
                 supplier_id: generatedId,
                 name: req.factory_name,
                 region: req.region || "Global",
                 city: req.region || "Global",
                 category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
-                lead_time: req.lead_time?.toString() || "30 Days",
+                lead_time: parsedLead,
                 otd: 98,
                 rating: 5.0,
                 contact_no: null,
