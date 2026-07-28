@@ -71,7 +71,7 @@ function ClientsRoute() {
 
     try {
       const clientData: TrackerClient = {
-        id: editingClient ? editingClient.id : `c-${Date.now()}`,
+        id: editingClient ? editingClient.id : crypto.randomUUID(),
         created_at: editingClient ? editingClient.created_at : new Date().toISOString(),
         company_name: companyName.trim(),
         client_name: clientName.trim() || companyName.trim(),

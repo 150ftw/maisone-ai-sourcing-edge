@@ -1,4 +1,10 @@
-// src/hooks/useTrackerData.ts
+/**
+ * Maisone ERP - TanStack Query Data Layer & Mutations
+ * @file src/hooks/useTrackerData.ts
+ * @description Provides centralized React Query data fetching, optimistic local cache updating,
+ * and Supabase persistence mutations for Clients, Factories, Agents, Enquiries, Stages, and Logs.
+ */
+
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import {
@@ -429,3 +435,131 @@ export function useDeleteClientMutation() {
     },
   });
 }
+
+// Delete Enquiry Mutation
+export function useDeleteEnquiryMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        await supabase.from("tracker_enquiry_stages").delete().eq("enquiry_id", id);
+        const { error } = await supabase.from("tracker_enquiries").delete().eq("id", id);
+        if (error) console.warn("Supabase delete enquiry warning:", error);
+      } catch (err) {
+        console.warn("Supabase delete enquiry error:", err);
+      }
+      const current = getTrackerEnquiries();
+      const updated = current.filter((e) => e.id !== id);
+      saveTrackerEnquiries(updated);
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.ENQUIRIES });
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.LOGS });
+    },
+  });
+}
+
+// Save Agent Mutation
+export function useSaveAgentMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (agent: TrackerAgent) => {
+      try {
+        const { error } = await supabase.from("tracker_agents").upsert(agent);
+        if (error) console.warn("Supabase agent save warning:", error);
+      } catch (err) {
+        console.warn("Supabase agent save error:", err);
+      }
+      const current = getTrackerAgents();
+      const exists = current.some((a) => a.id === agent.id);
+      const updated = exists ? current.map((a) => (a.id === agent.id ? agent : a)) : [agent, ...current];
+      saveTrackerAgents(updated);
+      return agent;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.AGENTS });
+    },
+  });
+}
+
+// Delete Agent Mutation
+export function useDeleteAgentMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        const { error } = await supabase.from("tracker_agents").delete().eq("id", id);
+        if (error) console.warn("Supabase delete agent warning:", error);
+      } catch (err) {
+        console.warn("Supabase delete agent error:", err);
+      }
+      const current = getTrackerAgents();
+      const updated = current.filter((a) => a.id !== id);
+      saveTrackerAgents(updated);
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.AGENTS });
+    },
+  });
+}
+
+// Save Factory Mutation
+export function useSaveFactoryMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (factory: TrackerFactory) => {
+      try {
+        const payload: any = {
+          id: factory.id,
+          supplier_id: `SUP-TR-${factory.id.slice(0, 8)}`,
+          name: factory.factory_name,
+          category: factory.category,
+          region: factory.location.split(", ")[1] || "Unknown",
+          city: factory.location.split(", ")[0] || factory.location,
+          owner_details: factory.contact_person,
+          email_id: factory.email,
+          contact_no: factory.whatsapp,
+          lead_time: factory.lead_time,
+          rating: factory.quality_rating,
+        };
+        const { error } = await supabase.from("suppliers").upsert(payload);
+        if (error) console.warn("Supabase factory save warning:", error);
+      } catch (err) {
+        console.warn("Supabase factory save error:", err);
+      }
+      const current = getTrackerFactories();
+      const exists = current.some((f) => f.id === factory.id);
+      const updated = exists ? current.map((f) => (f.id === factory.id ? factory : f)) : [factory, ...current];
+      saveTrackerFactories(updated);
+      return factory;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.FACTORIES });
+    },
+  });
+}
+
+// Delete Factory Mutation
+export function useDeleteFactoryMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      try {
+        const { error } = await supabase.from("suppliers").delete().eq("id", id);
+        if (error) console.warn("Supabase delete factory warning:", error);
+      } catch (err) {
+        console.warn("Supabase delete factory error:", err);
+      }
+      const current = getTrackerFactories();
+      const updated = current.filter((f) => f.id !== id);
+      saveTrackerFactories(updated);
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.FACTORIES });
+    },
+  });
+}
+

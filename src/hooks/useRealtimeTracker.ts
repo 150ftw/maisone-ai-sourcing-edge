@@ -1,4 +1,10 @@
-// src/hooks/useRealtimeTracker.ts
+/**
+ * Maisone ERP - Real-Time Supabase WebSockets Subscription Hook
+ * @file src/hooks/useRealtimeTracker.ts
+ * @description Subscribes to Postgres change events across tracker_enquiries, tracker_enquiry_stages,
+ * tracker_clients, suppliers, tracker_agents, and tracker_communication_logs, invalidating React Query cache keys live.
+ */
+
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
@@ -41,6 +47,14 @@ export function useRealtimeTracker() {
         (payload) => {
           console.log("[Realtime] suppliers change received:", payload.eventType);
           queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.FACTORIES });
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "tracker_agents" },
+        (payload) => {
+          console.log("[Realtime] tracker_agents change received:", payload.eventType);
+          queryClient.invalidateQueries({ queryKey: TRACKER_QUERY_KEYS.AGENTS });
         }
       )
       .on(

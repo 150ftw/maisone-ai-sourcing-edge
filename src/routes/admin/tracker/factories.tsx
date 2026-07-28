@@ -1,19 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Search, Plus, X, Edit, Trash2, Factory as FactoryIcon, MapPin, Mail, Phone, Star, Clock, RefreshCw } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { useState } from "react";
+import { Search, Plus, X, Edit, Trash2, MapPin, Mail, Clock, Star } from "lucide-react";
+import { toast } from "sonner";
 import {
   TrackerFactory
 } from "@/lib/tracker-store";
+import { useTrackerFactories, useSaveFactoryMutation, useDeleteFactoryMutation } from "@/hooks/useTrackerData";
+import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
 
 export const Route = createFileRoute("/admin/tracker/factories")({
   component: FactoriesRoute,
 });
 
 function FactoriesRoute() {
-  const [factories, setFactories] = useState<TrackerFactory[]>([]);
+  useRealtimeTracker();
+  const { data: factories = [], isLoading: loading } = useTrackerFactories();
+  const saveFactoryMutation = useSaveFactoryMutation();
+  const deleteFactoryMutation = useDeleteFactoryMutation();
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
 
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,52 +33,6 @@ function FactoriesRoute() {
   const [whatsapp, setWhatsapp] = useState("");
   const [leadTime, setLeadTime] = useState("25-30 Days");
   const [qualityRating, setQualityRating] = useState("4.8");
-
-  const loadFactories = async () => {
-    setLoading(true);
-    try {
-      const { data: dbFactories, error } = await supabase
-        .from("suppliers")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      
-      // Map Supabase suppliers to TrackerFactory format
-      const mapped = (dbFactories || []).map((db: any) => {
-        let contactPersonStr = db.owner_details || db.contact_person || "Unknown";
-        if (typeof contactPersonStr === "string" && contactPersonStr.startsWith("{")) {
-          try {
-            const parsed = JSON.parse(contactPersonStr);
-            contactPersonStr = parsed.owner || "Unknown";
-          } catch (e) {}
-        }
-        
-        return {
-          id: db.id,
-          created_at: db.created_at,
-          factory_name: db.name || "Unknown Factory",
-          category: db.category || "General",
-          location: `${db.city || ""}, ${db.region || ""}`.replace(/^, |^,/g, ''),
-          contact_person: contactPersonStr,
-          email: db.email_id || db.email || "",
-          whatsapp: db.contact_no || "",
-          lead_time: db.lead_time?.toString() || "30-45 Days",
-          quality_rating: parseFloat(db.rating) || 4.5
-        };
-      });
-
-      setFactories(mapped);
-    } catch (err) {
-      console.error("Error fetching factories from Supabase:", err);
-      setFactories([]);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    loadFactories();
-  }, []);
 
   const openCreateModal = () => {
     setEditingFactory(null);
@@ -102,54 +61,42 @@ function FactoriesRoute() {
   };
 
   const handleSaveFactory = async () => {
-    if (!factoryName.trim() || !email.trim()) return;
+    if (!factoryName.trim() || !email.trim()) {
+      toast.error("Please provide at least Factory Name and Email.");
+      return;
+    }
 
     try {
-      // Map back to suppliers table schema
-      const payload: any = {
-        name: factoryName,
-        category,
-        region: location.split(", ")[1] || "Unknown",
-        city: location.split(", ")[0] || location,
-        owner_details: contactPerson,
-        email_id: email,
-        contact_no: whatsapp,
-        lead_time: leadTime,
-        rating: parseFloat(qualityRating) || 4.5,
-        supplier_id: editingFactory ? undefined : `SUP-TR-${Date.now().toString().slice(-4)}`
+      const factoryData: TrackerFactory = {
+        id: editingFactory ? editingFactory.id : crypto.randomUUID(),
+        created_at: editingFactory ? editingFactory.created_at : new Date().toISOString(),
+        factory_name: factoryName.trim(),
+        category: category.trim() || "General",
+        location: location.trim() || "Milan, Italy",
+        contact_person: contactPerson.trim() || factoryName.trim(),
+        email: email.trim(),
+        whatsapp: whatsapp.trim(),
+        lead_time: leadTime.trim() || "30-45 Days",
+        quality_rating: parseFloat(qualityRating) || 4.5
       };
 
-      if (editingFactory) {
-        payload.id = editingFactory.id;
-      }
-
-      const { error } = await supabase
-        .from("suppliers")
-        .upsert(payload);
-
-      if (error) throw error;
-      
+      await saveFactoryMutation.mutateAsync(factoryData);
       setIsModalOpen(false);
-      loadFactories();
+      toast.success(`Factory "${factoryName}" saved successfully!`);
     } catch (err) {
-      console.error("Failed to sync factory to Supabase:", err);
-      alert("Error saving factory. Please try again.");
+      console.error("Failed to save factory:", err);
+      toast.error("Error saving factory. Please try again.");
     }
   };
 
   const handleDeleteFactory = async (id: string) => {
     if (confirm("Are you sure you want to delete this factory?")) {
       try {
-        const { error } = await supabase
-          .from("suppliers")
-          .delete()
-          .eq("id", id);
-
-        if (error) throw error;
-        loadFactories();
+        await deleteFactoryMutation.mutateAsync(id);
+        toast.success("Factory deleted successfully.");
       } catch (err) {
-        console.error("Failed to delete factory from Supabase:", err);
-        alert("Error deleting factory. Please try again.");
+        console.error("Failed to delete factory:", err);
+        toast.error("Error deleting factory. Please try again.");
       }
     }
   };

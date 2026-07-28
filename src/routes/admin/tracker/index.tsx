@@ -12,6 +12,8 @@ import {
   TrackerInvoice,
   TrackerPayment
 } from "@/lib/tracker-store";
+import { useTrackerEnquiries } from "@/hooks/useTrackerData";
+import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, AreaChart, Area
 } from "recharts";
@@ -21,35 +23,34 @@ export const Route = createFileRoute("/admin/tracker/")({
 });
 
 function TrackerDashboard() {
-  const [enquiries, setEnquiries] = useState<TrackerEnquiry[]>([]);
+  useRealtimeTracker();
+  const { data: enquiries = [], isLoading: loadingEnquiries } = useTrackerEnquiries();
   const [invoices, setInvoices] = useState<TrackerInvoice[]>([]);
   const [payments, setPayments] = useState<TrackerPayment[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingExtras, setLoadingExtras] = useState(true);
 
-  const loadDashboardData = async () => {
-    setLoading(true);
+  const loading = loadingEnquiries || loadingExtras;
+
+  const loadFinancials = async () => {
     try {
       const [
-        { data: dbEnquiries },
         { data: dbInvoices },
         { data: dbPayments }
       ] = await Promise.all([
-        supabase.from("tracker_enquiries").select("*").order("created_at", { ascending: false }),
         supabase.from("tracker_invoices").select("*").order("created_at", { ascending: false }),
         supabase.from("tracker_payments").select("*").order("created_at", { ascending: false })
       ]);
 
-      setEnquiries(dbEnquiries ?? []);
       setInvoices(dbInvoices ?? []);
       setPayments(dbPayments ?? []);
     } catch (err) {
       console.error("Failed to load dashboard statistics:", err);
     }
-    setLoading(false);
+    setLoadingExtras(false);
   };
 
   useEffect(() => {
-    loadDashboardData();
+    loadFinancials();
   }, []);
 
   // Compute key stats
