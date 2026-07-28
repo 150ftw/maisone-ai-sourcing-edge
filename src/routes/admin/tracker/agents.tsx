@@ -1,19 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Search, Plus, X, Edit, Trash2, UserCheck, Globe, PhoneCall } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { useState } from "react";
+import { Search, Plus, X, Edit, Trash2, PhoneCall } from "lucide-react";
+import { toast } from "sonner";
 import {
   TrackerAgent
 } from "@/lib/tracker-store";
+import { useTrackerAgents, useSaveAgentMutation, useDeleteAgentMutation } from "@/hooks/useTrackerData";
+import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
 
 export const Route = createFileRoute("/admin/tracker/agents")({
   component: AgentsRoute,
 });
 
 function AgentsRoute() {
-  const [agents, setAgents] = useState<TrackerAgent[]>([]);
+  useRealtimeTracker();
+  const { data: agents = [], isLoading: loading } = useTrackerAgents();
+  const saveAgentMutation = useSaveAgentMutation();
+  const deleteAgentMutation = useDeleteAgentMutation();
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,27 +29,6 @@ function AgentsRoute() {
   const [region, setRegion] = useState("Europe & UK");
   const [clientsManaged, setClientsManaged] = useState("5");
   const [contactDetails, setContactDetails] = useState("");
-
-  const loadAgents = async () => {
-    setLoading(true);
-    try {
-      const { data: dbAgents, error } = await supabase
-        .from("tracker_agents")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-      setAgents(dbAgents ?? []);
-    } catch (err) {
-      console.error("Failed to load agents:", err);
-      setAgents([]);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    loadAgents();
-  }, []);
 
   const openCreateModal = () => {
     setEditingAgent(null);
@@ -65,47 +49,38 @@ function AgentsRoute() {
   };
 
   const handleSaveAgent = async () => {
-    if (!agentName.trim()) return;
+    if (!agentName.trim()) {
+      toast.error("Please enter an agent name.");
+      return;
+    }
 
     try {
-      const payload: any = {
-        agent_name: agentName,
-        region,
+      const agentData: TrackerAgent = {
+        id: editingAgent ? editingAgent.id : crypto.randomUUID(),
+        created_at: editingAgent ? editingAgent.created_at : new Date().toISOString(),
+        agent_name: agentName.trim(),
+        region: region.trim() || "Europe & UK",
         clients_managed: parseInt(clientsManaged) || 0,
-        contact_details: contactDetails
+        contact_details: contactDetails.trim()
       };
 
-      if (editingAgent) {
-        payload.id = editingAgent.id;
-      }
-
-      const { error } = await supabase
-        .from("tracker_agents")
-        .upsert(payload);
-
-      if (error) throw error;
-
+      await saveAgentMutation.mutateAsync(agentData);
       setIsModalOpen(false);
-      loadAgents();
+      toast.success(`Agent "${agentName}" saved successfully!`);
     } catch (err) {
       console.error("Failed to save agent:", err);
-      alert("Error saving agent. Please try again.");
+      toast.error("Error saving agent. Please try again.");
     }
   };
 
   const handleDeleteAgent = async (id: string) => {
     if (confirm("Are you sure you want to delete this agent profile?")) {
       try {
-        const { error } = await supabase
-          .from("tracker_agents")
-          .delete()
-          .eq("id", id);
-
-        if (error) throw error;
-        loadAgents();
+        await deleteAgentMutation.mutateAsync(id);
+        toast.success("Agent deleted successfully.");
       } catch (err) {
         console.error("Failed to delete agent:", err);
-        alert("Error deleting agent. Please try again.");
+        toast.error("Error deleting agent. Please try again.");
       }
     }
   };

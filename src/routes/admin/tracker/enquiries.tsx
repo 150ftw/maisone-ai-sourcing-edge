@@ -26,6 +26,7 @@ import {
   useUpdateStageMutation,
   useCreateEnquiryMutation,
   useAddCommunicationLogMutation,
+  useDeleteEnquiryMutation,
   TRACKER_QUERY_KEYS
 } from "@/hooks/useTrackerData";
 import { useRealtimeTracker } from "@/hooks/useRealtimeTracker";
@@ -128,6 +129,7 @@ function EnquiriesRoute() {
   const updateStageMutation = useUpdateStageMutation();
   const createEnquiryMutation = useCreateEnquiryMutation();
   const addLogMutation = useAddCommunicationLogMutation();
+  const deleteEnquiryMutation = useDeleteEnquiryMutation();
 
   const loading = loadingEnquiries;
 
@@ -334,12 +336,13 @@ function EnquiriesRoute() {
     const nextNumber = `ENQ-2026-00${enquiries.length + 1}`;
 
     try {
+      const generatedId = crypto.randomUUID();
       const newEnq: TrackerEnquiry = {
-        id: `enq-${Date.now()}`,
+        id: generatedId,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         enquiry_number: newEnquiryNumber || nextNumber,
-        client_id: matchedClient?.id || "c-101",
+        client_id: matchedClient?.id || "c1010000-0000-4000-8000-000000000001",
         client_name: matchedClient?.company_name || "Client Agency",
         country: matchedClient?.country || "France",
         agent_id: matchedAgent?.id,
@@ -364,8 +367,8 @@ function EnquiriesRoute() {
           }
         },
         history: [{
-          id: `s-${Date.now()}`,
-          enquiry_id: `enq-${Date.now()}`,
+          id: crypto.randomUUID(),
+          enquiry_id: generatedId,
           stage_number: 1,
           stage_name: "Enquiry Received",
           status: "New",
@@ -394,13 +397,7 @@ function EnquiriesRoute() {
   const handleDeleteEnquiry = async (enquiryId: string, enquiryNumber: string) => {
     if (window.confirm(`Are you sure you want to completely delete enquiry ${enquiryNumber}? This action cannot be undone.`)) {
       try {
-        const { error } = await supabase
-          .from("tracker_enquiries")
-          .delete()
-          .eq("id", enquiryId);
-
-        if (error) console.warn("Supabase delete warning:", error);
-
+        await deleteEnquiryMutation.mutateAsync(enquiryId);
         if (selectedEnquiry?.id === enquiryId) {
           setSelectedEnquiry(null);
         }
