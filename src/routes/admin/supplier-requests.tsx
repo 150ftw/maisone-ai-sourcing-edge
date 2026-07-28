@@ -179,16 +179,24 @@ function SupplierRequestsPage() {
               saveTrackerFactories([newTrackerFactory, ...localFactories]);
             }
 
-            await supabase.from("tracker_factories").insert([{
-              factory_name: req.factory_name,
-              category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
-              location: req.region || "Global",
-              contact_person: req.full_name,
-              email: req.work_email,
-              whatsapp: "",
-              lead_time: req.lead_time || "30-45 Days",
-              quality_rating: 5.0
-            }]);
+            const { data: existingTrackDb } = await supabase
+              .from("tracker_factories")
+              .select("id")
+              .eq("email", req.work_email)
+              .maybeSingle();
+
+            if (!existingTrackDb) {
+              await supabase.from("tracker_factories").insert([{
+                factory_name: req.factory_name,
+                category: Array.isArray(req.categories) ? req.categories.join(", ") : (req.categories || "Woven & Knit"),
+                location: req.region || "Global",
+                contact_person: req.full_name,
+                email: req.work_email,
+                whatsapp: "",
+                lead_time: req.lead_time || "30-45 Days",
+                quality_rating: 5.0
+              }]);
+            }
           } catch (trackErr) {
             console.warn("Tracker factories save notice:", trackErr);
           }
