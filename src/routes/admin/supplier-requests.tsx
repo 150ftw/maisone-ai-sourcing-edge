@@ -193,6 +193,33 @@ function SupplierRequestsPage() {
             console.warn("Tracker factories save notice:", trackErr);
           }
         }
+      } else if (status === "Rejected" || status === "Pending") {
+        // If status changed away from Approved, revoke supplier from active directories
+        const req = requests.find(r => r.id === id);
+        if (req) {
+          try {
+            // Remove from Supabase `suppliers` table
+            await supabase
+              .from("suppliers")
+              .delete()
+              .eq("email_id", req.work_email);
+          } catch (e) {}
+
+          try {
+            // Remove from Supabase `tracker_factories` table
+            await supabase
+              .from("tracker_factories")
+              .delete()
+              .eq("email", req.work_email);
+          } catch (e) {}
+
+          // Remove from LocalStorage
+          try {
+            const localFactories = getTrackerFactories();
+            const filtered = localFactories.filter(f => f.email !== req.work_email && f.factory_name !== req.factory_name);
+            saveTrackerFactories(filtered);
+          } catch (e) {}
+        }
       }
       
       setRequests(prev => prev.map(req => req.id === id ? { ...req, status } : req));
