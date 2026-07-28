@@ -238,6 +238,30 @@ export function useUpdateStageMutation() {
       notes: string;
       updatedBy?: string;
     }) => {
+      const BLOCKING_STATUSES = [
+        "Dropped",
+        "No Suitable Factory",
+        "Rejected",
+        "Failed",
+        "Rework Required",
+        "Rework",
+        "Hold",
+        "Lost",
+        "Revision Requested"
+      ];
+      const isBlocking = BLOCKING_STATUSES.includes(status);
+
+      const enquiries = getTrackerEnquiries();
+      const existingEnq = enquiries.find(e => e.id === enquiryId);
+      const currentStageInDb = existingEnq?.current_stage || stageNumber;
+
+      let nextCurrentStage = currentStageInDb;
+      if (!isBlocking && stageNumber < 13) {
+        if (stageNumber >= currentStageInDb) {
+          nextCurrentStage = stageNumber + 1;
+        }
+      }
+
       // 1. Insert stage record into Supabase
       try {
         const { error: stageErr } = await supabase.from("tracker_enquiry_stages").insert([{
@@ -255,7 +279,7 @@ export function useUpdateStageMutation() {
         const { error: enqErr } = await supabase
           .from("tracker_enquiries")
           .update({
-            current_stage: stageNumber,
+            current_stage: nextCurrentStage,
             current_status: status,
             updated_at: new Date().toISOString()
           })
@@ -266,7 +290,6 @@ export function useUpdateStageMutation() {
       }
 
       // Update local storage cache fallback
-      const enquiries = getTrackerEnquiries();
       const updatedEnquiries = enquiries.map((e) => {
         if (e.id === enquiryId) {
           const currentStageData = e.stage_data || {};
@@ -289,7 +312,7 @@ export function useUpdateStageMutation() {
           };
           return {
             ...e,
-            current_stage: stageNumber as any,
+            current_stage: nextCurrentStage as any,
             current_status: status,
             updated_at: new Date().toISOString(),
             stage_data: {

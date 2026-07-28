@@ -272,11 +272,27 @@ function EnquiriesRoute() {
         });
       }
 
-      if (activeStageNumber === 13 && !isBlocking) {
+      if (!isBlocking && activeStageNumber < 13) {
+        const nextStage = (activeStageNumber + 1) as StageNumber;
+        setActiveStageNumber(nextStage);
+
+        const nextStageData = selectedEnquiry.stage_data?.[nextStage] || {};
+        setStageFormData(nextStageData);
+
+        const validOptions = STAGE_STATUS_OPTIONS[nextStage] || [];
+        const statusToUse = nextStageData.status && validOptions.includes(nextStageData.status)
+          ? nextStageData.status
+          : (validOptions[0] || "New");
+
+        setStageStatus(statusToUse);
+        setStageNotes(nextStageData.notes || "");
+
+        toast.success(`Stage #${activeStageNumber} saved! Moved to Stage #${nextStage} (${STAGE_NAMES[nextStage - 1]})`);
+      } else if (activeStageNumber === 13 && !isBlocking) {
         setSelectedEnquiry(null);
         toast.success(`Enquiry Stage #13 (Bulk Payment) saved! Order tracking completed.`);
       } else {
-        toast.success(`Stage #${activeStageNumber} saved successfully!`);
+        toast.success(`Stage #${activeStageNumber} saved with status '${stageStatus}'.`);
       }
     } catch (err) {
       console.error("Failed to save stage update:", err);
