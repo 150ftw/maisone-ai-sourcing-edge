@@ -1,10 +1,10 @@
 # 🚀 Maisone AI Sourcing Edge — ERP 13-Stage Architectural & Feasibility Blueprint
 
-This document outlines the technical feasibility, architectural design, and step-by-step implementation blueprint for enhancing the Maisone Sourcing ERP platform across all 13 stages, Role-Based Access Control (RBAC), Public Client Portal, Automation Utilities, and Bulk Excel Import Workflows.
+This document outlines the technical feasibility, architectural design, and step-by-step implementation blueprint for enhancing the Maisone Sourcing ERP platform across all 13 stages, Role-Based Access Control (RBAC), Public Client Portal, Email Trigger Automations, and Bulk Excel Import Workflows.
 
 ---
 
-## 🔒 1. Core Platform Architecture & Global Enhancements
+## 🔒 1. Core Platform Architecture & Global Access Control
 
 ### A. Role-Based Access Control (RBAC) — Admin vs. Agent
 * **Status:** **100% Feasible**
@@ -31,7 +31,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Fields & Rules:**
   * **Enquiry ID:** Auto-generated (`ENQ-YYYY-XXXX`).
   * **Date Received:** Date picker.
-  * **Source:** Dropdown (`Website`, `Email`, `WhatsApp`, `LinkedIn`, `Referral`, `Phone`, `Existing Client`, `Sales Agent`).
+  * **Source:** Dropdown (`Website`, `Email`, `LinkedIn`, `Referral`, `Phone`, `Existing Client`, `Sales Agent`).
   * **Status:** `New`, `Under Review`, `Qualified`, `Rejected`.
   * **Assigned Agent:** Dropdown selection from active agents.
   * **Client Type:** `New` vs `Existing`.
@@ -55,7 +55,7 @@ This document outlines the technical feasibility, architectural design, and step
   * **Supplier Costing (Top Section — Admin Only):** Raw FOB factory cost, fabric cost/meter, internal handling, source house margin markup.
   * **Buyer Costing (Bottom Section — Admin, Agent & Client):** Client FOB/CIF price, shipping packaging, total order estimation.
   * 🎯 **IMPORTANT (Checkpoint 1):** 
-    * "Send Client Quotation" trigger sends formatted quote to client via tracking link/email.
+    * "Send Client Quotation" trigger sends formatted quote & tracking link via email to the client.
     * Client can **Approve**, **Request Revision**, or **Reject** directly on the tracking portal.
 
 ---
@@ -65,6 +65,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Features:**
   * **Supplier Costing (Top):** What the factory charges for sample development.
   * **Buyer Costing (Bottom):** Sample fee invoiced to the client.
+  * **Data Inheritance:** Specs, fabric details, and colorways copy forward automatically from Stage 1 & 3.
 
 ---
 
@@ -72,6 +73,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Feasibility:** 100% Feasible
 * **Features:**
   * Client view includes sample info, courier tracking number (DHL/FedEx), and downloadable sample invoice.
+  * **Email Trigger:** Automated email notification containing sample dispatch notice & invoice attachment.
 
 ---
 
@@ -79,7 +81,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Feasibility:** 100% Feasible (Ledger Breakdown + CSV/Excel Export)
 * **Features:**
   * **Payment Balance Calculator:** Real-time formula: `Amount Invoiced` − `Amount Received` = `Balance Outstanding`.
-  * **Invoice Reminder:** One-click reminder button generating payment notices.
+  * **Invoice Email Reminder:** One-click reminder button sending payment notices via email.
   * **Excel / CSV Export:** Dedicated export button to output sample payment ledgers to CSV / Excel format (auto-updates on Save).
 
 ---
@@ -88,6 +90,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Feasibility:** 100% Feasible (PDF Sign-Off Audit Log)
 * **Features:**
   * Downloadable PDF summary containing approved tech pack specs, client sign-off timestamp, and comment history.
+  * **Email Trigger:** Automated sign-off confirmation email sent to client & assigned agent.
 
 ---
 
@@ -95,6 +98,7 @@ This document outlines the technical feasibility, architectural design, and step
 * **Feasibility:** 100% Feasible
 * **Features:**
   * Expanded product details: size breakdown matrix (S/M/L/XL), colorway breakdown, master carton packing specs, and official Purchase Order (PO) number.
+  * **Auto Total Value:** Total order value auto-calculated: $\text{Quantity} \times \text{Approved Stage 3 Unit Price}$.
 
 ---
 
@@ -106,8 +110,9 @@ This document outlines the technical feasibility, architectural design, and step
 ---
 
 ### 🔹 Step 10 — Quality Check
-* **Feasibility:** 100% Feasible (Manual Inspection Logging)
+* **Feasibility:** 100% Feasible (Manual Inspection Logging + Auto AQL)
 * **Features:**
+  * **Auto AQL 2.5 Calculator:** Input total bulk order quantity $\rightarrow$ system auto-populates required sample inspection size & allowed major/minor defect thresholds.
   * Log inspection date, AQL outcome (`Passed`, `Failed`, `Rework`), defect counts, and upload inspection photos/reports.
 
 ---
@@ -122,55 +127,36 @@ This document outlines the technical feasibility, architectural design, and step
 ### 🔹 Step 12 — Bulk Invoice
 * **Feasibility:** 100% Feasible (In Accordance with Step 11)
 * **Features:**
-  * Bulk invoice generation with combined email delivery containing live Tracker Status + attached Bulk Invoice.
+  * Bulk commercial invoice generation with combined email delivery containing live Tracker Status + attached Bulk Invoice PDF.
 
 ---
 
-### 🔹 Step 13 — Bulk Payment & Automated Overdue Reminders
+### 🔹 Step 13 — Bulk Payment & Automated Overdue Email Engine
 * **Feasibility:** 100% Feasible (Smart Overdue Engine)
 * **Features:**
-  * **Automated Overdue Detection:** If final settlement is not received before the due date:
+  * **Automated Overdue Email Reminders:** If final settlement is not received before the due date:
     1. Triggers an **Overdue ERP Alert Badge** on the Admin & Agent dashboards.
-    2. Sends an **Automated Email Reminder** to the client for overdue payment settlement.
+    2. Sends **Automated Email Reminders** (T-3, T-0, T+3 days) to the client for overdue payment settlement.
 
 ---
 
-## 🤖 3. Automation & Error Reduction Suite
+## ⚡ 3. 13-Stage Automation & Less-Manual Workflow Matrix
 
-To drastically reduce manual data entry errors, save operational time, and ensure financial accuracy across the platform:
-
-### 1. AI Tech-Pack & Spec Parser (OCR & LLM Extraction)
-* **Problem:** Manual typing of fabric specs, GSM, pantone colors, size charts, and measurements leads to typos that ruin factory production.
-* **Automation:** Upload any PDF/Image tech-pack or client spec sheet. The ERP automatically extracts fabric composition, measurement grids (S/M/L/XL), target price, and colorways into Stage 1 fields.
-
-### 2. Auto-Sync Courier Tracking API (DHL, FedEx, UPS, AfterShip)
-* **Problem:** Staff manually checking tracking links and updating delivery status in Stage 4 & Stage 11.
-* **Automation:** Polling courier APIs automatically updates stage statuses (`Dispatched` ➔ `In Transit` ➔ `Delivered`) and alerts clients the moment packages arrive.
-
-### 3. Automated Margin & FX Currency Engine
-* **Problem:** Currency conversion math errors (USD, EUR, GBP, INR, RMB), freight margin calculation mistakes, or incorrect FOB/CIF quotes.
-* **Automation:** Real-time Forex rates integration + automatic calculation of Buyer Costing from Supplier Costing:
-  $$\text{Buyer Price} = \frac{\text{Supplier Price} + \text{Freight}}{1 - \text{Agency Margin \%}}$$
-
-### 4. Event-Driven WhatsApp & Email Webhooks
-* **Problem:** Delays in manually informing clients about milestone approvals or tracking links.
-* **Automation:** Instant WhatsApp & Email notifications triggered on Checkpoints (e.g. Checkpoint 1 quote ready, sample dispatched, AQL inspection passed).
-
-### 5. Supplier Capacity & Risk Scorecard
-* **Problem:** Assigning orders to factories that are overloaded or have poor On-Time Delivery (OTD %) history.
-* **Automation:** Real-time scorecard calculates active load, OTD %, and quality pass rate, warning admins before an order is placed with a high-risk supplier.
-
-### 6. Automated Invoice Reminders & Overdue Tracking
-* **Problem:** Forgetting to follow up on unpaid sample or bulk invoices.
-* **Automation:** Automated T-3, T-0, and T+3 overdue notification engine for finance teams and clients.
-
-### 7. Automated AQL 2.5 Inspection Calculator
-* **Problem:** Manual calculation of sample inspection size and allowed defect thresholds.
-* **Automation:** Input bulk quantity (e.g., 5,000 units), system automatically computes required sample inspection size (e.g., 200 units) and major/minor defect limits.
-
-### 8. Immutable Milestone Locking & Versioning
-* **Problem:** Accidental modification of approved tech-packs or quotes after client sign-off.
-* **Automation:** Once Stage 3 or 7 is approved, the ERP locks the specs. Modifications require an Admin Unlock Request logged in the audit trail.
+| Stage # & Name | ❌ Currently Manual Action | 🤖 Automated "Less Manual" Solution (ERP + Email) |
+| :--- | :--- | :--- |
+| **Stage 1: Enquiry Received** | Typing client info, specs, date, and source manually. | **Auto-Ingest:** Web leads auto-create Stage 1 records with Enquiry ID, source, and agent assigned by region. |
+| **Stage 2: Sourcing** | Manually searching factory catalogs and emailing RFQs. | **Auto-Match Engine:** Ranks top 3 best-fit factories by category & MOQ automatically, with 1-click RFQ emails. |
+| **Stage 3: Costing** | Hand-calculating margins, CIF/FOB pricing, and quote emails. | **Auto-Margin & Email Trigger:** Enter factory cost $\rightarrow$ auto-calculates buyer price, builds PDF, and emails Checkpoint 1 quote link. |
+| **Stage 4: Sampling** | Re-typing product specs, sizes, and tracking info. | **Auto-Inherit Specs:** Specs, fabric details, and colorways copy forward automatically from Stage 1 & 3 into Stage 4. |
+| **Stage 5: Sample Invoice** | Writing sample invoices manually in Excel/Word. | **1-Click Invoice Email:** System pulls sample fee + courier cost from Stage 4, creates invoice `#SMP-INV-XXX`, and emails client. |
+| **Stage 6: Sample Payment** | Manually checking bank statements & typing amounts. | **Payment Reminders & Excel:** Ledger balance auto-calculated, 1-click email payment reminders, and CSV/Excel export. |
+| **Stage 7: Client Approval** | Waiting for manual email replies and updating status. | **Self-Service Client Portal Approval:** Client approves sample on tracking portal $\rightarrow$ auto-logs sign-off timestamp & sends confirmation email. |
+| **Stage 8: Bulk Order** | Re-entering quantity, unit price, PO numbers, and value. | **Auto-Calculated Bulk PO:** Total Order Value ($\text{Qty} \times \text{Approved Stage 3 Unit Price}$) and PO document auto-generate in 1 click. |
+| **Stage 9: Production** | Calling/emailing factories repeatedly for progress updates. | **Milestone Progress Tracking:** Agent logs production completion % with automatic delay risk detection alerts. |
+| **Stage 10: Quality Check** | Manually calculating inspection sizes & defect limits. | **Auto AQL 2.5 Calculator:** Input bulk qty $\rightarrow$ auto-populates required inspection sample size & max allowed major/minor defect limits. |
+| **Stage 11: Shipment** | Checking container tracking and drafting delivery emails. | **Shipment Email Trigger:** Decoupled email notice sending carrier tracking info and container ETA to the client in 1 click. |
+| **Stage 12: Bulk Invoice** | Manually drafting commercial invoice & due dates. | **Auto Commercial Invoice Email:** Pulls Stage 8 value minus Stage 6 sample credits, sets Net 30 due date, and emails invoice PDF. |
+| **Stage 13: Bulk Payment** | Monitoring bank accounts for late payments & reminder emails. | **Automated Overdue Email Engine:** Automated T-3, T-0, and T+3 email reminders sent to client if payment is unpaid by due date. |
 
 ---
 
@@ -198,16 +184,16 @@ To onboard bulk client enquiries and supplier directories without manual data en
 
 ## 📊 5. Technical Feasibility & Implementation Matrix
 
-| Feature Module | Feasibility | Database Changes | UI / Component Changes |
-| :--- | :---: | :---: | :---: |
-| **RBAC (Admin vs. Agent)** | 100% | ❌ No (Existing Roles) | Yes (Data Masking Components) |
-| **Public Client Tracking Link** | 100% | Yes (`tracking_token`) | Yes (New `/track` public route) |
-| **Stage 1 (Source, MOQ, Type)** | 100% | Yes (Expand `stage_data`) | Yes (`src/routes/admin/tracker/enquiries.tsx`) |
-| **Stage 2 (Auto-Match + PDF Export)** | 100% | ❌ No | Yes (Supplier Ranker + PDF Utility) |
-| **Stage 3 & 4 (Dual Costing)** | 100% | ❌ No | Yes (Split Supplier/Buyer View) |
-| **Stage 6 (Payment Ledger + Excel)**| 100% | ❌ No | Yes (Export Utility) |
-| **Stage 7 & 11 (PDF & Shipment Email)**| 100% | ❌ No | Yes (Email & PDF Generators) |
-| **Stage 13 (Automated Overdue Email)**| 100% | Yes (Due Date Cron/Worker) | Yes (ERP Alert Badges) |
-| **AI Tech-Pack Parser** | 100% | ❌ No | Yes (File Upload Parser Component) |
-| **Auto Courier Sync (DHL/FedEx)** | 100% | ❌ No | Yes (Tracking API Integrator) |
-| **Bulk Excel Import Engine** | 100% | ❌ No | Yes (`ExcelImportModal` Component) |
+| Feature Module | Feasibility | Database Changes | UI / Component Changes | Email Trigger / Integration |
+| :--- | :---: | :---: | :---: | :---: |
+| **RBAC (Admin vs. Agent)** | 100% | ❌ No (Existing Roles) | Yes (Data Masking) | N/A |
+| **Public Client Tracking Link** | 100% | Yes (`tracking_token`) | Yes (`/track` route) | Yes (Token link in emails) |
+| **Stage 1 (Source, MOQ, Type)** | 100% | Yes (Expand `stage_data`) | Yes ([enquiries.tsx](file:///Users/shivamsharma/Downloads/maisone-ai-sourcing-edge-main/src/routes/admin/tracker/enquiries.tsx)) | Auto-assignment email |
+| **Stage 2 (Auto-Match + PDF Export)** | 100% | ❌ No | Yes (Supplier Ranker) | RFQ email to factory |
+| **Stage 3 (Dual Costing & Checkpoint 1)**| 100% | ❌ No | Yes (Split Costing UI) | Quote approval email |
+| **Stage 5 & 6 (Sample Invoice & Ledger)**| 100% | ❌ No | Yes (Export & Ledger UI)| Sample invoice & reminder email |
+| **Stage 7 (Client Approval)** | 100% | ❌ No | Yes (Sign-Off Audit) | Approval confirmation email |
+| **Stage 10 (Auto AQL 2.5 Calc)** | 100% | ❌ No | Yes (AQL Calculator) | QC pass/fail report email |
+| **Stage 11 & 12 (Shipment & Bulk Inv)** | 100% | ❌ No | Yes (Invoice & Dispatch) | Shipment notice & Invoice email |
+| **Stage 13 (Automated Overdue Email)**| 100% | Yes (Due Date Worker) | Yes (ERP Alert Badges) | T-3, T-0, T+3 Overdue emails |
+| **Bulk Excel Import Engine** | 100% | ❌ No | Yes (`ExcelImportModal`) | Batch summary email |
