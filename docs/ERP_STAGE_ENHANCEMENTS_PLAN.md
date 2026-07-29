@@ -1,6 +1,6 @@
 # 🚀 Maisone AI Sourcing Edge — ERP 13-Stage Architectural & Feasibility Blueprint
 
-This document outlines the technical feasibility, architectural design, and step-by-step implementation blueprint for enhancing the Maisone Sourcing ERP platform across all 13 stages, Role-Based Access Control (RBAC), and the Public Client Portal.
+This document outlines the technical feasibility, architectural design, and step-by-step implementation blueprint for enhancing the Maisone Sourcing ERP platform across all 13 stages, Role-Based Access Control (RBAC), Public Client Portal, Automation Utilities, and Bulk Excel Import Workflows.
 
 ---
 
@@ -135,9 +135,70 @@ This document outlines the technical feasibility, architectural design, and step
 
 ---
 
-## 📊 Technical Feasibility Summary Matrix
+## 🤖 3. Automation & Error Reduction Suite
 
-| Step / Feature | Feasibility | Database Changes | UI / Component Changes |
+To drastically reduce manual data entry errors, save operational time, and ensure financial accuracy across the platform:
+
+### 1. AI Tech-Pack & Spec Parser (OCR & LLM Extraction)
+* **Problem:** Manual typing of fabric specs, GSM, pantone colors, size charts, and measurements leads to typos that ruin factory production.
+* **Automation:** Upload any PDF/Image tech-pack or client spec sheet. The ERP automatically extracts fabric composition, measurement grids (S/M/L/XL), target price, and colorways into Stage 1 fields.
+
+### 2. Auto-Sync Courier Tracking API (DHL, FedEx, UPS, AfterShip)
+* **Problem:** Staff manually checking tracking links and updating delivery status in Stage 4 & Stage 11.
+* **Automation:** Polling courier APIs automatically updates stage statuses (`Dispatched` ➔ `In Transit` ➔ `Delivered`) and alerts clients the moment packages arrive.
+
+### 3. Automated Margin & FX Currency Engine
+* **Problem:** Currency conversion math errors (USD, EUR, GBP, INR, RMB), freight margin calculation mistakes, or incorrect FOB/CIF quotes.
+* **Automation:** Real-time Forex rates integration + automatic calculation of Buyer Costing from Supplier Costing:
+  $$\text{Buyer Price} = \frac{\text{Supplier Price} + \text{Freight}}{1 - \text{Agency Margin \%}}$$
+
+### 4. Event-Driven WhatsApp & Email Webhooks
+* **Problem:** Delays in manually informing clients about milestone approvals or tracking links.
+* **Automation:** Instant WhatsApp & Email notifications triggered on Checkpoints (e.g. Checkpoint 1 quote ready, sample dispatched, AQL inspection passed).
+
+### 5. Supplier Capacity & Risk Scorecard
+* **Problem:** Assigning orders to factories that are overloaded or have poor On-Time Delivery (OTD %) history.
+* **Automation:** Real-time scorecard calculates active load, OTD %, and quality pass rate, warning admins before an order is placed with a high-risk supplier.
+
+### 6. Automated Invoice Reminders & Overdue Tracking
+* **Problem:** Forgetting to follow up on unpaid sample or bulk invoices.
+* **Automation:** Automated T-3, T-0, and T+3 overdue notification engine for finance teams and clients.
+
+### 7. Automated AQL 2.5 Inspection Calculator
+* **Problem:** Manual calculation of sample inspection size and allowed defect thresholds.
+* **Automation:** Input bulk quantity (e.g., 5,000 units), system automatically computes required sample inspection size (e.g., 200 units) and major/minor defect limits.
+
+### 8. Immutable Milestone Locking & Versioning
+* **Problem:** Accidental modification of approved tech-packs or quotes after client sign-off.
+* **Automation:** Once Stage 3 or 7 is approved, the ERP locks the specs. Modifications require an Admin Unlock Request logged in the audit trail.
+
+---
+
+## 📊 4. Bulk Excel / CSV Import Engine
+
+To onboard bulk client enquiries and supplier directories without manual data entry:
+
+```
+[ 📄 Step 1: Upload File ] ➔ [ 🔍 Step 2: Validate & Preview Data ] ➔ [ 🚀 Step 3: Bulk Insert ]
+```
+
+### A. Client Enquiry Excel Import
+* **Import Flow:** Upload `.xlsx`, `.xls`, or `.csv` via the **"Import Enquiries"** modal on `enquiries.tsx`.
+* **Smart Matching:** Auto-matches `Client Name` to existing clients (or auto-creates client record if new).
+* **Auto-Seeding:** Auto-generates sequential enquiry IDs (`ENQ-2026-001`, `ENQ-2026-002`...) and seeds Stage 1 data.
+* **Template Headers:** `Client Name`, `Country`, `Product Reference`, `Target Price`, `Channel`, `Fabric Specs`, `Source`, `Quantity`.
+
+### B. Factory & Supplier Excel Import
+* **Import Flow:** Upload supplier catalogs via **"Import Factories"** modal on `factories.tsx` / `suppliers.tsx`.
+* **Duplicate Detection:** Validates `Email` and `Factory Name` against DB to prevent duplicates.
+* **Data Formatting:** Formats lead time integer days, rating scores, and categories automatically.
+* **Template Headers:** `Factory Name`, `Country`, `City`, `Categories`, `Lead Time (Days)`, `Contact Person`, `Email`, `Phone`, `Rating`, `OTD %`.
+
+---
+
+## 📊 5. Technical Feasibility & Implementation Matrix
+
+| Feature Module | Feasibility | Database Changes | UI / Component Changes |
 | :--- | :---: | :---: | :---: |
 | **RBAC (Admin vs. Agent)** | 100% | ❌ No (Existing Roles) | Yes (Data Masking Components) |
 | **Public Client Tracking Link** | 100% | Yes (`tracking_token`) | Yes (New `/track` public route) |
@@ -147,3 +208,6 @@ This document outlines the technical feasibility, architectural design, and step
 | **Stage 6 (Payment Ledger + Excel)**| 100% | ❌ No | Yes (Export Utility) |
 | **Stage 7 & 11 (PDF & Shipment Email)**| 100% | ❌ No | Yes (Email & PDF Generators) |
 | **Stage 13 (Automated Overdue Email)**| 100% | Yes (Due Date Cron/Worker) | Yes (ERP Alert Badges) |
+| **AI Tech-Pack Parser** | 100% | ❌ No | Yes (File Upload Parser Component) |
+| **Auto Courier Sync (DHL/FedEx)** | 100% | ❌ No | Yes (Tracking API Integrator) |
+| **Bulk Excel Import Engine** | 100% | ❌ No | Yes (`ExcelImportModal` Component) |
