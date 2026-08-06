@@ -153,7 +153,6 @@ export const fr = {
       "Création de LookBooks numériques",
       "Conception d'accessoires (étiquettes, étiquettes suspendues, sacs plastiques)",
       "Conception et développement d'emballages",
-      "Connexions futures avec des showrooms et détaillants",
       "Introductions commerciales (partenariats basés sur des commissions)"
     ],
     challengesTitle: "Les défis que nous résolvons",

@@ -222,7 +222,6 @@ export const en = {
       "Digital LookBook creation",
       "Production trims design (hangtags, labels, polybags)",
       "Packaging design & development",
-      "Future showroom & retailer connections",
       "Sales introductions (commission-based partnerships)"
     ],
     challengesTitle: "The Challenges We Solve",

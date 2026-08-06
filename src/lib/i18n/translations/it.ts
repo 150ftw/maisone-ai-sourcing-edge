@@ -153,7 +153,6 @@ export const it = {
       "Creazione di LookBook digitali",
       "Progettazione di finiture (cartellini, etichette, sacchetti)",
       "Progettazione e sviluppo di imballaggi",
-      "Future connessioni con showroom e rivenditori",
       "Presentazioni di vendita (partnership su commissione)"
     ],
     challengesTitle: "I problemi che risolviamo",
