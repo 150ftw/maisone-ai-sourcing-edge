@@ -73,17 +73,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Maisone — AI-Powered Fashion Sourcing" },
-      { name: "description", content: "Luxury AI fashion sourcing & supplier intelligence." },
+      { title: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+      { name: "description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
       { name: "author", content: "Maisone Global" },
+
+      // Open Graph / Facebook / WhatsApp / iMessage / LinkedIn
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://maisone.in" },
+      { property: "og:site_name", content: "Maisone Global" },
+      { property: "og:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+      { property: "og:description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
+      { property: "og:image", content: "https://maisone.in/og-image.png" },
+      { property: "og:image:secure_url", content: "https://maisone.in/og-image.png" },
+      { property: "og:image:type", content: "image/png" },
+      { property: "og:image:width", content: "1920" },
+      { property: "og:image:height", content: "1080" },
+      { property: "og:image:alt", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+
+      // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:title", content: "Maisone — AI-Powered Fashion Sourcing" },
-      { name: "twitter:title", content: "Maisone — AI-Powered Fashion Sourcing" },
-      { property: "og:description", content: "Luxury AI fashion sourcing & supplier intelligence." },
-      { name: "twitter:description", content: "Luxury AI fashion sourcing & supplier intelligence." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/00f0a3e9-dfef-4925-b21c-34cfc756c65d/id-preview-958309b4--db225a97-5b5e-4818-b350-08716be93320.lovable.app-1778390532913.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/00f0a3e9-dfef-4925-b21c-34cfc756c65d/id-preview-958309b4--db225a97-5b5e-4818-b350-08716be93320.lovable.app-1778390532913.png" },
+      { name: "twitter:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+      { name: "twitter:description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
+      { name: "twitter:image", content: "https://maisone.in/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
