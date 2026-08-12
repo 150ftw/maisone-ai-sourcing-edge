@@ -86,8 +86,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: "https://maisone.in/og-image.png" },
       { property: "og:image:secure_url", content: "https://maisone.in/og-image.png" },
       { property: "og:image:type", content: "image/png" },
-      { property: "og:image:width", content: "1920" },
-      { property: "og:image:height", content: "1080" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
 
       // Twitter / X
