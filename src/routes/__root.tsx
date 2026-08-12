@@ -86,12 +86,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:image", content: "https://maisone.in/og-image.png" },
       { property: "og:image:secure_url", content: "https://maisone.in/og-image.png" },
       { property: "og:image:type", content: "image/png" },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+      { property: "og:image:width", content: "1024" },
+      { property: "og:image:height", content: "1024" },
+      { property: "og:image:alt", content: "Maisone Global Logo" },
 
       // Twitter / X
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
       { name: "twitter:description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
       { name: "twitter:image", content: "https://maisone.in/og-image.png" },
