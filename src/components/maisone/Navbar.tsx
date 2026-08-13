@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Moon, Sun, Menu, X, ChevronDown, Info, Scissors } from "lucide-react";
+import { Moon, Sun, Menu, X, Info, Scissors } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
 import { useTheme } from "@/components/theme-provider";
@@ -48,27 +48,7 @@ export function Navbar() {
               <a href="/#services" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.services")}</a>
               <a href="/#categories" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.categories")}</a>
 
-              {/* Platform Dropdown */}
-              <div className="relative group">
-                <div className="flex items-center gap-1 text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground group-hover:text-black dark:group-hover:text-foreground transition-colors py-2 cursor-pointer">
-                  <a href="/#dashboard" className="outline-none">{t("nav.platform")}</a>
-                  <ChevronDown className="size-3.5 transition-transform duration-300 group-hover:rotate-180" />
-                </div>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-48 rounded-xl glass-strong border border-border p-2 opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-300 origin-top shadow-xl">
-                  <a
-                    href="/#dashboard"
-                    className="block text-xs font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                  >
-                    {t("nav.console")}
-                  </a>
-                  <a
-                    href="/#trends"
-                    className="block text-xs font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground hover:bg-secondary/40 rounded-lg px-3 py-2.5 transition-all"
-                  >
-                    {t("nav.aiTrendForecast")}
-                  </a>
-                </div>
-              </div>
+              <a href="/#trends" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.platform")}</a>
 
               <a href="/#founders" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.founders")}</a>
               <a href="/#blog" className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground transition-colors">{t("nav.blog")}</a>
@@ -146,24 +126,7 @@ export function Navbar() {
             <a href="/#services" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.services")}</a>
             <a href="/#categories" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.categories")}</a>
 
-            {/* Mobile Platform Links */}
-            <div className="flex flex-col gap-1.5 pl-3 border-l border-border/50 my-1">
-              <a href="/#dashboard" onClick={() => setOpen(false)} className="text-[10px] uppercase tracking-widest text-muted-foreground/60 hover:text-foreground px-2 py-1">{t("nav.platform")}</a>
-              <a
-                href="/#dashboard"
-                onClick={() => setOpen(false)}
-                className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground px-2 py-1.5"
-              >
-                {t("nav.console")}
-              </a>
-              <a
-                href="/#trends"
-                onClick={() => setOpen(false)}
-                className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground px-2 py-1.5"
-              >
-                {t("nav.aiTrendForecast")}
-              </a>
-            </div>
+            <a href="/#trends" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.platform")}</a>
 
             <a href="/#founders" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.founders")}</a>
             <a href="/#blog" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.blog")}</a>

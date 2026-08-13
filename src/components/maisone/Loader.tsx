@@ -10,8 +10,18 @@ export function Loader() {
     }
     return "loading";
   });
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   useEffect(() => {
+    // Preload machine PNG image immediately in memory upon mount
+    const img = new Image();
+    img.src = "/sewing-machine.png";
+    if (img.complete) {
+      setImageLoaded(true);
+    } else {
+      img.onload = () => setImageLoaded(true);
+    }
+
     // If it's already done from session storage, do nothing
     if (phase === "done") {
       document.body.style.overflow = "";
@@ -44,6 +54,15 @@ export function Loader() {
 
   return (
     <div className="fixed inset-0 z-[100] overflow-hidden pointer-events-none">
+      {/* Hidden preloader element to force browser image fetch priority */}
+      <img
+        src="/sewing-machine.png"
+        alt=""
+        className="hidden"
+        aria-hidden="true"
+        onLoad={() => setImageLoaded(true)}
+      />
+
       <AnimatePresence>
         {/* Top Fabric Panel */}
         {phase !== "done" && (
@@ -89,11 +108,20 @@ export function Loader() {
               className="absolute top-1/2 -translate-y-[69%] z-30 -translate-x-[80%]"
             >
               <motion.div animate={{ x: [-2, 2, -2] }} transition={{ duration: 0.15, repeat: Infinity, ease: "linear" }}>
-                <img src="/sewing-machine.png" alt="Sewing Machine" className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert" />
+                <img 
+                  src="/sewing-machine.png" 
+                  alt="Sewing Machine" 
+                  decoding="async"
+                  onLoad={() => setImageLoaded(true)}
+                  className={`w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert transition-opacity duration-300 ${
+                    imageLoaded ? "opacity-100" : "opacity-0 absolute inset-0"
+                  }`} 
+                />
+                {!imageLoaded && (
+                  <SewingMachine className="w-32 md:w-48 lg:w-56 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.1)] dark:invert text-foreground" />
+                )}
               </motion.div>
             </motion.div>
-
-
 
             {/* Sewing flex row for perfect alignment */}
             <div className="absolute w-full top-1/2 -translate-y-1/2 flex items-center z-40">
@@ -130,8 +158,6 @@ export function Loader() {
               className="flex flex-col items-center relative"
             >
               <Logo className="h-72 w-72 relative z-10" showText={false} />
-              
-              {/* Text Removed as requested */}
 
               {/* Tape Measure Loading Bar */}
               <motion.div 
