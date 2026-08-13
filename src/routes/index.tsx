@@ -9,7 +9,6 @@ import { About } from "@/components/maisone/About";
 import { WhyMaisone } from "@/components/maisone/WhyMaisone";
 import { HowWeWork } from "@/components/maisone/HowWeWork";
 import { ProductCategories } from "@/components/maisone/ProductCategories";
-import { Dashboard } from "@/components/maisone/Dashboard";
 import { Founders } from "@/components/maisone/Founders";
 import { ExtraMile } from "@/components/maisone/ExtraMile";
 import { Partners } from "@/components/maisone/Partners";
@@ -162,7 +161,6 @@ function Index() {
           <WhyMaisone />
           <HowWeWork />
           <ProductCategories />
-          <Dashboard />
           <TrendForecast />
 
           <Blogs />
