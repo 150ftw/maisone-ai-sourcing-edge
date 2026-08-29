@@ -74,7 +74,15 @@ const sendChatFn = createServerFn({ method: "POST" })
 
       const apiKey = process.env.KIMI_API_KEY;
       const baseURL = process.env.KIMI_BASE_URL || "https://integrate.api.nvidia.com/v1";
-      const model = process.env.KIMI_MODEL || "meta/llama-3.2-11b-vision-instruct";
+      let model = process.env.KIMI_MODEL || "meta/llama-3.2-11b-vision-instruct";
+      // Auto-fallback deprecated/sunsetted NVIDIA models to active model
+      if (
+        !model ||
+        model === "meta/llama-3.1-8b-instruct" ||
+        model === "meta/llama-3.3-70b-instruct"
+      ) {
+        model = "meta/llama-3.2-11b-vision-instruct";
+      }
 
       if (!apiKey) {
         return new Response(
