@@ -19,8 +19,8 @@ export const generateTrendForecastFn = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { region, season } = data;
     const apiKey = process.env.KIMI_API_KEY;
-    const baseURL = process.env.KIMI_BASE_URL || "https://api.moonshot.cn/v1";
-    const model = process.env.KIMI_MODEL || "moonshot-v1-8k";
+    const baseURL = process.env.KIMI_BASE_URL || "https://integrate.api.nvidia.com/v1";
+    const model = process.env.KIMI_MODEL || "meta/llama-3.2-11b-vision-instruct";
 
     if (!apiKey) {
       throw new Error("Missing KIMI_API_KEY environment variable.");

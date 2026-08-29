@@ -11,33 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SustainabilityRouteImport } from './routes/sustainability'
-import { Route as SupplierRequestRouteImport } from './routes/supplier-request'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as HowWeWorkRouteImport } from './routes/how-we-work'
 import { Route as FoundersRouteImport } from './routes/founders'
 import { Route as ComplianceRouteImport } from './routes/compliance'
-import { Route as BookDemoRouteImport } from './routes/book-demo'
 import { Route as AssistantRouteImport } from './routes/assistant'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as BlogBlogIdRouteImport } from './routes/blog.$blogId'
-import { Route as AdminTrendsRouteImport } from './routes/admin/trends'
-import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
-import { Route as AdminSuppliersRouteImport } from './routes/admin/suppliers'
-import { Route as AdminSupplierRequestsRouteImport } from './routes/admin/supplier-requests'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminInquiriesRouteImport } from './routes/admin/inquiries'
-import { Route as AdminBlogsRouteImport } from './routes/admin/blogs'
-import { Route as AdminTrackerIndexRouteImport } from './routes/admin/tracker/index'
-import { Route as AdminTrackerSettingsRouteImport } from './routes/admin/tracker/settings'
-import { Route as AdminTrackerReportsRouteImport } from './routes/admin/tracker/reports'
-import { Route as AdminTrackerFinanceRouteImport } from './routes/admin/tracker/finance'
-import { Route as AdminTrackerFactoriesRouteImport } from './routes/admin/tracker/factories'
-import { Route as AdminTrackerEnquiriesRouteImport } from './routes/admin/tracker/enquiries'
-import { Route as AdminTrackerClientsRouteImport } from './routes/admin/tracker/clients'
-import { Route as AdminTrackerAgentsRouteImport } from './routes/admin/tracker/agents'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -47,11 +28,6 @@ const TermsRoute = TermsRouteImport.update({
 const SustainabilityRoute = SustainabilityRouteImport.update({
   id: '/sustainability',
   path: '/sustainability',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SupplierRequestRoute = SupplierRequestRouteImport.update({
-  id: '/supplier-request',
-  path: '/supplier-request',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -74,19 +50,9 @@ const ComplianceRoute = ComplianceRouteImport.update({
   path: '/compliance',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BookDemoRoute = BookDemoRouteImport.update({
-  id: '/book-demo',
-  path: '/book-demo',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -99,291 +65,96 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminRoute,
-} as any)
 const BlogBlogIdRoute = BlogBlogIdRouteImport.update({
   id: '/blog/$blogId',
   path: '/blog/$blogId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminTrendsRoute = AdminTrendsRouteImport.update({
-  id: '/trends',
-  path: '/trends',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
-  id: '/testimonials',
-  path: '/testimonials',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
-  id: '/suppliers',
-  path: '/suppliers',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminSupplierRequestsRoute = AdminSupplierRequestsRouteImport.update({
-  id: '/supplier-requests',
-  path: '/supplier-requests',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminInquiriesRoute = AdminInquiriesRouteImport.update({
-  id: '/inquiries',
-  path: '/inquiries',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminBlogsRoute = AdminBlogsRouteImport.update({
-  id: '/blogs',
-  path: '/blogs',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerIndexRoute = AdminTrackerIndexRouteImport.update({
-  id: '/tracker/',
-  path: '/tracker/',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerSettingsRoute = AdminTrackerSettingsRouteImport.update({
-  id: '/tracker/settings',
-  path: '/tracker/settings',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerReportsRoute = AdminTrackerReportsRouteImport.update({
-  id: '/tracker/reports',
-  path: '/tracker/reports',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerFinanceRoute = AdminTrackerFinanceRouteImport.update({
-  id: '/tracker/finance',
-  path: '/tracker/finance',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerFactoriesRoute = AdminTrackerFactoriesRouteImport.update({
-  id: '/tracker/factories',
-  path: '/tracker/factories',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerEnquiriesRoute = AdminTrackerEnquiriesRouteImport.update({
-  id: '/tracker/enquiries',
-  path: '/tracker/enquiries',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerClientsRoute = AdminTrackerClientsRouteImport.update({
-  id: '/tracker/clients',
-  path: '/tracker/clients',
-  getParentRoute: () => AdminRoute,
-} as any)
-const AdminTrackerAgentsRoute = AdminTrackerAgentsRouteImport.update({
-  id: '/tracker/agents',
-  path: '/tracker/agents',
-  getParentRoute: () => AdminRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
-  '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
   '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
-  '/supplier-request': typeof SupplierRequestRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/inquiries': typeof AdminInquiriesRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
-  '/admin/suppliers': typeof AdminSuppliersRoute
-  '/admin/testimonials': typeof AdminTestimonialsRoute
-  '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
-  '/admin/': typeof AdminIndexRoute
-  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
-  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
-  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
-  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
-  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
-  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
-  '/admin/tracker/': typeof AdminTrackerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
-  '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
   '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
-  '/supplier-request': typeof SupplierRequestRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/inquiries': typeof AdminInquiriesRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
-  '/admin/suppliers': typeof AdminSuppliersRoute
-  '/admin/testimonials': typeof AdminTestimonialsRoute
-  '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
-  '/admin': typeof AdminIndexRoute
-  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
-  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
-  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
-  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
-  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
-  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
-  '/admin/tracker': typeof AdminTrackerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/admin': typeof AdminRouteWithChildren
   '/assistant': typeof AssistantRoute
-  '/book-demo': typeof BookDemoRoute
   '/compliance': typeof ComplianceRoute
   '/founders': typeof FoundersRoute
   '/how-we-work': typeof HowWeWorkRoute
   '/privacy': typeof PrivacyRoute
-  '/supplier-request': typeof SupplierRequestRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
-  '/admin/blogs': typeof AdminBlogsRoute
-  '/admin/inquiries': typeof AdminInquiriesRoute
-  '/admin/login': typeof AdminLoginRoute
-  '/admin/supplier-requests': typeof AdminSupplierRequestsRoute
-  '/admin/suppliers': typeof AdminSuppliersRoute
-  '/admin/testimonials': typeof AdminTestimonialsRoute
-  '/admin/trends': typeof AdminTrendsRoute
   '/blog/$blogId': typeof BlogBlogIdRoute
-  '/admin/': typeof AdminIndexRoute
-  '/admin/tracker/agents': typeof AdminTrackerAgentsRoute
-  '/admin/tracker/clients': typeof AdminTrackerClientsRoute
-  '/admin/tracker/enquiries': typeof AdminTrackerEnquiriesRoute
-  '/admin/tracker/factories': typeof AdminTrackerFactoriesRoute
-  '/admin/tracker/finance': typeof AdminTrackerFinanceRoute
-  '/admin/tracker/reports': typeof AdminTrackerReportsRoute
-  '/admin/tracker/settings': typeof AdminTrackerSettingsRoute
-  '/admin/tracker/': typeof AdminTrackerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/admin'
     | '/assistant'
-    | '/book-demo'
     | '/compliance'
     | '/founders'
     | '/how-we-work'
     | '/privacy'
-    | '/supplier-request'
     | '/sustainability'
     | '/terms'
-    | '/admin/blogs'
-    | '/admin/inquiries'
-    | '/admin/login'
-    | '/admin/supplier-requests'
-    | '/admin/suppliers'
-    | '/admin/testimonials'
-    | '/admin/trends'
     | '/blog/$blogId'
-    | '/admin/'
-    | '/admin/tracker/agents'
-    | '/admin/tracker/clients'
-    | '/admin/tracker/enquiries'
-    | '/admin/tracker/factories'
-    | '/admin/tracker/finance'
-    | '/admin/tracker/reports'
-    | '/admin/tracker/settings'
-    | '/admin/tracker/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/assistant'
-    | '/book-demo'
     | '/compliance'
     | '/founders'
     | '/how-we-work'
     | '/privacy'
-    | '/supplier-request'
     | '/sustainability'
     | '/terms'
-    | '/admin/blogs'
-    | '/admin/inquiries'
-    | '/admin/login'
-    | '/admin/supplier-requests'
-    | '/admin/suppliers'
-    | '/admin/testimonials'
-    | '/admin/trends'
     | '/blog/$blogId'
-    | '/admin'
-    | '/admin/tracker/agents'
-    | '/admin/tracker/clients'
-    | '/admin/tracker/enquiries'
-    | '/admin/tracker/factories'
-    | '/admin/tracker/finance'
-    | '/admin/tracker/reports'
-    | '/admin/tracker/settings'
-    | '/admin/tracker'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/admin'
     | '/assistant'
-    | '/book-demo'
     | '/compliance'
     | '/founders'
     | '/how-we-work'
     | '/privacy'
-    | '/supplier-request'
     | '/sustainability'
     | '/terms'
-    | '/admin/blogs'
-    | '/admin/inquiries'
-    | '/admin/login'
-    | '/admin/supplier-requests'
-    | '/admin/suppliers'
-    | '/admin/testimonials'
-    | '/admin/trends'
     | '/blog/$blogId'
-    | '/admin/'
-    | '/admin/tracker/agents'
-    | '/admin/tracker/clients'
-    | '/admin/tracker/enquiries'
-    | '/admin/tracker/factories'
-    | '/admin/tracker/finance'
-    | '/admin/tracker/reports'
-    | '/admin/tracker/settings'
-    | '/admin/tracker/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdminRoute: typeof AdminRouteWithChildren
   AssistantRoute: typeof AssistantRoute
-  BookDemoRoute: typeof BookDemoRoute
   ComplianceRoute: typeof ComplianceRoute
   FoundersRoute: typeof FoundersRoute
   HowWeWorkRoute: typeof HowWeWorkRoute
   PrivacyRoute: typeof PrivacyRoute
-  SupplierRequestRoute: typeof SupplierRequestRoute
   SustainabilityRoute: typeof SustainabilityRoute
   TermsRoute: typeof TermsRoute
   BlogBlogIdRoute: typeof BlogBlogIdRoute
@@ -403,13 +174,6 @@ declare module '@tanstack/react-router' {
       path: '/sustainability'
       fullPath: '/sustainability'
       preLoaderRoute: typeof SustainabilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/supplier-request': {
-      id: '/supplier-request'
-      path: '/supplier-request'
-      fullPath: '/supplier-request'
-      preLoaderRoute: typeof SupplierRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -440,25 +204,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComplianceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/book-demo': {
-      id: '/book-demo'
-      path: '/book-demo'
-      fullPath: '/book-demo'
-      preLoaderRoute: typeof BookDemoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/assistant': {
       id: '/assistant'
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -475,13 +225,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/': {
-      id: '/admin/'
-      path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
     '/blog/$blogId': {
       id: '/blog/$blogId'
       path: '/blog/$blogId'
@@ -489,165 +232,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogBlogIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/trends': {
-      id: '/admin/trends'
-      path: '/trends'
-      fullPath: '/admin/trends'
-      preLoaderRoute: typeof AdminTrendsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/testimonials': {
-      id: '/admin/testimonials'
-      path: '/testimonials'
-      fullPath: '/admin/testimonials'
-      preLoaderRoute: typeof AdminTestimonialsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/suppliers': {
-      id: '/admin/suppliers'
-      path: '/suppliers'
-      fullPath: '/admin/suppliers'
-      preLoaderRoute: typeof AdminSuppliersRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/supplier-requests': {
-      id: '/admin/supplier-requests'
-      path: '/supplier-requests'
-      fullPath: '/admin/supplier-requests'
-      preLoaderRoute: typeof AdminSupplierRequestsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/inquiries': {
-      id: '/admin/inquiries'
-      path: '/inquiries'
-      fullPath: '/admin/inquiries'
-      preLoaderRoute: typeof AdminInquiriesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/blogs': {
-      id: '/admin/blogs'
-      path: '/blogs'
-      fullPath: '/admin/blogs'
-      preLoaderRoute: typeof AdminBlogsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/': {
-      id: '/admin/tracker/'
-      path: '/tracker'
-      fullPath: '/admin/tracker/'
-      preLoaderRoute: typeof AdminTrackerIndexRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/settings': {
-      id: '/admin/tracker/settings'
-      path: '/tracker/settings'
-      fullPath: '/admin/tracker/settings'
-      preLoaderRoute: typeof AdminTrackerSettingsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/reports': {
-      id: '/admin/tracker/reports'
-      path: '/tracker/reports'
-      fullPath: '/admin/tracker/reports'
-      preLoaderRoute: typeof AdminTrackerReportsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/finance': {
-      id: '/admin/tracker/finance'
-      path: '/tracker/finance'
-      fullPath: '/admin/tracker/finance'
-      preLoaderRoute: typeof AdminTrackerFinanceRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/factories': {
-      id: '/admin/tracker/factories'
-      path: '/tracker/factories'
-      fullPath: '/admin/tracker/factories'
-      preLoaderRoute: typeof AdminTrackerFactoriesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/enquiries': {
-      id: '/admin/tracker/enquiries'
-      path: '/tracker/enquiries'
-      fullPath: '/admin/tracker/enquiries'
-      preLoaderRoute: typeof AdminTrackerEnquiriesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/clients': {
-      id: '/admin/tracker/clients'
-      path: '/tracker/clients'
-      fullPath: '/admin/tracker/clients'
-      preLoaderRoute: typeof AdminTrackerClientsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/admin/tracker/agents': {
-      id: '/admin/tracker/agents'
-      path: '/tracker/agents'
-      fullPath: '/admin/tracker/agents'
-      preLoaderRoute: typeof AdminTrackerAgentsRouteImport
-      parentRoute: typeof AdminRoute
-    }
   }
 }
-
-interface AdminRouteChildren {
-  AdminBlogsRoute: typeof AdminBlogsRoute
-  AdminInquiriesRoute: typeof AdminInquiriesRoute
-  AdminLoginRoute: typeof AdminLoginRoute
-  AdminSupplierRequestsRoute: typeof AdminSupplierRequestsRoute
-  AdminSuppliersRoute: typeof AdminSuppliersRoute
-  AdminTestimonialsRoute: typeof AdminTestimonialsRoute
-  AdminTrendsRoute: typeof AdminTrendsRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-  AdminTrackerAgentsRoute: typeof AdminTrackerAgentsRoute
-  AdminTrackerClientsRoute: typeof AdminTrackerClientsRoute
-  AdminTrackerEnquiriesRoute: typeof AdminTrackerEnquiriesRoute
-  AdminTrackerFactoriesRoute: typeof AdminTrackerFactoriesRoute
-  AdminTrackerFinanceRoute: typeof AdminTrackerFinanceRoute
-  AdminTrackerReportsRoute: typeof AdminTrackerReportsRoute
-  AdminTrackerSettingsRoute: typeof AdminTrackerSettingsRoute
-  AdminTrackerIndexRoute: typeof AdminTrackerIndexRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminBlogsRoute: AdminBlogsRoute,
-  AdminInquiriesRoute: AdminInquiriesRoute,
-  AdminLoginRoute: AdminLoginRoute,
-  AdminSupplierRequestsRoute: AdminSupplierRequestsRoute,
-  AdminSuppliersRoute: AdminSuppliersRoute,
-  AdminTestimonialsRoute: AdminTestimonialsRoute,
-  AdminTrendsRoute: AdminTrendsRoute,
-  AdminIndexRoute: AdminIndexRoute,
-  AdminTrackerAgentsRoute: AdminTrackerAgentsRoute,
-  AdminTrackerClientsRoute: AdminTrackerClientsRoute,
-  AdminTrackerEnquiriesRoute: AdminTrackerEnquiriesRoute,
-  AdminTrackerFactoriesRoute: AdminTrackerFactoriesRoute,
-  AdminTrackerFinanceRoute: AdminTrackerFinanceRoute,
-  AdminTrackerReportsRoute: AdminTrackerReportsRoute,
-  AdminTrackerSettingsRoute: AdminTrackerSettingsRoute,
-  AdminTrackerIndexRoute: AdminTrackerIndexRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdminRoute: AdminRouteWithChildren,
   AssistantRoute: AssistantRoute,
-  BookDemoRoute: BookDemoRoute,
   ComplianceRoute: ComplianceRoute,
   FoundersRoute: FoundersRoute,
   HowWeWorkRoute: HowWeWorkRoute,
   PrivacyRoute: PrivacyRoute,
-  SupplierRequestRoute: SupplierRequestRoute,
   SustainabilityRoute: SustainabilityRoute,
   TermsRoute: TermsRoute,
   BlogBlogIdRoute: BlogBlogIdRoute,

@@ -250,15 +250,15 @@ export function Hero() {
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <MotionLink
-              to="/book-demo"
+            <motion.a
+              href="mailto:info@maisone.com"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-foreground text-background text-sm font-medium transition-transform"
             >
               {t("hero.bookConsultation")}
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-            </MotionLink>
+            </motion.a>
             <motion.a
               href="#services"
               whileHover={{ scale: 1.02 }}
@@ -368,8 +368,8 @@ export function Hero() {
 
                 {/* Bottom CTA Row */}
                 <div className="flex items-center gap-6 pt-2">
-                  <MotionLink
-                    to="/book-demo"
+                  <motion.a
+                    href="mailto:info@maisone.com"
                     whileHover={{ 
                       scale: 1.08,
                       boxShadow: isDark 
@@ -401,7 +401,7 @@ export function Hero() {
                     >
                       <ArrowRight className="size-4 stroke-[2.5]" />
                     </motion.div>
-                  </MotionLink>
+                  </motion.a>
                 </div>
               </div>
 

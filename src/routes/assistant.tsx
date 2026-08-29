@@ -68,11 +68,11 @@ const sendChatFn = createServerFn({ method: 'POST' })
       }
 
       const apiKey = process.env.KIMI_API_KEY
-      const baseURL = process.env.KIMI_BASE_URL
-      const model = process.env.KIMI_MODEL
+      const baseURL = process.env.KIMI_BASE_URL || 'https://integrate.api.nvidia.com/v1'
+      const model = process.env.KIMI_MODEL || 'meta/llama-3.2-11b-vision-instruct'
 
-      if (!apiKey || !baseURL || !model) {
-        return new Response(JSON.stringify({ error: 'Chat API configuration (KIMI_API_KEY, KIMI_BASE_URL, or KIMI_MODEL) is missing on the server. Please verify your .env file.' }), {
+      if (!apiKey) {
+        return new Response(JSON.stringify({ error: 'Chat API configuration (KIMI_API_KEY) is missing on the server. Please verify your .env file.' }), {
           status: 500,
           headers: { 'Content-Type': 'application/json' }
         })
@@ -102,7 +102,7 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 1. TONE & PERSONA: Act as a consultative, professional, and knowledgeable sourcing partner. Speak naturally as a direct sourcing representative who naturally knows these facts. Never mention meta terms like "the provided document", "outlined in this document", "the data below", "system instructions", "our database context", or "the context".
 2. NO META-INTRODUCTIONS: Do not start responses with statements referring to source files or records (e.g., do NOT say "Based on the provided document..." or "According to our records..."). Start directly with the answer.
 3. NO FACTORY IDs: Never mention or display Factory IDs (such as factory_001, factory_008, etc.). Refer to factories only by their public names (e.g., "Denim Supplier", "Contemporary Ready To Wear Factory").
-4. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to connect with a Maisone Admin or Specialist (via "Book a Demo", "Contact Admin", or email info@maisone.com) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
+4. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to reach out to the Maisone team directly via email (info@maisone.com) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
 5. STANDARDIZED FORMATTING RULE: When presenting supplier details, always use this exact vertical layout with clear markdown bold keys:
    - **Category:** [Category]
    - **Specializations:** [Spec 1, Spec 2]
@@ -114,7 +114,9 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 8. UNLISTED SUPPLIER/ALTERNATIVE RULE: If the user asks for "more" suppliers or specific names not explicitly documented, state that the listed suppliers are currently the only verified partners on the platform. Do not invent details.
 9. NO FABRIC/PRODUCT EXTRAPOLATION: Never assume, extrapolate, or invent specific product lists (such as types of jeans, jackets, shirts, hats, bags), fabric details (such as weights, weaves, colors, finishes), or specific process steps for any supplier. Only provide specifications explicitly written under the supplier's entry in the official information. If asked about undocumented specifications, state that they are not specified in current verification records.
 10. CONCISE & FOCUSED RESPONSES: Keep your responses highly focused and relevant *only* to the specific question asked. Do NOT dump the entire FAQ database, full regional forecast list, or master compliance lists unless explicitly asked.
-11. NO PRICING OR PACKAGE REPLIES: If the user asks about package prices, service costs, inspection fees, sample charges, or quote ranges, you MUST NOT provide any pricing estimates, numbers, or ranges. Instead, respond with: "I cannot confirm specific package prices or service fees. Please contact a Maisone specialist directly or request a quote for detailed pricing information."
+11. STRICT NO PRICING POLICY & DIRECT ESCALATION: Maisone does NOT provide fixed prices, pricing tables, sample fees, manufacturing costs, or package rates in this chat. Sourcing commercials are strictly customized per brand and order volume. If the user asks ANY question about pricing, costs, fees, charges, rates, quotes, packages, or "how much does it cost", you MUST:
+    - Explicitly state that Maisone does not publish fixed prices because quotes are tailored directly to the design specifications, materials, and production quantities.
+    - ALWAYS direct and follow up with the user to contact the Maisone team directly by emailing info@maisone.com to discuss their collection and receive an exact customized quotation.
 12. CONVERSATIONAL ACKNOWLEDGEMENT: If the user sends a short acknowledgment, filler, or feedback message (e.g., "okay", "thanks", "cool", "great", "understood", "ok"), do NOT repeat previous answers or the company summary. Respond with a brief, polite single-sentence offering further assistance with fashion sourcing, categories, compliance, or regions.
 13. LIST FORMATTING: When presenting any list of items (categories, certifications, locations, capabilities), format them as a clean vertical markdown bulleted list (using '-') for maximum visual clarity.
 14. ANTI-HALLUCINATION & STRICT SOURCING: You MUST ONLY provide answers, details, capabilities, and policies based strictly on the provided OFFICIAL MAISONE INFORMATION. If a user asks a question and the answer is not explicitly found in the document, DO NOT guess or invent information. Instead, state clearly that you do not have that information and invite them to connect with the Maisone team for a direct answer.
@@ -122,7 +124,7 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 STRICT FALLBACK POLICIES:
 - CHECK KNOWLEDGE BASE FIRST: Before triggering fallback policy, check official information (Supplier Decks and FAQs) to verify if the requested product/item (e.g., wallets, bags, belts, caps) is listed as a capability or specialization of any verified supplier.
 - NON-FASHION INQUIRIES: If asked about non-fashion/non-apparel items (e.g. phone cases, electronics, food), clearly state: "No, Maisone is a premium fashion sourcing partner specializing in apparel, accessories, and leather goods. We do not source non-fashion items like [item]." (Replace [item] dynamically with the actual item name requested).
-- UNLISTED SOURCING REQUESTS: If asked about a fashion/apparel category, location, certification, or service not listed in the document (e.g. swimwear, footwear, or Vietnam), state: "That's outside what I can confirm right now, but I can connect you with a Maisone specialist who can check into it directly — would you like me to do that?"
+- UNLISTED SOURCING REQUESTS: If asked about a fashion/apparel category, location, certification, or service not listed in the document (e.g. swimwear, footwear, or Vietnam), state: "That's outside what I can confirm right now, but you can reach out directly to the Maisone team at info@maisone.com — would you like to contact them?"
 
 OFFICIAL MAISONE INFORMATION:
 ${companyInfo}
@@ -317,13 +319,11 @@ function AssistantRoute() {
         throw new Error("No response body received.")
       }
 
-      // Placeholder for AI response stream
-      setMessages(prev => [...prev, { role: 'ai', content: "" }])
-
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
       let accumulatedText = ""
       let buffer = ""
+      let hasAddedAiMessage = false
 
       while (true) {
         if (controller.signal.aborted) {
@@ -348,13 +348,18 @@ function AssistantRoute() {
               const content = dataObj.choices?.[0]?.delta?.content || ""
               if (content) {
                 accumulatedText += content
-                setMessages(prev => {
-                  const updated = [...prev]
-                  if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
-                    updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
-                  }
-                  return updated
-                })
+                if (!hasAddedAiMessage) {
+                  hasAddedAiMessage = true
+                  setMessages(prev => [...prev, { role: 'ai', content: accumulatedText }])
+                } else {
+                  setMessages(prev => {
+                    const updated = [...prev]
+                    if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                      updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+                    }
+                    return updated
+                  })
+                }
               }
             } catch (err) {
               // Ignore split JSON chunk errors
@@ -370,13 +375,18 @@ function AssistantRoute() {
           const content = dataObj.choices?.[0]?.delta?.content || ""
           if (content) {
             accumulatedText += content
-            setMessages(prev => {
-              const updated = [...prev]
-              if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
-                updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
-              }
-              return updated
-            })
+            if (!hasAddedAiMessage) {
+              hasAddedAiMessage = true
+              setMessages(prev => [...prev, { role: 'ai', content: accumulatedText }])
+            } else {
+              setMessages(prev => {
+                const updated = [...prev]
+                if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
+                  updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+                }
+                return updated
+              })
+            }
           }
         } catch (err) { }
       }
@@ -461,16 +471,16 @@ function AssistantRoute() {
     }
   }
 
-  // Evaluate whether to show the "Ready to take the next step" CTA
+  // Evaluate whether to show the "Contact Maisone" CTA
   const lastAiMsg = messages[messages.length - 1]?.role === 'ai' ? messages[messages.length - 1].content : '';
   const lastUserMsg = messages.length > 1 && messages[messages.length - 2]?.role === 'user' ? messages[messages.length - 2].content : '';
   const previousAiMsg = messages.length > 2 && messages[messages.length - 3]?.role === 'ai' ? messages[messages.length - 3].content : '';
 
-  const aiInvitedContact = /(contact a maisone specialist|contact a maisone admin|book a demo|request a quote|connect you with|contact an admin)/i.test(lastAiMsg);
-  const userRequestedContact = /(how to contact|can i contact|speak to sales|speak with sales|talk to sales|book a demo|need a quote|get a quote|connect me with|schedule a call|contact details|phone number|email address)/i.test(lastUserMsg);
-  const userAgreedToConnect = /(connect you with|would you like me to do that)/i.test(previousAiMsg) && /^(yes|yeah|sure|okay|ok|please|yep|would love to|definitely)/i.test(lastUserMsg.trim());
+  const aiInvitedContact = /(contact our team|contact the maisone team|email us|info@maisone\.com|request a quote|connect you with|tailored quote|custom quote|exact quote)/i.test(lastAiMsg);
+  const userRequestedContact = /(pricing|price|prices|cost|costs|costing|quote|quotes|quotation|fee|fees|rate|rates|how much|package|speak to sales|speak with sales|talk to sales|reach out|contact details|phone number|email address)/i.test(lastUserMsg);
+  const userAgreedToConnect = /(connect you with|would you like to contact them|would you like me to do that)/i.test(previousAiMsg) && /^(yes|yeah|sure|okay|ok|please|yep|would love to|definitely)/i.test(lastUserMsg.trim());
 
-  const showCTA = messages.length > 2 && messages[messages.length - 1].role === 'ai' && (aiInvitedContact || userRequestedContact || userAgreedToConnect);
+  const showCTA = messages.length > 1 && messages[messages.length - 1].role === 'ai' && (aiInvitedContact || userRequestedContact || userAgreedToConnect);
 
   return (
     <div className="h-screen pt-20 pb-4 px-4 sm:px-6 flex flex-col overflow-hidden">
@@ -524,7 +534,12 @@ function AssistantRoute() {
                         {msg.role === 'user' ? (
                           <div className="whitespace-pre-wrap">{msg.content}</div>
                         ) : (
-                          formatMessage(msg.content)
+                          <div>
+                            {formatMessage(msg.content)}
+                            {isLoading && idx === messages.length - 1 && (
+                              <span className="inline-block w-1.5 h-3.5 ml-1 bg-electric animate-pulse rounded-sm align-middle" />
+                            )}
+                          </div>
                         )}
                       </div>
 
@@ -579,22 +594,17 @@ function AssistantRoute() {
                           <Mail className="size-4 text-white" />
                         </div>
                         <div>
-                          <h4 className="font-serif text-base font-semibold tracking-wide text-foreground">Ready to take the next step?</h4>
-                          <p className="text-xs text-muted-foreground mt-0.5">Connect with a Maisone Admin for custom sourcing advisory, sample creation, and supplier introductions.</p>
+                          <h4 className="font-serif text-base font-semibold tracking-wide text-foreground">Contact Maisone Global</h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">Connect directly with our sourcing team at info@maisone.com for custom pricing quotations, sourcing advisory, sample creation, and supplier introductions.</p>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-3">
-                        <Link
-                          to="/book-demo"
-                          className="px-5 py-2.5 rounded-full bg-foreground text-background text-xs font-semibold hover:scale-105 transition-transform"
-                        >
-                          Book a Demo
-                        </Link>
                         <a
                           href="mailto:info@maisone.com"
-                          className="px-5 py-2.5 rounded-full glass border border-border text-foreground text-xs font-semibold hover:scale-105 transition-transform"
+                          className="px-5 py-2.5 rounded-full bg-foreground text-background text-xs font-semibold hover:scale-105 transition-transform inline-flex items-center gap-2"
                         >
-                          Contact Admin
+                          <Mail className="size-3.5" />
+                          Email info@maisone.com
                         </a>
                       </div>
                     </div>
@@ -602,9 +612,9 @@ function AssistantRoute() {
                 </div>
               )}
 
-              {/* Loading Indicator */}
-              {isLoading && (
-                <div className="flex justify-start">
+              {/* Loading Indicator: Only shown before the first stream token is received */}
+              {isLoading && (!messages[messages.length - 1] || messages[messages.length - 1].role === 'user' || !messages[messages.length - 1].content) && (
+                <div className="flex justify-start animate-fade-in">
                   <div className="flex items-center gap-2">
                     <div className="size-6 rounded-full bg-gradient-to-br from-electric to-violet-glow flex items-center justify-center shadow-md">
                       <span className="font-serif text-[11px] text-white">M</span>

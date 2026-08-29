@@ -42,7 +42,7 @@ export function Footer() {
             },
             {
               title: t("footer.suppliers"),
-              links: [{ name: t("footer.joinNetwork"), to: "/supplier-request" }],
+              links: [{ name: t("footer.joinNetwork"), to: "mailto:info@maisone.com" }],
             },
             {
               title: t("footer.legal"),

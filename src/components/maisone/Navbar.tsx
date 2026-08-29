@@ -55,19 +55,6 @@ export function Navbar() {
             </nav>
 
             <div className="flex items-center gap-2">
-              <Link
-                to="/supplier-request"
-                className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full border border-border bg-background/50 text-foreground hover:bg-secondary/50 transition-colors"
-              >
-                {t("nav.joinAsSupplier")}
-              </Link>
-              <Link
-                to="/book-demo"
-                className="hidden md:inline-flex items-center text-sm font-medium px-5 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
-              >
-                {t("nav.inquireAboutUs")}
-              </Link>
-
               {/* Utility Button */}
               <div className="relative">
                 <button
@@ -79,8 +66,6 @@ export function Navbar() {
                 >
                   <Info className="size-4" />
                 </button>
-
-
 
                 {settingsOpen && (
                   <motion.div
@@ -130,24 +115,6 @@ export function Navbar() {
 
             <a href="/#founders" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.founders")}</a>
             <a href="/#blog" onClick={() => setOpen(false)} className="text-sm font-medium text-[#2C2C2C]/80 dark:text-muted-foreground hover:text-black dark:hover:text-foreground py-2">{t("nav.blog")}</a>
-            
-            {/* Mobile language & action buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-2 border-t border-border/50">
-              <Link
-                to="/supplier-request"
-                onClick={() => setOpen(false)}
-                className="flex-1 text-center text-sm font-medium px-4 py-2.5 rounded-full border border-border bg-background/50 text-foreground hover:bg-secondary/50 transition-colors"
-              >
-                {t("nav.joinAsSupplier")}
-              </Link>
-              <Link
-                to="/book-demo"
-                onClick={() => setOpen(false)}
-                className="flex-1 text-center text-sm font-medium px-4 py-2.5 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
-              >
-                {t("nav.inquireAboutUs")}
-              </Link>
-            </div>
           </motion.div>
         )}
       </div>
