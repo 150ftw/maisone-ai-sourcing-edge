@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { User, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
@@ -65,10 +65,11 @@ Sourcing ethically in 2026 is not merely a marketing strategy or a compliance re
     author: "Elena Rostova",
     category: "Sustainability",
     image_url: "/images/DSC_6917.JPG",
-    read_time: "10 min read"
+    read_time: "10 min read",
   },
   {
-    title: "Navigating Global Textile Supply Chains: A Brand's Guide to Logistics & Tariff Engineering",
+    title:
+      "Navigating Global Textile Supply Chains: A Brand's Guide to Logistics & Tariff Engineering",
     content: `Introduction: The New Era of Supply Chain Management
 
 Managing a fashion brand's supply chain has always been a balancing act, but in 2026, the global geopolitical and environmental landscape has turned it into a complex, high-stakes game. Rising fuel costs, shipping lane congestion, and fluctuating trade tariffs mean that simple mistakes can destroy a label's profit margins.
@@ -117,8 +118,9 @@ Conclusion: Building a Resilient Supply Chain
 Resilience is the ultimate currency in global logistics. Brands that build flexible networks, invest in visibility software, and design products with tariff considerations in mind will not only survive disruptions, but will establish a significant competitive advantage over competitors stuck in legacy, rigid systems.`,
     author: "Marcus Vance",
     category: "Supply Chain",
-    image_url: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80",
-    read_time: "10 min read"
+    image_url:
+      "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=800&q=80",
+    read_time: "10 min read",
   },
   {
     title: "How AI is Revolutionizing Fashion Trend Forecasting: From Pixels to Production Line",
@@ -166,8 +168,8 @@ AI trend forecasting is not about replacing the human designer; it is about empo
     author: "Aria Chen",
     category: "Technology",
     image_url: "/images/Stock Img.avif",
-    read_time: "10 min read"
-  }
+    read_time: "10 min read",
+  },
 ];
 
 export function Blogs() {
@@ -175,20 +177,51 @@ export function Blogs() {
   const [loading, setLoading] = useState(true);
   const { t } = useLanguage();
 
-  const fetchBlogs = async () => {
+  const loadFromLocalStorage = useCallback(() => {
+    try {
+      const local = typeof window !== "undefined" ? localStorage.getItem("maisone_blogs_v4") : null;
+      if (local) {
+        setBlogs(JSON.parse(local));
+      } else {
+        // Seed initial sample blogs to LocalStorage if empty
+        const seeded: Blog[] = MOCK_BLOGS.map((b, idx) => ({
+          id: `local-blog-${idx}`,
+          created_at: new Date(Date.now() - idx * 86400000).toISOString(),
+          ...b,
+        }));
+        if (typeof window !== "undefined") {
+          localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
+        }
+        setBlogs(seeded);
+      }
+    } catch (err) {
+      console.error("Failed to load blogs from LocalStorage, resetting:", err);
+      const seeded: Blog[] = MOCK_BLOGS.map((b, idx) => ({
+        id: `local-blog-${idx}`,
+        created_at: new Date(Date.now() - idx * 86400000).toISOString(),
+        ...b,
+      }));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
+      }
+      setBlogs(seeded);
+    }
+  }, []);
+
+  const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
       // 1. Try Supabase with a 2-second timeout
-      const query = supabase
-        .from("blogs")
-        .select("*")
-        .order("created_at", { ascending: false });
+      const query = supabase.from("blogs").select("*").order("created_at", { ascending: false });
 
       const timeout = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Timeout")), 2000)
+        setTimeout(() => reject(new Error("Timeout")), 2000),
       );
 
-      const { data, error } = await (Promise.race([query, timeout]) as Promise<any>);
+      const { data, error } = await (Promise.race([query, timeout]) as Promise<{
+        data: Blog[] | null;
+        error: Error | null;
+      }>);
 
       if (error) throw error;
 
@@ -204,46 +237,21 @@ export function Blogs() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const loadFromLocalStorage = () => {
-    try {
-      const local = localStorage.getItem("maisone_blogs_v4");
-      if (local) {
-        setBlogs(JSON.parse(local));
-      } else {
-        // Seed initial sample blogs to LocalStorage if empty
-        const seeded: Blog[] = MOCK_BLOGS.map((b, idx) => ({
-          id: `local-blog-${idx}`,
-          created_at: new Date(Date.now() - idx * 86400000).toISOString(),
-          ...b
-        }));
-        localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
-        setBlogs(seeded);
-      }
-    } catch (err) {
-      console.error("Failed to load blogs from LocalStorage, resetting:", err);
-      const seeded: Blog[] = MOCK_BLOGS.map((b, idx) => ({
-        id: `local-blog-${idx}`,
-        created_at: new Date(Date.now() - idx * 86400000).toISOString(),
-        ...b
-      }));
-      localStorage.setItem("maisone_blogs_v4", JSON.stringify(seeded));
-      setBlogs(seeded);
-    }
-  };
+  }, [loadFromLocalStorage]);
 
   useEffect(() => {
     fetchBlogs();
-  }, []);
+  }, [fetchBlogs]);
 
   return (
     <section id="blog" className="py-24 border-t border-white/5 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-electric/5 to-transparent pointer-events-none opacity-40" />
-      
+
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("blogs.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            {t("blogs.label")}
+          </p>
           <h2 className="font-serif text-4xl sm:text-5xl tracking-tight mb-6">
             Maisone <span className="italic gradient-text font-serif">Journal</span>
           </h2>
@@ -252,7 +260,10 @@ export function Blogs() {
         {loading ? (
           <div className="grid md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-3xl border border-black/5 dark:border-white/5 bg-white dark:bg-white/[0.01] p-6 space-y-4 animate-pulse">
+              <div
+                key={i}
+                className="rounded-3xl border border-black/5 dark:border-white/5 bg-white dark:bg-white/[0.01] p-6 space-y-4 animate-pulse"
+              >
                 <div className="aspect-[16/10] bg-black/5 dark:bg-white/5 rounded-2xl w-full" />
                 <div className="h-4 bg-black/5 dark:bg-white/5 rounded w-1/3" />
                 <div className="h-6 bg-black/5 dark:bg-white/5 rounded w-full" />
@@ -280,7 +291,9 @@ export function Blogs() {
                     />
                     <div className="absolute top-4 left-4">
                       <span className="text-[9px] uppercase tracking-widest font-semibold bg-white/90 dark:bg-black/85 backdrop-blur-sm border border-black/5 dark:border-white/10 px-3 py-1 rounded-full text-electric">
-                        {t(`blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any) || blog.category}
+                        {t(
+                          `blogs.categories.${blog.category === "Supply Chain" ? "supplyChain" : blog.category.toLowerCase()}` as any,
+                        ) || blog.category}
                       </span>
                     </div>
                   </div>
@@ -288,15 +301,23 @@ export function Blogs() {
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-3">
                     <div className="flex items-center gap-4 text-[10px] text-black/50 dark:text-muted-foreground font-medium uppercase tracking-wider">
-                      <span className="flex items-center gap-1.5 font-bold"><User className="size-3 text-electric/80" /> {blog.author}</span>
+                      <span className="flex items-center gap-1.5 font-bold">
+                        <User className="size-3 text-electric/80" /> {blog.author}
+                      </span>
                       <span>•</span>
-                      <span>{blog.read_time.split(" ")[0]} {t("blogs.minRead")}</span>
+                      <span>
+                        {blog.read_time.split(" ")[0]} {t("blogs.minRead")}
+                      </span>
                     </div>
                     <h3 className="font-serif text-xl sm:text-2xl text-[#2C2C2C] dark:text-white tracking-tight group-hover:text-electric transition-colors line-clamp-2">
-                      {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title) : blog.title}
+                      {blog.id.startsWith("local-blog-")
+                        ? t(`blogs.mockBlogs.${blog.id}.title` as any) || blog.title
+                        : blog.title}
                     </h3>
                     <p className="text-xs text-black/60 dark:text-muted-foreground/80 leading-relaxed line-clamp-3">
-                      {blog.id.startsWith("local-blog-") ? (t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content) : blog.content}
+                      {blog.id.startsWith("local-blog-")
+                        ? t(`blogs.mockBlogs.${blog.id}.content` as any) || blog.content
+                        : blog.content}
                     </p>
                   </div>
                   <Link
@@ -304,7 +325,8 @@ export function Blogs() {
                     params={{ blogId: blog.id }}
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#2C2C2C] dark:text-white group-hover:text-electric transition-colors cursor-pointer self-start"
                   >
-                    {t("blogs.readArticle")} <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform" />
+                    {t("blogs.readArticle")}{" "}
+                    <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.article>

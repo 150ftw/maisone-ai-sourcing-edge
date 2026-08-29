@@ -3,7 +3,10 @@ import { WORLD_PATH } from "./world-path";
 
 const TShirt = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 16" {...props}>
-    <path d="M4 3 L7 3 C7 4.5 9 4.5 9 3 L12 3 L15 6 L13 8 L13 15 L3 15 L3 8 L1 6 Z" fill="currentColor" />
+    <path
+      d="M4 3 L7 3 C7 4.5 9 4.5 9 3 L12 3 L15 6 L13 8 L13 15 L3 15 L3 8 L1 6 Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
@@ -21,13 +24,19 @@ const Jacket = (props: React.SVGProps<SVGSVGElement>) => (
 
 const Shoe = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 16" {...props}>
-    <path d="M 12 14 L 2 14 C 1 14 1 13 1 12 C 1 10 3 9 4 9 L 5 6 L 8 6 L 10 9 L 12 10 C 14 10 15 11 15 13 C 15 14 14 14 12 14 Z" fill="currentColor" />
+    <path
+      d="M 12 14 L 2 14 C 1 14 1 13 1 12 C 1 10 3 9 4 9 L 5 6 L 8 6 L 10 9 L 12 10 C 14 10 15 11 15 13 C 15 14 14 14 12 14 Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
 const Cap = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 16 16" {...props}>
-    <path d="M 3 10 C 3 5 6 3 9 3 C 12 3 13 6 13 9 L 16 9 C 16 10 14 10 13 10 L 3 10 Z" fill="currentColor" />
+    <path
+      d="M 3 10 C 3 5 6 3 9 3 C 12 3 13 6 13 9 L 16 9 C 16 10 14 10 13 10 L 3 10 Z"
+      fill="currentColor"
+    />
   </svg>
 );
 
@@ -38,13 +47,62 @@ const toXY = (lat: number, lon: number) => ({
 });
 
 export const HUBS = [
-  { name: "United States", region: "United States", lat: 39.09, lon: -98.71, align: "top", stats: "High-Tech Textiles & Denim" },
-  { name: "United Kingdom", region: "United Kingdom", lat: 54.0, lon: -2.5, align: "top", stats: "Premium Wool & Tweeds" },
-  { name: "France", region: "France", lat: 46.22, lon: 2.21, align: "left", stats: "Luxury Silks & Leather" },
-  { name: "Italy", region: "Italy", lat: 42.5, lon: 12.5, align: "right", stats: "Fine Leather & Knitwear" },
-  { name: "India", region: "India", lat: 21.0, lon: 78.0, align: "left", stats: "Organic Cotton & Embroidery" },
-  { name: "China", region: "China", lat: 33.0, lon: 104.0, align: "bottom", stats: "Advanced Synthetics & Silk" },
-  { name: "Japan", region: "Japan", lat: 36.0, lon: 138.0, align: "right", stats: "Selvedge Denim & Tech Fabrics" },
+  {
+    name: "United States",
+    region: "United States",
+    lat: 39.09,
+    lon: -98.71,
+    align: "top",
+    stats: "High-Tech Textiles & Denim",
+  },
+  {
+    name: "United Kingdom",
+    region: "United Kingdom",
+    lat: 54.0,
+    lon: -2.5,
+    align: "top",
+    stats: "Premium Wool & Tweeds",
+  },
+  {
+    name: "France",
+    region: "France",
+    lat: 46.22,
+    lon: 2.21,
+    align: "left",
+    stats: "Luxury Silks & Leather",
+  },
+  {
+    name: "Italy",
+    region: "Italy",
+    lat: 42.5,
+    lon: 12.5,
+    align: "right",
+    stats: "Fine Leather & Knitwear",
+  },
+  {
+    name: "India",
+    region: "India",
+    lat: 21.0,
+    lon: 78.0,
+    align: "left",
+    stats: "Organic Cotton & Embroidery",
+  },
+  {
+    name: "China",
+    region: "China",
+    lat: 33.0,
+    lon: 104.0,
+    align: "bottom",
+    stats: "Advanced Synthetics & Silk",
+  },
+  {
+    name: "Japan",
+    region: "Japan",
+    lat: 36.0,
+    lon: 138.0,
+    align: "right",
+    stats: "Selvedge Denim & Tech Fabrics",
+  },
 ];
 
 const getLabelStyle = (align?: string) => {
@@ -73,9 +131,15 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
   const points = HUBS.map((h) => ({ ...h, ...toXY(h.lat, h.lon) }));
 
   return (
-    <div className={`relative w-full ${compact ? "aspect-[2/1]" : "aspect-[2/1]"} overflow-hidden rounded-3xl`}>
+    <div
+      className={`relative w-full ${compact ? "aspect-[2/1]" : "aspect-[2/1]"} overflow-hidden rounded-3xl`}
+    >
       {/* Accurate dotted world silhouette (equirectangular) */}
-      <svg viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full opacity-50">
+      <svg
+        viewBox="0 0 2000 1000"
+        preserveAspectRatio="xMidYMid meet"
+        className="absolute inset-0 w-full h-full opacity-50"
+      >
         <defs>
           <pattern id="wm-dots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
             <circle cx="3" cy="3" r="2.2" fill="currentColor" />
@@ -88,9 +152,13 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
           <rect width="2000" height="1000" fill="url(#wm-dots)" />
         </g>
       </svg>
- 
+
       {/* Connection arcs between hubs */}
-      <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
+      <svg
+        viewBox="0 0 100 50"
+        preserveAspectRatio="none"
+        className="absolute inset-0 w-full h-full pointer-events-none"
+      >
         <defs>
           <linearGradient id="arc-grad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="oklch(0.65 0.22 255)" />
@@ -99,7 +167,7 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
         </defs>
         {(() => {
           const sortedPoints = [...points].sort((a, b) => a.lon - b.lon);
-          
+
           let pathD = "";
           let forwardArcs = "";
           let backwardArcs = "";
@@ -110,7 +178,7 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
 
           const distances = [0];
           let totalDist = 0;
-          for(let i = 0; i < sortedPoints.length - 1; i++) {
+          for (let i = 0; i < sortedPoints.length - 1; i++) {
             const p1 = sortedPoints[i];
             const p2 = sortedPoints[i + 1];
             const dist = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y / 2 - p1.y / 2, 2));
@@ -119,27 +187,29 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
           }
 
           const drops = [
-            ['tshirt', 'pants', 'shoe'],
-            ['jacket', 'cap'],
-            ['jacket', 'tshirt', 'shoe'],
-            ['tshirt', 'pants', 'jacket', 'cap'],
-            ['tshirt', 'pants', 'shoe'],
-            ['jacket', 'tshirt', 'pants', 'shoe'],
-            ['tshirt', 'cap']
+            ["tshirt", "pants", "shoe"],
+            ["jacket", "cap"],
+            ["jacket", "tshirt", "shoe"],
+            ["tshirt", "pants", "jacket", "cap"],
+            ["tshirt", "pants", "shoe"],
+            ["jacket", "tshirt", "pants", "shoe"],
+            ["tshirt", "cap"],
           ];
 
           const arcs = sortedPoints.map((a, i) => {
             if (i === sortedPoints.length - 1) return null;
             const b = sortedPoints[i + 1];
-            const ax = a.x, ay = a.y / 2;
-            const bx = b.x, by = b.y / 2;
+            const ax = a.x,
+              ay = a.y / 2;
+            const bx = b.x,
+              by = b.y / 2;
             const mx = (ax + bx) / 2;
             const dx = Math.abs(bx - ax);
             const arcHeight = Math.max(1.2, Math.min(6, dx * 0.15));
             const my = Math.min(ay, by) - arcHeight;
-            
+
             forwardArcs += ` Q ${mx} ${my} ${bx} ${by}`;
-            
+
             return (
               <motion.path
                 key={i}
@@ -160,8 +230,10 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
           for (let i = sortedPoints.length - 1; i > 0; i--) {
             const a = sortedPoints[i];
             const b = sortedPoints[i - 1];
-            const ax = a.x, ay = a.y / 2;
-            const bx = b.x, by = b.y / 2;
+            const ax = a.x,
+              ay = a.y / 2;
+            const bx = b.x,
+              by = b.y / 2;
             const mx = (ax + bx) / 2;
             const dx = Math.abs(bx - ax);
             const arcHeight = Math.max(1.2, Math.min(6, dx * 0.15));
@@ -175,30 +247,34 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
             const delay = totalDist === 0 ? 0 : (distances[i] / totalDist) * 15;
             const t1 = delay / 30; // forward pass time fraction (0 to 0.5)
             const items = drops[i % drops.length];
-            
+
             return items.map((item, j) => {
               const offsetX = (j - (items.length - 1) / 2) * 1.5;
               const x = a.x + offsetX - 0.75;
               const y = a.y / 2 - 0.75; // center exactly on the hub/plane
-              
+
               const stagger = j * 0.005; // slight delay for multiple items
-              
+
               const k1 = Math.max(0.001, t1 + stagger);
               const k2 = k1 + 0.01;
               const k3 = k1 + 0.04;
               const k4 = k1 + 0.06;
-              
+
               const keyTimes = `0; ${k1.toFixed(3)}; ${k2.toFixed(3)}; ${k3.toFixed(3)}; ${k4.toFixed(3)}; 1`;
               const opacityValues = `0; 0; 0.9; 0.9; 0; 0`;
               const translateValues = `0,0; 0,0; 0,1.5; 0,3; 0,4; 0,4`;
-              
-              const ItemSVG = 
-                item === 'tshirt' ? TShirt : 
-                item === 'pants' ? Pants : 
-                item === 'jacket' ? Jacket : 
-                item === 'shoe' ? Shoe : 
-                Cap;
-              
+
+              const ItemSVG =
+                item === "tshirt"
+                  ? TShirt
+                  : item === "pants"
+                    ? Pants
+                    : item === "jacket"
+                      ? Jacket
+                      : item === "shoe"
+                        ? Shoe
+                        : Cap;
+
               return (
                 <g key={`drop-${i}-${j}`} className="text-electric drop-shadow-md" opacity="0">
                   <ItemSVG x={x} y={y} width="1.5" height="1.5" />
@@ -262,11 +338,14 @@ export function WorldMap({ compact = false }: { compact?: boolean }) {
           transition={{ delay: 0.3 + i * 0.08, type: "spring" }}
         >
           <div className="relative flex items-center justify-center">
-            <div className="absolute -inset-2 rounded-full bg-electric/30 animate-ping" style={{ animationDuration: '3s' }} />
+            <div
+              className="absolute -inset-2 rounded-full bg-electric/30 animate-ping"
+              style={{ animationDuration: "3s" }}
+            />
             <div className="absolute inset-0 size-3 rounded-full bg-electric animate-pulse-glow opacity-50" />
             <div className="relative size-2 rounded-full bg-electric ring-2 ring-background transition-transform duration-300 group-hover:scale-150 group-hover:bg-violet-glow" />
             {!compact && (
-              <div 
+              <div
                 className="absolute whitespace-nowrap z-10 opacity-0 pointer-events-none group-hover:opacity-100 md:opacity-100 transition-opacity duration-300"
                 style={getLabelStyle(p.align)}
               >

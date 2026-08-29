@@ -8,11 +8,31 @@ export interface GalleryPhoto {
 }
 
 const defaultPhotos: GalleryPhoto[] = [
-  { id: 1, image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop" },
-  { id: 2, image: "https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=800&auto=format&fit=crop" },
-  { id: 3, image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" },
-  { id: 4, image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=800&auto=format&fit=crop" },
-  { id: 5, image: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=800&auto=format&fit=crop" },
+  {
+    id: 1,
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    image:
+      "https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    image:
+      "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    image:
+      "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    image:
+      "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=800&auto=format&fit=crop",
+  },
 ];
 
 interface FolderCardProps {
@@ -44,7 +64,7 @@ function FolderCard({
   openY,
   openX,
   openRotate,
-  openScale
+  openScale,
 }: FolderCardProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -53,7 +73,7 @@ function FolderCard({
   useEffect(() => {
     setIsLoaded(false);
     setHasError(false);
-    
+
     const img = new Image();
     img.src = photo.image;
     img.onload = () => setIsLoaded(true);
@@ -84,49 +104,57 @@ function FolderCard({
         x: 0,
         rotate: 0,
         scale: 0.8,
-        opacity: 0
+        opacity: 0,
       }}
-      animate={!isFolderOpen ? {
-        y: stackY,
-        x: stackX,
-        rotate: stackRotate,
-        scale: stackScale,
-        opacity: 1,
-        zIndex: i + 10
-      } : {
-        y: openY,
-        x: openX,
-        rotate: openRotate,
-        scale: openScale,
-        opacity: 1,
-        zIndex: 50
-      }}
-      whileHover={!isFolderOpen ? {
-        y: stackY - 25,
-        scale: stackScale + 0.03,
-        zIndex: 100
-      } : {
-        scale: openScale + 0.05,
-        y: openY - 15,
-        zIndex: 100
-      }}
+      animate={
+        !isFolderOpen
+          ? {
+              y: stackY,
+              x: stackX,
+              rotate: stackRotate,
+              scale: stackScale,
+              opacity: 1,
+              zIndex: i + 10,
+            }
+          : {
+              y: openY,
+              x: openX,
+              rotate: openRotate,
+              scale: openScale,
+              opacity: 1,
+              zIndex: 50,
+            }
+      }
+      whileHover={
+        !isFolderOpen
+          ? {
+              y: stackY - 25,
+              scale: stackScale + 0.03,
+              zIndex: 100,
+            }
+          : {
+              scale: openScale + 0.05,
+              y: openY - 15,
+              zIndex: 100,
+            }
+      }
       whileDrag={isFolderOpen ? { scale: openScale + 0.1, rotate: 5, zIndex: 150 } : {}}
-      transition={{ 
-        type: "spring", 
-        stiffness: 300, 
+      transition={{
+        type: "spring",
+        stiffness: 300,
         damping: 28,
-        delay: isFolderOpen ? 0 : i * 0.05
+        delay: isFolderOpen ? 0 : i * 0.05,
       }}
     >
       {!hasError && (
-        <img 
-          src={photo.image} 
-          alt="" 
+        <img
+          src={photo.image}
+          alt=""
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           className={`w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${
             isLoaded ? "opacity-100" : "opacity-0"
-          }`} 
+          }`}
         />
       )}
     </motion.div>
@@ -144,18 +172,18 @@ export function InteractiveFolderGallery({
   photos = defaultPhotos,
   folderName = "Photography.gallery",
   dragHintText = "Drag any photo down to close",
-  className
+  className,
 }: InteractiveFolderGalleryProps) {
   const [isFolderOpen, setIsFolderOpen] = useState(false);
   const [hoverFolder, setHoverFolder] = useState(false);
 
   return (
-    <div className={`w-full h-full relative flex flex-col items-center justify-end sm:justify-center ${className || "py-8"}`}>
+    <div
+      className={`w-full h-full relative flex flex-col items-center justify-end sm:justify-center ${className || "py-8"}`}
+    >
       <div className="relative w-full h-full min-h-[320px] sm:min-h-[460px] flex flex-col items-center justify-end sm:justify-center pb-2 sm:pb-0">
-
         <div className="relative w-[400px] h-[400px] sm:h-[460px] flex justify-center pointer-events-none z-0 scale-[0.6] min-[375px]:scale-[0.7] min-[400px]:scale-[0.8] sm:scale-100 origin-bottom sm:origin-center transition-transform">
-
-          <motion.div 
+          <motion.div
             className="absolute bottom-6 w-80 h-56"
             initial={{ opacity: 1, scale: 1 }}
             animate={{ opacity: isFolderOpen ? 0 : 1, scale: isFolderOpen ? 0.9 : 1 }}
@@ -204,15 +232,15 @@ export function InteractiveFolderGallery({
             })}
           </div>
 
-          <motion.div 
+          <motion.div
             className="absolute bottom-0 w-[340px] h-44 cursor-pointer z-20 pointer-events-auto"
             style={{ transformOrigin: "bottom" }}
             initial={{ opacity: 1, rotateX: -25, y: 10 }}
-            animate={{ 
-              opacity: isFolderOpen ? 0 : 1, 
-              rotateX: -25, 
+            animate={{
+              opacity: isFolderOpen ? 0 : 1,
+              rotateX: -25,
               y: 10,
-              pointerEvents: isFolderOpen ? "none" : "auto" 
+              pointerEvents: isFolderOpen ? "none" : "auto",
             }}
             onMouseEnter={() => setHoverFolder(true)}
             onMouseLeave={() => setHoverFolder(false)}
@@ -235,18 +263,25 @@ export function InteractiveFolderGallery({
           </motion.div>
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30, visibility: "hidden" }}
-          animate={isFolderOpen ? {
-            opacity: 1, y: 0, visibility: "visible"
-          } : {
-            opacity: 0, y: 30, transitionEnd: { visibility: "hidden" }
-          }}
+          animate={
+            isFolderOpen
+              ? {
+                  opacity: 1,
+                  y: 0,
+                  visibility: "visible",
+                }
+              : {
+                  opacity: 0,
+                  y: 30,
+                  transitionEnd: { visibility: "hidden" },
+                }
+          }
           className="absolute bottom-6 px-6 py-3 rounded-full bg-black/40 border border-[#C2A46D]/20 backdrop-blur-md text-[#C2A46D]/80 text-[10px] font-bold uppercase tracking-widest pointer-events-none"
         >
           {dragHintText}
         </motion.div>
-
       </div>
     </div>
   );

@@ -26,7 +26,8 @@ export const it = {
     headingLine1: "Sourcing e produzione",
     headingLine2: "globale",
     headingLine3: " di moda",
-    subtitle: "Una prestigiosa casa di sourcing che collega i marchi di moda con le loro fabbriche ideali — un ecosistema completo e integrato per la produzione globale.",
+    subtitle:
+      "Una prestigiosa casa di sourcing che collega i marchi di moda con le loro fabbriche ideali — un ecosistema completo e integrato per la produzione globale.",
     bookConsultation: "Prenota una consulenza",
     exploreServices: "Esplora i servizi",
     stat1Value: "18+ anni",
@@ -48,7 +49,8 @@ export const it = {
     supportingEmergingLabels: "Supportiamo i marchi emergenti con",
     lowMinimum: "quantità minime",
     orderQuantities: "di ordine.",
-    startupSubtitle: "Maisone collabora con piccole startup, designer indipendenti e marchi in crescita per dare vita a idee ponderate con una produzione flessibile, un campionamento rapido e una qualità senza compromessi.",
+    startupSubtitle:
+      "Maisone collabora con piccole startup, designer indipendenti e marchi in crescita per dare vita a idee ponderate con una produzione flessibile, un campionamento rapido e una qualità senza compromessi.",
     moqFrom: "MOQ da",
     pieces50: "50 pezzi",
     samplesIn: "Campioni in",
@@ -74,9 +76,11 @@ export const it = {
     p1: "Maisone Global si fonda sulla fiducia, sulla trasparenza e su una prospettiva globale che unisce i marchi di moda a sourcing eccezionali, maestria artigianale e produzione di qualità in tutta l'Asia.",
     p2: "Più che un fornitore, Maisone agisce come partner strategico, riunendo marchi, fabbriche, artigiani e innovazione per creare prodotti significativi e su scala.",
     missionLabel: "Missione",
-    missionText: "Semplificare il percorso di produzione della moda per i marchi globali attraverso sistemi di sourcing, sviluppo, conformità e qualità.",
+    missionText:
+      "Semplificare il percorso di produzione della moda per i marchi globali attraverso sistemi di sourcing, sviluppo, conformità e qualità.",
     visionLabel: "Visione",
-    visionText: "Diventare il partner di sourcing moda più affidabile al mondo, costruendo catene di fornitura trasparenti, etiche e strutturate in modo intelligente.",
+    visionText:
+      "Diventare il partner di sourcing moda più affidabile al mondo, costruendo catene di fornitura trasparenti, etiche e strutturate in modo intelligente.",
   },
 
   // ── Why Maisone ──
@@ -86,7 +90,8 @@ export const it = {
     headingHighlight: "promesse",
     headingEnd: ".",
     card1Title: "Chiarezza nella complessità",
-    card1Text: "Semplifichiamo catene di fornitura globali complesse attraverso trasparenza e struttura.",
+    card1Text:
+      "Semplifichiamo catene di fornitura globali complesse attraverso trasparenza e struttura.",
     card2Title: "Integrità al centro",
     card2Text: "Ogni processo è guidato da pratiche etiche e sourcing responsabile.",
     card3Title: "Vero partenariato",
@@ -95,7 +100,8 @@ export const it = {
     card4Text: "Artigianato di lusso consegnato in modo responsabile e sostenibile.",
     startupFriendly: "Adatto alle startup",
     startupTitle: "Supporto ai marchi emergenti e quantità minime d'ordine (MOQ) ridotte",
-    startupText: "Crediamo nella crescita della prossima generazione della moda. Maisone supporta con orgoglio piccole startup, designer indipendenti e aziende in crescita con quantità minime d'ordine ridotte per aiutare a scalare la tua visione in modo sostenibile.",
+    startupText:
+      "Crediamo nella crescita della prossima generazione della moda. Maisone supporta con orgoglio piccole startup, designer indipendenti e aziende in crescita con quantità minime d'ordine ridotte per aiutare a scalare la tua visione in modo sostenibile.",
     launchYourBrand: "Lancia il tuo marchio",
   },
 
@@ -105,16 +111,18 @@ export const it = {
     heading: "Quattro fasi disciplinate,",
     headingHighlight: "un percorso fluido",
     headingEnd: ".",
-    subtitle: "Dall'analisi dei primi segnali di mercato alla spedizione finale — ogni fase è orchestrata con precisione.",
+    subtitle:
+      "Dall'analisi dei primi segnali di mercato alla spedizione finale — ogni fase è orchestrata con precisione.",
     phase1Title: "Strategia di prodotto e pianificazione dell'assortimento",
-    phase1Desc: "Definire la visione commerciale — dai segnali di mercato alla direzione dei tessuti.",
+    phase1Desc:
+      "Definire la visione commerciale — dai segnali di mercato alla direzione dei tessuti.",
     phase1Points: [
       "Pianificazione del budget e strutturazione finanziaria",
       "Supporto al branding e guida al posizionamento",
       "Sviluppo di ricami e stampe",
       "Campionamento urgente per le sfilate",
       "Servizio aggiuntivo : Consulenza",
-      "Chiamate di consulenza 1:1 singole o continuative per risoluzione strategica dei problemi"
+      "Chiamate di consulenza 1:1 singole o continuative per risoluzione strategica dei problemi",
     ],
     phase2Title: "Design e sviluppo del prodotto",
     phase2Desc: "Tradurre le tendenze in collezioni coese con precisione e intento.",
@@ -122,10 +130,11 @@ export const it = {
       "Assistenza alla progettazione di collezioni",
       "Competenza nel taglio dei modelli",
       "Campionamento urgente per le sfilate",
-      "Creazione di schede tecniche (Techpack)"
+      "Creazione di schede tecniche (Techpack)",
     ],
     phase3Title: "Pianificazione della produzione",
-    phase3Desc: "Dalle schede tecniche ai campioni di prototipi, ogni dettaglio realizzato su specifica.",
+    phase3Desc:
+      "Dalle schede tecniche ai campioni di prototipi, ogni dettaglio realizzato su specifica.",
     phase3Points: [
       "Ricerca delle fabbriche giuste",
       "Agire come ponte tra fabbrica e marchio",
@@ -134,18 +143,20 @@ export const it = {
       "Filtraggio della qualità da parte di esperti (i marchi vedono solo risultati approvati)",
       "Servizi di trasporto a mano quando richiesto",
       "Sourcing su un ampio portafoglio di prodotti",
-      "Merchandising della collezione finale"
+      "Merchandising della collezione finale",
     ],
     phase4Title: "Logistica e consegna",
-    phase4Desc: "Allocazione delle fabbriche, approvazione della produzione e supervisione end-to-end.",
+    phase4Desc:
+      "Allocazione delle fabbriche, approvazione della produzione e supervisione end-to-end.",
     phase4Points: [
       "Soluzioni logistiche complete (da FOB a DDP)",
       "Coordinamento fluido fino alla consegna finale",
-      "Sourcing di produzione globale su un ampio portafoglio di prodotti"
+      "Sourcing di produzione globale su un ampio portafoglio di prodotti",
     ],
     addonBadge: "Crescita Strategica",
     addonTitle: "Supporto Branding, Marketing e Vendite",
-    addonSubtitle: "Eleva la presenza sul mercato del tuo marchio. Offriamo una suite esclusiva di servizi aggiuntivi progettati per far crescere la tua visione.",
+    addonSubtitle:
+      "Eleva la presenza sul mercato del tuo marchio. Offriamo una suite esclusiva di servizi aggiuntivi progettati per far crescere la tua visione.",
     addonPoints: [
       "Suite di branding e supporto al posizionamento",
       "Guida al marketing digitale",
@@ -153,10 +164,11 @@ export const it = {
       "Creazione di LookBook digitali",
       "Progettazione di finiture (cartellini, etichette, sacchetti)",
       "Progettazione e sviluppo di imballaggi",
-      "Presentazioni di vendita (partnership su commissione)"
+      "Presentazioni di vendita (partnership su commissione)",
     ],
     challengesTitle: "I problemi che risolviamo",
-    challengesSubtitle: "Ogni collo di bottiglia risolto dai nostri esperti della catena di fornitura.",
+    challengesSubtitle:
+      "Ogni collo di bottiglia risolto dai nostri esperti della catena di fornitura.",
     q1: "Fai fatica a trovare fabbriche affidabili?",
     a1: "Colleghiamo i marchi con partner di produzione fidati e verificati.",
     q2: "Hai bisogno di un controllo qualità più rigoroso?",
@@ -176,11 +188,14 @@ export const it = {
     headingHighlight: "consegna",
     headingEnd: ", in tre fasi.",
     step1Title: "Scopri i fornitori",
-    step1Desc: "Invia il brief a Maisone in linguaggio naturale. I nostri agenti trovano gli atelier più idonei in quattro continenti in pochi minuti.",
+    step1Desc:
+      "Invia il brief a Maisone in linguaggio naturale. I nostri agenti trovano gli atelier più idonei in quattro continenti in pochi minuti.",
     step2Title: "Automatizza il sourcing",
-    step2Desc: "RFQ, campioni, trattative e ordini orchestrati dall'inizio alla fine con tracciabilità completa e controlli umani.",
+    step2Desc:
+      "RFQ, campioni, trattative e ordini orchestrati dall'inizio alla fine con tracciabilità completa e controlli umani.",
     step3Title: "Scala le operazioni",
-    step3Desc: "Tracciamento in tempo reale, previsione della domanda e monitoraggio del rischio fornitore mantengono ogni collezione nei tempi.",
+    step3Desc:
+      "Tracciamento in tempo reale, previsione della domanda e monitoraggio del rischio fornitore mantengono ogni collezione nei tempi.",
     orchestration: "Orchestrazione AI",
     commandFlow: "Flusso di controllo sourcing",
     liveMockup: "Simulazione in tempo reale",
@@ -206,25 +221,35 @@ export const it = {
     capabilitiesTitle: "Capacità",
     capabilitiesSubtitle: "Dieci moduli progettati per comprimere mesi di lavoro di sourcing.",
     feat1Title: "Abbinamento fornitori AI",
-    feat1Desc: "Abbinamento vettoriale semantico tra oltre 50.000 fornitori verificati per capacità, MOQ, tempi di consegna e punteggio etico.",
+    feat1Desc:
+      "Abbinamento vettoriale semantico tra oltre 50.000 fornitori verificati per capacità, MOQ, tempi di consegna e punteggio etico.",
     feat2Title: "Ricerca intelligente del prodotto",
-    feat2Desc: "Ricerca di immagini per fornitore basata su modelli multimodali addestrati su tassonomie di tessuti, finiture e silhouette.",
+    feat2Desc:
+      "Ricerca di immagini per fornitore basata su modelli multimodali addestrati su tassonomie di tessuti, finiture e silhouette.",
     feat3Title: "Rete globale di venditori",
-    feat3Desc: "Fabbriche e atelier selezionati a Tokyo, Londra, Parigi, Milano, Berlino, New York e Los Angeles.",
+    feat3Desc:
+      "Fabbriche e atelier selezionati a Tokyo, Londra, Parigi, Milano, Berlino, New York e Los Angeles.",
     feat4Title: "Automazione degli acquisti",
-    feat4Desc: "Da RFQ a PO in pochi minuti. Inoltro automatico dei preventivi, negoziazione dei termini e avvio dei flussi di lavoro contrattuali.",
+    feat4Desc:
+      "Da RFQ a PO in pochi minuti. Inoltro automatico dei preventivi, negoziazione dei termini e avvio dei flussi di lavoro contrattuali.",
     feat5Title: "Tracciamento spedizioni in tempo reale",
-    feat5Desc: "Visibilità a livello di container per via aerea, marittima e ferroviaria con ETA predittivi e avvisi doganali.",
+    feat5Desc:
+      "Visibilità a livello di container per via aerea, marittima e ferroviaria con ETA predittivi e avvisi doganali.",
     feat6Title: "Intelligenza sulle tendenze moda",
-    feat6Desc: "Segnali provenienti dalle sfilate, dalle vendite al dettaglio e dai social media sintetizzati in previsioni operative su colori, tessuti e silhouette.",
+    feat6Desc:
+      "Segnali provenienti dalle sfilate, dalle vendite al dettaglio e dai social media sintetizzati in previsioni operative su colori, tessuti e silhouette.",
     feat7Title: "Previsione dell'inventario",
-    feat7Desc: "Modelli di domanda addestrati sui tuoi dati di vendita anticipano l'esaurimento delle scorte con otto settimane di anticipo.",
+    feat7Desc:
+      "Modelli di domanda addestrati sui tuoi dati di vendita anticipano l'esaurimento delle scorte con otto settimane di anticipo.",
     feat8Title: "Assistente Chat AI",
-    feat8Desc: "Un copilota per il sourcing che redige brief, riassume preventivi e risponde alle domande dei fornitori, 24 ore su 24, 7 giorni su 7.",
+    feat8Desc:
+      "Un copilota per il sourcing che redige brief, riassume preventivi e risponde alle domande dei fornitori, 24 ore su 24, 7 giorni su 7.",
     feat9Title: "Analisi del rischio fornitore",
-    feat9Desc: "Monitoraggio continuo della conformità, della salute finanziaria e dell'esposizione geopolitica.",
+    feat9Desc:
+      "Monitoraggio continuo della conformità, della salute finanziaria e dell'esposizione geopolitica.",
     feat10Title: "Automazione del flusso di lavoro",
-    feat10Desc: "Collega Notion, Zoho, WhatsApp ed e-mail per orchestrare ogni fase della tua catena di fornitura.",
+    feat10Desc:
+      "Collega Notion, Zoho, WhatsApp ed e-mail per orchestrare ogni fase della tua catena di fornitura.",
   },
 
   // ── Fondatori ──
@@ -236,8 +261,10 @@ export const it = {
     coFounder: "Co-fondatore",
     workedWith: "Ha lavorato con",
     expertise: "Competenze",
-    shashankBio: "Oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica.",
-    subahBio: "Specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazione creativa tra marchi e produttori.",
+    shashankBio:
+      "Oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica.",
+    subahBio:
+      "Specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazione creativa tra marchi e produttori.",
   },
 
   // ── Dashboard / Console ──
@@ -246,7 +273,8 @@ export const it = {
     heading: "Un'unica console per ogni",
     headingHighlight: "decisione di sourcing",
     headingEnd: ".",
-    subtitle: "Prova l'anteprima in tempo reale — passa da una scheda all'altra, filtra i fornitori.",
+    subtitle:
+      "Prova l'anteprima in tempo reale — passa da una scheda all'altra, filtra i fornitori.",
     searchPlaceholder: "Cerca fornitori...",
     tabOverview: "Panoramica",
     tabSuppliers: "Fornitori",
@@ -289,7 +317,8 @@ export const it = {
     heading: "Un copilota per il sourcing che",
     headingHighlight: "pensa in tessuto",
     headingEnd: ".",
-    description: "Intelligenza conversazionale addestrata su reti di fornitori globali, MOQ, tempi di consegna e segnali di tendenza.",
+    description:
+      "Intelligenza conversazionale addestrata su reti di fornitori globali, MOQ, tempi di consegna e segnali di tendenza.",
     tryBtn: "Prova l'Assistente AI",
     placeholder: "Chiedi a Maisone AI — prova un prompt sulla destra →",
     samplePrompts: "Prompt di esempio",
@@ -297,7 +326,8 @@ export const it = {
     vendorsOnline: "2.418 fornitori online",
     activeRfqs: "184 RFQ attivi",
     avgResponse: "Risposta media · 1.4s",
-    initialGreeting: "Maisone AI · copilota di sourcing pronto. Chiedi qualsiasi cosa o prova un prompt qui sotto.",
+    initialGreeting:
+      "Maisone AI · copilota di sourcing pronto. Chiedi qualsiasi cosa o prova un prompt qui sotto.",
   },
 
   // ── Trend Forecast Component ──
@@ -306,7 +336,8 @@ export const it = {
     heading: "Segnali dall'",
     headingHighlight: "atelier globale",
     headingEnd: ".",
-    description: "Maisone AI sintetizza i segnali delle sfilate, delle vendite al dettaglio, dei social e dell'editoria in previsioni operative di sourcing — aggiornate stagionalmente.",
+    description:
+      "Maisone AI sintetizza i segnali delle sfilate, delle vendite al dettaglio, dei social e dell'editoria in previsioni operative di sourcing — aggiornate stagionalmente.",
     loadingText: "Recupero degli ultimi segnali di sourcing...",
     panelFabrics: "Tessuti di tendenza",
     panelColors: "Previsione colore",
@@ -344,9 +375,12 @@ export const it = {
     heading: "Scelto dalle case che definiscono la",
     headingHighlight: "moda di domani",
     headingEnd: ".",
-    quote1: "Maisone ha sostituito sei strumenti e l'intero flusso di lavoro manuale del team di sourcing. Abbiamo dimezzato i cicli di sviluppo in una sola stagione.",
-    quote2: "L'abbinamento AI è sbalorditivo. Ha trovato un mulino milanese che cercavamo da oltre due anni — in dodici secondi.",
-    quote3: "Da RFQ al primo campione in 9 giorni, in tre paesi. Maisone è il sistema operativo che la moda stava aspettando.",
+    quote1:
+      "Maisone ha sostituito sei strumenti e l'intero flusso di lavoro manuale del team di sourcing. Abbiamo dimezzato i cicli di sviluppo in una sola stagione.",
+    quote2:
+      "L'abbinamento AI è sbalorditivo. Ha trovato un mulino milanese che cercavamo da oltre due anni — in dodici secondi.",
+    quote3:
+      "Da RFQ al primo campione in 9 giorni, in tre paesi. Maisone è il sistema operativo che la moda stava aspettando.",
   },
 
   // ── Footer ──
@@ -384,25 +418,35 @@ export const it = {
     headingHighlight: "artigianato globale",
     headingEnd: ".",
     paradigmShift: "Il cambio di paradigma del sourcing",
-    paradigmP1: "Per decenni, il modello di sourcing globale dell'abbigliamento ha operato su una dinamica di estrazione, riducendo i margini dei produttori, nascondendo i passaggi della catena di approvvigionamento dietro intermediari e creando scorte in eccesso che finiscono in discarica. Maisone Global è stata fondata per sfidare questa pratica. Crediamo che la moda di lusso e di alta qualità debba essere costruita sulla fiducia, sulla trasparenza e su relazioni sostenibili.",
-    paradigmP2: "Combinando il tracciamento della capacità guidato dall'AI con l'artigianato secolare, Maisone offre ai marchi internazionali un accesso diretto e verificato a stabilimenti tessili e laboratori di sartoria premium in Giappone, Italia, India e Regno Unito.",
+    paradigmP1:
+      "Per decenni, il modello di sourcing globale dell'abbigliamento ha operato su una dinamica di estrazione, riducendo i margini dei produttori, nascondendo i passaggi della catena di approvvigionamento dietro intermediari e creando scorte in eccesso che finiscono in discarica. Maisone Global è stata fondata per sfidare questa pratica. Crediamo che la moda di lusso e di alta qualità debba essere costruita sulla fiducia, sulla trasparenza e su relazioni sostenibili.",
+    paradigmP2:
+      "Combinando il tracciamento della capacità guidato dall'AI con l'artigianato secolare, Maisone offre ai marchi internazionali un accesso diretto e verificato a stabilimenti tessili e laboratori di sartoria premium in Giappone, Italia, India e Regno Unito.",
     heritageTitle: "La nostra eredità e crescita",
     heritage2020Title: "2020: La Fondazione",
-    heritage2020Text: "Maisone è stata fondata a Gurgaon, in India, dove si trovano le nostre attività principali e le nostre fondamenta. La nostra missione è connettere l'artigianato tradizionale indiano e la capacità produttiva di alta qualità con i marchi emergenti del lusso indipendente e le case di design globali.",
+    heritage2020Text:
+      "Maisone è stata fondata a Gurgaon, in India, dove si trovano le nostre attività principali e le nostre fondamenta. La nostra missione è connettere l'artigianato tradizionale indiano e la capacità produttiva di alta qualità con i marchi emergenti del lusso indipendente e le case di design globali.",
     heritage2022Title: "2022: Espansione verticale",
-    heritage2022Text: "Riconoscendo la domanda di trasparenza strutturata della produzione, abbiamo ampliato la nostra rete includendo cotonifici verticali in India e laboratori di sartoria premium in Italia, istituendo un sistema completo di audit di conformità.",
+    heritage2022Text:
+      "Riconoscendo la domanda di trasparenza strutturata della produzione, abbiamo ampliato la nostra rete includendo cotonifici verticali in India e laboratori di sartoria premium in Italia, istituendo un sistema completo di audit di conformità.",
     heritage2024Title: "2024: Integrazione digitale",
-    heritage2024Text: "Abbiamo lanciato la prima versione della Console Maisone e del motore di previsione delle tendenze AI, consentendo ai marchi di verificare la capacità della fabbrica, tracciare le tappe della spedizione e pianificare le collezioni utilizzando l'analisi predittiva.",
+    heritage2024Text:
+      "Abbiamo lanciato la prima versione della Console Maisone e del motore di previsione delle tendenze AI, consentendo ai marchi di verificare la capacità della fabbrica, tracciare le tappe della spedizione e pianificare le collezioni utilizzando l'analisi predittiva.",
     coreValues: "Valori fondamentali ed etica",
     value1Title: "Maestria artigianale",
-    value1Text: "Sosteniamo i cotonifici a conduzione familiare e le comunità di tessitori, mantenendo in vita le tecniche tradizionali attraverso la distribuzione globale.",
+    value1Text:
+      "Sosteniamo i cotonifici a conduzione familiare e le comunità di tessitori, mantenendo in vita le tecniche tradizionali attraverso la distribuzione globale.",
     value2Title: "Trasparenza al 100%",
-    value2Text: "I nostri registri digitali mappano ogni fase, dall'approvvigionamento delle materie prime allo sdoganamento personalizzato.",
+    value2Text:
+      "I nostri registri digitali mappano ogni fase, dall'approvvigionamento delle materie prime allo sdoganamento personalizzato.",
     value3Title: "Standard etici",
-    value3Text: "Tutti i partner di produzione aderiscono rigorosamente agli audit di responsabilità sociale SA8000 e ai codici salariali dignitosi.",
+    value3Text:
+      "Tutti i partner di produzione aderiscono rigorosamente agli audit di responsabilità sociale SA8000 e ai codici salariali dignitosi.",
     frameworkTitle: "Sourcing per il prossimo secolo",
-    frameworkP1: "Guardando al futuro, Maisone si impegna a sviluppare cicli di catena di fornitura a rifiuti zero. Collaboriamo con istituti di ricerca per introdurre filati completamente biodegradabili e sistemi di riciclaggio circolare. La nostra rete è progettata per rimanere agile, consentendo ai marchi di rispondere dinamicamente alla domanda dei consumatori senza generare scorte in eccesso.",
-    frameworkP2: "Allineando i requisiti di progettazione con i registri di capacità verificati e gli standard di certificazione GOTS, aiutiamo i marchi di moda a costruire collezioni che resistono alla prova del tempo, sia dal punto di vista estetico che ecologico.",
+    frameworkP1:
+      "Guardando al futuro, Maisone si impegna a sviluppare cicli di catena di fornitura a rifiuti zero. Collaboriamo con istituti di ricerca per introdurre filati completamente biodegradabili e sistemi di riciclaggio circolare. La nostra rete è progettata per rimanere agile, consentendo ai marchi di rispondere dinamicamente alla domanda dei consumatori senza generare scorte in eccesso.",
+    frameworkP2:
+      "Allineando i requisiti di progettazione con i registri di capacità verificati e gli standard di certificazione GOTS, aiutiamo i marchi di moda a costruire collezioni che resistono alla prova del tempo, sia dal punto di vista estetico che ecologico.",
     backToHome: "Torna alla home",
   },
 
@@ -412,22 +456,33 @@ export const it = {
     heading: "Il nostro sistema di",
     headingHighlight: "produzione strutturato",
     headingEnd: ".",
-    subtitle: "Abbiamo eliminato intermediari, broker e canali di comunicazione manuali. Scopri come Maisone collega i concetti di design direttamente a cicli di produzione avanzati e verificati.",
+    subtitle:
+      "Abbiamo eliminato intermediari, broker e canali di comunicazione manuali. Scopri come Maisone collega i concetti di design direttamente a cicli di produzione avanzati e verificati.",
     step1Title: "1. Acquisizione del design e Tech Pack digitali",
-    step1P1: "Il sourcing inizia quando carichi i tuoi progetti, disegni CAD, regole di classificazione dei modelli e requisiti tessili sulla Console Maisone. Il nostro sistema analizza i file, verificando le specifiche dei materiali, i conteggi delle unità target e le tempistiche di vendita.",
-    step1P2: "Se non disponi di un tech pack finalizzato, i nostri progettisti possono aiutarti a creare schemi digitali. Mappiamo le categorie di fibre target, i parametri di peso (GSM) e i requisiti di dettaglio per garantire che i nostri partner produttori abbiano tutte le specifiche necessarie per fornire preventivi precisi.",
+    step1P1:
+      "Il sourcing inizia quando carichi i tuoi progetti, disegni CAD, regole di classificazione dei modelli e requisiti tessili sulla Console Maisone. Il nostro sistema analizza i file, verificando le specifiche dei materiali, i conteggi delle unità target e le tempistiche di vendita.",
+    step1P2:
+      "Se non disponi di un tech pack finalizzato, i nostri progettisti possono aiutarti a creare schemi digitali. Mappiamo le categorie di fibre target, i parametri di peso (GSM) e i requisiti di dettaglio per garantire che i nostri partner produttori abbiano tutte le specifiche necessarie per fornire preventivi precisi.",
     step2Title: "2. Corrispondenza AI e controllo delle fabbriche",
-    step2P1: "Una volta completata l'acquisizione, il nostro algoritmo di corrispondenza neurale confronta le tue specifiche con i registri di capacità, i tag di specializzazione e i livelli di certificazione delle fabbriche approvate nella nostra rete.",
-    step2P2: "Invece di chiamare decine di fabbriche, il nostro sistema genera automaticamente una rosa di candidati verificati in base alle valutazioni delle prestazioni, alle date di consegna target e ai certificati di conformità (come GOTS o SA8000). I responsabili del sourcing esaminano quindi i preventivi e i tempi di consegna, selezionando il partner migliore.",
+    step2P1:
+      "Una volta completata l'acquisizione, il nostro algoritmo di corrispondenza neurale confronta le tue specifiche con i registri di capacità, i tag di specializzazione e i livelli di certificazione delle fabbriche approvate nella nostra rete.",
+    step2P2:
+      "Invece di chiamare decine di fabbriche, il nostro sistema genera automaticamente una rosa di candidati verificati in base alle valutazioni delle prestazioni, alle date di consegna target e ai certificati di conformità (come GOTS o SA8000). I responsabili del sourcing esaminano quindi i preventivi e i tempi di consegna, selezionando il partner migliore.",
     step3Title: "3. Sourcing e campionamento dei tessuti",
-    step3P1: "Coordiniamo l'approvvigionamento delle materie prime, prenotando capacità di filato o acquistando scorte grezze. I nostri partner quindi tessono, tingono e testano i tessuti.",
-    step3P2: "Coordiniamo campioni fisici di pre-produzione (PPS) per verificare la mano, il drappeggio e la precisione del colore sotto un'illuminazione standardizzata. I team di sourcing esaminano i campioni, regolando le misure o i dettagli di vestibilità prima della produzione in serie.",
+    step3P1:
+      "Coordiniamo l'approvvigionamento delle materie prime, prenotando capacità di filato o acquistando scorte grezze. I nostri partner quindi tessono, tingono e testano i tessuti.",
+    step3P2:
+      "Coordiniamo campioni fisici di pre-produzione (PPS) per verificare la mano, il drappeggio e la precisione del colore sotto un'illuminazione standardizzata. I team di sourcing esaminano i campioni, regolando le misure o i dettagli di vestibilità prima della produzione in serie.",
     step4Title: "4. Controlli di qualità e audit in linea",
-    step4P1: "Durante la produzione in serie, conduciamo controlli di qualità in linea e post-produzione basati sugli standard internazionali del livello di qualità accettabile (AQL 2.5).",
-    step4P2: "Gli ispettori verificano le tolleranze di cucitura, la resistenza delle cuciture, la continuità del colore e il posizionamento delle etichette. Le istantanee degli audit e i rapporti sullo stato di avanzamento vengono caricati sulla tua Console, offrendoti visibilità sulla linea di produzione.",
+    step4P1:
+      "Durante la produzione in serie, conduciamo controlli di qualità in linea e post-produzione basati sugli standard internazionali del livello di qualità accettabile (AQL 2.5).",
+    step4P2:
+      "Gli ispettori verificano le tolleranze di cucitura, la resistenza delle cuciture, la continuità del colore e il posizionamento delle etichette. Le istantanee degli audit e i rapporti sullo stato di avanzamento vengono caricati sulla tua Console, offrendoti visibilità sulla linea di produzione.",
     step5Title: "5. Sdoganamento e instradamento del carico",
-    step5P1: "Dopo l'ispezione finale, le merci vengono imballate, etichettate e preparate per la spedizione. Gestiamo l'instradamento dei carichi marittimi e aerei, coordiniamo le polizze di carico e presentiamo le dichiarazioni doganali.",
-    step5P2: "La tua spedizione viene tracciata in tempo reale sulla nostra Console, tenendoti aggiornato sugli arrivi in porto e sulle tappe del transito. Gestiamo le complessità logistiche in modo che la tua collezione arrivi direttamente al tuo magazzino, pronta per la vendita.",
+    step5P1:
+      "Dopo l'ispezione finale, le merci vengono imballate, etichettate e preparate per la spedizione. Gestiamo l'instradamento dei carichi marittimi e aerei, coordiniamo le polizze di carico e presentiamo le dichiarazioni doganali.",
+    step5P2:
+      "La tua spedizione viene tracciata in tempo reale sulla nostra Console, tenendoti aggiornato sugli arrivi in porto e sulle tappe del transito. Gestiamo le complessità logistiche in modo che la tua collezione arrivi direttamente al tuo magazzino, pronta per la vendita.",
   },
 
   // ── Founders Page Route ──
@@ -438,14 +493,20 @@ export const it = {
     headingEnd: ".",
     vettingApparel: "Esaminare il futuro dell'abbigliamento",
     manifestoTitle: "Il Manifesto dei Fondatori",
-    manifestoP1: "Abbiamo costruito Maisone Global perché il vecchio sistema di sourcing è rotto. I marchi non dovrebbero scegliere tra redditività ed etica, e gli artigiani non dovrebbero scendere a compromessi sulla loro arte per una produzione di massa a basso costo.",
-    manifestoP2: "Digitalizzando i registri di capacità e utilizzando la previsione delle tendenze basata sull'AI, aiutiamo i marchi a pianificare e produrre esattamente ciò di cui hanno bisogno. Ciò elimina l'inventario in eccesso, riduce gli sprechi e ci consente di pagare ai lavoratori salari dignitosi. Crediamo in catene di fornitura che rispettino sia il creatore che l'ambiente.",
-    shashankQuote: "La vera sostenibilità inizia ottimizzando il primo anello della catena. Allineando i segnali di domanda con la capacità, possiamo rispettare sia i produttori che la terra.",
+    manifestoP1:
+      "Abbiamo costruito Maisone Global perché il vecchio sistema di sourcing è rotto. I marchi non dovrebbero scegliere tra redditività ed etica, e gli artigiani non dovrebbero scendere a compromessi sulla loro arte per una produzione di massa a basso costo.",
+    manifestoP2:
+      "Digitalizzando i registri di capacità e utilizzando la previsione delle tendenze basata sull'AI, aiutiamo i marchi a pianificare e produrre esattamente ciò di cui hanno bisogno. Ciò elimina l'inventario in eccesso, riduce gli sprechi e ci consente di pagare ai lavoratori salari dignitosi. Crediamo in catene di fornitura che rispettino sia il creatore che l'ambiente.",
+    shashankQuote:
+      "La vera sostenibilità inizia ottimizzando il primo anello della catena. Allineando i segnali di domanda con la capacità, possiamo rispettare sia i produttori che la terra.",
     shashankRoleDetail: "Operazioni e Strategia",
-    shashankBio: "Shashank offre oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica. Nel corso della sua carriera ha collaborato con le principali case di design mondiali tra cui Valentino, Balmain, Stella McCartney, Giorgio Armani e Dolce & Gabbana. In Maisone dirige le operazioni globali e mappa i circuiti di fornitura sostenibili.",
-    subahQuote: "La moda è un dialogo tra visione creativa ed esecuzione tecnica. Maisone traduce quel dialogo in collezioni trasparenti e splendidamente realizzate.",
+    shashankBio:
+      "Shashank offre oltre 18 anni di esperienza nel sourcing di moda di lusso, tessuti artigianali, pianificazione della produzione, sostenibilità e produzione etica. Nel corso della sua carriera ha collaborato con le principali case di design mondiali tra cui Valentino, Balmain, Stella McCartney, Giorgio Armani e Dolce & Gabbana. In Maisone dirige le operazioni globali e mappa i circuiti di fornitura sostenibili.",
+    subahQuote:
+      "La moda è un dialogo tra visione creativa ed esecuzione tecnica. Maisone traduce quel dialogo in collezioni trasparenti e splendidamente realizzate.",
     subahRoleDetail: "Collaborazioni Creative e Clienti",
-    subahBio: "Subah Arora è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
+    subahBio:
+      "Subah Arora è specializzata in coordinamento del design, sviluppo di prodotti di lusso, coinvolgimento dei clienti e collaborazioni creative. Agisce come ponte che collega le case di design internazionali con produttori specializzati. La sua esperienza garantisce che i concetti di design creativo siano eseguiti con assoluta precisione tecnica e integrità dei materiali.",
   },
 
   // ── Blogs Section ──
@@ -466,59 +527,66 @@ export const it = {
     },
     mockBlogs: {
       "local-blog-0": {
-        title: "Il futuro dell'approvvigionamento etico della moda nel 2026: Un modello per la produzione circolare",
-        content: "Introduzione: Il cambio di paradigma nell'approvvigionamento dell'abbigliamento\n\nMentre navighiamo nel 2026, il panorama della moda globale sta subendo la sua trasformazione più profonda dalla Rivoluzione Industriale. Il modello tradizionale e lineare \"prendi-produci-getta\" viene aggressivamente smantellato, sostituito da un paradigma circolare in cui la trasparenza, la responsabilità e il ripristino ambientale sono i pilastri principali del successo.\n\nIn questo progetto completo, delineiamo i cambiamenti fondamentali che definiscono la produzione etica di abbigliamento nel 2026 e come le case di moda lungimiranti si stanno posizionando per un futuro sostenibile.\n\nIl mandato del passaporto digitale dei prodotti (DPP)\n\nUno dei principali motori della circolarità nel 2026 è l'adozione diffusa dei Digital Product Passports (DPP). Supportati da rigide normative dell'Unione Europea e dalla crescente domanda dei consumatori in Nord America e in Asia, i DPP richiedono ai marchi di documentare ogni fase del ciclo di vita di un capo.\n\nDalle fattorie di cotone organico nella regione del Gujarat in India ai mulini di tessitura di Osaka e alle linee di assemblaggio finali, ogni partecipante alla catena di approvvigionamento deve caricare dati verificabili.\n\nProduzione a ciclo chiuso e tintura senza acqua\n\nLa conservazione dell'acqua è la sfida più critica nella moderna lavorazione dei tessuti. Nel 2026, le fabbriche premium della nostra rete globale hanno implementato sistemi di filtrazione a circuito chiuso e rivoluzionarie tecnologie di tintura senza acqua.\n\nConclusione: L'approvvigionamento per la prossima generazione\n\nL'approvvigionamento etico nel 2026 non è solo una strategia di marketing o un requisito di conformità, ma è un meccanismo di sopravvivenza. I marchi che prospereranno saranno quelli che considereranno i loro produttori non come venditori usa e getta, ma come partner strategici in un ecosistema a ciclo chiuso e rigenerativo."
+        title:
+          "Il futuro dell'approvvigionamento etico della moda nel 2026: Un modello per la produzione circolare",
+        content:
+          "Introduzione: Il cambio di paradigma nell'approvvigionamento dell'abbigliamento\n\nMentre navighiamo nel 2026, il panorama della moda globale sta subendo la sua trasformazione più profonda dalla Rivoluzione Industriale. Il modello tradizionale e lineare \"prendi-produci-getta\" viene aggressivamente smantellato, sostituito da un paradigma circolare in cui la trasparenza, la responsabilità e il ripristino ambientale sono i pilastri principali del successo.\n\nIn questo progetto completo, delineiamo i cambiamenti fondamentali che definiscono la produzione etica di abbigliamento nel 2026 e come le case di moda lungimiranti si stanno posizionando per un futuro sostenibile.\n\nIl mandato del passaporto digitale dei prodotti (DPP)\n\nUno dei principali motori della circolarità nel 2026 è l'adozione diffusa dei Digital Product Passports (DPP). Supportati da rigide normative dell'Unione Europea e dalla crescente domanda dei consumatori in Nord America e in Asia, i DPP richiedono ai marchi di documentare ogni fase del ciclo di vita di un capo.\n\nDalle fattorie di cotone organico nella regione del Gujarat in India ai mulini di tessitura di Osaka e alle linee di assemblaggio finali, ogni partecipante alla catena di approvvigionamento deve caricare dati verificabili.\n\nProduzione a ciclo chiuso e tintura senza acqua\n\nLa conservazione dell'acqua è la sfida più critica nella moderna lavorazione dei tessuti. Nel 2026, le fabbriche premium della nostra rete globale hanno implementato sistemi di filtrazione a circuito chiuso e rivoluzionarie tecnologie di tintura senza acqua.\n\nConclusione: L'approvvigionamento per la prossima generazione\n\nL'approvvigionamento etico nel 2026 non è solo una strategia di marketing o un requisito di conformità, ma è un meccanismo di sopravvivenza. I marchi che prospereranno saranno quelli che considereranno i loro produttori non come venditori usa e getta, ma come partner strategici in un ecosistema a ciclo chiuso e rigenerativo.",
       },
       "local-blog-1": {
-        title: "Navigare nelle catene di approvvigionamento tessili globali: Guida per i marchi alla logistica e all'ingegneria tariffaria",
-        content: "Introduzione: La nuova era della gestione della catena di approvvigionamento\n\nLa gestione della catena di approvvigionamento di un marchio di moda è sempre stata un atto di bilanciamento, ma nel 2026 il panorama geopolitico e ambientale globale l'ha trasformata in un gioco complesso e ad alto rischio.\n\nPer i responsabili degli acquisti, il successo richiede il passaggio da una logistica reattiva a una progettazione proattiva e resiliente della catena di approvvigionamento. Questa guida descrive in dettaglio le strategie essenziali che i marchi utilizzano per navigare nelle spedizioni globali, mitigare i rischi e ottimizzare le impronte di produzione.\n\nDisaccoppiamento dei tempi di consegna: La strategia del Buffer Stock\n\nStoricamente, la moda operava su un modello \"Just-In-Time\" (JIT), mirando a ricevere i materiali esattamente quando le linee di produzione erano pronte a girare. Tuttavia, i ritardi nelle spedizioni e i colli di bottiglia alle frontiere hanno reso il JIT altamente rischioso.\n\nNel 2026, i migliori marchi di moda utilizzano una strategia di \"buffer stock\" per i materiali di base. Identificando tessuti e filati che vengono utilizzati in più stagioni e collezioni, i marchi acquistano fibre grezze sfuse durante i periodi di bassa domanda del mercato.\n\nIngegneria tariffaria e regole di origine\n\nCon il rapido cambiamento delle politiche commerciali globali, l'ingegneria tariffaria è diventata uno strumento essenziale per i team di approvvigionamento. L'ingegneria tariffaria prevede la progettazione di prodotti in modo specifico per beneficiare di dazi inferiori in base ad accordi commerciali regionali.\n\nConclusione\n\nLa moderna catena di approvvigionamento non è solo una necessità logistica; è un vantaggio competitivo. Separando i tempi di consegna, ingegnerizzando i prodotti per tariffe favorevoli e sfruttando la tecnologia di tracciamento in tempo reale, i marchi di moda possono navigare nelle complessità del commercio globale con fiducia e agilità."
+        title:
+          "Navigare nelle catene di approvvigionamento tessili globali: Guida per i marchi alla logistica e all'ingegneria tariffaria",
+        content:
+          'Introduzione: La nuova era della gestione della catena di approvvigionamento\n\nLa gestione della catena di approvvigionamento di un marchio di moda è sempre stata un atto di bilanciamento, ma nel 2026 il panorama geopolitico e ambientale globale l\'ha trasformata in un gioco complesso e ad alto rischio.\n\nPer i responsabili degli acquisti, il successo richiede il passaggio da una logistica reattiva a una progettazione proattiva e resiliente della catena di approvvigionamento. Questa guida descrive in dettaglio le strategie essenziali che i marchi utilizzano per navigare nelle spedizioni globali, mitigare i rischi e ottimizzare le impronte di produzione.\n\nDisaccoppiamento dei tempi di consegna: La strategia del Buffer Stock\n\nStoricamente, la moda operava su un modello "Just-In-Time" (JIT), mirando a ricevere i materiali esattamente quando le linee di produzione erano pronte a girare. Tuttavia, i ritardi nelle spedizioni e i colli di bottiglia alle frontiere hanno reso il JIT altamente rischioso.\n\nNel 2026, i migliori marchi di moda utilizzano una strategia di "buffer stock" per i materiali di base. Identificando tessuti e filati che vengono utilizzati in più stagioni e collezioni, i marchi acquistano fibre grezze sfuse durante i periodi di bassa domanda del mercato.\n\nIngegneria tariffaria e regole di origine\n\nCon il rapido cambiamento delle politiche commerciali globali, l\'ingegneria tariffaria è diventata uno strumento essenziale per i team di approvvigionamento. L\'ingegneria tariffaria prevede la progettazione di prodotti in modo specifico per beneficiare di dazi inferiori in base ad accordi commerciali regionali.\n\nConclusione\n\nLa moderna catena di approvvigionamento non è solo una necessità logistica; è un vantaggio competitivo. Separando i tempi di consegna, ingegnerizzando i prodotti per tariffe favorevoli e sfruttando la tecnologia di tracciamento in tempo reale, i marchi di moda possono navigare nelle complessità del commercio globale con fiducia e agilità.',
       },
       "local-blog-2": {
         title: "L'Intelligenza Artificiale nella produzione di abbigliamento: Oltre l'Hype",
-        content: "Introduzione: L'IA passa dal concetto alla linea di produzione\n\nPer anni l'industria della moda ha discusso dell'Intelligenza Artificiale come di un concetto futuristico. Tuttavia, nel 2026, la vera rivoluzione si sta svolgendo silenziosamente dietro le quinte. L'IA è ora profondamente radicata nel cuore stesso della produzione di abbigliamento, cambiando radicalmente il modo in cui i capi vengono progettati, acquistati e prodotti.\n\nDesign generativo e prototipazione rapida\n\nIl processo di progettazione tradizionale era notoriamente lento. Un designer disegnava un concetto, i modellisti redigevano le schede tecniche e le fabbriche creavano campioni fisici. Questo ciclo spesso richiedeva da 3 a 4 iterazioni prima che un progetto venisse finalizzato, impiegando mesi e generando significativi sprechi di tessuto.\n\nOggi, i modelli di intelligenza artificiale generativa specificamente addestrati sui dati storici della moda e sulla fisica dei tessuti stanno trasformando questo flusso di lavoro. Questi rendering vengono mappati direttamente sui modelli di fabbrica, il che significa che una volta approvato un design, il file digitale può essere inviato direttamente alle macchine per il taglio dei tessuti computerizzate. Questo riduce i cicli di campionamento da diverse settimane a meno di 48 ore.\n\nRazionalizzazione del pre-acquisto delle materie prime\n\nL'approvvigionamento del tessuto è spesso la fase più lunga della produzione della moda. L'IA lo ottimizza analizzando la capacità dei fornitori e le scorte di materie prime in tempo reale.\n\nSe l'intelligenza artificiale prevede un imminente picco di domanda di capispalla in lana, il sistema di approvvigionamento controlla automaticamente gli attuali livelli di scorte di lana attraverso la rete di fornitori pre-approvati dal marchio.\n\nConclusione: La fusione di arte e algoritmo\n\nLa previsione delle tendenze dell'IA non riguarda la sostituzione del designer umano; si tratta di potenziarli. Rimuovendo le congetture dalla previsione delle tendenze e dall'allocazione dell'inventario, l'IA consente ai direttori creativi di concentrarsi su artigianato, narrazione e design di alta qualità."
-      }
+        content:
+          "Introduzione: L'IA passa dal concetto alla linea di produzione\n\nPer anni l'industria della moda ha discusso dell'Intelligenza Artificiale come di un concetto futuristico. Tuttavia, nel 2026, la vera rivoluzione si sta svolgendo silenziosamente dietro le quinte. L'IA è ora profondamente radicata nel cuore stesso della produzione di abbigliamento, cambiando radicalmente il modo in cui i capi vengono progettati, acquistati e prodotti.\n\nDesign generativo e prototipazione rapida\n\nIl processo di progettazione tradizionale era notoriamente lento. Un designer disegnava un concetto, i modellisti redigevano le schede tecniche e le fabbriche creavano campioni fisici. Questo ciclo spesso richiedeva da 3 a 4 iterazioni prima che un progetto venisse finalizzato, impiegando mesi e generando significativi sprechi di tessuto.\n\nOggi, i modelli di intelligenza artificiale generativa specificamente addestrati sui dati storici della moda e sulla fisica dei tessuti stanno trasformando questo flusso di lavoro. Questi rendering vengono mappati direttamente sui modelli di fabbrica, il che significa che una volta approvato un design, il file digitale può essere inviato direttamente alle macchine per il taglio dei tessuti computerizzate. Questo riduce i cicli di campionamento da diverse settimane a meno di 48 ore.\n\nRazionalizzazione del pre-acquisto delle materie prime\n\nL'approvvigionamento del tessuto è spesso la fase più lunga della produzione della moda. L'IA lo ottimizza analizzando la capacità dei fornitori e le scorte di materie prime in tempo reale.\n\nSe l'intelligenza artificiale prevede un imminente picco di domanda di capispalla in lana, il sistema di approvvigionamento controlla automaticamente gli attuali livelli di scorte di lana attraverso la rete di fornitori pre-approvati dal marchio.\n\nConclusione: La fusione di arte e algoritmo\n\nLa previsione delle tendenze dell'IA non riguarda la sostituzione del designer umano; si tratta di potenziarli. Rimuovendo le congetture dalla previsione delle tendenze e dall'allocazione dell'inventario, l'IA consente ai direttori creativi di concentrarsi su artigianato, narrazione e design di alta qualità.",
+      },
     },
   },
-    supplierRequest: {
-      "pageTitle": "Richiesta Fornitore",
-      "pageSubtitle": "Unisciti alla nostra rete globale di produttori e artigiani di eccellenza.",
-      "contactPerson": "Persona di contatto",
-      "email": "Email di lavoro",
-      "companyName": "Nome Fabbrica / Azienda",
-      "country": "Paese di operazione",
-      "specialization": "Specializzazioni principali",
-      "moq": "Quantità Minima d'Ordine (MOQ)",
-      "capacity": "Capacità produttiva mensile",
-      "message": "Dettagli aggiuntivi (Certificazioni, Clienti chiave)",
-      "submit": "Invia Richiesta",
-      "thankYou": "Richiesta Ricevuta",
-      "thankYouText": "Il nostro team di approvvigionamento esaminerà la tua richiesta e ti contatterà entro 48 ore per programmare un colloquio di conformità iniziale.",
-      "returnHome": "Torna alla Home"
+  supplierRequest: {
+    pageTitle: "Richiesta Fornitore",
+    pageSubtitle: "Unisciti alla nostra rete globale di produttori e artigiani di eccellenza.",
+    contactPerson: "Persona di contatto",
+    email: "Email di lavoro",
+    companyName: "Nome Fabbrica / Azienda",
+    country: "Paese di operazione",
+    specialization: "Specializzazioni principali",
+    moq: "Quantità Minima d'Ordine (MOQ)",
+    capacity: "Capacità produttiva mensile",
+    message: "Dettagli aggiuntivi (Certificazioni, Clienti chiave)",
+    submit: "Invia Richiesta",
+    thankYou: "Richiesta Ricevuta",
+    thankYouText:
+      "Il nostro team di approvvigionamento esaminerà la tua richiesta e ti contatterà entro 48 ore per programmare un colloquio di conformità iniziale.",
+    returnHome: "Torna alla Home",
   },
-    bookDemo: {
-      "pageTitle": "Prenota una Consulenza",
-      "pageSubtitle": "Discuti le tue esigenze di approvvigionamento con il nostro team di esperti.",
-      "step1": "I tuoi dettagli",
-      "step2": "Esigenze di approvvigionamento",
-      "fullName": "Nome completo",
-      "workEmail": "Email di lavoro",
-      "company": "Nome dell'azienda",
-      "role": "Il tuo ruolo",
-      "companySize": "Dimensioni dell'azienda",
-      "region": "Regione di destinazione",
-      "category": "Categoria principale",
-      "monthlyVolume": "Volume mensile stimato",
-      "timeline": "Tempistiche previste",
-      "message": "Messaggio o requisiti specifici",
-      "messagePlaceholder": "Raccontaci le tue sfide attuali...",
-      "back": "Indietro",
-      "next": "Prossimo Passo",
-      "submit": "Prenota",
-      "submitting": "Invio in corso...",
-      "thankYou": "Richiesta Ricevuta",
-      "thankYouText": "Grazie per il tuo interesse. Uno specialista degli acquisti ti contatterà a breve per programmare la tua consulenza.",
-      "returnHome": "Torna alla Home",
-      "errorGeneric": "Si è verificato un errore. Per favore riprova."
+  bookDemo: {
+    pageTitle: "Prenota una Consulenza",
+    pageSubtitle: "Discuti le tue esigenze di approvvigionamento con il nostro team di esperti.",
+    step1: "I tuoi dettagli",
+    step2: "Esigenze di approvvigionamento",
+    fullName: "Nome completo",
+    workEmail: "Email di lavoro",
+    company: "Nome dell'azienda",
+    role: "Il tuo ruolo",
+    companySize: "Dimensioni dell'azienda",
+    region: "Regione di destinazione",
+    category: "Categoria principale",
+    monthlyVolume: "Volume mensile stimato",
+    timeline: "Tempistiche previste",
+    message: "Messaggio o requisiti specifici",
+    messagePlaceholder: "Raccontaci le tue sfide attuali...",
+    back: "Indietro",
+    next: "Prossimo Passo",
+    submit: "Prenota",
+    submitting: "Invio in corso...",
+    thankYou: "Richiesta Ricevuta",
+    thankYouText:
+      "Grazie per il tuo interesse. Uno specialista degli acquisti ti contatterà a breve per programmare la tua consulenza.",
+    returnHome: "Torna alla Home",
+    errorGeneric: "Si è verificato un errore. Per favore riprova.",
   },
   // ── Admin Portal ──
   admin: {
@@ -557,7 +625,7 @@ export const it = {
     save: "Salva",
     cancel: "Annulla",
     viewDetails: "Visualizza dettagli",
-    
+
     inquiriesTitle: "Richieste",
     inquiriesDesc: "Rivedi, qualifica e aggiorna lo stato delle richieste dei marchi.",
     totalLeads: "Lead Totali",
@@ -588,7 +656,7 @@ export const it = {
 
     testimonialsTitle: "Testimonianze",
     testimonialsDesc: "Gestisci i feedback e le citazioni dei clienti.",
-  
+
     editSupplier: "Modifica Fornitore",
     addShipment: "Aggiungi Spedizione",
     generateAI: "Genera con IA",
@@ -597,5 +665,5 @@ export const it = {
     editBlogPost: "Modifica Articolo",
     addTestimonial: "Aggiungi Testimonianza",
     editTestimonial: "Modifica Testimonianza",
-  }
+  },
 };

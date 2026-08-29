@@ -35,9 +35,13 @@ export function Founders() {
     <section id="founders" className="relative pt-32 pb-16">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("founders.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            {t("founders.label")}
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            {t("founders.heading")} <span className="italic gradient-text">{t("founders.headingHighlight")}</span>{t("founders.headingEnd")}
+            {t("founders.heading")}{" "}
+            <span className="italic gradient-text">{t("founders.headingHighlight")}</span>
+            {t("founders.headingEnd")}
           </h2>
         </div>
 
@@ -60,13 +64,15 @@ export function Founders() {
                     loading="lazy"
                   />
                 </div>
-                
+
                 <div className="p-8 pb-4">
                   <div className="flex flex-wrap gap-2 mb-4">
-                  <div className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl bg-electric/10 text-electric border border-electric/20 flex flex-col gap-0.5">
-                    <span>{t("founders.coFounder")}</span>
-                    <span className="text-[#2C2C2C]/80 dark:text-white/80 text-[8px] tracking-wider">{f.role.split(" · ")[1]}</span>
-                  </div>
+                    <div className="text-[10px] font-medium uppercase tracking-[0.2em] px-3 py-1.5 rounded-xl bg-electric/10 text-electric border border-electric/20 flex flex-col gap-0.5">
+                      <span>{t("founders.coFounder")}</span>
+                      <span className="text-[#2C2C2C]/80 dark:text-white/80 text-[8px] tracking-wider">
+                        {f.role.split(" · ")[1]}
+                      </span>
+                    </div>
                   </div>
                   <h3 className="font-serif text-3xl text-foreground/90">{f.name}</h3>
                   <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{f.bio}</p>
@@ -75,11 +81,13 @@ export function Founders() {
 
               <div className="p-8 pt-4">
                 <div className="pt-6 border-t border-white/5">
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/60 mb-3">{f.footerLabel}</p>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/60 mb-3">
+                    {f.footerLabel}
+                  </p>
                   <div className="flex flex-wrap gap-2">
                     {f.tags.map((t) => (
-                      <span 
-                        key={t} 
+                      <span
+                        key={t}
                         className="text-xs px-3 py-1.5 rounded-full border border-white/5 bg-white/[0.02] text-muted-foreground hover:bg-white/[0.05] hover:border-white/10 hover:text-foreground transition-all duration-300"
                       >
                         {t}

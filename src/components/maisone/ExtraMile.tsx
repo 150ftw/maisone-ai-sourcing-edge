@@ -1,5 +1,15 @@
 import { motion } from "framer-motion";
-import { Leaf, BadgeCheck, Building2, Users, CheckCircle2, FileCheck2, Zap, Award, Search } from "lucide-react";
+import {
+  Leaf,
+  BadgeCheck,
+  Building2,
+  Users,
+  CheckCircle2,
+  FileCheck2,
+  Zap,
+  Award,
+  Search,
+} from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 
 export function ExtraMile() {
@@ -23,7 +33,9 @@ export function ExtraMile() {
       <div className="mx-auto max-w-7xl px-6">
         {/* Compliance */}
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— {t("extraMile.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — {t("extraMile.label")}
+          </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {COMPLIANCE.map((c, i) => (
               <motion.div

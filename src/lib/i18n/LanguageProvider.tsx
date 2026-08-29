@@ -75,7 +75,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       if (value !== key) return value;
       return getNestedValue(translationMap.en, key);
     },
-    [locale]
+    [locale],
   );
 
   const tArray = useCallback(
@@ -94,7 +94,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       if (value) return value;
       return getArray(translationMap.en, key) || [];
     },
-    [locale]
+    [locale],
   );
 
   return (

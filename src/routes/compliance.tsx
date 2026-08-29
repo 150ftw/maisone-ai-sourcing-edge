@@ -9,7 +9,11 @@ export const Route = createFileRoute("/compliance")({
   head: () => ({
     meta: [
       { title: "Compliance, Certifications & Vetting — Maisone Global" },
-      { name: "description", content: "Learn about Maisone Global's factory auditing procedures, AQL 2.5 standards, and certifications." }
+      {
+        name: "description",
+        content:
+          "Learn about Maisone Global's factory auditing procedures, AQL 2.5 standards, and certifications.",
+      },
     ],
   }),
   component: CompliancePage,
@@ -23,7 +27,7 @@ function CompliancePage() {
     { name: t("compliancePage.cert2Name"), scope: t("compliancePage.cert2Desc") },
     { name: t("compliancePage.cert3Name"), scope: t("compliancePage.cert3Desc") },
     { name: t("compliancePage.cert4Name"), scope: t("compliancePage.cert4Desc") },
-    { name: t("compliancePage.cert5Name"), scope: t("compliancePage.cert5Desc") }
+    { name: t("compliancePage.cert5Name"), scope: t("compliancePage.cert5Desc") },
   ];
 
   return (
@@ -35,12 +39,21 @@ function CompliancePage() {
         <main className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 flex-grow w-full space-y-16">
           {/* Header */}
           <div className="space-y-6">
-            <Link to="/" className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider"
+            >
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("compliancePage.label")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">
+              {t("compliancePage.label")}
+            </p>
             <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
-              {t("compliancePage.heading")} <span className="italic gradient-text font-serif">{t("compliancePage.headingHighlight")}</span>{t("compliancePage.headingEnd")}
+              {t("compliancePage.heading")}{" "}
+              <span className="italic gradient-text font-serif">
+                {t("compliancePage.headingHighlight")}
+              </span>
+              {t("compliancePage.headingEnd")}
             </h1>
           </div>
 
@@ -51,24 +64,16 @@ function CompliancePage() {
                 <h3 className="font-serif text-2xl text-foreground flex items-center gap-2">
                   <Clipboard className="size-5 text-electric" /> {t("compliancePage.vettingTitle")}
                 </h3>
-                <p>
-                  {t("compliancePage.vettingP1")}
-                </p>
-                <p>
-                  {t("compliancePage.vettingP2")}
-                </p>
+                <p>{t("compliancePage.vettingP1")}</p>
+                <p>{t("compliancePage.vettingP2")}</p>
               </div>
 
               <div className="space-y-3">
                 <h3 className="font-serif text-2xl text-foreground flex items-center gap-2">
                   <HeartHandshake className="size-5 text-electric" /> {t("compliancePage.aqlTitle")}
                 </h3>
-                <p>
-                  {t("compliancePage.aqlP1")}
-                </p>
-                <p>
-                  {t("compliancePage.aqlP2")}
-                </p>
+                <p>{t("compliancePage.aqlP1")}</p>
+                <p>{t("compliancePage.aqlP2")}</p>
               </div>
             </div>
 

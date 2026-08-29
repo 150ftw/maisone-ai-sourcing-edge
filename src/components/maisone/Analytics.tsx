@@ -35,12 +35,15 @@ export function Analytics() {
     <section id="analytics" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Intelligence</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Intelligence
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             Decision-grade <span className="italic gradient-text">analytics</span>.
           </h2>
           <p className="mt-6 text-muted-foreground max-w-xl">
-            Sourcing metrics, supplier performance and trend forecasting — distilled into investor-grade visuals.
+            Sourcing metrics, supplier performance and trend forecasting — distilled into
+            investor-grade visuals.
           </p>
         </div>
 
@@ -54,12 +57,20 @@ export function Analytics() {
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-xs font-medium flex items-center gap-2"><LineChart className="size-3.5 text-electric" /> Sourcing Volume vs Forecast</p>
-                <p className="text-[10px] text-muted-foreground mt-0.5">16-week rolling · 4 regions</p>
+                <p className="text-xs font-medium flex items-center gap-2">
+                  <LineChart className="size-3.5 text-electric" /> Sourcing Volume vs Forecast
+                </p>
+                <p className="text-[10px] text-muted-foreground mt-0.5">
+                  16-week rolling · 4 regions
+                </p>
               </div>
               <div className="flex gap-2 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-1"><span className="size-1.5 rounded-full bg-electric" /> Actual</span>
-                <span className="flex items-center gap-1"><span className="size-1.5 rounded-full bg-violet-glow" /> Forecast</span>
+                <span className="flex items-center gap-1">
+                  <span className="size-1.5 rounded-full bg-electric" /> Actual
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="size-1.5 rounded-full bg-violet-glow" /> Forecast
+                </span>
               </div>
             </div>
             <div className="relative">
@@ -76,7 +87,9 @@ export function Analytics() {
                 { l: "NPS", v: "72" },
               ].map((k) => (
                 <div key={k.l} className="rounded-xl bg-background border border-border p-3">
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{k.l}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                    {k.l}
+                  </p>
                   <p className="text-base font-semibold tabular-nums mt-0.5">{k.v}</p>
                 </div>
               ))}
@@ -91,19 +104,32 @@ export function Analytics() {
             transition={{ delay: 0.1 }}
             className="glass-strong rounded-3xl p-6 flex flex-col"
           >
-            <p className="text-xs font-medium flex items-center gap-2 mb-1"><Gauge className="size-3.5 text-electric" /> Supplier Health</p>
+            <p className="text-xs font-medium flex items-center gap-2 mb-1">
+              <Gauge className="size-3.5 text-electric" /> Supplier Health
+            </p>
             <p className="text-[10px] text-muted-foreground">Aggregate index · live</p>
 
             <div className="relative flex-1 flex items-center justify-center my-4">
               <svg viewBox="0 0 120 120" className="size-44 -rotate-90">
-                <circle cx="60" cy="60" r="52" stroke="oklch(0.97 0.005 260 / 0.08)" strokeWidth="8" fill="none" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  stroke="oklch(0.97 0.005 260 / 0.08)"
+                  strokeWidth="8"
+                  fill="none"
+                />
                 <motion.circle
-                  cx="60" cy="60" r="52"
-                  stroke="url(#gauge)" strokeWidth="8" fill="none"
+                  cx="60"
+                  cy="60"
+                  r="52"
+                  stroke="url(#gauge)"
+                  strokeWidth="8"
+                  fill="none"
                   strokeLinecap="round"
                   strokeDasharray="326"
                   initial={{ strokeDashoffset: 326 }}
-                  whileInView={{ strokeDashoffset: 326 - (326 * 0.92) }}
+                  whileInView={{ strokeDashoffset: 326 - 326 * 0.92 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1.4 }}
                   style={{ filter: "drop-shadow(0 0 8px oklch(0.65 0.22 255))" }}
@@ -129,7 +155,9 @@ export function Analytics() {
               ].map((k) => (
                 <div key={k.l}>
                   <p className="text-sm tabular-nums">{k.v}</p>
-                  <p className="text-[9px] uppercase tracking-widest text-muted-foreground">{k.l}</p>
+                  <p className="text-[9px] uppercase tracking-widest text-muted-foreground">
+                    {k.l}
+                  </p>
                 </div>
               ))}
             </div>
@@ -142,7 +170,9 @@ export function Analytics() {
             viewport={{ once: true }}
             className="glass-strong rounded-3xl p-6"
           >
-            <p className="text-xs font-medium flex items-center gap-2 mb-4"><TrendingUp className="size-3.5 text-electric" /> Trend Forecast · S/S 26</p>
+            <p className="text-xs font-medium flex items-center gap-2 mb-4">
+              <TrendingUp className="size-3.5 text-electric" /> Trend Forecast · S/S 26
+            </p>
             <div className="space-y-3">
               {[
                 { t: "Washed Indigo", c: 92 },
@@ -177,7 +207,9 @@ export function Analytics() {
             className="lg:col-span-2 glass-strong rounded-3xl p-6"
           >
             <div className="flex items-center justify-between mb-4">
-              <p className="text-xs font-medium flex items-center gap-2"><Activity className="size-3.5 text-electric" /> Quotation Activity · by region</p>
+              <p className="text-xs font-medium flex items-center gap-2">
+                <Activity className="size-3.5 text-electric" /> Quotation Activity · by region
+              </p>
               <span className="text-[10px] text-muted-foreground">Last 12 weeks</span>
             </div>
             <div className="space-y-2">

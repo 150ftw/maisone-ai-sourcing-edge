@@ -1,6 +1,13 @@
-import { motion, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, TrendingUp, Sparkles, CheckCircle2, Package, Clock, Infinity } from "lucide-react";
-
+import { motion, useSpring, useTransform, type MotionValue } from "framer-motion";
+import {
+  ArrowRight,
+  TrendingUp,
+  Sparkles,
+  CheckCircle2,
+  Package,
+  Clock,
+  Infinity as InfinityIcon,
+} from "lucide-react";
 
 import { Link } from "@tanstack/react-router";
 import { WorldMap } from "./WorldMap";
@@ -26,7 +33,7 @@ const THREAD_PATHS = [
   "M5,20 C15,0 35,40 25,10",
   "M20,5 C0,15 40,25 20,35",
   "M10,10 Q-5,25 15,30 T25,-10",
-  "M15,25 C-5,0 45,0 15,-10"
+  "M15,25 C-5,0 45,0 15,-10",
 ];
 
 const HoverThreadText = ({ text, className = "" }: { text: string; className?: string }) => {
@@ -93,19 +100,41 @@ const HoverThreadText = ({ text, className = "" }: { text: string; className?: s
           <span
             key={i}
             className={`group inline-block relative cursor-none py-2 -my-2 px-1 -mx-1 ${!isSpace ? "fabric-text-hover" : ""} ${className}`}
-            style={{
-              "--yarn-1": c1,
-              "--yarn-2": c2,
-            } as React.CSSProperties}
+            style={
+              {
+                "--yarn-1": c1,
+                "--yarn-2": c2,
+              } as React.CSSProperties
+            }
           >
             {isSpace ? "\u00A0" : char}
             {!isSpace && (
               <>
-                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]" viewBox="0 0 40 40" fill="none" stroke={c1} strokeWidth="2" strokeLinecap="round">
-                  <path d={p1} className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-700 ease-out" />
+                <svg
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  stroke={c1}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path
+                    d={p1}
+                    className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-700 ease-out"
+                  />
                 </svg>
-                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]" viewBox="0 0 40 40" fill="none" stroke={c2} strokeWidth="1" strokeLinecap="round">
-                  <path d={p2} className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-1000 ease-out delay-75" />
+                <svg
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 opacity-0 transition-opacity duration-300 pointer-events-none z-[-1]"
+                  viewBox="0 0 40 40"
+                  fill="none"
+                  stroke={c2}
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                >
+                  <path
+                    d={p2}
+                    className="[stroke-dasharray:100] [stroke-dashoffset:100] transition-all duration-1000 ease-out delay-75"
+                  />
                 </svg>
               </>
             )}
@@ -118,7 +147,13 @@ const HoverThreadText = ({ text, className = "" }: { text: string; className?: s
 
 const MotionLink = motion.create(Link);
 
-const WovenBackdrop = ({ cursorX, cursorY }: { cursorX: any; cursorY: any }) => {
+const WovenBackdrop = ({
+  cursorX,
+  cursorY,
+}: {
+  cursorX: MotionValue<number>;
+  cursorY: MotionValue<number>;
+}) => {
   const xTransform = useTransform(cursorX, [0, 2000], [-10, 10]);
   const yTransform = useTransform(cursorY, [0, 1000], [-10, 10]);
 
@@ -127,11 +162,11 @@ const WovenBackdrop = ({ cursorX, cursorY }: { cursorX: any; cursorY: any }) => 
 
   return (
     <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none opacity-5 dark:opacity-10 mix-blend-overlay">
-      <motion.div
-        className="w-full h-full"
-        style={{ x: springX, y: springY }}
-      >
-        <svg className="w-[110%] h-[110%] -left-[5%] -top-[5%] absolute" xmlns="http://www.w3.org/2000/svg">
+      <motion.div className="w-full h-full" style={{ x: springX, y: springY }}>
+        <svg
+          className="w-[110%] h-[110%] -left-[5%] -top-[5%] absolute"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <defs>
             <pattern id="weavePattern" width="30" height="30" patternUnits="userSpaceOnUse">
               <path d="M0,15 L30,15 M15,0 L15,30" stroke="var(--foreground)" strokeWidth="0.5" />
@@ -171,9 +206,12 @@ export function Hero() {
       }}
     >
       {/* Creative Parallax Background */}
-      <div 
+      <div
         className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-300 ${isDark ? "opacity-80" : "opacity-90"}`}
-        style={{ WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)", maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)" }}
+        style={{
+          WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+          maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+        }}
       >
         <motion.video
           key={bgVideo} // Re-mount when video source changes for smooth loading animation
@@ -195,7 +233,8 @@ export function Hero() {
         <div
           className={`absolute inset-0 pointer-events-none transition-opacity duration-300 ${isDark ? "opacity-100" : "opacity-30"}`}
           style={{
-            backgroundImage: "radial-gradient(circle at center, transparent 10%, var(--background) 90%)"
+            backgroundImage:
+              "radial-gradient(circle at center, transparent 10%, var(--background) 90%)",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background pointer-events-none" />
@@ -211,14 +250,14 @@ export function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-5xl mx-auto"
         >
-
-
           <h1
-            className={`font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? 'cursor-none' : ''}`}
+            className={`font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.02] tracking-tight text-balance relative ${isHoveringHero ? "cursor-none" : ""}`}
             onMouseMove={(e) => {
               cursorX.set(e.clientX);
               cursorY.set(e.clientY);
-              window.dispatchEvent(new CustomEvent("hero-mousemove", { detail: { x: e.clientX, y: e.clientY } }));
+              window.dispatchEvent(
+                new CustomEvent("hero-mousemove", { detail: { x: e.clientX, y: e.clientY } }),
+              );
             }}
             onMouseEnter={() => setIsHoveringHero(true)}
             onMouseLeave={() => {
@@ -234,14 +273,17 @@ export function Hero() {
                   x: cursorX,
                   y: cursorY,
                   translateX: "-50%",
-                  translateY: "-50%"
+                  translateY: "-50%",
                 }}
               />
             )}
 
             <HoverThreadText text={t("hero.headingLine1")} />
             <br />
-            <HoverThreadText text={t("hero.headingLine2")} className="gradient-text italic hover:[-webkit-text-stroke:1px_var(--violet-glow)]" />
+            <HoverThreadText
+              text={t("hero.headingLine2")}
+              className="gradient-text italic hover:[-webkit-text-stroke:1px_var(--violet-glow)]"
+            />
             <HoverThreadText text={t("hero.headingLine3")} />
           </h1>
 
@@ -278,7 +320,9 @@ export function Hero() {
             ].map((s) => (
               <div key={s.l} className="glass rounded-2xl px-4 py-3 text-left">
                 <p className="font-serif text-lg text-foreground">{s.v}</p>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-[#2C2C2C]/70 dark:text-muted-foreground mt-1 font-medium">{s.l}</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[#2C2C2C]/70 dark:text-muted-foreground mt-1 font-medium">
+                  {s.l}
+                </p>
               </div>
             ))}
           </div>
@@ -299,7 +343,8 @@ export function Hero() {
               {t("hero.liveSourcingNetwork")}
             </span>
             <h3 className="font-serif text-2xl sm:text-3xl tracking-tight text-center text-foreground mt-2">
-              {t("hero.weCurrentlySource")} <span className="italic gradient-text font-serif">{t("hero.countries")}</span>
+              {t("hero.weCurrentlySource")}{" "}
+              <span className="italic gradient-text font-serif">{t("hero.countries")}</span>
             </h3>
           </div>
           <div className="glass-strong rounded-3xl p-2 sm:p-6 text-foreground/80 overflow-hidden w-full">
@@ -341,7 +386,9 @@ export function Hero() {
 
                   {/* Main Title */}
                   <h4 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-foreground font-normal leading-snug tracking-tight mb-5">
-                    {t("hero.supportingEmergingLabels")} <span className="italic font-serif text-electric">{t("hero.lowMinimum")}</span> {t("hero.orderQuantities")}
+                    {t("hero.supportingEmergingLabels")}{" "}
+                    <span className="italic font-serif text-electric">{t("hero.lowMinimum")}</span>{" "}
+                    {t("hero.orderQuantities")}
                   </h4>
 
                   {/* Subtitle */}
@@ -353,15 +400,24 @@ export function Hero() {
                   <div className="flex flex-wrap items-center gap-4 sm:gap-6 py-4 mb-8 text-xs sm:text-sm font-medium border-y border-black/10 dark:border-white/10">
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span>{t("hero.moqFrom")} <span className="text-electric font-semibold">{t("hero.pieces50")}</span></span>
+                      <span>
+                        {t("hero.moqFrom")}{" "}
+                        <span className="text-electric font-semibold">{t("hero.pieces50")}</span>
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span>{t("hero.samplesIn")} <span className="text-electric font-semibold">{t("hero.days714")}</span></span>
+                      <span>
+                        {t("hero.samplesIn")}{" "}
+                        <span className="text-electric font-semibold">{t("hero.days714")}</span>
+                      </span>
                     </div>
                     <div className="flex items-center gap-2 text-foreground">
                       <CheckCircle2 className="size-4 text-electric shrink-0" />
-                      <span><span className="text-electric font-semibold">{t("hero.unlimited")}</span> {t("hero.productionScaling")}</span>
+                      <span>
+                        <span className="text-electric font-semibold">{t("hero.unlimited")}</span>{" "}
+                        {t("hero.productionScaling")}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -370,34 +426,42 @@ export function Hero() {
                 <div className="flex items-center gap-6 pt-2">
                   <motion.a
                     href="mailto:info@maisone.com"
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.08,
-                      boxShadow: isDark 
+                      boxShadow: isDark
                         ? "0px 0px 40px 15px rgba(212, 181, 126, 1)"
-                        : "0px 0px 40px 15px rgba(212, 181, 126, 0.8)"
+                        : "0px 0px 40px 15px rgba(212, 181, 126, 0.8)",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    animate={{ 
+                    animate={{
                       scale: [1, 1.04, 1],
-                      boxShadow: isDark 
+                      boxShadow: isDark
                         ? [
-                            "0px 0px 10px 0px rgba(212, 181, 126, 0.4)", 
-                            "0px 0px 30px 10px rgba(212, 181, 126, 0.9)", 
-                            "0px 0px 10px 0px rgba(212, 181, 126, 0.4)"
+                            "0px 0px 10px 0px rgba(212, 181, 126, 0.4)",
+                            "0px 0px 30px 10px rgba(212, 181, 126, 0.9)",
+                            "0px 0px 10px 0px rgba(212, 181, 126, 0.4)",
                           ]
                         : [
-                            "0px 4px 15px 0px rgba(0, 0, 0, 0.15)", 
-                            "0px 8px 30px 5px rgba(0, 0, 0, 0.35)", 
-                            "0px 4px 15px 0px rgba(0, 0, 0, 0.15)"
-                          ]
+                            "0px 4px 15px 0px rgba(0, 0, 0, 0.15)",
+                            "0px 8px 30px 5px rgba(0, 0, 0, 0.35)",
+                            "0px 4px 15px 0px rgba(0, 0, 0, 0.15)",
+                          ],
                     }}
-                    transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#d4b57e] hover:bg-[#e0c087] text-black font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer group relative overflow-visible z-10"
                   >
                     <span>{t("hero.requestLowMoqQuote")}</span>
                     <motion.div
                       animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
                     >
                       <ArrowRight className="size-4 stroke-[2.5]" />
                     </motion.div>
@@ -412,10 +476,14 @@ export function Hero() {
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
                     <Package className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.minimumOrder")}</span>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">
+                    {t("hero.minimumOrder")}
+                  </span>
                   <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
                   <span className="font-serif text-2xl text-foreground font-normal">50</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.piecesCaps")}</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">
+                    {t("hero.piecesCaps")}
+                  </span>
                 </div>
 
                 {/* Card 2 */}
@@ -423,28 +491,36 @@ export function Hero() {
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
                     <Clock className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.sampleDev")}</span>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">
+                    {t("hero.sampleDev")}
+                  </span>
                   <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
                   <span className="font-serif text-2xl text-foreground font-normal">7–14</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.daysCaps")}</span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">
+                    {t("hero.daysCaps")}
+                  </span>
                 </div>
 
                 {/* Card 3 */}
                 <div className="bg-black/5 dark:bg-[#141312]/80 backdrop-blur-md border border-black/5 dark:border-white/10 rounded-2xl py-4 px-2.5 flex flex-col items-center justify-center text-center min-w-[110px] sm:min-w-[125px] shadow-xl hover:border-electric/40 transition-colors gap-1">
                   <div className="size-8 rounded-full bg-electric/10 border border-electric/20 flex items-center justify-center text-electric mb-1">
-                    <Infinity className="size-4" />
+                    <InfinityIcon className="size-4" />
                   </div>
-                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">{t("hero.capacityLabel")}</span>
+                  <span className="text-[7.5px] tracking-[0.15em] uppercase font-mono text-muted-foreground">
+                    {t("hero.capacityLabel")}
+                  </span>
                   <div className="w-5 h-[1px] bg-black/10 dark:bg-white/10 my-1" />
-                  <span className="font-serif text-sm sm:text-base text-electric font-semibold tracking-wide">{t("hero.unlimitedCaps")}</span>
-                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">{t("hero.scalingCaps")}</span>
+                  <span className="font-serif text-sm sm:text-base text-electric font-semibold tracking-wide">
+                    {t("hero.unlimitedCaps")}
+                  </span>
+                  <span className="text-[8.5px] tracking-widest font-mono uppercase text-muted-foreground">
+                    {t("hero.scalingCaps")}
+                  </span>
                 </div>
               </div>
             </div>
           </motion.div>
         </motion.div>
-
-
       </div>
     </section>
   );

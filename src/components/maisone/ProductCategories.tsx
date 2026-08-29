@@ -11,9 +11,9 @@ const categories = [
       "/Collection/Accessories/4b3bf434-00a4-4370-af69-50ed0580b876.JPG",
       "/Collection/Accessories/734b3628-afe6-4e31-aca8-f3d77e1307f4.JPG",
       "/Collection/Accessories/7ae47efa-fd39-45a9-8053-63d363fa416d.JPG",
-      "/Collection/Accessories/8e3df532-8f74-43d2-bbf7-0efb2c99110d.JPG"
+      "/Collection/Accessories/8e3df532-8f74-43d2-bbf7-0efb2c99110d.JPG",
     ],
-    hue: "from-amber-700/40 to-stone-800/50"
+    hue: "from-amber-700/40 to-stone-800/50",
   },
   {
     name: "Cap",
@@ -21,9 +21,9 @@ const categories = [
       "/Collection/Cap/BEAF6079-040E-4CD1-9EEF-4382DCA8176D.PNG",
       "/Collection/Cap/E023E362-5001-4F7E-BBBF-B0F00AAC5612.PNG",
       "/Collection/Cap/E0CD412C-E506-4D3F-B379-9141D7ACAC53.PNG",
-      "/Collection/Cap/E4F91B06-8970-4836-A860-375D49FEFB79.PNG"
+      "/Collection/Cap/E4F91B06-8970-4836-A860-375D49FEFB79.PNG",
     ],
-    hue: "from-sky-700/40 to-slate-800/50"
+    hue: "from-sky-700/40 to-slate-800/50",
   },
   {
     name: "Circular Knits",
@@ -37,9 +37,9 @@ const categories = [
       "/Collection/Circular Knits/96660e59-c61e-46f5-815b-9ed26ddb7b71.jpg",
       "/Collection/Circular Knits/9fdb21f7-cee0-43b0-9ff9-7e6c34815a05.jpg",
       "/Collection/Circular Knits/c71655cb-d316-4bf2-aa72-fea63ad2282d.jpg",
-      "/Collection/Circular Knits/cb3a1a41-564a-4b43-906f-cbf9b96bfd7b.jpg"
+      "/Collection/Circular Knits/cb3a1a41-564a-4b43-906f-cbf9b96bfd7b.jpg",
     ],
-    hue: "from-emerald-700/40 to-teal-900/50"
+    hue: "from-emerald-700/40 to-teal-900/50",
   },
   {
     name: "Contemporary Ready to Wear",
@@ -50,18 +50,18 @@ const categories = [
       "/Collection/Contemporary Ready to wear/e68f411a-661f-4aa7-994c-a0e1862d2849 3.jpg",
       "/Collection/Contemporary Ready to wear/CRTW 01.PNG",
       "/Collection/Contemporary Ready to wear/CRTW 02.PNG",
-      "/Collection/Contemporary Ready to wear/CRTW 03.PNG"
+      "/Collection/Contemporary Ready to wear/CRTW 03.PNG",
     ],
-    hue: "from-violet-500/30 to-fuchsia-700/40"
+    hue: "from-violet-500/30 to-fuchsia-700/40",
   },
   {
     name: "Couture",
     images: [
       "/Collection/Couture/image.png",
       "/Collection/Couture/image copy.png",
-      "/Collection/Couture/image copy 2.png"
+      "/Collection/Couture/image copy 2.png",
     ],
-    hue: "from-slate-500/40 to-zinc-800/50"
+    hue: "from-slate-500/40 to-zinc-800/50",
   },
   {
     name: "Denim",
@@ -69,9 +69,9 @@ const categories = [
       "/Collection/Denim/8a7d1d6b-9b2d-4f30-bc67-9a13ec8ed07a.png",
       "/Collection/Denim/a5483b4a-5676-46a8-8ba2-6b27a93487c1.png",
       "/Collection/Denim/e68f411a-661f-4aa7-994c-a0e1862d2849 2.jpg",
-      "/Collection/Denim/e68f411a-661f-4aa7-994c-a0e1862d2849.jpg"
+      "/Collection/Denim/e68f411a-661f-4aa7-994c-a0e1862d2849.jpg",
     ],
-    hue: "from-blue-700/40 to-indigo-900/50"
+    hue: "from-blue-700/40 to-indigo-900/50",
   },
   {
     name: "Flat Knits",
@@ -80,9 +80,9 @@ const categories = [
       "/Collection/Flat Knits/d39b0b24-051a-4216-8007-0ff7dae8c983.jpg",
       "/Collection/Flat Knits/Flat knit 01.PNG",
       "/Collection/Flat Knits/Flat knit 02.PNG",
-      "/Collection/Flat Knits/Flat knit 03.PNG"
+      "/Collection/Flat Knits/Flat knit 03.PNG",
     ],
-    hue: "from-rose-500/30 to-amber-700/40"
+    hue: "from-rose-500/30 to-amber-700/40",
   },
   {
     name: "Leather",
@@ -90,15 +90,15 @@ const categories = [
       "/Collection/Leather/image.png",
       "/Collection/Leather/image copy.png",
       "/Collection/Leather/image copy 2.png",
-      "/Collection/Leather/image copy 3.png"
+      "/Collection/Leather/image copy 3.png",
     ],
-    hue: "from-pink-500/30 to-rose-700/40"
-  }
+    hue: "from-pink-500/30 to-rose-700/40",
+  },
 ];
 
 // features list moved inside ProductCategories component to use translations dynamically
 
-function CategoryCard({ category, index }: { category: typeof categories[0]; index: number }) {
+function CategoryCard({ category, index }: { category: (typeof categories)[0]; index: number }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleNext = (e: React.MouseEvent) => {
@@ -136,7 +136,9 @@ function CategoryCard({ category, index }: { category: typeof categories[0]; ind
       ))}
 
       {/* Hue overlays */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${category.hue} mix-blend-overlay opacity-60 group-hover:opacity-85 transition-opacity duration-700`} />
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${category.hue} mix-blend-overlay opacity-60 group-hover:opacity-85 transition-opacity duration-700`}
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent" />
 
       {/* Navigation Arrows */}
@@ -182,7 +184,9 @@ function CategoryCard({ category, index }: { category: typeof categories[0]; ind
         <p className="text-[10px] uppercase tracking-[0.25em] text-electric mb-2 opacity-80 font-bold">
           Category {String(index + 1).padStart(2, "0")}
         </p>
-        <h3 className="font-serif text-2xl sm:text-3xl leading-tight text-balance font-medium text-white">{category.name}</h3>
+        <h3 className="font-serif text-2xl sm:text-3xl leading-tight text-balance font-medium text-white">
+          {category.name}
+        </h3>
       </div>
     </motion.div>
   );
@@ -192,22 +196,24 @@ export function ProductCategories() {
   const [activeIdx, setActiveIdx] = useState(0);
   const { t } = useLanguage();
 
-
   const activeCategory = categories[activeIdx];
   const galleryPhotos = activeCategory.images.slice(0, 5).map((img, idx) => ({
     id: idx,
-    image: img
+    image: img,
   }));
 
   return (
     <section id="categories" className="relative py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 space-y-32">
-        
         {/* Main Section Header */}
         <div className="max-w-3xl">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("categories.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            {t("categories.label")}
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            {t("categories.heading")} <span className="italic gradient-text">{t("categories.headingHighlight")}</span>{t("categories.headingEnd")}
+            {t("categories.heading")}{" "}
+            <span className="italic gradient-text">{t("categories.headingHighlight")}</span>
+            {t("categories.headingEnd")}
           </h2>
         </div>
 
@@ -228,26 +234,40 @@ export function ProductCategories() {
                 >
                   <div className="flex justify-between items-center relative z-10">
                     <div className="flex items-center gap-3 lg:gap-4">
-                      <span className={`font-serif text-[10px] lg:text-xs transition-colors duration-300 ${
-                        i === activeIdx ? "text-[#C2A46D] font-bold" : "text-[#2C2C2C]/40 dark:text-muted-foreground/40 group-hover:text-[#C2A46D] group-hover:font-bold"
-                      }`}>
+                      <span
+                        className={`font-serif text-[10px] lg:text-xs transition-colors duration-300 ${
+                          i === activeIdx
+                            ? "text-[#C2A46D] font-bold"
+                            : "text-[#2C2C2C]/40 dark:text-muted-foreground/40 group-hover:text-[#C2A46D] group-hover:font-bold"
+                        }`}
+                      >
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <div>
-                        <h4 className={`font-serif text-sm lg:text-base tracking-wide transition-colors duration-300 ${
-                          i === activeIdx ? "text-[#C2A46D] font-medium" : "text-[#2C2C2C]/80 dark:text-white/80 group-hover:text-[#C2A46D]"
-                        }`}>
+                        <h4
+                          className={`font-serif text-sm lg:text-base tracking-wide transition-colors duration-300 ${
+                            i === activeIdx
+                              ? "text-[#C2A46D] font-medium"
+                              : "text-[#2C2C2C]/80 dark:text-white/80 group-hover:text-[#C2A46D]"
+                          }`}
+                        >
                           {c.name}
                         </h4>
                       </div>
                     </div>
-                    <ArrowRight className={`hidden lg:block size-3.5 transition-all duration-300 ${
-                      i === activeIdx ? "text-[#C2A46D] translate-x-0 opacity-100" : "text-muted-foreground/50 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#C2A46D]"
-                    }`} />
+                    <ArrowRight
+                      className={`hidden lg:block size-3.5 transition-all duration-300 ${
+                        i === activeIdx
+                          ? "text-[#C2A46D] translate-x-0 opacity-100"
+                          : "text-muted-foreground/50 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#C2A46D]"
+                      }`}
+                    />
                   </div>
-                  <div className={`absolute inset-0 bg-gradient-to-r from-[#C2A46D]/5 to-transparent pointer-events-none transition-opacity duration-300 ${
-                    i === activeIdx ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                  }`} />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-r from-[#C2A46D]/5 to-transparent pointer-events-none transition-opacity duration-300 ${
+                      i === activeIdx ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                    }`}
+                  />
                 </button>
               ))}
             </div>
@@ -257,14 +277,14 @@ export function ProductCategories() {
               {categories.map((c, i) => {
                 const isActive = i === activeIdx;
                 const offset = i - activeIdx;
-                
+
                 // Render all swatches so the full stack is always visible
                 // No early return for Math.abs(offset) > 5
-                
+
                 return (
                   <motion.div
                     key={c.name}
-                    className={`absolute w-[95%] sm:w-[95%] h-[95%] sm:h-[95%] origin-bottom-right rounded-3xl glass-strong shadow-2xl border border-white/10 ${!isActive ? 'cursor-pointer hover:border-electric/50' : ''}`}
+                    className={`absolute w-[95%] sm:w-[95%] h-[95%] sm:h-[95%] origin-bottom-right rounded-3xl glass-strong shadow-2xl border border-white/10 ${!isActive ? "cursor-pointer hover:border-electric/50" : ""}`}
                     onClick={() => !isActive && setActiveIdx(i)}
                     initial={false}
                     animate={{
@@ -273,67 +293,84 @@ export function ProductCategories() {
                       y: isActive ? 0 : offset * 25,
                       z: isActive ? 0 : -Math.abs(offset) * 30,
                       opacity: isActive ? 1 : Math.max(0.2, 1 - Math.abs(offset) * 0.1),
-                      scale: isActive ? 1 : 1 - Math.abs(offset) * 0.015
+                      scale: isActive ? 1 : 1 - Math.abs(offset) * 0.015,
                     }}
-                    whileHover={!isActive ? {
-                      x: offset * 10 + (offset < 0 ? -15 : 15),
-                      y: offset * 25 + (offset < 0 ? -15 : 15),
-                      rotate: offset * 3 + (offset < 0 ? -2 : 2),
-                      scale: 1 - Math.abs(offset) * 0.015 + 0.02
-                    } : {}}
+                    whileHover={
+                      !isActive
+                        ? {
+                            x: offset * 10 + (offset < 0 ? -15 : 15),
+                            y: offset * 25 + (offset < 0 ? -15 : 15),
+                            rotate: offset * 3 + (offset < 0 ? -2 : 2),
+                            scale: 1 - Math.abs(offset) * 0.015 + 0.02,
+                          }
+                        : {}
+                    }
                     transition={{ type: "spring", stiffness: 250, damping: 25 }}
                     style={{ zIndex: categories.length - Math.abs(offset) }}
                   >
                     <div className="absolute inset-0 bg-background/90 rounded-3xl" />
-                    <div className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-normal opacity-[0.35] dark:mix-blend-overlay dark:opacity-40 rounded-3xl pointer-events-none`} />
-                    
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${c.hue} mix-blend-normal opacity-[0.35] dark:mix-blend-overlay dark:opacity-40 rounded-3xl pointer-events-none`}
+                    />
+
                     <div className="relative z-10 w-full h-full flex flex-col p-4 sm:p-6">
-                       {/* Swatch Hole Punch (Visual detail) */}
-                       <div className="absolute top-6 left-6 size-4 rounded-full bg-background shadow-inner border border-white/5 hidden sm:block" />
-                       
-                       {/* Top: Info */}
-                       <div className="w-full border-b border-white/10 pb-4 mb-4 flex justify-between items-end pl-0 sm:pl-10">
-                          <div>
-                            <div className="size-8 rounded-full border border-electric/30 flex items-center justify-center mb-2 text-electric glow-electric">
-                               <span className="font-serif text-sm">{String(i + 1).padStart(2, "0")}</span>
-                            </div>
-                            <h3 className="font-serif text-xl sm:text-2xl font-medium">{c.name}</h3>
+                      {/* Swatch Hole Punch (Visual detail) */}
+                      <div className="absolute top-6 left-6 size-4 rounded-full bg-background shadow-inner border border-white/5 hidden sm:block" />
+
+                      {/* Top: Info */}
+                      <div className="w-full border-b border-white/10 pb-4 mb-4 flex justify-between items-end pl-0 sm:pl-10">
+                        <div>
+                          <div className="size-8 rounded-full border border-electric/30 flex items-center justify-center mb-2 text-electric glow-electric">
+                            <span className="font-serif text-sm">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
                           </div>
-                          
-                          {isActive && (
-                            <motion.div 
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ delay: 0.3 }}
-                              className="hidden sm:block"
-                            >
-                              <p className="text-[10px] tracking-[0.2em] uppercase text-electric text-right">Premium<br/>Sourcing</p>
-                            </motion.div>
-                          )}
-                       </div>
-                       
-                       {/* Bottom: Interactive Images Grid */}
-                       <div className="w-full h-full relative flex-1">
-                          {isActive ? (
-                            <div className="absolute inset-0 rounded-xl">
-                               <InteractiveFolderGallery
-                                 key={c.name}
-                                 photos={c.images.slice(0, 5).map((img, idx) => ({ id: idx, image: img }))}
-                                 folderName={c.name}
-                                 dragHintText="Drag down to return"
-                                 className="py-0 h-full"
-                               />
-                            </div>
-                          ) : (
-                            <div className="absolute inset-0 grid grid-cols-2 gap-2 sm:gap-3 opacity-60 grayscale blur-[2px]">
-                              {c.images.slice(0,4).map((img, idx) => (
-                                <div key={idx} className="relative rounded-xl overflow-hidden h-full">
-                                  <img src={img} className="absolute inset-0 w-full h-full object-cover" />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                       </div>
+                          <h3 className="font-serif text-xl sm:text-2xl font-medium">{c.name}</h3>
+                        </div>
+
+                        {isActive && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="hidden sm:block"
+                          >
+                            <p className="text-[10px] tracking-[0.2em] uppercase text-electric text-right">
+                              Premium
+                              <br />
+                              Sourcing
+                            </p>
+                          </motion.div>
+                        )}
+                      </div>
+
+                      {/* Bottom: Interactive Images Grid */}
+                      <div className="w-full h-full relative flex-1">
+                        {isActive ? (
+                          <div className="absolute inset-0 rounded-xl">
+                            <InteractiveFolderGallery
+                              key={c.name}
+                              photos={c.images
+                                .slice(0, 5)
+                                .map((img, idx) => ({ id: idx, image: img }))}
+                              folderName={c.name}
+                              dragHintText="Drag down to return"
+                              className="py-0 h-full"
+                            />
+                          </div>
+                        ) : (
+                          <div className="absolute inset-0 grid grid-cols-2 gap-2 sm:gap-3 opacity-60 grayscale blur-[2px]">
+                            {c.images.slice(0, 4).map((img, idx) => (
+                              <div key={idx} className="relative rounded-xl overflow-hidden h-full">
+                                <img
+                                  src={img}
+                                  className="absolute inset-0 w-full h-full object-cover"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </motion.div>
                 );
@@ -341,7 +378,6 @@ export function ProductCategories() {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

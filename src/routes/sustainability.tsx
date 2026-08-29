@@ -10,7 +10,11 @@ export const Route = createFileRoute("/sustainability")({
   head: () => ({
     meta: [
       { title: "Sustainability & Circularity Policy — Maisone Global" },
-      { name: "description", content: "Discover Maisone Global's commitment to water-less dyeing, GOTS organic cotton, and zero-waste pattern design." }
+      {
+        name: "description",
+        content:
+          "Discover Maisone Global's commitment to water-less dyeing, GOTS organic cotton, and zero-waste pattern design.",
+      },
     ],
   }),
   component: SustainabilityPage,
@@ -23,18 +27,18 @@ function SustainabilityPage() {
     {
       icon: Recycle,
       title: t("sustainabilityPage.pillar1Title"),
-      desc: t("sustainabilityPage.pillar1Desc")
+      desc: t("sustainabilityPage.pillar1Desc"),
     },
     {
       icon: Droplet,
       title: t("sustainabilityPage.pillar2Title"),
-      desc: t("sustainabilityPage.pillar2Desc")
+      desc: t("sustainabilityPage.pillar2Desc"),
     },
     {
       icon: Wind,
       title: t("sustainabilityPage.pillar3Title"),
-      desc: t("sustainabilityPage.pillar3Desc")
-    }
+      desc: t("sustainabilityPage.pillar3Desc"),
+    },
   ];
 
   return (
@@ -46,12 +50,21 @@ function SustainabilityPage() {
         <main className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 flex-grow w-full space-y-16">
           {/* Header */}
           <div className="space-y-6">
-            <Link to="/" className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider"
+            >
               <ArrowLeft className="size-4" /> {t("nav.backToHome")}
             </Link>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("sustainabilityPage.label")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">
+              {t("sustainabilityPage.label")}
+            </p>
             <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
-              {t("sustainabilityPage.heading")} <span className="italic gradient-text font-serif">{t("sustainabilityPage.headingHighlight")}</span>{t("sustainabilityPage.headingEnd")}
+              {t("sustainabilityPage.heading")}{" "}
+              <span className="italic gradient-text font-serif">
+                {t("sustainabilityPage.headingHighlight")}
+              </span>
+              {t("sustainabilityPage.headingEnd")}
             </h1>
           </div>
 
@@ -60,13 +73,18 @@ function SustainabilityPage() {
             {pillars.map((p, i) => {
               const Icon = p.icon;
               return (
-                <div key={i} className="glass-strong rounded-3xl p-6 border border-white/5 space-y-4 hover:border-electric/25 transition-all flex flex-col justify-between">
+                <div
+                  key={i}
+                  className="glass-strong rounded-3xl p-6 border border-white/5 space-y-4 hover:border-electric/25 transition-all flex flex-col justify-between"
+                >
                   <div className="space-y-4">
                     <div className="size-10 rounded-xl bg-electric/15 border border-electric/25 flex items-center justify-center">
                       <Icon className="size-4.5 text-electric" />
                     </div>
                     <h3 className="font-serif text-xl text-foreground">{p.title}</h3>
-                    <p className="text-muted-foreground text-xs leading-relaxed font-normal">{p.desc}</p>
+                    <p className="text-muted-foreground text-xs leading-relaxed font-normal">
+                      {p.desc}
+                    </p>
                   </div>
                   <div className="pt-2 text-[10px] text-electric font-semibold uppercase tracking-wider">
                     {t("sustainabilityPage.zeroWasteGoal")}
@@ -79,15 +97,12 @@ function SustainabilityPage() {
           {/* Sustainability Framework Details */}
           <section className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6 max-w-3xl">
             <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
-              <RobotSparkIcon className="size-6 text-electric" /> {t("sustainabilityPage.goalsTitle")}
+              <RobotSparkIcon className="size-6 text-electric" />{" "}
+              {t("sustainabilityPage.goalsTitle")}
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground/80 leading-relaxed">
-              <p>
-                {t("sustainabilityPage.goalsP1")}
-              </p>
-              <p>
-                {t("sustainabilityPage.goalsP2")}
-              </p>
+              <p>{t("sustainabilityPage.goalsP1")}</p>
+              <p>{t("sustainabilityPage.goalsP2")}</p>
             </div>
           </section>
         </main>

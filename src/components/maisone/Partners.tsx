@@ -16,9 +16,13 @@ export function Partners() {
   return (
     <section id="partners" className="relative py-24 border-y border-border">
       <div className="mx-auto max-w-7xl px-6 mb-10">
-        <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-4 text-center">— {t("partners.label")}</p>
+        <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-4 text-center">
+          — {t("partners.label")}
+        </p>
         <h2 className="font-serif text-3xl sm:text-5xl tracking-tight text-center text-balance">
-          {t("partners.heading")} <span className="italic gradient-text">{t("partners.headingHighlight")}</span>{t("partners.headingEnd")}
+          {t("partners.heading")}{" "}
+          <span className="italic gradient-text">{t("partners.headingHighlight")}</span>
+          {t("partners.headingEnd")}
         </h2>
       </div>
 
@@ -27,20 +31,28 @@ export function Partners() {
           {[...Array(3)].map((_, listIdx) => (
             <div key={listIdx} className="flex items-center shrink-0">
               {countries.map((c, idx) => (
-                <div key={`${listIdx}-${idx}`} className="group flex items-center gap-16 pr-16 cursor-default select-none transition-all duration-500 hover:scale-[1.05]">
+                <div
+                  key={`${listIdx}-${idx}`}
+                  className="group flex items-center gap-16 pr-16 cursor-default select-none transition-all duration-500 hover:scale-[1.05]"
+                >
                   <div className="relative flex flex-col items-center">
                     <span className="font-serif text-4xl sm:text-6xl tracking-[0.3em] text-foreground/60 group-hover:text-electric transition-colors duration-500 drop-shadow-sm whitespace-nowrap">
                       {c.code}
                     </span>
                     <div className="absolute top-full mt-3 flex flex-col items-center opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none">
                       {c.cities.map((city, cIdx) => (
-                        <span key={cIdx} className="text-lg sm:text-xl tracking-wider text-electric/90 whitespace-nowrap font-serif italic">
+                        <span
+                          key={cIdx}
+                          className="text-lg sm:text-xl tracking-wider text-electric/90 whitespace-nowrap font-serif italic"
+                        >
                           {city}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <span className="text-2xl text-electric/40 group-hover:text-electric transition-colors duration-500 drop-shadow-sm">◆</span>
+                  <span className="text-2xl text-electric/40 group-hover:text-electric transition-colors duration-500 drop-shadow-sm">
+                    ◆
+                  </span>
                 </div>
               ))}
             </div>

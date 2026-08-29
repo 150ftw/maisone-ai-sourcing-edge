@@ -29,7 +29,9 @@ export function Challenges() {
     <section id="challenges" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Challenges We Solve</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Challenges We Solve
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             Every bottleneck, <span className="italic gradient-text">resolved</span>.
           </h2>
@@ -47,7 +49,9 @@ export function Challenges() {
             >
               <p className="font-serif text-xl md:text-2xl text-balance">{p.problem}</p>
               <ArrowRight className="size-5 text-electric mx-auto rotate-90 md:rotate-0" />
-              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{p.solution}</p>
+              <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+                {p.solution}
+              </p>
             </motion.div>
           ))}
         </div>

@@ -21,8 +21,8 @@ export function Automation() {
             Workflows that run <span className="italic gradient-text">themselves</span>.
           </h2>
           <p className="mt-6 text-muted-foreground max-w-xl">
-            Connect Maisone to the tools you already trust. AI agents handle the
-            handoffs while your team focuses on craft.
+            Connect Maisone to the tools you already trust. AI agents handle the handoffs while your
+            team focuses on craft.
           </p>
         </div>
 
@@ -31,15 +31,38 @@ export function Automation() {
           <div className="pointer-events-none absolute inset-x-10 top-1/2 h-px bg-gradient-to-r from-transparent via-electric/25 to-transparent" />
 
           <div className="relative hidden min-h-[560px] md:block">
-            <svg className="absolute inset-0 size-full overflow-visible" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+            <svg
+              className="absolute inset-0 size-full overflow-visible"
+              viewBox="0 0 1000 560"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
               <defs>
                 <radialGradient id="automationPulse" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stopColor="var(--electric)" stopOpacity="0.24" />
                   <stop offset="100%" stopColor="var(--electric)" stopOpacity="0" />
                 </radialGradient>
               </defs>
-              <ellipse cx="500" cy="300" rx="270" ry="190" fill="none" stroke="var(--electric)" strokeOpacity="0.12" strokeDasharray="6 14" />
-              <ellipse cx="500" cy="300" rx="360" ry="240" fill="none" stroke="var(--violet-glow)" strokeOpacity="0.1" strokeDasharray="3 18" />
+              <ellipse
+                cx="500"
+                cy="300"
+                rx="270"
+                ry="190"
+                fill="none"
+                stroke="var(--electric)"
+                strokeOpacity="0.12"
+                strokeDasharray="6 14"
+              />
+              <ellipse
+                cx="500"
+                cy="300"
+                rx="360"
+                ry="240"
+                fill="none"
+                stroke="var(--violet-glow)"
+                strokeOpacity="0.1"
+                strokeDasharray="3 18"
+              />
               <circle cx="500" cy="300" r="180" fill="url(#automationPulse)" />
               {nodes.map((node, i) => (
                 <motion.line
@@ -95,8 +118,12 @@ export function Automation() {
                       <node.icon className="size-4 text-electric" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-medium leading-tight text-foreground">{node.label}</p>
-                      <p className="mt-1 text-[11px] leading-tight text-muted-foreground">{node.sub}</p>
+                      <p className="text-sm font-medium leading-tight text-foreground">
+                        {node.label}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-tight text-muted-foreground">
+                        {node.sub}
+                      </p>
                     </div>
                   </div>
                 </div>

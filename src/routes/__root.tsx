@@ -74,15 +74,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
-      { name: "description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
+      {
+        name: "description",
+        content:
+          "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise.",
+      },
       { name: "author", content: "Maisone Global" },
 
       // Open Graph / Facebook / WhatsApp / iMessage / LinkedIn
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://maisone.in" },
       { property: "og:site_name", content: "Maisone Global" },
-      { property: "og:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
-      { property: "og:description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
+      {
+        property: "og:title",
+        content: "Maisone Global — Fashion Sourcing & Manufacturing Partner",
+      },
+      {
+        property: "og:description",
+        content:
+          "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise.",
+      },
       { property: "og:image", content: "https://maisone.in/og-image.png" },
       { property: "og:image:secure_url", content: "https://maisone.in/og-image.png" },
       { property: "og:image:type", content: "image/png" },
@@ -92,8 +103,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
       // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
-      { name: "twitter:description", content: "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise." },
+      {
+        name: "twitter:title",
+        content: "Maisone Global — Fashion Sourcing & Manufacturing Partner",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Premium apparel sourcing, ethical manufacturing, artisanal craftsmanship and global supply chain expertise.",
+      },
       { name: "twitter:image", content: "https://maisone.in/og-image.png" },
     ],
     links: [

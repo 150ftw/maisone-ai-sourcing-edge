@@ -30,7 +30,10 @@ export const Route = createFileRoute("/")({
         content:
           "Maisone Global connects international fashion brands with premium apparel development, ethical sourcing, artisanal craftsmanship, and scalable manufacturing solutions across Asia.",
       },
-      { property: "og:title", content: "Maisone Global — Fashion Sourcing & Manufacturing Partner" },
+      {
+        property: "og:title",
+        content: "Maisone Global — Fashion Sourcing & Manufacturing Partner",
+      },
       {
         property: "og:description",
         content:
@@ -47,28 +50,28 @@ const playNotificationSound = () => {
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
-    
+
     const playTone = (freq: number, start: number, duration: number) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      
+
       osc.type = "sine";
       osc.frequency.setValueAtTime(freq, start);
-      
+
       gain.gain.setValueAtTime(0, start);
       gain.gain.linearRampToValueAtTime(0.08, start + 0.05);
       gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-      
+
       osc.connect(gain);
       gain.connect(ctx.destination);
-      
+
       osc.start(start);
       osc.stop(start + duration);
     };
 
     // Gentle two-tone notification chime
     playTone(830.61, ctx.currentTime, 0.45); // Ab5
-    playTone(1046.50, ctx.currentTime + 0.12, 0.55); // C6
+    playTone(1046.5, ctx.currentTime + 0.12, 0.55); // C6
   } catch (e) {
     console.error("Audio playback error:", e);
   }
@@ -104,7 +107,7 @@ function Index() {
 
       // Select high-impact elements inside the section for staggered reveal
       const targets = section.querySelectorAll(
-        "h2, h3, p:not(.absolute), .grid > div, .glass, .glass-strong, form, label"
+        "h2, h3, p:not(.absolute), .grid > div, .glass, .glass-strong, form, label",
       );
 
       if (targets.length > 0) {
@@ -122,7 +125,7 @@ function Index() {
               start: "top 80%",
               toggleActions: "play none none none",
             },
-          }
+          },
         );
       } else {
         // Fallback for simple structural containers
@@ -139,7 +142,7 @@ function Index() {
               start: "top 80%",
               toggleActions: "play none none none",
             },
-          }
+          },
         );
       }
     });
@@ -169,12 +172,16 @@ function Index() {
           <ExtraMile />
           <Partners />
           <Testimonials />
-          
+
           {/* Floating AI Assistant Button */}
           <div className="fixed bottom-8 right-8 z-50 size-16">
-            <span className={`hidden sm:flex flex-col items-start bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md absolute right-20 top-1/2 -translate-y-1/2 transition-all duration-500 origin-right ${
-              showAIPopup ? "scale-100 opacity-100 translate-x-0 pointer-events-auto" : "scale-0 opacity-0 translate-x-8 pointer-events-none"
-            }`}>
+            <span
+              className={`hidden sm:flex flex-col items-start bg-card/95 text-foreground border border-electric/40 pl-6 pr-10 py-3.5 rounded-2xl text-sm font-semibold shadow-[0_10px_30px_-5px_rgba(0,0,0,0.3),0_0_20px_rgba(194,164,109,0.15)] backdrop-blur-md absolute right-20 top-1/2 -translate-y-1/2 transition-all duration-500 origin-right ${
+                showAIPopup
+                  ? "scale-100 opacity-100 translate-x-0 pointer-events-auto"
+                  : "scale-0 opacity-0 translate-x-8 pointer-events-none"
+              }`}
+            >
               {/* Close Button */}
               <button
                 onClick={() => setShowAIPopup(false)}
@@ -185,14 +192,18 @@ function Index() {
                 <X className="size-2.5 stroke-[3]" />
               </button>
               <span className="flex items-center whitespace-nowrap text-sm font-medium">
-                {t("index.talkWith")} <span className="font-serif italic text-electric mx-1.5 tracking-wide text-base">{t("nav.maisoneAi") || "AI Assistant"}</span> {t("index.forHelp")}
+                {t("index.talkWith")}{" "}
+                <span className="font-serif italic text-electric mx-1.5 tracking-wide text-base">
+                  {t("nav.maisoneAi") || "AI Assistant"}
+                </span>{" "}
+                {t("index.forHelp")}
               </span>
               <span className="absolute top-1/2 -translate-y-1/2 -right-1.5 size-3 rotate-45 bg-card/95 border-r border-t border-electric/40" />
             </span>
             <a
               href="/assistant"
               className="size-16 rounded-full bg-electric text-background flex items-center justify-center shadow-[0_0_35px_rgba(194,164,109,0.4)] hover:scale-105 transition-transform hover:shadow-[0_0_45px_rgba(194,164,109,0.6)] shrink-0 animate-float absolute inset-0"
-              style={{ animationDelay: '0.5s' }}
+              style={{ animationDelay: "0.5s" }}
             >
               <MessageSquare className="size-7" />
             </a>

@@ -14,19 +14,22 @@ export interface Testimonial {
 export const MOCK_TESTIMONIALS: Testimonial[] = [
   {
     id: "mock-t1",
-    quote: "Maisone's AI insights helped us predict the linen trend six months before our competitors. We secured capacity at the best mills and launched perfectly on time.",
+    quote:
+      "Maisone's AI insights helped us predict the linen trend six months before our competitors. We secured capacity at the best mills and launched perfectly on time.",
     name: "Aiko Tanaka",
     role: "Head of Production · Maison Kyō",
   },
   {
     id: "mock-t2",
-    quote: "The transparency is unmatched. I can track my entire cashmere order from the raw fiber in Mongolia to the spun yarn in Italy, all on one dashboard.",
+    quote:
+      "The transparency is unmatched. I can track my entire cashmere order from the raw fiber in Mongolia to the spun yarn in Italy, all on one dashboard.",
     name: "Oliver Hartwell",
     role: "Founder · Atelier LDN",
   },
   {
     id: "mock-t3",
-    quote: "We used to spend weeks auditing factories. Maisone's pre-vetted network of compliant manufacturers allowed us to scale our organic cotton line overnight.",
+    quote:
+      "We used to spend weeks auditing factories. Maisone's pre-vetted network of compliant manufacturers allowed us to scale our organic cotton line overnight.",
     name: "Camille Laurent",
     role: "COO · North/Paris",
   },
@@ -46,7 +49,7 @@ export function Testimonials() {
           .order("created_at", { ascending: false });
 
         const timeout = new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Timeout")), 2000)
+          setTimeout(() => reject(new Error("Timeout")), 2000),
         );
 
         const { data, error } = await (Promise.race([query, timeout]) as Promise<any>);
@@ -73,9 +76,13 @@ export function Testimonials() {
     <section className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("testimonials.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            {t("testimonials.label")}
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            {t("testimonials.heading")} <span className="italic gradient-text">{t("testimonials.headingHighlight")}</span>{t("testimonials.headingEnd")}
+            {t("testimonials.heading")}{" "}
+            <span className="italic gradient-text">{t("testimonials.headingHighlight")}</span>
+            {t("testimonials.headingEnd")}
           </h2>
         </div>
 

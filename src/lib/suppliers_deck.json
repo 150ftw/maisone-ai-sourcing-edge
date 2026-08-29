@@ -27,13 +27,7 @@
         "Production",
         "Quality Control"
       ],
-      "certifications": [
-        "BSCI",
-        "Sedex",
-        "REACH",
-        "Intertek",
-        "SGS"
-      ],
+      "certifications": ["BSCI", "Sedex", "REACH", "Intertek", "SGS"],
       "brands_worked_with": [
         "Retrofete",
         "Ashley Lauren",
@@ -56,44 +50,16 @@
       "name": "Couture Embellishment Factory",
       "category": "Luxury Embroidery & Couture",
       "location": "Mumbai",
-      "specializations": [
-        "Hand Embroidery",
-        "Beadwork",
-        "Couture Garments",
-        "Luxury Fashion"
-      ],
-      "certifications": [
-        "Sedex",
-        "REACH",
-        "Intertek",
-        "UL Solutions",
-        "ISO 9001:2015",
-        "SGS"
-      ],
-      "brands_worked_with": [
-        "Giorgio Armani",
-        "Alice + Olivia",
-        "Alberta Ferretti",
-        "Marchesa"
-      ],
-      "strengths": [
-        "25+ Years Experience",
-        "Luxury Fashion Expertise",
-        "SEDEX 4 Pillar Compliant"
-      ]
+      "specializations": ["Hand Embroidery", "Beadwork", "Couture Garments", "Luxury Fashion"],
+      "certifications": ["Sedex", "REACH", "Intertek", "UL Solutions", "ISO 9001:2015", "SGS"],
+      "brands_worked_with": ["Giorgio Armani", "Alice + Olivia", "Alberta Ferretti", "Marchesa"],
+      "strengths": ["25+ Years Experience", "Luxury Fashion Expertise", "SEDEX 4 Pillar Compliant"]
     },
     {
       "id": "factory_003",
       "name": "Circular Knits Factory",
       "category": "Knits",
-      "specializations": [
-        "T-Shirts",
-        "Shirts",
-        "Tops",
-        "Bottoms",
-        "Dresses",
-        "Jackets"
-      ],
+      "specializations": ["T-Shirts", "Shirts", "Tops", "Bottoms", "Dresses", "Jackets"],
       "capabilities": [
         "Digital Printing",
         "Rotary Printing",
@@ -102,19 +68,8 @@
         "Embroidery",
         "Garment Washing"
       ],
-      "certifications": [
-        "BSCI",
-        "OCS",
-        "GOTS",
-        "GRS",
-        "LEED"
-      ],
-      "brands_worked_with": [
-        "DSQUARED2",
-        "Blauer",
-        "Diesel",
-        "Desigual"
-      ]
+      "certifications": ["BSCI", "OCS", "GOTS", "GRS", "LEED"],
+      "brands_worked_with": ["DSQUARED2", "Blauer", "Diesel", "Desigual"]
     },
     {
       "id": "factory_004",
@@ -129,18 +84,8 @@
         "Home Textiles",
         "Uniforms"
       ],
-      "materials": [
-        "Organic Cotton",
-        "Recycled Materials",
-        "Cashmere",
-        "Custom Yarn Blends"
-      ],
-      "certifications": [
-        "Sedex",
-        "GOTS",
-        "GRS",
-        "QIMA"
-      ],
+      "materials": ["Organic Cotton", "Recycled Materials", "Cashmere", "Custom Yarn Blends"],
+      "certifications": ["Sedex", "GOTS", "GRS", "QIMA"],
       "brands_worked_with": [
         "Camilla",
         "Hanevild",
@@ -164,15 +109,8 @@
       "name": "Leather Factory",
       "category": "Leather Manufacturing",
       "production_capacity": "200000 units annually",
-      "specializations": [
-        "Leather Garments",
-        "Leather Products"
-      ],
-      "capabilities": [
-        "Own Tannery",
-        "Leather Development",
-        "Material Innovation"
-      ],
+      "specializations": ["Leather Garments", "Leather Products"],
+      "capabilities": ["Own Tannery", "Leather Development", "Material Innovation"],
       "certifications": [
         "OEKO-TEX Leather Standard",
         "REACH",
@@ -181,11 +119,7 @@
         "LWG Gold Rated",
         "SA8000"
       ],
-      "brands_worked_with": [
-        "Massimo Dutti",
-        "Tommy Hilfiger",
-        "L'AGENCE"
-      ]
+      "brands_worked_with": ["Massimo Dutti", "Tommy Hilfiger", "L'AGENCE"]
     },
     {
       "id": "factory_006",
@@ -199,28 +133,14 @@
         "Belts",
         "Small Leather Goods"
       ],
-      "capabilities": [
-        "Design",
-        "Development",
-        "Sampling",
-        "Manufacturing"
-      ],
-      "brands_worked_with": [
-        "Siddartha Tytler",
-        "Chumbak",
-        "Da Milano"
-      ]
+      "capabilities": ["Design", "Development", "Sampling", "Manufacturing"],
+      "brands_worked_with": ["Siddartha Tytler", "Chumbak", "Da Milano"]
     },
     {
       "id": "factory_007",
       "name": "Cap Supplier",
       "category": "Headwear",
-      "specializations": [
-        "Caps",
-        "Custom Headwear",
-        "Promotional Caps",
-        "Corporate Caps"
-      ],
+      "specializations": ["Caps", "Custom Headwear", "Promotional Caps", "Corporate Caps"],
       "brands_worked_with": [
         "Harley-Davidson",
         "Puma",
@@ -240,13 +160,7 @@
       "id": "factory_008",
       "name": "Denim Supplier",
       "category": "Denim & Apparel Manufacturing",
-      "specializations": [
-        "Menswear",
-        "Womenswear",
-        "Kidswear",
-        "Bags",
-        "Denim Garments"
-      ],
+      "specializations": ["Menswear", "Womenswear", "Kidswear", "Bags", "Denim Garments"],
       "capabilities": [
         "Fabric Manufacturing",
         "Garment Manufacturing",
@@ -263,12 +177,7 @@
         "Higg Index",
         "ZDHC"
       ],
-      "brands_worked_with": [
-        "Boden",
-        "Monsoon",
-        "Louis Philippe",
-        "Benetton"
-      ]
+      "brands_worked_with": ["Boden", "Monsoon", "Louis Philippe", "Benetton"]
     }
   ]
 }

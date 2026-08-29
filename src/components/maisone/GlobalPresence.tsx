@@ -3,11 +3,11 @@ import { WorldMap, HUBS } from "./WorldMap";
 const REGION_HUBS: Record<string, string[]> = {
   "United States": ["New York", "Los Angeles"],
   "United Kingdom": ["London"],
-  "France": ["Paris"],
-  "Italy": ["Milan", "Florence"],
-  "India": ["New Delhi"],
-  "China": ["Shanghai"],
-  "Japan": ["Tokyo"],
+  France: ["Paris"],
+  Italy: ["Milan", "Florence"],
+  India: ["New Delhi"],
+  China: ["Shanghai"],
+  Japan: ["Tokyo"],
 };
 
 export function GlobalPresence() {
@@ -17,21 +17,30 @@ export function GlobalPresence() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Global Presence</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+              — Global Presence
+            </p>
             <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
               Four continents. <span className="italic gradient-text">One network.</span>
             </h2>
             <p className="mt-6 text-muted-foreground max-w-md">
-              We supply to all these countries, connecting your brand with a dynamic network of dedicated on-the-ground agents across the world's most influential fashion capitals — delivering deep local expertise, verified compliance, and continuous benchmarking.
+              We supply to all these countries, connecting your brand with a dynamic network of
+              dedicated on-the-ground agents across the world's most influential fashion capitals —
+              delivering deep local expertise, verified compliance, and continuous benchmarking.
             </p>
 
             <div className="mt-10 space-y-4">
               {regions.map((r) => {
                 const hubs = REGION_HUBS[r] || [];
                 return (
-                  <div key={r} className="flex items-baseline justify-between border-b border-border pb-4">
+                  <div
+                    key={r}
+                    className="flex items-baseline justify-between border-b border-border pb-4"
+                  >
                     <span className="font-serif text-2xl">{r}</span>
-                    <span className="text-xs text-muted-foreground tracking-wider">{hubs.join(" · ")}</span>
+                    <span className="text-xs text-muted-foreground tracking-wider">
+                      {hubs.join(" · ")}
+                    </span>
                   </div>
                 );
               })}
@@ -48,7 +57,9 @@ export function GlobalPresence() {
               ].map((s) => (
                 <div key={s.l}>
                   <p className="font-serif text-3xl">{s.v}</p>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">{s.l}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+                    {s.l}
+                  </p>
                 </div>
               ))}
             </div>

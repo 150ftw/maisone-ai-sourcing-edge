@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import { createServerFn } from '@tanstack/react-start'
-import { getRequest } from '@tanstack/react-start/server'
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {
   ArrowLeft,
   Search,
@@ -15,73 +15,84 @@ import {
   Square,
   Send,
   Mail,
-} from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import companyInfo from '../lib/company_info.md?raw'
+} from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import companyInfo from "../lib/company_info.md?raw";
 
 interface ChatMessage {
-  role: 'user' | 'ai'
-  content: string
+  role: "user" | "ai";
+  content: string;
 }
 
 // Simple in-memory store for IP-based rate limiting
 interface RateLimitInfo {
-  count: number
-  resetTime: number
+  count: number;
+  resetTime: number;
 }
-const rateLimitStore = new Map<string, RateLimitInfo>()
-const RATE_LIMIT_MAX = 8         // Max 8 questions
-const RATE_LIMIT_WINDOW = 60000 // per 60 seconds (1 minute)
+const rateLimitStore = new Map<string, RateLimitInfo>();
+const RATE_LIMIT_MAX = 8; // Max 8 questions
+const RATE_LIMIT_WINDOW = 60000; // per 60 seconds (1 minute)
 
 function getClientIp(req: Request): string {
-  const forwarded = req.headers.get('x-forwarded-for')
+  const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) {
-    return forwarded.split(',')[0].trim()
+    return forwarded.split(",")[0].trim();
   }
-  return req.headers.get('x-real-ip') || req.headers.get('cf-connecting-ip') || '127.0.0.1'
+  return req.headers.get("x-real-ip") || req.headers.get("cf-connecting-ip") || "127.0.0.1";
 }
 
-const sendChatFn = createServerFn({ method: 'POST' })
+const sendChatFn = createServerFn({ method: "POST" })
   .validator((d: { message: string; history: ChatMessage[] }) => d)
   .handler(async ({ data }) => {
     try {
       // 1. Resolve client IP and run Rate Limiter
-      const req = getRequest()
-      const clientIp = req ? getClientIp(req) : '127.0.0.1'
-      const now = Date.now()
-      const limitInfo = rateLimitStore.get(clientIp)
+      const req = getRequest();
+      const clientIp = req ? getClientIp(req) : "127.0.0.1";
+      const now = Date.now();
+      const limitInfo = rateLimitStore.get(clientIp);
 
       if (limitInfo) {
         if (now > limitInfo.resetTime) {
           // Reset window
-          rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
+          rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
         } else if (limitInfo.count >= RATE_LIMIT_MAX) {
-          return new Response(JSON.stringify({ error: "Too many requests. Please wait a minute before asking more questions." }), {
-            status: 429,
-            headers: { 'Content-Type': 'application/json' }
-          })
+          return new Response(
+            JSON.stringify({
+              error: "Too many requests. Please wait a minute before asking more questions.",
+            }),
+            {
+              status: 429,
+              headers: { "Content-Type": "application/json" },
+            },
+          );
         } else {
-          limitInfo.count += 1
+          limitInfo.count += 1;
         }
       } else {
-        rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
+        rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
       }
 
-      const apiKey = process.env.KIMI_API_KEY
-      const baseURL = process.env.KIMI_BASE_URL || 'https://integrate.api.nvidia.com/v1'
-      const model = process.env.KIMI_MODEL || 'meta/llama-3.2-11b-vision-instruct'
+      const apiKey = process.env.KIMI_API_KEY;
+      const baseURL = process.env.KIMI_BASE_URL || "https://integrate.api.nvidia.com/v1";
+      const model = process.env.KIMI_MODEL || "meta/llama-3.2-11b-vision-instruct";
 
       if (!apiKey) {
-        return new Response(JSON.stringify({ error: 'Chat API configuration (KIMI_API_KEY) is missing on the server. Please verify your .env file.' }), {
-          status: 500,
-          headers: { 'Content-Type': 'application/json' }
-        })
+        return new Response(
+          JSON.stringify({
+            error:
+              "Chat API configuration (KIMI_API_KEY) is missing on the server. Please verify your .env file.",
+          }),
+          {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
 
       // Single consolidated System Prompt at index 0 to adhere strictly to API schemas
       const messagesInput = [
         {
-          role: 'system',
+          role: "system",
           content: `You are the Maisone Sourcing Assistant, a helpful, executive, and professional AI assistant for Maisone (a premium global fashion sourcing platform). 
 
 CRITICAL OVERVIEW DIRECTIVE (MAX 120 WORDS):
@@ -131,86 +142,106 @@ ${companyInfo}
 
 Note: The system behavior rules above have priority over any conflicting guidelines in the official information document.`,
         },
-      ]
+      ];
 
       // Append clean conversation turns without adding extra trailing system messages
       for (const msg of data.history) {
         messagesInput.push({
-          role: msg.role === 'ai' ? 'assistant' : 'user',
+          role: msg.role === "ai" ? "assistant" : "user",
           content: msg.content,
-        })
+        });
       }
 
       messagesInput.push({
-        role: 'user',
+        role: "user",
         content: data.message,
-      })
+      });
 
       const response = await fetch(`${baseURL}/chat/completions`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model,
           messages: messagesInput,
           temperature: 0.1,
-          stream: true
-        })
-      })
+          stream: true,
+        }),
+      });
 
       if (!response.ok) {
-        const errorText = await response.text()
-        return new Response(JSON.stringify({ error: `Kimi API error: ${response.statusText} - ${errorText}` }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' }
-        })
+        const errorText = await response.text();
+        return new Response(
+          JSON.stringify({ error: `Kimi API error: ${response.statusText} - ${errorText}` }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
       }
 
       return new Response(response.body, {
         headers: {
-          'Content-Type': 'text/event-stream',
-          'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive',
-        }
-      })
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+        },
+      });
     } catch (e: any) {
-      console.error("Chat Server Error:", e)
-      return new Response(JSON.stringify({ error: e?.message || "An unexpected server error occurred." }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      })
+      console.error("Chat Server Error:", e);
+      return new Response(
+        JSON.stringify({ error: e?.message || "An unexpected server error occurred." }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
-  })
+  });
 
-export const Route = createFileRoute('/assistant')({
+export const Route = createFileRoute("/assistant")({
   component: AssistantRoute,
-})
+});
 
 // Enhanced ReactMarkdown renderer with structured styling & badges for key sourcing metadata
 function formatMessage(content: string) {
   // Ensure "low MOQ" is always bolded so it can be picked up by our strong renderer
   const processedContent = content
-    .replace(/\*\*(low moqs?)\*\*/gi, '$1')
-    .replace(/\b(low moqs?)\b/gi, '**$1**')
+    .replace(/\*\*(low moqs?)\*\*/gi, "$1")
+    .replace(/\b(low moqs?)\b/gi, "**$1**");
 
   return (
     <ReactMarkdown
       components={{
-        p: ({ children }) => <p className="mb-2.5 last:mb-0 leading-relaxed break-words text-sm text-foreground/90">{children}</p>,
-        ul: ({ children }) => <ul className="list-disc pl-5 mb-3 space-y-1.5 text-sm break-words my-2">{children}</ul>,
-        ol: ({ children }) => <ol className="list-decimal pl-5 mb-3 space-y-1.5 text-sm break-words my-2">{children}</ol>,
+        p: ({ children }) => (
+          <p className="mb-2.5 last:mb-0 leading-relaxed break-words text-sm text-foreground/90">
+            {children}
+          </p>
+        ),
+        ul: ({ children }) => (
+          <ul className="list-disc pl-5 mb-3 space-y-1.5 text-sm break-words my-2">{children}</ul>
+        ),
+        ol: ({ children }) => (
+          <ol className="list-decimal pl-5 mb-3 space-y-1.5 text-sm break-words my-2">
+            {children}
+          </ol>
+        ),
         li: ({ children }) => <li className="mb-1 leading-relaxed break-words">{children}</li>,
         strong: ({ children }) => {
-          const text = String(children)
+          const text = String(children);
           // Highlight key structured sourcing labels as badges
-          if (/^(Category|Specializations|Capabilities|Certifications|Brands worked with):/i.test(text)) {
+          if (
+            /^(Category|Specializations|Capabilities|Certifications|Brands worked with):/i.test(
+              text,
+            )
+          ) {
             return (
               <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-electric/10 text-electric border border-electric/20 mr-1.5 my-0.5">
                 {children}
               </span>
-            )
+            );
           }
           // Highlight low MOQs naturally inline
           if (/low moqs?/i.test(text)) {
@@ -218,13 +249,23 @@ function formatMessage(content: string) {
               <strong className="font-semibold text-electric bg-electric/10 px-1 rounded-sm">
                 {children}
               </strong>
-            )
+            );
           }
-          return <strong className="font-semibold text-foreground">{children}</strong>
+          return <strong className="font-semibold text-foreground">{children}</strong>;
         },
-        h1: ({ children }) => <h1 className="text-lg font-bold mt-4 mb-2 text-foreground tracking-tight border-b border-border/40 pb-1">{children}</h1>,
-        h2: ({ children }) => <h2 className="text-base font-semibold mt-3 mb-2 text-foreground tracking-tight">{children}</h2>,
-        h3: ({ children }) => <h3 className="text-sm font-semibold mt-2.5 mb-1.5 text-foreground">{children}</h3>,
+        h1: ({ children }) => (
+          <h1 className="text-lg font-bold mt-4 mb-2 text-foreground tracking-tight border-b border-border/40 pb-1">
+            {children}
+          </h1>
+        ),
+        h2: ({ children }) => (
+          <h2 className="text-base font-semibold mt-3 mb-2 text-foreground tracking-tight">
+            {children}
+          </h2>
+        ),
+        h3: ({ children }) => (
+          <h3 className="text-sm font-semibold mt-2.5 mb-1.5 text-foreground">{children}</h3>
+        ),
         blockquote: ({ children }) => (
           <blockquote className="border-l-2 border-electric/50 pl-4 py-1 my-2 text-muted-foreground italic bg-electric/5 rounded-r-lg text-xs">
             {children}
@@ -239,126 +280,146 @@ function formatMessage(content: string) {
     >
       {processedContent}
     </ReactMarkdown>
-  )
+  );
 }
 
 function AssistantRoute() {
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [input, setInput] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const abortControllerRef = useRef<AbortController | null>(null)
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('maisone_chat_history')
+    const saved = localStorage.getItem("maisone_chat_history");
     if (saved) {
       try {
-        setMessages(JSON.parse(saved))
+        setMessages(JSON.parse(saved));
       } catch (e) {
-        console.warn("Failed to parse saved chat history:", e)
+        console.warn("Failed to parse saved chat history:", e);
       }
     } else {
       setMessages([
-        { role: 'ai', content: "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?" }
-      ])
+        {
+          role: "ai",
+          content:
+            "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?",
+        },
+      ]);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (messages.length > 0) {
-      localStorage.setItem('maisone_chat_history', JSON.stringify(messages))
+      localStorage.setItem("maisone_chat_history", JSON.stringify(messages));
     }
-  }, [messages])
+  }, [messages]);
 
   useEffect(() => {
     // Autoscroll to bottom when messages or loading state changes
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages, isLoading])
+  }, [messages, isLoading]);
 
   // Auto-expand textarea height
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto'
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
     }
-  }, [input])
+  }, [input]);
 
   const QUICK_OPTIONS = [
-    { label: "View Product Categories", icon: <Layers className="size-3.5 text-electric" />, query: "What all category of products do you offer?" },
-    { label: "Check MOQ Policy", icon: <Package className="size-3.5 text-electric" />, query: "What is your MOQ? Can you produce small quantities for new brands?" },
-    { label: "Verify Compliances", icon: <Search className="size-3.5 text-electric" />, query: "Do you work with certified and compliant factories?" },
-    { label: "Lead Times & Timelines", icon: <Headphones className="size-3.5 text-electric" />, query: "What are your sampling and production lead times?" }
-  ]
+    {
+      label: "View Product Categories",
+      icon: <Layers className="size-3.5 text-electric" />,
+      query: "What all category of products do you offer?",
+    },
+    {
+      label: "Check MOQ Policy",
+      icon: <Package className="size-3.5 text-electric" />,
+      query: "What is your MOQ? Can you produce small quantities for new brands?",
+    },
+    {
+      label: "Verify Compliances",
+      icon: <Search className="size-3.5 text-electric" />,
+      query: "Do you work with certified and compliant factories?",
+    },
+    {
+      label: "Lead Times & Timelines",
+      icon: <Headphones className="size-3.5 text-electric" />,
+      query: "What are your sampling and production lead times?",
+    },
+  ];
 
   // Reusable unified streaming function
   const streamChatResponse = useCallback(async (userMsg: string, history: ChatMessage[]) => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Setup AbortController for cancel stream capability
-    const controller = new AbortController()
-    abortControllerRef.current = controller
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     try {
-      const response = await sendChatFn({ data: { message: userMsg, history } })
+      const response = await sendChatFn({ data: { message: userMsg, history } });
 
       // Check if server returned a direct JSON error
-      const contentType = response.headers.get('Content-Type') || ''
-      if (contentType.includes('application/json')) {
-        const errJson = await response.json()
+      const contentType = response.headers.get("Content-Type") || "";
+      if (contentType.includes("application/json")) {
+        const errJson = await response.json();
         if (errJson.error) {
-          setMessages(prev => [...prev, { role: 'ai', content: errJson.error }])
-          return
+          setMessages((prev) => [...prev, { role: "ai", content: errJson.error }]);
+          return;
         }
       }
 
       if (!response.body) {
-        throw new Error("No response body received.")
+        throw new Error("No response body received.");
       }
 
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let accumulatedText = ""
-      let buffer = ""
-      let hasAddedAiMessage = false
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedText = "";
+      let buffer = "";
+      let hasAddedAiMessage = false;
 
       while (true) {
         if (controller.signal.aborted) {
-          reader.cancel()
-          break
+          reader.cancel();
+          break;
         }
 
-        const { done, value } = await reader.read()
-        if (done) break
+        const { done, value } = await reader.read();
+        if (done) break;
 
-        buffer += decoder.decode(value, { stream: true })
-        const lines = buffer.split('\n')
-        buffer = lines.pop() || ""
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
 
         for (const line of lines) {
-          const trimmed = line.trim()
-          if (!trimmed || trimmed === 'data: [DONE]') continue
+          const trimmed = line.trim();
+          if (!trimmed || trimmed === "data: [DONE]") continue;
 
-          if (trimmed.startsWith('data: ')) {
+          if (trimmed.startsWith("data: ")) {
             try {
-              const dataObj = JSON.parse(trimmed.slice(6))
-              const content = dataObj.choices?.[0]?.delta?.content || ""
+              const dataObj = JSON.parse(trimmed.slice(6));
+              const content = dataObj.choices?.[0]?.delta?.content || "";
               if (content) {
-                accumulatedText += content
+                accumulatedText += content;
                 if (!hasAddedAiMessage) {
-                  hasAddedAiMessage = true
-                  setMessages(prev => [...prev, { role: 'ai', content: accumulatedText }])
+                  hasAddedAiMessage = true;
+                  setMessages((prev) => [...prev, { role: "ai", content: accumulatedText }]);
                 } else {
-                  setMessages(prev => {
-                    const updated = [...prev]
-                    if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
-                      updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+                  setMessages((prev) => {
+                    const updated = [...prev];
+                    if (updated.length > 0 && updated[updated.length - 1].role === "ai") {
+                      updated[updated.length - 1] = { role: "ai", content: accumulatedText };
                     }
-                    return updated
-                  })
+                    return updated;
+                  });
                 }
               }
             } catch (err) {
@@ -369,118 +430,148 @@ function AssistantRoute() {
       }
 
       // Parse final buffer if available
-      if (buffer.trim().startsWith('data: ') && buffer.trim() !== 'data: [DONE]') {
+      if (buffer.trim().startsWith("data: ") && buffer.trim() !== "data: [DONE]") {
         try {
-          const dataObj = JSON.parse(buffer.trim().slice(6))
-          const content = dataObj.choices?.[0]?.delta?.content || ""
+          const dataObj = JSON.parse(buffer.trim().slice(6));
+          const content = dataObj.choices?.[0]?.delta?.content || "";
           if (content) {
-            accumulatedText += content
+            accumulatedText += content;
             if (!hasAddedAiMessage) {
-              hasAddedAiMessage = true
-              setMessages(prev => [...prev, { role: 'ai', content: accumulatedText }])
+              hasAddedAiMessage = true;
+              setMessages((prev) => [...prev, { role: "ai", content: accumulatedText }]);
             } else {
-              setMessages(prev => {
-                const updated = [...prev]
-                if (updated.length > 0 && updated[updated.length - 1].role === 'ai') {
-                  updated[updated.length - 1] = { role: 'ai', content: accumulatedText }
+              setMessages((prev) => {
+                const updated = [...prev];
+                if (updated.length > 0 && updated[updated.length - 1].role === "ai") {
+                  updated[updated.length - 1] = { role: "ai", content: accumulatedText };
                 }
-                return updated
-              })
+                return updated;
+              });
             }
           }
-        } catch (err) { }
+        } catch {
+          // Ignore incomplete trailing buffer parse
+        }
       }
-
-    } catch (error: any) {
-      if (error?.name !== 'AbortError') {
-        setMessages(prev => [...prev, { role: 'ai', content: "An unexpected network error occurred. Please verify your connection." }])
+    } catch (error: unknown) {
+      if ((error as Error)?.name !== "AbortError") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "ai",
+            content: "An unexpected network error occurred. Please verify your connection.",
+          },
+        ]);
       }
     } finally {
-      setIsLoading(false)
-      abortControllerRef.current = null
+      setIsLoading(false);
+      abortControllerRef.current = null;
     }
-  }, [])
+  }, []);
 
   const handleSend = async (e?: React.FormEvent) => {
-    if (e) e.preventDefault()
-    if (!input.trim() || isLoading) return
+    if (e) e.preventDefault();
+    if (!input.trim() || isLoading) return;
 
-    const userMsg = input.trim()
-    setInput('')
+    const userMsg = input.trim();
+    setInput("");
 
-    const currentHistory = [...messages]
-    setMessages(prev => [...prev, { role: 'user', content: userMsg }])
-    await streamChatResponse(userMsg, currentHistory)
-  }
+    const currentHistory = [...messages];
+    setMessages((prev) => [...prev, { role: "user", content: userMsg }]);
+    await streamChatResponse(userMsg, currentHistory);
+  };
 
   const handleQuickOptionClick = async (queryText: string) => {
-    if (isLoading) return
-    const currentHistory = [...messages]
-    setMessages(prev => [...prev, { role: 'user', content: queryText }])
-    await streamChatResponse(queryText, currentHistory)
-  }
+    if (isLoading) return;
+    const currentHistory = [...messages];
+    setMessages((prev) => [...prev, { role: "user", content: queryText }]);
+    await streamChatResponse(queryText, currentHistory);
+  };
 
   const handleRegenerate = async () => {
-    if (isLoading || messages.length < 2) return
+    if (isLoading || messages.length < 2) return;
 
     // Find last user message
-    let lastUserMsg = ""
-    let historyCutoffIdx = -1
+    let lastUserMsg = "";
+    let historyCutoffIdx = -1;
 
     for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === 'user') {
-        lastUserMsg = messages[i].content
-        historyCutoffIdx = i
-        break
+      if (messages[i].role === "user") {
+        lastUserMsg = messages[i].content;
+        historyCutoffIdx = i;
+        break;
       }
     }
 
-    if (!lastUserMsg || historyCutoffIdx === -1) return
+    if (!lastUserMsg || historyCutoffIdx === -1) return;
 
-    const trimmedHistory = messages.slice(0, historyCutoffIdx)
-    setMessages(messages.slice(0, historyCutoffIdx + 1))
-    await streamChatResponse(lastUserMsg, trimmedHistory)
-  }
+    const trimmedHistory = messages.slice(0, historyCutoffIdx);
+    setMessages(messages.slice(0, historyCutoffIdx + 1));
+    await streamChatResponse(lastUserMsg, trimmedHistory);
+  };
 
   const handleStopStream = () => {
     if (abortControllerRef.current) {
-      abortControllerRef.current.abort()
+      abortControllerRef.current.abort();
     }
-  }
+  };
 
   const handleCopy = (content: string, idx: number) => {
-    navigator.clipboard.writeText(content)
-    setCopiedIdx(idx)
-    setTimeout(() => setCopiedIdx(null), 2000)
-  }
+    navigator.clipboard.writeText(content);
+    setCopiedIdx(idx);
+    setTimeout(() => setCopiedIdx(null), 2000);
+  };
 
   const handleClearChat = () => {
     if (isLoading && abortControllerRef.current) {
-      abortControllerRef.current.abort()
+      abortControllerRef.current.abort();
     }
-    localStorage.removeItem('maisone_chat_history')
+    localStorage.removeItem("maisone_chat_history");
     setMessages([
-      { role: 'ai', content: "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?" }
-    ])
-  }
+      {
+        role: "ai",
+        content:
+          "Hello! I'm the Maisone Sourcing Assistant. How can I help you find the right supplier today?",
+      },
+    ]);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
-  }
+  };
 
   // Evaluate whether to show the "Contact Maisone" CTA
-  const lastAiMsg = messages[messages.length - 1]?.role === 'ai' ? messages[messages.length - 1].content : '';
-  const lastUserMsg = messages.length > 1 && messages[messages.length - 2]?.role === 'user' ? messages[messages.length - 2].content : '';
-  const previousAiMsg = messages.length > 2 && messages[messages.length - 3]?.role === 'ai' ? messages[messages.length - 3].content : '';
+  const lastAiMsg =
+    messages[messages.length - 1]?.role === "ai" ? messages[messages.length - 1].content : "";
+  const lastUserMsg =
+    messages.length > 1 && messages[messages.length - 2]?.role === "user"
+      ? messages[messages.length - 2].content
+      : "";
+  const previousAiMsg =
+    messages.length > 2 && messages[messages.length - 3]?.role === "ai"
+      ? messages[messages.length - 3].content
+      : "";
 
-  const aiInvitedContact = /(contact our team|contact the maisone team|email us|info@maisone\.com|request a quote|connect you with|tailored quote|custom quote|exact quote)/i.test(lastAiMsg);
-  const userRequestedContact = /(pricing|price|prices|cost|costs|costing|quote|quotes|quotation|fee|fees|rate|rates|how much|package|speak to sales|speak with sales|talk to sales|reach out|contact details|phone number|email address)/i.test(lastUserMsg);
-  const userAgreedToConnect = /(connect you with|would you like to contact them|would you like me to do that)/i.test(previousAiMsg) && /^(yes|yeah|sure|okay|ok|please|yep|would love to|definitely)/i.test(lastUserMsg.trim());
+  const aiInvitedContact =
+    /(contact our team|contact the maisone team|email us|info@maisone\.com|request a quote|connect you with|tailored quote|custom quote|exact quote)/i.test(
+      lastAiMsg,
+    );
+  const userRequestedContact =
+    /(pricing|price|prices|cost|costs|costing|quote|quotes|quotation|fee|fees|rate|rates|how much|package|speak to sales|speak with sales|talk to sales|reach out|contact details|phone number|email address)/i.test(
+      lastUserMsg,
+    );
+  const userAgreedToConnect =
+    /(connect you with|would you like to contact them|would you like me to do that)/i.test(
+      previousAiMsg,
+    ) && /^(yes|yeah|sure|okay|ok|please|yep|would love to|definitely)/i.test(lastUserMsg.trim());
 
-  const showCTA = messages.length > 1 && messages[messages.length - 1].role === 'ai' && (aiInvitedContact || userRequestedContact || userAgreedToConnect);
+  const showCTA =
+    messages.length > 1 &&
+    messages[messages.length - 1].role === "ai" &&
+    (aiInvitedContact || userRequestedContact || userAgreedToConnect);
 
   return (
     <div className="h-screen pt-20 pb-4 px-4 sm:px-6 flex flex-col overflow-hidden">
@@ -492,7 +583,7 @@ function AssistantRoute() {
           <ArrowLeft className="size-4 shrink-0" />
           <span className="hidden sm:inline">Back Home</span>
         </Link>
- 
+
         {messages.length > 1 && (
           <button
             onClick={handleClearChat}
@@ -504,34 +595,45 @@ function AssistantRoute() {
         )}
 
         <div className="mb-6 text-center relative flex flex-col items-center shrink-0">
-          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight mb-2">Maisone <span className="italic gradient-text">AI Assistant</span></h1>
-          <p className="text-muted-foreground max-w-lg mx-auto text-xs sm:text-sm">Chat with our intelligent sourcing assistant to find your perfect manufacturing partner.</p>
+          <h1 className="font-serif text-3xl sm:text-4xl tracking-tight mb-2">
+            Maisone <span className="italic gradient-text">AI Assistant</span>
+          </h1>
+          <p className="text-muted-foreground max-w-lg mx-auto text-xs sm:text-sm">
+            Chat with our intelligent sourcing assistant to find your perfect manufacturing partner.
+          </p>
         </div>
 
         <div className="relative max-w-4xl mx-auto w-full flex-1 flex flex-col min-h-0">
           <div className="absolute -inset-10 bg-gradient-to-br from-electric/10 via-violet-glow/10 to-cyan-glow/5 blur-3xl pointer-events-none" />
           <div className="relative glass-strong rounded-3xl border border-electric/20 overflow-hidden flex flex-col flex-1 min-h-0 shadow-2xl">
-
             {/* Chat Body */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 scroll-smooth bg-background/20">
+            <div
+              ref={scrollRef}
+              className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 scroll-smooth bg-background/20"
+            >
               {messages.map((msg, idx) => (
                 <div key={idx} className="space-y-4">
-                  <div className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[88%] sm:max-w-[85%] ${msg.role === 'user' ? '' : 'w-full'}`}>
-                      {msg.role === 'ai' && (
+                  <div className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                    <div
+                      className={`max-w-[88%] sm:max-w-[85%] ${msg.role === "user" ? "" : "w-full"}`}
+                    >
+                      {msg.role === "ai" && (
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
                             <div className="size-6 rounded-full bg-gradient-to-br from-electric to-violet-glow flex items-center justify-center shadow-md">
                               <span className="font-serif text-[11px] text-white">M</span>
                             </div>
-                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Maisone AI</span>
+                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                              Maisone AI
+                            </span>
                           </div>
-
                         </div>
                       )}
 
-                      <div className={`leading-relaxed rounded-2xl px-5 py-4 text-sm shadow-sm break-words ${msg.role === 'user' ? 'bg-foreground text-background font-medium' : 'glass border border-border'}`}>
-                        {msg.role === 'user' ? (
+                      <div
+                        className={`leading-relaxed rounded-2xl px-5 py-4 text-sm shadow-sm break-words ${msg.role === "user" ? "bg-foreground text-background font-medium" : "glass border border-border"}`}
+                      >
+                        {msg.role === "user" ? (
                           <div className="whitespace-pre-wrap">{msg.content}</div>
                         ) : (
                           <div>
@@ -544,17 +646,20 @@ function AssistantRoute() {
                       </div>
 
                       {/* Regenerate Action for latest AI response */}
-                      {msg.role === 'ai' && idx === messages.length - 1 && messages.length > 1 && !isLoading && (
-                        <div className="flex justify-end mt-1.5">
-                          <button
-                            onClick={handleRegenerate}
-                            className="flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-electric transition-colors px-2 py-1 rounded-md hover:bg-secondary/40 cursor-pointer"
-                          >
-                            <RotateCcw className="size-3" />
-                            <span>Regenerate</span>
-                          </button>
-                        </div>
-                      )}
+                      {msg.role === "ai" &&
+                        idx === messages.length - 1 &&
+                        messages.length > 1 &&
+                        !isLoading && (
+                          <div className="flex justify-end mt-1.5">
+                            <button
+                              onClick={handleRegenerate}
+                              className="flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-electric transition-colors px-2 py-1 rounded-md hover:bg-secondary/40 cursor-pointer"
+                            >
+                              <RotateCcw className="size-3" />
+                              <span>Regenerate</span>
+                            </button>
+                          </div>
+                        )}
                     </div>
                   </div>
 
@@ -572,7 +677,9 @@ function AssistantRoute() {
                             {opt.icon}
                           </div>
                           <div>
-                            <span className="block text-[9px] uppercase tracking-wider text-muted-foreground mb-0.5">Quick Action</span>
+                            <span className="block text-[9px] uppercase tracking-wider text-muted-foreground mb-0.5">
+                              Quick Action
+                            </span>
                             <span className="font-serif italic text-xs sm:text-sm text-foreground group-hover:text-electric transition-colors duration-300">
                               {opt.label}
                             </span>
@@ -594,8 +701,14 @@ function AssistantRoute() {
                           <Mail className="size-4 text-white" />
                         </div>
                         <div>
-                          <h4 className="font-serif text-base font-semibold tracking-wide text-foreground">Contact Maisone Global</h4>
-                          <p className="text-xs text-muted-foreground mt-0.5">Connect directly with our sourcing team at info@maisone.com for custom pricing quotations, sourcing advisory, sample creation, and supplier introductions.</p>
+                          <h4 className="font-serif text-base font-semibold tracking-wide text-foreground">
+                            Contact Maisone Global
+                          </h4>
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            Connect directly with our sourcing team at info@maisone.com for custom
+                            pricing quotations, sourcing advisory, sample creation, and supplier
+                            introductions.
+                          </p>
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-3">
@@ -613,34 +726,38 @@ function AssistantRoute() {
               )}
 
               {/* Loading Indicator: Only shown before the first stream token is received */}
-              {isLoading && (!messages[messages.length - 1] || messages[messages.length - 1].role === 'user' || !messages[messages.length - 1].content) && (
-                <div className="flex justify-start animate-fade-in">
-                  <div className="flex items-center gap-2">
-                    <div className="size-6 rounded-full bg-gradient-to-br from-electric to-violet-glow flex items-center justify-center shadow-md">
-                      <span className="font-serif text-[11px] text-white">M</span>
-                    </div>
-                    <div className="glass border border-border rounded-2xl px-5 py-3.5 flex gap-1.5 items-center">
-                      {[0, 1, 2].map((i) => (
-                        <span
-                          key={i}
-                          className="size-1.5 rounded-full bg-electric animate-bounce"
-                          style={{ animationDelay: `${i * 0.15}s` }}
-                        />
-                      ))}
-                      <span className="text-xs text-muted-foreground ml-2">Thinking...</span>
+              {isLoading &&
+                (!messages[messages.length - 1] ||
+                  messages[messages.length - 1].role === "user" ||
+                  !messages[messages.length - 1].content) && (
+                  <div className="flex justify-start animate-fade-in">
+                    <div className="flex items-center gap-2">
+                      <div className="size-6 rounded-full bg-gradient-to-br from-electric to-violet-glow flex items-center justify-center shadow-md">
+                        <span className="font-serif text-[11px] text-white">M</span>
+                      </div>
+                      <div className="glass border border-border rounded-2xl px-5 py-3.5 flex gap-1.5 items-center">
+                        {[0, 1, 2].map((i) => (
+                          <span
+                            key={i}
+                            className="size-1.5 rounded-full bg-electric animate-bounce"
+                            style={{ animationDelay: `${i * 0.15}s` }}
+                          />
+                        ))}
+                        <span className="text-xs text-muted-foreground ml-2">Thinking...</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             {/* Bottom Bar Container */}
             <div className="p-4 border-t border-border bg-background/60 backdrop-blur-md space-y-3">
-              
               {/* Persistent Quick Suggestion Chips (when conversation has started) */}
               {messages.length > 1 && (
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Suggestions:</span>
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">
+                    Suggestions:
+                  </span>
                   {QUICK_OPTIONS.map((opt) => (
                     <button
                       key={opt.label}
@@ -662,13 +779,13 @@ function AssistantRoute() {
                   ref={textareaRef}
                   value={input}
                   disabled={isLoading}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask about a supplier, category, or compliance (Shift+Enter for newline)..."
                   rows={1}
                   className="w-full glass rounded-2xl pl-5 pr-14 py-3.5 text-sm outline-none placeholder:text-muted-foreground resize-none max-h-36 no-scrollbar disabled:opacity-60 transition-all focus:border-electric/50"
                 />
-                
+
                 {isLoading ? (
                   <button
                     type="button"
@@ -690,10 +807,9 @@ function AssistantRoute() {
                 )}
               </form>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

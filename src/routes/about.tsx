@@ -11,7 +11,8 @@ export const Route = createFileRoute("/about")({
       { title: "About Maisone Global — Core Values & Sourcing Philosophy" },
       {
         name: "description",
-        content: "Learn how Maisone Global is building transparent, ethical and sustainable fashion supply chains across Asia and Europe.",
+        content:
+          "Learn how Maisone Global is building transparent, ethical and sustainable fashion supply chains across Asia and Europe.",
       },
     ],
   }),
@@ -37,47 +38,51 @@ function AboutPage() {
 
           {/* Heading */}
           <div className="space-y-4">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">{t("aboutPage.executiveOverview")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric">
+              {t("aboutPage.executiveOverview")}
+            </p>
             <h1 className="font-serif text-4xl sm:text-6xl tracking-tight text-foreground leading-tight">
-              {t("aboutPage.heading")} <span className="italic gradient-text">{t("aboutPage.headingHighlight")}</span>{t("aboutPage.headingEnd")}
+              {t("aboutPage.heading")}{" "}
+              <span className="italic gradient-text">{t("aboutPage.headingHighlight")}</span>
+              {t("aboutPage.headingEnd")}
             </h1>
           </div>
 
           {/* Introduction Narrative */}
           <section className="space-y-6 text-muted-foreground/90 leading-relaxed text-sm sm:text-base">
-            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.paradigmShift")}</h2>
-            <p>
-              {t("aboutPage.paradigmP1")}
-            </p>
-            <p>
-              {t("aboutPage.paradigmP2")}
-            </p>
+            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">
+              {t("aboutPage.paradigmShift")}
+            </h2>
+            <p>{t("aboutPage.paradigmP1")}</p>
+            <p>{t("aboutPage.paradigmP2")}</p>
           </section>
 
           {/* History Timeline */}
           <section className="space-y-8">
-            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">{t("aboutPage.heritageTitle")}</h2>
+            <h2 className="text-foreground font-serif text-xl sm:text-2xl tracking-tight">
+              {t("aboutPage.heritageTitle")}
+            </h2>
             <div className="space-y-8 pl-4 border-l border-white/5">
               <div className="space-y-2 relative">
                 <span className="absolute -left-[21px] top-1.5 size-2.5 rounded-full bg-electric" />
-                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">{t("aboutPage.heritage2020Title")}</span>
-                <p className="text-sm text-muted-foreground">
-                  {t("aboutPage.heritage2020Text")}
-                </p>
+                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">
+                  {t("aboutPage.heritage2020Title")}
+                </span>
+                <p className="text-sm text-muted-foreground">{t("aboutPage.heritage2020Text")}</p>
               </div>
               <div className="space-y-2 relative">
                 <span className="absolute -left-[21px] top-1.5 size-2.5 rounded-full bg-electric" />
-                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">{t("aboutPage.heritage2022Title")}</span>
-                <p className="text-sm text-muted-foreground">
-                  {t("aboutPage.heritage2022Text")}
-                </p>
+                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">
+                  {t("aboutPage.heritage2022Title")}
+                </span>
+                <p className="text-sm text-muted-foreground">{t("aboutPage.heritage2022Text")}</p>
               </div>
               <div className="space-y-2 relative">
                 <span className="absolute -left-[21px] top-1.5 size-2.5 rounded-full bg-electric" />
-                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">{t("aboutPage.heritage2024Title")}</span>
-                <p className="text-sm text-muted-foreground">
-                  {t("aboutPage.heritage2024Text")}
-                </p>
+                <span className="text-xs font-semibold text-electric uppercase tracking-wider block">
+                  {t("aboutPage.heritage2024Title")}
+                </span>
+                <p className="text-sm text-muted-foreground">{t("aboutPage.heritage2024Text")}</p>
               </div>
             </div>
           </section>
@@ -118,12 +123,8 @@ function AboutPage() {
             <h2 className="text-foreground font-serif text-2xl tracking-tight flex items-center gap-2">
               <Target className="size-5 text-electric" /> {t("aboutPage.frameworkTitle")}
             </h2>
-            <p>
-              {t("aboutPage.frameworkP1")}
-            </p>
-            <p>
-              {t("aboutPage.frameworkP2")}
-            </p>
+            <p>{t("aboutPage.frameworkP1")}</p>
+            <p>{t("aboutPage.frameworkP2")}</p>
           </section>
         </main>
 

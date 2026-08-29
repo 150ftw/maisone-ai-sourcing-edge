@@ -1,5 +1,14 @@
 import { motion } from "framer-motion";
-import { Star, MapPin, ShieldCheck, Clock, Package, Leaf, BadgeCheck, Calendar } from "lucide-react";
+import {
+  Star,
+  MapPin,
+  ShieldCheck,
+  Clock,
+  Package,
+  Leaf,
+  BadgeCheck,
+  Calendar,
+} from "lucide-react";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const CAPACITY = [82, 88, 95, 76, 64, 70, 85, 92, 78, 60, 55, 72];
@@ -15,12 +24,15 @@ export function SupplierProfile() {
     <section id="supplier-profile" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-12">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Supplier Intelligence</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Supplier Intelligence
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             Every atelier, <span className="italic gradient-text">fully transparent</span>.
           </h2>
           <p className="mt-6 text-muted-foreground max-w-xl">
-            One unified profile per supplier — capacity, certifications, response times, sample history and risk score, scored in real time by Maisone AI.
+            One unified profile per supplier — capacity, certifications, response times, sample
+            history and risk score, scored in real time by Maisone AI.
           </p>
         </div>
 
@@ -48,10 +60,16 @@ export function SupplierProfile() {
                       Premium · Tier 1
                     </span>
                   </div>
-                  <h3 className="font-serif text-2xl sm:text-3xl tracking-tight">Osaka Mill #042</h3>
+                  <h3 className="font-serif text-2xl sm:text-3xl tracking-tight">
+                    Osaka Mill #042
+                  </h3>
                   <p className="text-xs text-muted-foreground mt-1 flex items-center gap-3">
-                    <span className="flex items-center gap-1"><MapPin className="size-3" /> Osaka, Japan</span>
-                    <span className="flex items-center gap-1"><Star className="size-3 fill-amber-400 text-amber-400" /> 4.9 · 184 reviews</span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="size-3" /> Osaka, Japan
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Star className="size-3 fill-amber-400 text-amber-400" /> 4.9 · 184 reviews
+                    </span>
                   </p>
                 </div>
               </div>
@@ -72,7 +90,9 @@ export function SupplierProfile() {
                 <p className="text-sm flex items-center gap-2">
                   <Calendar className="size-3.5 text-electric" /> Capacity calendar
                 </p>
-                <span className="text-[9px] uppercase tracking-widest text-muted-foreground">2026</span>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground">
+                  2026
+                </span>
               </div>
               <div className="grid grid-cols-6 gap-2">
                 {CAPACITY.map((c, i) => (
@@ -84,7 +104,11 @@ export function SupplierProfile() {
                         viewport={{ once: true }}
                         transition={{ delay: i * 0.04, duration: 0.6 }}
                         className={`w-full ${
-                          c >= 85 ? "bg-rose-500/70" : c >= 70 ? "bg-amber-400/70" : "bg-emerald-400/70"
+                          c >= 85
+                            ? "bg-rose-500/70"
+                            : c >= 70
+                              ? "bg-amber-400/70"
+                              : "bg-emerald-400/70"
                         }`}
                       />
                     </div>
@@ -93,9 +117,15 @@ export function SupplierProfile() {
                 ))}
               </div>
               <div className="mt-5 flex items-center gap-3 text-[10px] text-muted-foreground">
-                <span className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-emerald-400/70" /> Open</span>
-                <span className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-amber-400/70" /> Limited</span>
-                <span className="flex items-center gap-1.5"><span className="size-2 rounded-full bg-rose-500/70" /> Booked</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="size-2 rounded-full bg-emerald-400/70" /> Open
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="size-2 rounded-full bg-amber-400/70" /> Limited
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="size-2 rounded-full bg-rose-500/70" /> Booked
+                </span>
               </div>
             </div>
 
@@ -114,7 +144,10 @@ export function SupplierProfile() {
                 <p className="text-sm mb-3">Certifications</p>
                 <div className="flex flex-wrap gap-2">
                   {CERTS.map((c) => (
-                    <span key={c.label} className="text-xs px-2.5 py-1.5 rounded-full glass border border-border flex items-center gap-1.5">
+                    <span
+                      key={c.label}
+                      className="text-xs px-2.5 py-1.5 rounded-full glass border border-border flex items-center gap-1.5"
+                    >
                       <c.icon className="size-3 text-electric" />
                       {c.label}
                     </span>
@@ -125,7 +158,10 @@ export function SupplierProfile() {
                 <p className="text-sm mb-3">Past clients</p>
                 <div className="flex flex-wrap gap-2">
                   {CLIENTS.map((c) => (
-                    <span key={c} className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground/80">
+                    <span
+                      key={c}
+                      className="text-xs px-2.5 py-1 rounded-full bg-secondary text-foreground/80"
+                    >
                       {c}
                     </span>
                   ))}
@@ -146,22 +182,32 @@ export function SupplierProfile() {
                     "from-rose-400/30 to-violet-700/40",
                     "from-emerald-500/30 to-cyan-800/40",
                   ].map((h, i) => (
-                    <div key={i} className={`aspect-square rounded-lg bg-gradient-to-br ${h} relative overflow-hidden ring-1 ring-border`}>
+                    <div
+                      key={i}
+                      className={`aspect-square rounded-lg bg-gradient-to-br ${h} relative overflow-hidden ring-1 ring-border`}
+                    >
                       <div className="absolute inset-0 grid-bg opacity-30" />
                     </div>
                   ))}
                 </div>
               </div>
               <div className="rounded-2xl glass border border-border p-4">
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">Live activity</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">
+                  Live activity
+                </p>
                 <ul className="space-y-2 text-xs">
                   <li className="flex items-start gap-2">
                     <Package className="size-3 text-electric mt-0.5 shrink-0" />
-                    <span>Accepted RFQ <span className="text-foreground/60">#4821</span> · 2m ago</span>
+                    <span>
+                      Accepted RFQ <span className="text-foreground/60">#4821</span> · 2m ago
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Clock className="size-3 text-electric mt-0.5 shrink-0" />
-                    <span>Sample shipped to <span className="text-foreground/60">Maison Noir</span> · 1h ago</span>
+                    <span>
+                      Sample shipped to <span className="text-foreground/60">Maison Noir</span> · 1h
+                      ago
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <BadgeCheck className="size-3 text-electric mt-0.5 shrink-0" />

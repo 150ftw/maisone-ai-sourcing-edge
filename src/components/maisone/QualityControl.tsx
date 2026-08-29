@@ -16,7 +16,9 @@ export function QualityControl() {
     <section id="quality" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Quality Control</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Quality Control
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             Eight checkpoints. <span className="italic gradient-text">Zero compromises</span>.
           </h2>

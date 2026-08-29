@@ -32,9 +32,13 @@ export function HowItWorks() {
     <section className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="max-w-3xl mb-20">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("howItWorks.label")}</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            {t("howItWorks.label")}
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-            {t("howItWorks.heading")} <span className="italic gradient-text">{t("howItWorks.headingHighlight")}</span>{t("howItWorks.headingEnd")}
+            {t("howItWorks.heading")}{" "}
+            <span className="italic gradient-text">{t("howItWorks.headingHighlight")}</span>
+            {t("howItWorks.headingEnd")}
           </h2>
         </div>
 
@@ -51,9 +55,15 @@ export function HowItWorks() {
               <div>
                 <span className="font-serif text-7xl gradient-text">{s.n}</span>
                 <h3 className="font-serif text-3xl sm:text-5xl mt-4 tracking-tight">{s.title}</h3>
-                <p className="mt-6 text-lg text-muted-foreground max-w-md leading-relaxed">{s.desc}</p>
+                <p className="mt-6 text-lg text-muted-foreground max-w-md leading-relaxed">
+                  {s.desc}
+                </p>
               </div>
-              {s.n === "02" ? <AutomationWorkflowVisual /> : <StepImage src={s.img} title={s.title} />}
+              {s.n === "02" ? (
+                <AutomationWorkflowVisual />
+              ) : (
+                <StepImage src={s.img} title={s.title} />
+              )}
             </motion.div>
           ))}
         </div>
@@ -65,7 +75,12 @@ export function HowItWorks() {
 function StepImage({ src, title }: { src: string; title: string }) {
   return (
     <div className="relative aspect-[4/3] rounded-3xl overflow-hidden glass-strong">
-      <img src={src} alt={title} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+      <img
+        src={src}
+        alt={title}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
     </div>
   );
@@ -75,9 +90,24 @@ function AutomationWorkflowVisual() {
   const { t } = useLanguage();
 
   const stages = [
-    { icon: FileText, title: t("howItWorks.rfqIntake"), meta: t("howItWorks.briefsParsed"), progress: "92%" },
-    { icon: Factory, title: t("howItWorks.supplierMatch"), meta: t("howItWorks.ateliersRanked"), progress: "88%" },
-    { icon: PackageCheck, title: t("howItWorks.sampleReview"), meta: t("howItWorks.approvalsQueued"), progress: "76%" },
+    {
+      icon: FileText,
+      title: t("howItWorks.rfqIntake"),
+      meta: t("howItWorks.briefsParsed"),
+      progress: "92%",
+    },
+    {
+      icon: Factory,
+      title: t("howItWorks.supplierMatch"),
+      meta: t("howItWorks.ateliersRanked"),
+      progress: "88%",
+    },
+    {
+      icon: PackageCheck,
+      title: t("howItWorks.sampleReview"),
+      meta: t("howItWorks.approvalsQueued"),
+      progress: "76%",
+    },
   ];
 
   return (
@@ -87,8 +117,12 @@ function AutomationWorkflowVisual() {
       <div className="relative flex h-full min-h-[320px] flex-col justify-between gap-8">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.28em] text-electric">{t("howItWorks.orchestration")}</p>
-            <h4 className="mt-3 font-serif text-2xl tracking-tight">{t("howItWorks.commandFlow")}</h4>
+            <p className="text-[10px] uppercase tracking-[0.28em] text-electric">
+              {t("howItWorks.orchestration")}
+            </p>
+            <h4 className="mt-3 font-serif text-2xl tracking-tight">
+              {t("howItWorks.commandFlow")}
+            </h4>
           </div>
           <div className="flex items-center gap-2 rounded-full border border-electric/20 bg-electric/10 px-3 py-1.5 text-xs text-electric">
             <Bot className="size-3.5" />
@@ -132,14 +166,18 @@ function AutomationWorkflowVisual() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{t("howItWorks.nextAction")}</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              {t("howItWorks.nextAction")}
+            </p>
             <div className="mt-3 flex items-center gap-2 text-sm">
               <CheckCircle2 className="size-4 text-electric" />
               {t("howItWorks.generateQuote")}
             </div>
           </div>
           <div className="rounded-2xl border border-border/70 bg-background/45 p-4">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">{t("howItWorks.humanCheckpoint")}</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              {t("howItWorks.humanCheckpoint")}
+            </p>
             <div className="mt-3 text-sm">{t("howItWorks.directorApproval")}</div>
           </div>
         </div>

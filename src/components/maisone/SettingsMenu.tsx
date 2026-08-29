@@ -28,7 +28,9 @@ export function SettingsMenu() {
         onClick={() => setSettingsOpen(!settingsOpen)}
         aria-label="Preferences"
         className={`size-11 rounded-full flex items-center justify-center transition-all border border-border shadow-lg ${
-          settingsOpen ? "bg-foreground text-background dark:bg-electric dark:text-black scale-105" : "glass-strong text-foreground hover:bg-foreground/10"
+          settingsOpen
+            ? "bg-foreground text-background dark:bg-electric dark:text-black scale-105"
+            : "glass-strong text-foreground hover:bg-foreground/10"
         }`}
       >
         <Info className="size-5" />
@@ -42,7 +44,9 @@ export function SettingsMenu() {
         >
           {/* Theme section */}
           <div className="flex items-center justify-between gap-4">
-            <span className="text-xs text-muted-foreground font-medium">{t("nav.theme") || "Theme"}</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t("nav.theme") || "Theme"}
+            </span>
             <button
               onClick={toggle}
               aria-label="Toggle theme"
@@ -54,7 +58,9 @@ export function SettingsMenu() {
 
           {/* Language section */}
           <div className="flex items-center justify-between gap-4">
-            <span className="text-xs text-muted-foreground font-medium">{t("nav.language") || "Language"}</span>
+            <span className="text-xs text-muted-foreground font-medium">
+              {t("nav.language") || "Language"}
+            </span>
             <LanguageToggle />
           </div>
         </motion.div>

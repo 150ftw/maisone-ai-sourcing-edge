@@ -48,9 +48,7 @@ export function LanguageToggle() {
             >
               <span className="text-base">{LOCALE_FLAGS[l]}</span>
               <span>{LOCALE_LABELS[l]}</span>
-              {l === locale && (
-                <span className="ml-auto size-1.5 rounded-full bg-electric" />
-              )}
+              {l === locale && <span className="ml-auto size-1.5 rounded-full bg-electric" />}
             </button>
           ))}
         </div>

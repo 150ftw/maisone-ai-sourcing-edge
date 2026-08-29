@@ -13,7 +13,11 @@ export const Route = createFileRoute("/founders")({
   head: () => ({
     meta: [
       { title: "Our Leadership & Founders — Maisone Global" },
-      { name: "description", content: "Meet Shashank Jain and Subah Arora, the Co-Founders behind Maisone Global's sourcing network." }
+      {
+        name: "description",
+        content:
+          "Meet Shashank Jain and Subah Arora, the Co-Founders behind Maisone Global's sourcing network.",
+      },
     ],
   }),
   component: FoundersPage,
@@ -29,7 +33,7 @@ function FoundersPage() {
       roleDetail: t("foundersPageRoute.shashankRoleDetail"),
       quote: t("foundersPageRoute.shashankQuote"),
       bio: t("foundersPageRoute.shashankBio"),
-      image: shashankImg
+      image: shashankImg,
     },
     {
       name: "Subah Arora",
@@ -37,8 +41,8 @@ function FoundersPage() {
       roleDetail: t("foundersPageRoute.subahRoleDetail"),
       quote: t("foundersPageRoute.subahQuote"),
       bio: t("foundersPageRoute.subahBio"),
-      image: subahImg
-    }
+      image: subahImg,
+    },
   ];
 
   return (
@@ -50,27 +54,45 @@ function FoundersPage() {
         <main className="relative z-10 mx-auto max-w-4xl px-6 pt-32 pb-24 flex-grow w-full space-y-16">
           {/* Header */}
           <div className="space-y-6">
-            <Link to="/" className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-electric transition-colors uppercase tracking-wider"
+            >
               <ArrowLeft className="size-4" /> {t("aboutPage.backToHome")}
             </Link>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric bg-black/50 px-2 py-0.5 rounded w-max">{t("foundersPageRoute.label")}</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric bg-black/50 px-2 py-0.5 rounded w-max">
+              {t("foundersPageRoute.label")}
+            </p>
             <h1 className="font-serif text-4xl sm:text-6xl text-foreground tracking-tight leading-tight">
-              {t("foundersPageRoute.heading")} <span className="italic gradient-text font-serif">{t("foundersPageRoute.headingHighlight")}</span>{t("foundersPageRoute.headingEnd")}
+              {t("foundersPageRoute.heading")}{" "}
+              <span className="italic gradient-text font-serif">
+                {t("foundersPageRoute.headingHighlight")}
+              </span>
+              {t("foundersPageRoute.headingEnd")}
             </h1>
           </div>
 
           {/* Bios */}
           <div className="grid md:grid-cols-2 gap-10">
             {bios.map((f, i) => (
-              <div key={i} className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6 flex flex-col justify-between">
+              <div
+                key={i}
+                className="glass-strong rounded-3xl p-8 border border-white/5 space-y-6 flex flex-col justify-between"
+              >
                 <div className="space-y-6">
                   {/* Photo */}
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden border border-white/5 relative animate-fade-in">
-                    <img src={f.image} alt={f.name} className="w-full h-full object-cover object-[center_20%] transition-all duration-500" />
+                    <img
+                      src={f.image}
+                      alt={f.name}
+                      className="w-full h-full object-cover object-[center_20%] transition-all duration-500"
+                    />
                     <div className="absolute bottom-4 left-4">
                       <div className="text-[9px] uppercase tracking-widest font-semibold bg-white/90 dark:bg-black/85 border border-black/5 dark:border-white/10 px-3 py-1.5 rounded-xl text-electric flex flex-col gap-0.5">
                         <span>{f.role}</span>
-                        <span className="text-foreground/80 text-[8px] tracking-wider">{f.roleDetail}</span>
+                        <span className="text-foreground/80 text-[8px] tracking-wider">
+                          {f.roleDetail}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -90,7 +112,8 @@ function FoundersPage() {
                 </div>
 
                 <div className="pt-4 border-t border-white/5 flex gap-2 items-center text-electric text-[10px] font-bold uppercase tracking-wider">
-                  <Briefcase className="size-3 text-electric/40" /> {t("foundersPageRoute.vettingApparel")}
+                  <Briefcase className="size-3 text-electric/40" />{" "}
+                  {t("foundersPageRoute.vettingApparel")}
                 </div>
               </div>
             ))}
@@ -102,12 +125,8 @@ function FoundersPage() {
               <Quote className="size-5 text-electric" /> {t("foundersPageRoute.manifestoTitle")}
             </h2>
             <div className="space-y-4 text-sm text-muted-foreground/90 leading-relaxed italic font-serif">
-              <p>
-                "{t("foundersPageRoute.manifestoP1")}"
-              </p>
-              <p>
-                {t("foundersPageRoute.manifestoP2")}
-              </p>
+              <p>"{t("foundersPageRoute.manifestoP1")}"</p>
+              <p>{t("foundersPageRoute.manifestoP2")}</p>
             </div>
             <div className="pt-4 border-t border-white/5 flex gap-4 text-xs font-semibold text-muted-foreground">
               <span>— Shashank Jain & Subah Arora</span>

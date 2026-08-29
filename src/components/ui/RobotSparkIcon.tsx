@@ -22,11 +22,5 @@ export function RobotSparkIcon({ className = "", size, style, ...props }: RobotS
     ...(size ? { width: size, height: size } : {}),
   };
 
-  return (
-    <span
-      className={`shrink-0 ${className}`}
-      style={customStyle}
-      {...props}
-    />
-  );
+  return <span className={`shrink-0 ${className}`} style={customStyle} {...props} />;
 }

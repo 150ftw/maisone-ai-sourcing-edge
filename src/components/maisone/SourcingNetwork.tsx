@@ -21,7 +21,9 @@ export function SourcingNetwork() {
     <section id="network" className="relative py-32 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Global Network</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Global Network
+          </p>
           <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
             A living <span className="italic gradient-text">sourcing constellation</span>.
           </h2>
@@ -35,9 +37,20 @@ export function SourcingNetwork() {
 
           <div className="relative aspect-[2/1] w-full">
             {/* accurate dotted continents */}
-            <svg viewBox="0 0 2000 1000" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 w-full h-full opacity-55">
+            <svg
+              viewBox="0 0 2000 1000"
+              preserveAspectRatio="xMidYMid meet"
+              className="absolute inset-0 w-full h-full opacity-55"
+            >
               <defs>
-                <pattern id="net-dots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+                <pattern
+                  id="net-dots"
+                  x="0"
+                  y="0"
+                  width="14"
+                  height="14"
+                  patternUnits="userSpaceOnUse"
+                >
                   <circle cx="3" cy="3" r="2.2" fill="currentColor" />
                 </pattern>
                 <clipPath id="net-land">
@@ -50,7 +63,11 @@ export function SourcingNetwork() {
             </svg>
 
             {/* arcs */}
-            <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="absolute inset-0 w-full h-full pointer-events-none">
+            <svg
+              viewBox="0 0 100 50"
+              preserveAspectRatio="none"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+            >
               <defs>
                 <linearGradient id="net-arc" x1="0" x2="1">
                   <stop offset="0%" stopColor="oklch(0.65 0.22 255)" />
@@ -62,8 +79,10 @@ export function SourcingNetwork() {
               </defs>
               {HUBS.map((a, i) =>
                 HUBS.slice(i + 1).map((b, j) => {
-                  const ax = a.x, ay = a.y / 2;
-                  const bx = b.x, by = b.y / 2;
+                  const ax = a.x,
+                    ay = a.y / 2;
+                  const bx = b.x,
+                    by = b.y / 2;
                   const mx = (ax + bx) / 2;
                   const my = Math.min(ay, by) - Math.abs(bx - ax) * 0.18 - 4;
                   return (
@@ -80,7 +99,7 @@ export function SourcingNetwork() {
                       transition={{ duration: 2, delay: (i + j) * 0.04 }}
                     />
                   );
-                })
+                }),
               )}
             </svg>
 
@@ -99,7 +118,9 @@ export function SourcingNetwork() {
                   <div className="absolute -inset-2 rounded-full bg-electric/40 blur-md animate-pulse-glow" />
                   <div className="relative size-2.5 rounded-full bg-electric ring-2 ring-background shadow-[0_0_12px_oklch(0.65_0.22_255)]" />
                   <div className="absolute left-3.5 top-1/2 -translate-y-1/2 whitespace-nowrap">
-                    <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/80">{p.name}</span>
+                    <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/80">
+                      {p.name}
+                    </span>
                   </div>
                 </div>
               </motion.div>
@@ -115,7 +136,9 @@ export function SourcingNetwork() {
             ].map((r) => (
               <div key={r.v}>
                 <p className="font-serif text-xl">{r.v}</p>
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">{r.h}</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">
+                  {r.h}
+                </p>
               </div>
             ))}
           </div>

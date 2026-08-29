@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingUp, Activity, Loader2 } from "lucide-react";
 import { createServerFn } from "@tanstack/react-start";
@@ -47,13 +47,16 @@ Provide exactly 4 fabrics, 4 colors (with valid CSS hex codes starting with '#' 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model,
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: `Generate fashion forecast for region "${region}" and season "${season}".` },
+          {
+            role: "user",
+            content: `Generate fashion forecast for region "${region}" and season "${season}".`,
+          },
         ],
         temperature: 0.7,
       }),
@@ -72,7 +75,10 @@ Provide exactly 4 fabrics, 4 colors (with valid CSS hex codes starting with '#' 
 
     let cleanJson = content;
     if (cleanJson.startsWith("```")) {
-      cleanJson = cleanJson.replace(/^```json\s*/, "").replace(/```$/, "").trim();
+      cleanJson = cleanJson
+        .replace(/^```json\s*/, "")
+        .replace(/```$/, "")
+        .trim();
     }
 
     try {
@@ -206,6 +212,7 @@ export const DEFAULT_DATA: Record<Region, Forecast> = {
 
 const REGIONS: Region[] = ["Japan", "United Kingdom", "Europe", "United States", "India", "China"];
 const SEASONS = ["S/S 26", "F/W 26", "S/S 27"];
+
 export function TrendForecast() {
   const { t } = useLanguage();
   const [region, setRegion] = useState<Region>("Japan");
@@ -213,7 +220,7 @@ export function TrendForecast() {
   const [loading, setLoading] = useState<boolean>(true);
   const [cache, setCache] = useState<Record<string, Forecast>>({});
 
-  const fetchForecast = async () => {
+  const fetchForecast = useCallback(async () => {
     if (cache[region]) {
       setForecast(cache[region]);
       setLoading(false);
@@ -237,7 +244,8 @@ export function TrendForecast() {
         resolvedForecast = {
           fabrics: typeof data.fabrics === "string" ? JSON.parse(data.fabrics) : data.fabrics,
           colors: typeof data.colors === "string" ? JSON.parse(data.colors) : data.colors,
-          silhouettes: typeof data.silhouettes === "string" ? JSON.parse(data.silhouettes) : data.silhouettes,
+          silhouettes:
+            typeof data.silhouettes === "string" ? JSON.parse(data.silhouettes) : data.silhouettes,
         };
       } else {
         resolvedForecast = DEFAULT_DATA[region] || null;
@@ -257,33 +265,37 @@ export function TrendForecast() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [cache, region]);
 
   useEffect(() => {
     fetchForecast();
-  }, [region]);
+  }, [fetchForecast]);
 
   return (
     <section id="trends" className="relative py-32">
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
           <div className="max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">{t("trendForecast.label")}</p>
-            <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
-              {t("trendForecast.heading")} <span className="italic gradient-text">{t("trendForecast.headingHighlight")}</span>{t("trendForecast.headingEnd")}
-            </h2>
-            <p className="mt-6 text-muted-foreground">
-              {t("trendForecast.description")}
+            <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+              {t("trendForecast.label")}
             </p>
+            <h2 className="font-serif text-4xl sm:text-6xl tracking-tight text-balance">
+              {t("trendForecast.heading")}{" "}
+              <span className="italic gradient-text">{t("trendForecast.headingHighlight")}</span>
+              {t("trendForecast.headingEnd")}
+            </h2>
+            <p className="mt-6 text-muted-foreground">{t("trendForecast.description")}</p>
           </div>
-          
+
           <div className="flex gap-1.5 p-1 glass rounded-full border border-border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {REGIONS.map((r) => (
               <button
                 key={r}
                 onClick={() => setRegion(r)}
                 className={`whitespace-nowrap shrink-0 text-xs px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
-                  region === r ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
+                  region === r
+                    ? "bg-foreground text-background"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {r}
@@ -301,9 +313,13 @@ export function TrendForecast() {
                   <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
                     <Activity className="size-3.5 text-muted-foreground/30" />
                   </div>
-                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelFabrics")}</p>
+                  <p className="text-sm font-medium text-muted-foreground/80">
+                    {t("trendForecast.panelFabrics")}
+                  </p>
                 </div>
-                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">
+                  Live
+                </span>
               </div>
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((i) => (
@@ -326,13 +342,20 @@ export function TrendForecast() {
                   <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
                     <RobotSparkIcon className="size-3.5 text-muted-foreground/30" />
                   </div>
-                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelColors")}</p>
+                  <p className="text-sm font-medium text-muted-foreground/80">
+                    {t("trendForecast.panelColors")}
+                  </p>
                 </div>
-                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">
+                  Live
+                </span>
               </div>
               <div className="space-y-3">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center gap-3 rounded-xl p-2.5 glass border border-border/40">
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 rounded-xl p-2.5 glass border border-border/40"
+                  >
                     <div className="size-10 rounded-lg bg-foreground/5 shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="flex justify-between items-center">
@@ -353,9 +376,13 @@ export function TrendForecast() {
                   <div className="size-7 rounded-full border border-foreground/10 bg-foreground/5 flex items-center justify-center">
                     <TrendingUp className="size-3.5 text-muted-foreground/30" />
                   </div>
-                  <p className="text-sm font-medium text-muted-foreground/80">{t("trendForecast.panelSilhouettes")}</p>
+                  <p className="text-sm font-medium text-muted-foreground/80">
+                    {t("trendForecast.panelSilhouettes")}
+                  </p>
                 </div>
-                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">Live</span>
+                <span className="text-[9px] uppercase tracking-widest text-muted-foreground/40">
+                  Live
+                </span>
               </div>
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
@@ -421,7 +448,10 @@ export function TrendForecast() {
                   className="space-y-3"
                 >
                   {forecast.colors.map((c) => (
-                    <div key={c.name} className="flex items-center gap-3 rounded-xl p-2.5 glass border border-border">
+                    <div
+                      key={c.name}
+                      className="flex items-center gap-3 rounded-xl p-2.5 glass border border-border"
+                    >
                       <div
                         className="size-10 rounded-lg shrink-0 ring-1 ring-foreground/10"
                         style={{ backgroundColor: c.hex }}
@@ -479,7 +509,9 @@ export function TrendForecast() {
             </Panel>
           </div>
         ) : (
-          <div className="text-center py-12 text-muted-foreground">{t("trendForecast.noForecast")}</div>
+          <div className="text-center py-12 text-muted-foreground">
+            {t("trendForecast.noForecast")}
+          </div>
         )}
       </div>
     </section>

@@ -26,7 +26,8 @@ export const en = {
     headingLine1: "Global Fashion Sourcing &",
     headingLine2: "Manufacturing",
     headingLine3: " Partner",
-    subtitle: "A premier sourcing house connecting fashion brands with their ideal factories — a complete, one-stop ecosystem for global production.",
+    subtitle:
+      "A premier sourcing house connecting fashion brands with their ideal factories — a complete, one-stop ecosystem for global production.",
     bookConsultation: "Book Consultation",
     exploreServices: "Explore Services",
     stat1Value: "18+ Years",
@@ -48,7 +49,8 @@ export const en = {
     supportingEmergingLabels: "Supporting emerging labels with",
     lowMinimum: "low minimum",
     orderQuantities: "order quantities.",
-    startupSubtitle: "Maisone partners with small startups, independent designers, and growing brands to bring thoughtful ideas to life with flexible production, fast sampling, and uncompromised quality.",
+    startupSubtitle:
+      "Maisone partners with small startups, independent designers, and growing brands to bring thoughtful ideas to life with flexible production, fast sampling, and uncompromised quality.",
     moqFrom: "MOQ from",
     pieces50: "50 pieces",
     samplesIn: "Samples in",
@@ -72,15 +74,20 @@ export const en = {
     headingHighlight: "sustainable supply chains",
     headingEnd: ".",
     pillar1Title: "Organic & Sustainable Materials",
-    pillar1Desc: "Our verified network supports major standards including GOTS (Organic Textiles), OCS 100 (Organic Content), and BCI (Better Cotton Initiative) to promote sustainable farming and soil health.",
+    pillar1Desc:
+      "Our verified network supports major standards including GOTS (Organic Textiles), OCS 100 (Organic Content), and BCI (Better Cotton Initiative) to promote sustainable farming and soil health.",
     pillar2Title: "Recycling & Environmental Design",
-    pillar2Desc: "We partner with factories holding the GRS (Global Recycled Standard) and LEED (Environmental Design) certifications to verify recycled composition and green manufacturing facilities.",
+    pillar2Desc:
+      "We partner with factories holding the GRS (Global Recycled Standard) and LEED (Environmental Design) certifications to verify recycled composition and green manufacturing facilities.",
     pillar3Title: "Chemical Safety & Zero Discharge",
-    pillar3Desc: "Our supply chain utilizes OEKO-TEX Standard 100, REACH, and ZDHC (Zero Discharge of Hazardous Chemicals) to ensure fabrics are free from harmful chemicals.",
+    pillar3Desc:
+      "Our supply chain utilizes OEKO-TEX Standard 100, REACH, and ZDHC (Zero Discharge of Hazardous Chemicals) to ensure fabrics are free from harmful chemicals.",
     zeroWasteGoal: "Ethical Standards",
     goalsTitle: "Compliance & Integrity at the Core",
-    goalsP1: "Every process is guided by ethical practices and responsible sourcing. We connect brands with fully certified and ethically compliant factories.",
-    goalsP2: "Our master list of supported certifications ensures environmental stewardship, fair social accountability (SA8000), ethical supply chains (Sedex, BSCI), and stringent quality management (ISO 9001).",
+    goalsP1:
+      "Every process is guided by ethical practices and responsible sourcing. We connect brands with fully certified and ethically compliant factories.",
+    goalsP2:
+      "Our master list of supported certifications ensures environmental stewardship, fair social accountability (SA8000), ethical supply chains (Sedex, BSCI), and stringent quality management (ISO 9001).",
   },
 
   // ── Privacy Page ──
@@ -91,21 +98,30 @@ export const en = {
     headingEnd: ".",
     lastUpdated: "Last Updated: July 11, 2026",
     sec1Title: "1. Scope & Data Controller",
-    sec1Text: "This Privacy Policy outlines how Maisone Global (\"we\", \"our\", or \"us\") collects, secures, and processes corporate and personal information. When you use our platform, book inquiries, or submit manufacturing designs, Maisone Global acts as the primary data controller under GDPR and CCPA regulations.",
+    sec1Text:
+      'This Privacy Policy outlines how Maisone Global ("we", "our", or "us") collects, secures, and processes corporate and personal information. When you use our platform, book inquiries, or submit manufacturing designs, Maisone Global acts as the primary data controller under GDPR and CCPA regulations.',
     sec2Title: "2. Information We Collect",
     sec2Text: "To provide sourcing matching and capacity planning, we collect:",
-    sec2Bullet1: "Corporate Details: Company name, country of operation, company size, and sourcing category profiles.",
+    sec2Bullet1:
+      "Corporate Details: Company name, country of operation, company size, and sourcing category profiles.",
     sec2Bullet2: "Contact Information: Full names, work emails, and phone numbers.",
-    sec2Bullet3: "Manufacturing Data: Tech packs, pattern grading measurements, material specifications, and design assets.",
-    sec2Bullet4: "Technical Logs: IP address, device telemetry, browser cookies, and platform navigation metrics.",
+    sec2Bullet3:
+      "Manufacturing Data: Tech packs, pattern grading measurements, material specifications, and design assets.",
+    sec2Bullet4:
+      "Technical Logs: IP address, device telemetry, browser cookies, and platform navigation metrics.",
     sec3Title: "3. Data Protection & Supabase Security",
-    sec3Text: "Sourcing specifications and brand designs represent high-value intellectual property. We secure all data using enterprise-grade Supabase Postgres security configurations. Row Level Security (RLS) policies prevent unauthorized access, and database logs are encrypted using AES-256 protocols both in transit and at rest.",
+    sec3Text:
+      "Sourcing specifications and brand designs represent high-value intellectual property. We secure all data using enterprise-grade Supabase Postgres security configurations. Row Level Security (RLS) policies prevent unauthorized access, and database logs are encrypted using AES-256 protocols both in transit and at rest.",
     sec4Title: "4. Third-Party Sharing",
-    sec4Text: "We do not sell, license, or rent design plans or contact profiles to broker networks or marketing companies. We share information only with:",
-    sec4Bullet1: "Approved Factories: Technical specifications are shared with selected ateliers for quoting and sampling.",
-    sec4Bullet2: "Logistics Partners: Shipping addresses are shared with customs brokers and freight forwarders for delivery.",
+    sec4Text:
+      "We do not sell, license, or rent design plans or contact profiles to broker networks or marketing companies. We share information only with:",
+    sec4Bullet1:
+      "Approved Factories: Technical specifications are shared with selected ateliers for quoting and sampling.",
+    sec4Bullet2:
+      "Logistics Partners: Shipping addresses are shared with customs brokers and freight forwarders for delivery.",
     sec5Title: "5. Your Rights (GDPR & CCPA)",
-    sec5Text: "Depending on your region, you have the right to request access to your data, request deletion, restrict processing, or request portability. Sourcing managers can request deletion of active tech packs or contact information by emailing our support desk.",
+    sec5Text:
+      "Depending on your region, you have the right to request access to your data, request deletion, restrict processing, or request portability. Sourcing managers can request deletion of active tech packs or contact information by emailing our support desk.",
     securityOffice: "Maisone Security Office, Gurgaon, India",
   },
 
@@ -116,22 +132,31 @@ export const en = {
     headingHighlight: "certified standards",
     headingEnd: ".",
     vettingTitle: "Compliance Master List",
-    vettingP1: "Maisone-verified factories support a wide range of compliance standards across its network. We ensure our partners meet strict international regulations.",
-    vettingP2: "We connect brands with fully certified and ethically compliant factories in regions across Asia, Europe, the UK, and the USA.",
+    vettingP1:
+      "Maisone-verified factories support a wide range of compliance standards across its network. We ensure our partners meet strict international regulations.",
+    vettingP2:
+      "We connect brands with fully certified and ethically compliant factories in regions across Asia, Europe, the UK, and the USA.",
     aqlTitle: "Quality Assurance & Inspections",
-    aqlP1: "Maisone operates a strict audited Quality Control (QC) pipeline covering supplier evaluation, pre-production QC, in-process QC, packaging and label checks.",
-    aqlP2: "We utilize internationally recognized inspection partners such as SGS, Intertek, and QIMA to guarantee luxury standard output.",
+    aqlP1:
+      "Maisone operates a strict audited Quality Control (QC) pipeline covering supplier evaluation, pre-production QC, in-process QC, packaging and label checks.",
+    aqlP2:
+      "We utilize internationally recognized inspection partners such as SGS, Intertek, and QIMA to guarantee luxury standard output.",
     approvedCerts: "Supported Certifications",
     cert1Name: "GOTS & OCS 100",
-    cert1Desc: "Global Organic Textile Standard and Organic Content Standard ensure the use of certified organic fibers and traceable production.",
+    cert1Desc:
+      "Global Organic Textile Standard and Organic Content Standard ensure the use of certified organic fibers and traceable production.",
     cert2Name: "BSCI & Sedex",
-    cert2Desc: "Social compliance and ethical supply chain audits ensuring fair labor practices and safe working conditions.",
+    cert2Desc:
+      "Social compliance and ethical supply chain audits ensuring fair labor practices and safe working conditions.",
     cert3Name: "SA8000",
-    cert3Desc: "Social accountability certification focusing on fair living wages and the prohibition of forced or child labor.",
+    cert3Desc:
+      "Social accountability certification focusing on fair living wages and the prohibition of forced or child labor.",
     cert4Name: "GRS & LEED",
-    cert4Desc: "Global Recycled Standard for recycled materials, and LEED for environmentally responsible and energy-efficient building design.",
+    cert4Desc:
+      "Global Recycled Standard for recycled materials, and LEED for environmentally responsible and energy-efficient building design.",
     cert5Name: "OEKO-TEX, REACH & ZDHC",
-    cert5Desc: "Strict chemical compliance standards to ensure materials are free from harmful substances and hazardous discharge.",
+    cert5Desc:
+      "Strict chemical compliance standards to ensure materials are free from harmful substances and hazardous discharge.",
   },
 
   // ── About Section ──
@@ -143,9 +168,11 @@ export const en = {
     p1: "Maisone Global is built on trust, transparency, and a global perspective connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia.",
     p2: "More than a supplier, Maisone acts as a strategic partner, bringing together brands, factories, artisans, and innovation to create products with purpose and scale.",
     missionLabel: "Mission",
-    missionText: "To simplify the fashion manufacturing journey for global brands through sourcing, development, compliance, and quality systems.",
+    missionText:
+      "To simplify the fashion manufacturing journey for global brands through sourcing, development, compliance, and quality systems.",
     visionLabel: "Vision",
-    visionText: "To become the world's most trusted fashion sourcing partner by building transparent, ethical, and intelligently structured supply chains.",
+    visionText:
+      "To become the world's most trusted fashion sourcing partner by building transparent, ethical, and intelligently structured supply chains.",
   },
 
   // ── Why Maisone ──
@@ -164,7 +191,8 @@ export const en = {
     card4Text: "Luxury craftsmanship delivered responsibly and sustainably.",
     startupFriendly: "Startup Friendly",
     startupTitle: "Supporting emerging labels & lower MOQs",
-    startupText: "We believe in nurturing the next generation of fashion. Maisone proudly supports small startups, independent designers, and growing companies with low minimum order quantities (MOQs) to help scale your vision sustainably.",
+    startupText:
+      "We believe in nurturing the next generation of fashion. Maisone proudly supports small startups, independent designers, and growing companies with low minimum order quantities (MOQs) to help scale your vision sustainably.",
     launchYourBrand: "Launch Your Brand",
   },
 
@@ -174,7 +202,8 @@ export const en = {
     heading: "Four disciplined phases,",
     headingHighlight: "one seamless journey",
     headingEnd: ".",
-    subtitle: "From the first market signal to final shipping — every step is orchestrated with precision.",
+    subtitle:
+      "From the first market signal to final shipping — every step is orchestrated with precision.",
     phase1Title: "Product Strategy & Assortment Planning",
     phase1Desc: "Defining the commercial vision — from market signals to fabric direction.",
     phase1Points: [
@@ -183,7 +212,7 @@ export const en = {
       "Embroidery and print development",
       "Urgent show sampling",
       "Add on service : Consulting",
-      "One-time or ongoing 1:1 advisory calls FOR Strategic troubleshooting"
+      "One-time or ongoing 1:1 advisory calls FOR Strategic troubleshooting",
     ],
     phase2Title: "Design & Product Development",
     phase2Desc: "Translating trends into cohesive collections with precision and intent.",
@@ -191,7 +220,7 @@ export const en = {
       "Collection design assistance",
       "Pattern cutting expertise",
       "Urgent show sampling",
-      "Techpack Creation"
+      "Techpack Creation",
     ],
     phase3Title: "Production Planning",
     phase3Desc: "From tech packs to prototype samples, every detail crafted to specification.",
@@ -203,18 +232,19 @@ export const en = {
       "Quality filtering by industry experts (brands see only curated, approved results)",
       "Hand carry services when required",
       "Wide product portfolio sourcing",
-      "Final collection merchandising"
+      "Final collection merchandising",
     ],
     phase4Title: "Logistics & Delivery",
     phase4Desc: "Factory allocation, production sign-off, and end-to-end oversight.",
     phase4Points: [
       "Complete logistics solutions (FOB to DDP)",
       "Smooth coordination until final delivery",
-      "Global production sourcing across a wide product portfolio"
+      "Global production sourcing across a wide product portfolio",
     ],
     addonBadge: "Strategic Growth",
     addonTitle: "Branding, Marketing & Sales Support",
-    addonSubtitle: "Elevate your brand's market presence alongside our core production services. We offer an exclusive suite of add-on services designed to scale your vision.",
+    addonSubtitle:
+      "Elevate your brand's market presence alongside our core production services. We offer an exclusive suite of add-on services designed to scale your vision.",
     addonPoints: [
       "Branding suite & positioning support",
       "Digital marketing guidance",
@@ -222,7 +252,7 @@ export const en = {
       "Digital LookBook creation",
       "Production trims design (hangtags, labels, polybags)",
       "Packaging design & development",
-      "Sales introductions (commission-based partnerships)"
+      "Sales introductions (commission-based partnerships)",
     ],
     challengesTitle: "The Challenges We Solve",
     challengesSubtitle: "Every bottleneck resolved by our supply chain experts.",
@@ -245,11 +275,14 @@ export const en = {
     headingHighlight: "delivery",
     headingEnd: ", in three movements.",
     step1Title: "Discover Suppliers",
-    step1Desc: "Brief Maisone in plain language. Our agents surface the most aligned ateliers across four continents within minutes.",
+    step1Desc:
+      "Brief Maisone in plain language. Our agents surface the most aligned ateliers across four continents within minutes.",
     step2Title: "Automate Sourcing",
-    step2Desc: "RFQs, samples, negotiations and POs orchestrated end-to-end with full audit trail and human checkpoints.",
+    step2Desc:
+      "RFQs, samples, negotiations and POs orchestrated end-to-end with full audit trail and human checkpoints.",
     step3Title: "Scale Operations",
-    step3Desc: "Real-time tracking, demand forecasting and supplier risk monitoring keep every collection on time.",
+    step3Desc:
+      "Real-time tracking, demand forecasting and supplier risk monitoring keep every collection on time.",
     orchestration: "AI Orchestration",
     commandFlow: "Sourcing command flow",
     liveMockup: "Live mockup",
@@ -275,25 +308,34 @@ export const en = {
     capabilitiesTitle: "Capabilities",
     capabilitiesSubtitle: "Ten modules engineered to compress months of sourcing work.",
     feat1Title: "AI Supplier Matching",
-    feat1Desc: "Semantic vector matching across 50K+ verified vendors by capability, MOQ, lead time and ethics score.",
+    feat1Desc:
+      "Semantic vector matching across 50K+ verified vendors by capability, MOQ, lead time and ethics score.",
     feat2Title: "Smart Product Discovery",
-    feat2Desc: "Image-to-supplier search powered by multimodal models trained on textile, trim and silhouette taxonomies.",
+    feat2Desc:
+      "Image-to-supplier search powered by multimodal models trained on textile, trim and silhouette taxonomies.",
     feat3Title: "Global Vendor Network",
-    feat3Desc: "Curated mills and ateliers in Tokyo, London, Paris, Milan, Berlin, New York and Los Angeles.",
+    feat3Desc:
+      "Curated mills and ateliers in Tokyo, London, Paris, Milan, Berlin, New York and Los Angeles.",
     feat4Title: "Procurement Automation",
-    feat4Desc: "From RFQ to PO in minutes. Auto-route quotes, negotiate terms and trigger contract workflows.",
+    feat4Desc:
+      "From RFQ to PO in minutes. Auto-route quotes, negotiate terms and trigger contract workflows.",
     feat5Title: "Real-Time Shipment Tracking",
-    feat5Desc: "Container-level visibility across air, sea and rail with predictive ETAs and customs alerts.",
+    feat5Desc:
+      "Container-level visibility across air, sea and rail with predictive ETAs and customs alerts.",
     feat6Title: "Fashion Trend Intelligence",
-    feat6Desc: "Runway, social and retail signals condensed into actionable colour, fabric and silhouette forecasts.",
+    feat6Desc:
+      "Runway, social and retail signals condensed into actionable colour, fabric and silhouette forecasts.",
     feat7Title: "Inventory Forecasting",
-    feat7Desc: "Demand models trained on your sell-through data anticipate stock-outs eight weeks ahead.",
+    feat7Desc:
+      "Demand models trained on your sell-through data anticipate stock-outs eight weeks ahead.",
     feat8Title: "AI Chat Assistant",
-    feat8Desc: "A sourcing copilot that drafts briefs, summarises quotes and answers supplier questions, 24/7.",
+    feat8Desc:
+      "A sourcing copilot that drafts briefs, summarises quotes and answers supplier questions, 24/7.",
     feat9Title: "Supplier Risk Analysis",
     feat9Desc: "Continuous monitoring of compliance, financial health and geopolitical exposure.",
     feat10Title: "Workflow Automation",
-    feat10Desc: "Connect Notion, Zoho, WhatsApp and email to orchestrate every step of your supply chain.",
+    feat10Desc:
+      "Connect Notion, Zoho, WhatsApp and email to orchestrate every step of your supply chain.",
   },
 
   // ── Terms Page ──
@@ -304,15 +346,20 @@ export const en = {
     headingEnd: ".",
     effectiveDate: "Effective Date: July 11, 2026",
     sec1Title: "1. Acceptance of Terms",
-    sec1Text: "By accessing the Maisone Sourcing Console, submitting inquiry forms, or using our AI trend engines, you agree to comply with and be bound by these Terms of Service. If you are entering into this agreement on behalf of a brand or corporate entity, you warrant that you have the legal authority to bind that entity.",
+    sec1Text:
+      "By accessing the Maisone Sourcing Console, submitting inquiry forms, or using our AI trend engines, you agree to comply with and be bound by these Terms of Service. If you are entering into this agreement on behalf of a brand or corporate entity, you warrant that you have the legal authority to bind that entity.",
     sec2Title: "2. Platform Registration & Console Security",
-    sec2Text: "Access to tracking boards, capacity logs, and shipment statuses is limited to authorized client logins. You are responsible for safeguarding login credentials and for all actions taken under your account. Any unauthorized access must be reported immediately.",
+    sec2Text:
+      "Access to tracking boards, capacity logs, and shipment statuses is limited to authorized client logins. You are responsible for safeguarding login credentials and for all actions taken under your account. Any unauthorized access must be reported immediately.",
     sec3Title: "3. Intellectual Property Rights",
-    sec3Text: "All drawings, CAD plans, grading assets, and custom design guidelines uploaded to our platform remain your intellectual property. Maisone Global does not claim ownership or rights over these designs, using them only to facilitate manufacturing matches.",
+    sec3Text:
+      "All drawings, CAD plans, grading assets, and custom design guidelines uploaded to our platform remain your intellectual property. Maisone Global does not claim ownership or rights over these designs, using them only to facilitate manufacturing matches.",
     sec4Title: "4. Lead Times & Shipping Estimates",
-    sec4Text: "Manufacturing timeframes and shipment estimates are projections based on factory capacities and global shipping metrics. While we guarantee factory compliance audits, final delivery timelines are subject to shipping customs and port clearances.",
+    sec4Text:
+      "Manufacturing timeframes and shipment estimates are projections based on factory capacities and global shipping metrics. While we guarantee factory compliance audits, final delivery timelines are subject to shipping customs and port clearances.",
     sec5Title: "5. Governing Law",
-    sec5Text: "These Terms of Service and any agreements related to sourcing facilitation shall be governed by and construed in accordance with the laws of India, without regard to conflicts of law principles.",
+    sec5Text:
+      "These Terms of Service and any agreements related to sourcing facilitation shall be governed by and construed in accordance with the laws of India, without regard to conflicts of law principles.",
     corporateLegal: "Corporate Legal Affairs, Gurgaon Office",
   },
 
@@ -325,8 +372,10 @@ export const en = {
     coFounder: "Co-Founder",
     workedWith: "Worked With",
     expertise: "Expertise",
-    shashankBio: "18+ years experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.",
-    subahBio: "Specializes in design coordination, luxury product development, client engagement, and creative collaboration between brands and manufacturers.",
+    shashankBio:
+      "18+ years experience in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing.",
+    subahBio:
+      "Specializes in design coordination, luxury product development, client engagement, and creative collaboration between brands and manufacturers.",
   },
 
   // ── Dashboard / Console ──
@@ -378,7 +427,8 @@ export const en = {
     heading: "A sourcing copilot that",
     headingHighlight: "thinks in fabric",
     headingEnd: ".",
-    description: "Conversational intelligence trained on global supplier networks, MOQs, lead times and trend signals.",
+    description:
+      "Conversational intelligence trained on global supplier networks, MOQs, lead times and trend signals.",
     tryBtn: "Try the AI Assistant",
     placeholder: "Ask Maisone AI — try a prompt on the right →",
     samplePrompts: "Sample prompts",
@@ -395,7 +445,8 @@ export const en = {
     heading: "Signals from the",
     headingHighlight: "global atelier",
     headingEnd: ".",
-    description: "Maisone AI synthesises runway, retail sell-through, social and editorial signals into actionable sourcing forecasts — refreshed seasonally.",
+    description:
+      "Maisone AI synthesises runway, retail sell-through, social and editorial signals into actionable sourcing forecasts — refreshed seasonally.",
     loadingText: "Fetching latest sourcing signals...",
     panelFabrics: "Trending fabrics",
     panelColors: "Color forecast",
@@ -433,9 +484,12 @@ export const en = {
     heading: "Trusted by the houses defining",
     headingHighlight: "tomorrow's fashion",
     headingEnd: ".",
-    quote1: "Maisone replaced six tools and an entire sourcing team's manual workflow. We cut development cycles in half within a single season.",
-    quote2: "The AI matching is uncanny. It surfaced a Milanese mill we'd been searching for over two years — within twelve seconds.",
-    quote3: "From RFQ to first sample in 9 days, across three countries. Maisone is the operating system fashion has been waiting for.",
+    quote1:
+      "Maisone replaced six tools and an entire sourcing team's manual workflow. We cut development cycles in half within a single season.",
+    quote2:
+      "The AI matching is uncanny. It surfaced a Milanese mill we'd been searching for over two years — within twelve seconds.",
+    quote3:
+      "From RFQ to first sample in 9 days, across three countries. Maisone is the operating system fashion has been waiting for.",
   },
 
   // ── Footer ──
@@ -473,11 +527,14 @@ export const en = {
     headingHighlight: "fashion sourcing house",
     headingEnd: ".",
     paradigmShift: "Company Overview",
-    paradigmP1: "Maisone Global is a next-generation fashion sourcing house (founded in Gurgaon, India) and strategic partner connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia, Europe, the UK, and the USA.",
-    paradigmP2: "Our mission is to simplify the fashion manufacturing journey for global brands through sourcing, development, compliance, and quality systems. We aim to become the world's most trusted fashion sourcing partner by building transparent, ethical, and intelligently structured supply chains.",
+    paradigmP1:
+      "Maisone Global is a next-generation fashion sourcing house (founded in Gurgaon, India) and strategic partner connecting fashion brands with exceptional sourcing, craftsmanship, and manufacturing across Asia, Europe, the UK, and the USA.",
+    paradigmP2:
+      "Our mission is to simplify the fashion manufacturing journey for global brands through sourcing, development, compliance, and quality systems. We aim to become the world's most trusted fashion sourcing partner by building transparent, ethical, and intelligently structured supply chains.",
     heritageTitle: "Core Values & Principles",
     heritage2020Title: "Clarity in Complexity",
-    heritage2020Text: "Simplifying complex global supply chains through transparency and structure.",
+    heritage2020Text:
+      "Simplifying complex global supply chains through transparency and structure.",
     heritage2022Title: "Integrity at the Core",
     heritage2022Text: "Every process is guided by ethical practices and responsible sourcing.",
     heritage2024Title: "True Partnership",
@@ -486,12 +543,15 @@ export const en = {
     value1Title: "Craftsmanship with Conscience",
     value1Text: "Luxury craftsmanship delivered responsibly and sustainably.",
     value2Title: "Startup Friendly",
-    value2Text: "Proudly supporting emerging labels, independent designers, and growing companies with low MOQs to help scale their visions sustainably.",
+    value2Text:
+      "Proudly supporting emerging labels, independent designers, and growing companies with low MOQs to help scale their visions sustainably.",
     value3Title: "Ethical Standards",
     value3Text: "Ensuring all partners are vetted, compliant, and operate ethically.",
     frameworkTitle: "Official Product Categories",
-    frameworkP1: "Maisone officially supports and sources categories including Accessories, Caps, Circular Knits, Contemporary Ready to Wear, Couture, Denim, Flat Knits, and Leather.",
-    frameworkP2: "We coordinate manufacturing and supply across 8 production regions on 4 continents including Japan, United Kingdom, Europe, United States, India, and China.",
+    frameworkP1:
+      "Maisone officially supports and sources categories including Accessories, Caps, Circular Knits, Contemporary Ready to Wear, Couture, Denim, Flat Knits, and Leather.",
+    frameworkP2:
+      "We coordinate manufacturing and supply across 8 production regions on 4 continents including Japan, United Kingdom, Europe, United States, India, and China.",
     backToHome: "Back to home",
   },
 
@@ -501,22 +561,33 @@ export const en = {
     heading: "Our verified",
     headingHighlight: "sourcing processes",
     headingEnd: ".",
-    subtitle: "Maisone operates a strict pipeline from design to delivery to guarantee luxury standard output.",
+    subtitle:
+      "Maisone operates a strict pipeline from design to delivery to guarantee luxury standard output.",
     step1Title: "1. Operations & Pre-Production",
-    step1P1: "We assist from tech packs to proto samples, ensuring every detail is engineered to your specifications.",
-    step1P2: "Sampling lead times vary by category: 7-10 days for Ready to Wear, 10-14 days for Knits, and up to 25 days for Couture.",
+    step1P1:
+      "We assist from tech packs to proto samples, ensuring every detail is engineered to your specifications.",
+    step1P2:
+      "Sampling lead times vary by category: 7-10 days for Ready to Wear, 10-14 days for Knits, and up to 25 days for Couture.",
     step2Title: "2. Customization & OEM/ODM",
-    step2P1: "We support end-to-end customization including custom brand labels, packaging (boxes, dust bags, polybags), metal hardware/trims, custom buttons, and premium zippers tailored to your brand specs.",
-    step2P2: "We also support complete OEM/ODM private label manufacturing, allowing custom branding on all garments and accessories.",
+    step2P1:
+      "We support end-to-end customization including custom brand labels, packaging (boxes, dust bags, polybags), metal hardware/trims, custom buttons, and premium zippers tailored to your brand specs.",
+    step2P2:
+      "We also support complete OEM/ODM private label manufacturing, allowing custom branding on all garments and accessories.",
     step3Title: "3. Mass Production",
-    step3P1: "Production lead times depend on the product category: 30-45 days for Woven, 25-50 days for Knits, 40-60 days for Leather, and 45-75 days for Couture.",
-    step3P2: "We proudly support emerging labels with low minimum order quantities (MOQs) to help scale their visions sustainably.",
+    step3P1:
+      "Production lead times depend on the product category: 30-45 days for Woven, 25-50 days for Knits, 40-60 days for Leather, and 45-75 days for Couture.",
+    step3P2:
+      "We proudly support emerging labels with low minimum order quantities (MOQs) to help scale their visions sustainably.",
     step4Title: "4. Quality Inspections",
-    step4P1: "Maisone operates a strict audited Quality Control (QC) pipeline covering supplier evaluation, pre-production QC, in-process QC, packaging and label checks.",
-    step4P2: "We conduct shipping checks and post-delivery reporting to guarantee luxury standard output for every batch.",
+    step4P1:
+      "Maisone operates a strict audited Quality Control (QC) pipeline covering supplier evaluation, pre-production QC, in-process QC, packaging and label checks.",
+    step4P2:
+      "We conduct shipping checks and post-delivery reporting to guarantee luxury standard output for every batch.",
     step5Title: "5. Logistics & Consolidation",
-    step5P1: "We manage international logistics and shipping (air, sea, and rail) with container-level tracking, shipping worldwide.",
-    step5P2: "We offer shipment consolidation from multiple global suppliers into unified shipments to reduce customs clearance costs and international freight fees.",
+    step5P1:
+      "We manage international logistics and shipping (air, sea, and rail) with container-level tracking, shipping worldwide.",
+    step5P2:
+      "We offer shipment consolidation from multiple global suppliers into unified shipments to reduce customs clearance costs and international freight fees.",
   },
 
   // ── Founders Page Route ──
@@ -527,14 +598,20 @@ export const en = {
     headingEnd: ".",
     vettingApparel: "Simplifying global supply chains",
     manifestoTitle: "Leadership Expertise",
-    manifestoP1: "Maisone Global was founded to connect fashion brands with exceptional sourcing, craftsmanship, and manufacturing. Our leadership brings decades of experience working with top global luxury brands.",
-    manifestoP2: "We combine operational strategy and creative partnerships to ensure that design concepts are executed with absolute technical precision and material integrity.",
-    shashankQuote: "18+ years of experience in luxury fashion sourcing, handcrafted textiles, and ethical manufacturing.",
+    manifestoP1:
+      "Maisone Global was founded to connect fashion brands with exceptional sourcing, craftsmanship, and manufacturing. Our leadership brings decades of experience working with top global luxury brands.",
+    manifestoP2:
+      "We combine operational strategy and creative partnerships to ensure that design concepts are executed with absolute technical precision and material integrity.",
+    shashankQuote:
+      "18+ years of experience in luxury fashion sourcing, handcrafted textiles, and ethical manufacturing.",
     shashankRoleDetail: "Co-Founder · Operations & Strategy",
-    shashankBio: "Shashank brings over 18 years of expertise in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing. Throughout his career, he has collaborated with premier global design houses including Valentino, Balmain, Stella McCartney, Giorgio Armani, and Dolce & Gabbana.",
-    subahQuote: "Specialization in design coordination, luxury product development, and client engagement.",
+    shashankBio:
+      "Shashank brings over 18 years of expertise in luxury fashion sourcing, handcrafted textiles, production planning, sustainability, and ethical manufacturing. Throughout his career, he has collaborated with premier global design houses including Valentino, Balmain, Stella McCartney, Giorgio Armani, and Dolce & Gabbana.",
+    subahQuote:
+      "Specialization in design coordination, luxury product development, and client engagement.",
     subahRoleDetail: "Co-Founder · Creative & Client Partnerships",
-    subahBio: "Subah Arora specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers, ensuring creative concepts are executed with precision.",
+    subahBio:
+      "Subah Arora specializes in design coordination, luxury product development, client engagement, and creative collaborations. She acts as the bridge connecting international design houses with specialized manufacturers, ensuring creative concepts are executed with precision.",
   },
 
   // ── Blogs Section ──
@@ -555,59 +632,66 @@ export const en = {
     },
     mockBlogs: {
       "local-blog-0": {
-        title: "The Future of Ethical Fashion Sourcing in 2026: A Blueprint for Circular Production",
-        content: "Introduction: The Paradigm Shift in Apparel Sourcing\n\nAs we navigate through 2026, the global fashion landscape is undergoing its most profound transformation since the Industrial Revolution. The traditional, linear \"take-make-waste\" model is being aggressively dismantled, replaced by a circular paradigm where transparency, accountability, and environmental restoration are the primary pillars of success. Sourcing executives are no longer evaluating factories based on cost-per-unit and lead times alone; instead, carbon footprints, fair-wage indexes, water-recycling capabilities, and materials traceability have taken center stage.\n\nIn this comprehensive blueprint, we outline the fundamental shifts defining ethical apparel manufacturing in 2026, and how forward-thinking fashion houses are positioning themselves for a sustainable future.\n\nThe Digital Product Passport (DPP) Mandate\n\nOne of the major drivers of circularity in 2026 is the widespread adoption of Digital Product Passports (DPPs). Backed by strict European Union regulations and growing consumer demand in North America and Asia, DPPs require brands to document every step of a garment's life cycle. \n\nFrom the organic cotton farms in the Gujarat region of India to the weaving mills of Osaka and the final assembly lines, every participant in the supply chain must upload verifiable data. Consumers can simply scan a QR code embedded in the garment's wash care label to trace:\n1. The exact geographical coordinates where the raw fiber was harvested.\n2. The specific chemical certifications of the dyes used.\n3. The carbon equivalent footprint of the transport leg.\n4. Detailed recycling instructions, including chemical composition for circular recycling hubs.\n\nThis level of transparency eliminates greenwashing overnight and forces factories to maintain impeccable standards to remain competitive.\n\nClosed-Loop Production and Water-less Dyeing\n\nWater conservation is the single most critical challenge in modern textile processing. Traditionally, dyeing a single ton of fabric could require up to 200 tons of fresh water, which was subsequently discharged as toxic effluent. In 2026, premium factories in our global network have implemented closed-loop filtration systems and revolutionary water-less dyeing technologies.\n\nUsing supercritical carbon dioxide (scCO2) or advanced digital spray-dyeing machines, manufacturers can now dye synthetic and natural fibers with zero water consumption and 95% dye absorption rates. Any chemical residues are captured, neutralized, and recycled within a sealed loop. \n\nFurthermore, circular manufacturing relies heavily on post-consumer waste. We are seeing a massive influx of chemically recycled nylon (like Econyl) and mechanical cotton recycling systems that allow brands to blend post-industrial scrap into new premium collections without compromising yarn strength or drape.\n\nConclusion: Sourcing for the Next Generation\n\nSourcing ethically in 2026 is not merely a marketing strategy or a compliance requirement—it is a survival mechanism. As resources grow scarcer and consumer values shift permanently toward environmental stewardship, the brands that thrive will be those that view their manufacturers not as disposable vendors, but as strategic partners in a closed-loop, regenerative ecosystem."
+        title:
+          "The Future of Ethical Fashion Sourcing in 2026: A Blueprint for Circular Production",
+        content:
+          "Introduction: The Paradigm Shift in Apparel Sourcing\n\nAs we navigate through 2026, the global fashion landscape is undergoing its most profound transformation since the Industrial Revolution. The traditional, linear \"take-make-waste\" model is being aggressively dismantled, replaced by a circular paradigm where transparency, accountability, and environmental restoration are the primary pillars of success. Sourcing executives are no longer evaluating factories based on cost-per-unit and lead times alone; instead, carbon footprints, fair-wage indexes, water-recycling capabilities, and materials traceability have taken center stage.\n\nIn this comprehensive blueprint, we outline the fundamental shifts defining ethical apparel manufacturing in 2026, and how forward-thinking fashion houses are positioning themselves for a sustainable future.\n\nThe Digital Product Passport (DPP) Mandate\n\nOne of the major drivers of circularity in 2026 is the widespread adoption of Digital Product Passports (DPPs). Backed by strict European Union regulations and growing consumer demand in North America and Asia, DPPs require brands to document every step of a garment's life cycle. \n\nFrom the organic cotton farms in the Gujarat region of India to the weaving mills of Osaka and the final assembly lines, every participant in the supply chain must upload verifiable data. Consumers can simply scan a QR code embedded in the garment's wash care label to trace:\n1. The exact geographical coordinates where the raw fiber was harvested.\n2. The specific chemical certifications of the dyes used.\n3. The carbon equivalent footprint of the transport leg.\n4. Detailed recycling instructions, including chemical composition for circular recycling hubs.\n\nThis level of transparency eliminates greenwashing overnight and forces factories to maintain impeccable standards to remain competitive.\n\nClosed-Loop Production and Water-less Dyeing\n\nWater conservation is the single most critical challenge in modern textile processing. Traditionally, dyeing a single ton of fabric could require up to 200 tons of fresh water, which was subsequently discharged as toxic effluent. In 2026, premium factories in our global network have implemented closed-loop filtration systems and revolutionary water-less dyeing technologies.\n\nUsing supercritical carbon dioxide (scCO2) or advanced digital spray-dyeing machines, manufacturers can now dye synthetic and natural fibers with zero water consumption and 95% dye absorption rates. Any chemical residues are captured, neutralized, and recycled within a sealed loop. \n\nFurthermore, circular manufacturing relies heavily on post-consumer waste. We are seeing a massive influx of chemically recycled nylon (like Econyl) and mechanical cotton recycling systems that allow brands to blend post-industrial scrap into new premium collections without compromising yarn strength or drape.\n\nConclusion: Sourcing for the Next Generation\n\nSourcing ethically in 2026 is not merely a marketing strategy or a compliance requirement—it is a survival mechanism. As resources grow scarcer and consumer values shift permanently toward environmental stewardship, the brands that thrive will be those that view their manufacturers not as disposable vendors, but as strategic partners in a closed-loop, regenerative ecosystem.",
       },
       "local-blog-1": {
-        title: "Navigating Global Textile Supply Chains: A Brand's Guide to Logistics & Tariff Engineering",
-        content: "Introduction: The New Era of Supply Chain Management\n\nManaging a fashion brand's supply chain has always been a balancing act, but in 2026, the global geopolitical and environmental landscape has turned it into a complex, high-stakes game. Rising fuel costs, shipping lane congestion, and fluctuating trade tariffs mean that simple mistakes can destroy a label's profit margins.\n\nFor sourcing executives, success requires a shift from reactive logistics to proactive, resilient supply chain design. This guide details the essential strategies brands are using to navigate global shipping, mitigate risk, and optimize manufacturing footprints.\n\nDecoupling Lead Times: The Buffer Stock Strategy\n\nHistorically, fashion operated on a \"Just-In-Time\" (JIT) model, aiming to receive materials exactly as production lines were ready to spin. However, shipping delays and border bottlenecks have made JIT highly risky.\n\nIn 2026, top fashion labels utilize a \"buffer stock\" strategy for core materials. By identifying fabrics and yarns that are used across multiple seasons and collections—such as organic pima cotton, high-grade linen, or recycled polyester—brands buy raw fibers in bulk during periods of low market demand. \n\nThese raw materials are stored in secure warehouses near manufacturing hubs. When a design is finalized, the factory can immediately begin cutting and sewing, cutting down the development-to-shipping window by up to 45 days. This approach improves agility and protects brands from sudden price hikes in raw commodities.\n\nTariff Engineering and Rules of Origin\n\nWith global trade policies changing rapidly, tariff engineering has become an essential tool for sourcing teams. Tariff engineering involves designing products specifically to qualify for lower duties based on regional trade agreements.\n\nFor instance, by tweaking the fiber blend of a garment (e.g., adding 5% silk to a wool coat) or sourcing specific trims from a treaty-aligned nation, brands can qualify for duty-free status under agreements like the USMCA or EU-Vietnam FTA. \n\nSourcing teams must work closely with designers and patternmakers early in the development cycle to ensure that:\n1. Fiber compositions align with target tariff classifications.\n2. The rules of origin are documented down to the raw spinning stage.\n3. Component sourcing matches bilateral trade treaties.\n\nThis pre-planning can save brands millions of dollars annually in import duties, allowing them to maintain competitive retail pricing without squeezing design budgets.\n\nReal-Time Transit Progress and Logistics Tech\n\nIn 2026, blind spots in the supply chain are no longer acceptable. Brands are integrating real-time tracking APIs directly into their ERP systems. Using GPS-enabled containers and blockchain verification, sourcing managers can see exactly where a shipment is at any given moment—whether it's on a truck in Shenzhen or clearing customs in Los Angeles.\n\nConclusion\n\nThe modern supply chain is not just a logistical necessity; it is a competitive advantage. By decoupling lead times, engineering products for favorable tariffs, and leveraging real-time tracking technology, fashion brands can navigate the complexities of global trade with confidence and agility."
+        title:
+          "Navigating Global Textile Supply Chains: A Brand's Guide to Logistics & Tariff Engineering",
+        content:
+          'Introduction: The New Era of Supply Chain Management\n\nManaging a fashion brand\'s supply chain has always been a balancing act, but in 2026, the global geopolitical and environmental landscape has turned it into a complex, high-stakes game. Rising fuel costs, shipping lane congestion, and fluctuating trade tariffs mean that simple mistakes can destroy a label\'s profit margins.\n\nFor sourcing executives, success requires a shift from reactive logistics to proactive, resilient supply chain design. This guide details the essential strategies brands are using to navigate global shipping, mitigate risk, and optimize manufacturing footprints.\n\nDecoupling Lead Times: The Buffer Stock Strategy\n\nHistorically, fashion operated on a "Just-In-Time" (JIT) model, aiming to receive materials exactly as production lines were ready to spin. However, shipping delays and border bottlenecks have made JIT highly risky.\n\nIn 2026, top fashion labels utilize a "buffer stock" strategy for core materials. By identifying fabrics and yarns that are used across multiple seasons and collections—such as organic pima cotton, high-grade linen, or recycled polyester—brands buy raw fibers in bulk during periods of low market demand. \n\nThese raw materials are stored in secure warehouses near manufacturing hubs. When a design is finalized, the factory can immediately begin cutting and sewing, cutting down the development-to-shipping window by up to 45 days. This approach improves agility and protects brands from sudden price hikes in raw commodities.\n\nTariff Engineering and Rules of Origin\n\nWith global trade policies changing rapidly, tariff engineering has become an essential tool for sourcing teams. Tariff engineering involves designing products specifically to qualify for lower duties based on regional trade agreements.\n\nFor instance, by tweaking the fiber blend of a garment (e.g., adding 5% silk to a wool coat) or sourcing specific trims from a treaty-aligned nation, brands can qualify for duty-free status under agreements like the USMCA or EU-Vietnam FTA. \n\nSourcing teams must work closely with designers and patternmakers early in the development cycle to ensure that:\n1. Fiber compositions align with target tariff classifications.\n2. The rules of origin are documented down to the raw spinning stage.\n3. Component sourcing matches bilateral trade treaties.\n\nThis pre-planning can save brands millions of dollars annually in import duties, allowing them to maintain competitive retail pricing without squeezing design budgets.\n\nReal-Time Transit Progress and Logistics Tech\n\nIn 2026, blind spots in the supply chain are no longer acceptable. Brands are integrating real-time tracking APIs directly into their ERP systems. Using GPS-enabled containers and blockchain verification, sourcing managers can see exactly where a shipment is at any given moment—whether it\'s on a truck in Shenzhen or clearing customs in Los Angeles.\n\nConclusion\n\nThe modern supply chain is not just a logistical necessity; it is a competitive advantage. By decoupling lead times, engineering products for favorable tariffs, and leveraging real-time tracking technology, fashion brands can navigate the complexities of global trade with confidence and agility.',
       },
       "local-blog-2": {
         title: "Artificial Intelligence in Apparel Manufacturing: Beyond the Hype",
-        content: "Introduction: AI Moves from Concept to Production Line\n\nFor years, the fashion industry has discussed Artificial Intelligence as a futuristic concept—mostly relegated to consumer-facing chatbots or experimental virtual try-on tools. However, in 2026, the real revolution is happening silently behind the scenes. AI is now deeply embedded in the very core of apparel manufacturing, fundamentally changing how garments are designed, sourced, and produced.\n\nThis article explores how AI has moved beyond the hype to become an indispensable tool in modern textile supply chains, driving efficiency, reducing waste, and fostering unprecedented creativity.\n\nGenerative Design and Rapid Prototyping\n\nThe traditional design process was notoriously slow. A designer would sketch a concept, pattern makers would draft technical packs, and factories would create physical samples. This loop often required 3 to 4 iterations before a design was finalized, taking months and generating significant fabric waste.\n\nToday, generative AI models specifically trained on historical fashion data and textile physics are transforming this workflow.\n\nFor example, a designer can prompt an AI tool to generate silhouettes that blend the brand's classic tailoring with the emerging \"utility-wear\" trend. Within seconds, the tool generates dozens of photorealistic flat drawings and 3D CAD renders. \n\nThese renders are mapped directly to factory patterns, meaning that once a design is approved, the digital file can be sent straight to computerized fabric cutting machines. This cuts sampling cycles from several weeks to less than 48 hours.\n\nStreamlining Raw Material Pre-Purchasing\n\nSourcing fabric is often the longest phase of fashion production. AI optimizes this by analyzing supplier capacity and raw material inventories in real time.\n\nIf the AI predicts an upcoming spike in demand for wool outerwear, the sourcing system automatically checks current wool stock levels across the brand's pre-approved supplier network. It flags potential capacity bottlenecks and suggests placing advance yarn reservations with factories in Italy or the UK before peak seasonal demand drives up prices.\n\nThis integration of forecasting and sourcing ensures that the design team's vision is backed by a fully prepared, cost-optimized supply chain.\n\nConclusion: The Fusion of Art and Algorithm\n\nAI trend forecasting is not about replacing the human designer; it is about empowering them. By removing the guesswork from trend prediction and inventory allocation, AI allows creative directors to focus on craftsmanship, storytelling, and high-quality design, confident in the knowledge that their collections will find a market and leave a minimal environmental footprint."
-      }
+        content:
+          "Introduction: AI Moves from Concept to Production Line\n\nFor years, the fashion industry has discussed Artificial Intelligence as a futuristic concept—mostly relegated to consumer-facing chatbots or experimental virtual try-on tools. However, in 2026, the real revolution is happening silently behind the scenes. AI is now deeply embedded in the very core of apparel manufacturing, fundamentally changing how garments are designed, sourced, and produced.\n\nThis article explores how AI has moved beyond the hype to become an indispensable tool in modern textile supply chains, driving efficiency, reducing waste, and fostering unprecedented creativity.\n\nGenerative Design and Rapid Prototyping\n\nThe traditional design process was notoriously slow. A designer would sketch a concept, pattern makers would draft technical packs, and factories would create physical samples. This loop often required 3 to 4 iterations before a design was finalized, taking months and generating significant fabric waste.\n\nToday, generative AI models specifically trained on historical fashion data and textile physics are transforming this workflow.\n\nFor example, a designer can prompt an AI tool to generate silhouettes that blend the brand's classic tailoring with the emerging \"utility-wear\" trend. Within seconds, the tool generates dozens of photorealistic flat drawings and 3D CAD renders. \n\nThese renders are mapped directly to factory patterns, meaning that once a design is approved, the digital file can be sent straight to computerized fabric cutting machines. This cuts sampling cycles from several weeks to less than 48 hours.\n\nStreamlining Raw Material Pre-Purchasing\n\nSourcing fabric is often the longest phase of fashion production. AI optimizes this by analyzing supplier capacity and raw material inventories in real time.\n\nIf the AI predicts an upcoming spike in demand for wool outerwear, the sourcing system automatically checks current wool stock levels across the brand's pre-approved supplier network. It flags potential capacity bottlenecks and suggests placing advance yarn reservations with factories in Italy or the UK before peak seasonal demand drives up prices.\n\nThis integration of forecasting and sourcing ensures that the design team's vision is backed by a fully prepared, cost-optimized supply chain.\n\nConclusion: The Fusion of Art and Algorithm\n\nAI trend forecasting is not about replacing the human designer; it is about empowering them. By removing the guesswork from trend prediction and inventory allocation, AI allows creative directors to focus on craftsmanship, storytelling, and high-quality design, confident in the knowledge that their collections will find a market and leave a minimal environmental footprint.",
+      },
     },
   },
-    supplierRequest: {
-      "pageTitle": "Supplier Application",
-      "pageSubtitle": "Join our global network of premier manufacturers and artisans.",
-      "contactPerson": "Contact Person",
-      "email": "Work Email",
-      "companyName": "Factory / Company Name",
-      "country": "Country of Operation",
-      "specialization": "Primary Specializations",
-      "moq": "Minimum Order Quantity (MOQ)",
-      "capacity": "Monthly Production Capacity",
-      "message": "Additional Details (Certifications, Key Clients)",
-      "submit": "Submit Application",
-      "thankYou": "Application Received",
-      "thankYouText": "Our sourcing team will review your application and contact you within 48 hours to schedule an initial compliance interview.",
-      "returnHome": "Return to Home"
+  supplierRequest: {
+    pageTitle: "Supplier Application",
+    pageSubtitle: "Join our global network of premier manufacturers and artisans.",
+    contactPerson: "Contact Person",
+    email: "Work Email",
+    companyName: "Factory / Company Name",
+    country: "Country of Operation",
+    specialization: "Primary Specializations",
+    moq: "Minimum Order Quantity (MOQ)",
+    capacity: "Monthly Production Capacity",
+    message: "Additional Details (Certifications, Key Clients)",
+    submit: "Submit Application",
+    thankYou: "Application Received",
+    thankYouText:
+      "Our sourcing team will review your application and contact you within 48 hours to schedule an initial compliance interview.",
+    returnHome: "Return to Home",
   },
-    bookDemo: {
-      "pageTitle": "Book a Consultation",
-      "pageSubtitle": "Discuss your sourcing needs with our expert team.",
-      "step1": "Your Details",
-      "step2": "Sourcing Needs",
-      "fullName": "Full Name",
-      "workEmail": "Work Email",
-      "company": "Company Name",
-      "role": "Your Role",
-      "companySize": "Company Size",
-      "region": "Target Region",
-      "category": "Primary Category",
-      "monthlyVolume": "Estimated Monthly Volume",
-      "timeline": "Expected Timeline",
-      "message": "Message or Specific Requirements",
-      "messagePlaceholder": "Tell us about your current challenges...",
-      "back": "Back",
-      "next": "Next Step",
-      "submit": "Book Consultation",
-      "submitting": "Submitting...",
-      "thankYou": "Request Received",
-      "thankYouText": "Thank you for your interest. A sourcing specialist will contact you shortly to schedule your consultation.",
-      "returnHome": "Return to Home",
-      "errorGeneric": "An error occurred. Please try again."
+  bookDemo: {
+    pageTitle: "Book a Consultation",
+    pageSubtitle: "Discuss your sourcing needs with our expert team.",
+    step1: "Your Details",
+    step2: "Sourcing Needs",
+    fullName: "Full Name",
+    workEmail: "Work Email",
+    company: "Company Name",
+    role: "Your Role",
+    companySize: "Company Size",
+    region: "Target Region",
+    category: "Primary Category",
+    monthlyVolume: "Estimated Monthly Volume",
+    timeline: "Expected Timeline",
+    message: "Message or Specific Requirements",
+    messagePlaceholder: "Tell us about your current challenges...",
+    back: "Back",
+    next: "Next Step",
+    submit: "Book Consultation",
+    submitting: "Submitting...",
+    thankYou: "Request Received",
+    thankYouText:
+      "Thank you for your interest. A sourcing specialist will contact you shortly to schedule your consultation.",
+    returnHome: "Return to Home",
+    errorGeneric: "An error occurred. Please try again.",
   },
   // ── Admin Portal ──
   admin: {
@@ -646,7 +730,7 @@ export const en = {
     save: "Save",
     cancel: "Cancel",
     viewDetails: "View Details",
-    
+
     inquiriesTitle: "Inquiries",
     inquiriesDesc: "Review, qualify, and update status of brand requests.",
     totalLeads: "Total Leads",
@@ -677,7 +761,7 @@ export const en = {
 
     testimonialsTitle: "Testimonials",
     testimonialsDesc: "Manage client feedback and quotes.",
-  
+
     editSupplier: "Edit Supplier",
     addShipment: "Add Shipment",
     generateAI: "Generate with AI",
@@ -686,5 +770,5 @@ export const en = {
     editBlogPost: "Edit Blog Post",
     addTestimonial: "Add Testimonial",
     editTestimonial: "Edit Testimonial",
-  }
+  },
 };

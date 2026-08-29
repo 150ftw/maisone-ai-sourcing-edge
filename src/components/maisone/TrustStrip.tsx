@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Leaf, Lock, FileCheck2, BadgeCheck } from "lucide-react";
 
 const PRESS = ["Vogue Business", "Business of Fashion", "WWD", "Nikkei", "Drapers", "TechCrunch"];
-const INVESTORS = ["Lumière Capital", "Atelier Ventures", "Sequoia Asia", "LVMH Luxury Ventures", "Index Ventures"];
+const INVESTORS = [
+  "Lumière Capital",
+  "Atelier Ventures",
+  "Sequoia Asia",
+  "LVMH Luxury Ventures",
+  "Index Ventures",
+];
 const COMPLIANCE = [
   { icon: Leaf, label: "GOTS Certified", sub: "Organic textiles" },
   { icon: ShieldCheck, label: "OEKO-TEX®", sub: "Standard 100" },
@@ -18,7 +24,9 @@ export function TrustStrip() {
         {/* Press + Investors */}
         <div className="grid lg:grid-cols-2 gap-12">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">— As featured in</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">
+              — As featured in
+            </p>
             <div className="flex flex-wrap gap-x-8 gap-y-4 items-center">
               {PRESS.map((p, i) => (
                 <motion.span
@@ -36,7 +44,9 @@ export function TrustStrip() {
           </div>
 
           <div>
-            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">— Backed by</p>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-6">
+              — Backed by
+            </p>
             <div className="flex flex-wrap gap-x-8 gap-y-4 items-center">
               {INVESTORS.map((p, i) => (
                 <motion.span
@@ -56,7 +66,9 @@ export function TrustStrip() {
 
         {/* Compliance */}
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">— Compliance & Certifications To Our Factory Network</p>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-electric mb-6">
+            — Compliance & Certifications To Our Factory Network
+          </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {COMPLIANCE.map((c, i) => (
               <motion.div

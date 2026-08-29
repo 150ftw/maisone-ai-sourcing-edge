@@ -9,18 +9,18 @@ export function Footer() {
   return (
     <footer id="contact" className="relative pt-12 pb-10 border-t border-border mt-12">
       <div className="mx-auto max-w-7xl px-6">
-
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10 py-16">
           <div className="col-span-2">
             <Logo />
-            <p className="mt-5 text-sm text-muted-foreground max-w-xs">
-              {t("footer.tagline")}
-            </p>
+            <p className="mt-5 text-sm text-muted-foreground max-w-xs">{t("footer.tagline")}</p>
             <div className="mt-6 space-y-4">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-1">{t("footer.headOffice")}</p>
+                <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-1">
+                  {t("footer.headOffice")}
+                </p>
                 <p className="text-xs text-foreground/80 leading-relaxed">
-                  {t("footer.addressLine1")}<br />
+                  {t("footer.addressLine1")}
+                  <br />
                   {t("footer.addressLine2")}
                 </p>
               </div>
@@ -54,7 +54,9 @@ export function Footer() {
             },
           ].map((c) => (
             <div key={c.title} className="col-span-1">
-              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-5">{c.title}</p>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground mb-5">
+                {c.title}
+              </p>
               <ul className="space-y-3">
                 {c.links.map((l) => {
                   const hasHash = l.to.includes("#");
@@ -62,11 +64,24 @@ export function Footer() {
                   return (
                     <li key={l.name}>
                       {hasHash ? (
-                        <Link to={path as any} hash={hash} className="text-sm hover:text-electric transition-colors">{l.name}</Link>
+                        <Link
+                          to={path as any}
+                          hash={hash}
+                          className="text-sm hover:text-electric transition-colors"
+                        >
+                          {l.name}
+                        </Link>
                       ) : l.to.startsWith("/") ? (
-                        <Link to={l.to as any} className="text-sm hover:text-electric transition-colors">{l.name}</Link>
+                        <Link
+                          to={l.to as any}
+                          className="text-sm hover:text-electric transition-colors"
+                        >
+                          {l.name}
+                        </Link>
                       ) : (
-                        <a href={l.to} className="text-sm hover:text-electric transition-colors">{l.name}</a>
+                        <a href={l.to} className="text-sm hover:text-electric transition-colors">
+                          {l.name}
+                        </a>
                       )}
                     </li>
                   );
@@ -77,18 +92,28 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border text-xs text-muted-foreground gap-4 text-center sm:text-left">
-          <p className="text-balance">© {new Date().getFullYear()} Maisone Global. {t("footer.allRightsReserved")}</p>
+          <p className="text-balance">
+            © {new Date().getFullYear()} Maisone Global. {t("footer.allRightsReserved")}
+          </p>
           <div className="flex flex-wrap justify-center gap-5">
             {[
-              { name: "Instagram", url: "https://www.instagram.com/maisone.global?igsh=MTN0d3Q4dzZrcHZlcg%3D%3D&utm_source=qr", isExternal: true },
-              { name: "LinkedIn", url: "https://www.linkedin.com/company/maison%C3%A8-global/?viewAsMember=true", isExternal: true },
-              { name: "Email", url: "mailto:info@maisone.com", isExternal: false }
+              {
+                name: "Instagram",
+                url: "https://www.instagram.com/maisone.global?igsh=MTN0d3Q4dzZrcHZlcg%3D%3D&utm_source=qr",
+                isExternal: true,
+              },
+              {
+                name: "LinkedIn",
+                url: "https://www.linkedin.com/company/maison%C3%A8-global/?viewAsMember=true",
+                isExternal: true,
+              },
+              { name: "Email", url: "mailto:info@maisone.com", isExternal: false },
             ].map((s) => (
-              <a 
-                key={s.name} 
-                href={s.url} 
-                target={s.isExternal ? "_blank" : undefined} 
-                rel={s.isExternal ? "noopener noreferrer" : undefined} 
+              <a
+                key={s.name}
+                href={s.url}
+                target={s.isExternal ? "_blank" : undefined}
+                rel={s.isExternal ? "noopener noreferrer" : undefined}
                 className="hover:text-foreground transition-colors cursor-pointer"
               >
                 {s.name}

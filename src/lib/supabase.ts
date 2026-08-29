@@ -12,7 +12,7 @@ const supabaseAnonKey = getEnv("VITE_SUPABASE_ANON_KEY") || "placeholder-key";
 
 if (supabaseUrl.includes("placeholder") || supabaseAnonKey.includes("placeholder")) {
   console.warn(
-    "Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your env/process variables."
+    "Supabase credentials missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your env/process variables.",
   );
 }
 
