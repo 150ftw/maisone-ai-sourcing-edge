@@ -25,7 +25,7 @@ export function Footer() {
                 </p>
               </div>
               <div className="text-xs text-muted-foreground">
-                <p>info@maisone.com</p>
+                <p>info@maisone.in</p>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@ export function Footer() {
             },
             {
               title: t("footer.suppliers"),
-              links: [{ name: t("footer.joinNetwork"), to: "mailto:info@maisone.com" }],
+              links: [{ name: t("footer.joinNetwork"), to: "mailto:info@maisone.in" }],
             },
             {
               title: t("footer.legal"),
@@ -107,7 +107,7 @@ export function Footer() {
                 url: "https://www.linkedin.com/company/maison%C3%A8-global/?viewAsMember=true",
                 isExternal: true,
               },
-              { name: "Email", url: "mailto:info@maisone.com", isExternal: false },
+              { name: "Email", url: "mailto:info@maisone.in", isExternal: false },
             ].map((s) => (
               <a
                 key={s.name}

@@ -24,7 +24,7 @@ export function GlobalPresence() {
               Four continents. <span className="italic gradient-text">One network.</span>
             </h2>
             <p className="mt-6 text-muted-foreground max-w-md">
-              We supply to all these countries, connecting your brand with a dynamic network of
+              We are present in all these countries, connecting your brand with a dynamic network of
               dedicated on-the-ground agents across the world's most influential fashion capitals —
               delivering deep local expertise, verified compliance, and continuous benchmarking.
             </p>

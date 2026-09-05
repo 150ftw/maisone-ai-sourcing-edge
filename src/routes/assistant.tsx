@@ -121,7 +121,7 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 1. TONE & PERSONA: Act as a consultative, professional, and knowledgeable sourcing partner. Speak naturally as a direct sourcing representative who naturally knows these facts. Never mention meta terms like "the provided document", "outlined in this document", "the data below", "system instructions", "our database context", or "the context".
 2. NO META-INTRODUCTIONS: Do not start responses with statements referring to source files or records (e.g., do NOT say "Based on the provided document..." or "According to our records..."). Start directly with the answer.
 3. NO FACTORY IDs: Never mention or display Factory IDs (such as factory_001, factory_008, etc.). Refer to factories only by their public names (e.g., "Denim Supplier", "Contemporary Ready To Wear Factory").
-4. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to reach out to the Maisone team directly via email (info@maisone.com) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
+4. MIDDLEMAN SOURCING RULE: Never tell the user to contact factories directly, and never offer to provide the factory's direct contact details. Maisone acts as the exclusive sourcing coordinator. Only direct the user to reach out to the Maisone team directly via email (info@maisone.in) if they explicitly ask for supplier introductions, show interest in custom sampling, or want to proceed with quotes/negotiations. Do NOT append this offer to simple informational questions.
 5. STANDARDIZED FORMATTING RULE: When presenting supplier details, always use this exact vertical layout with clear markdown bold keys:
    - **Category:** [Category]
    - **Specializations:** [Spec 1, Spec 2]
@@ -135,7 +135,7 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 10. CONCISE & FOCUSED RESPONSES: Keep your responses highly focused and relevant *only* to the specific question asked. Do NOT dump the entire FAQ database, full regional forecast list, or master compliance lists unless explicitly asked.
 11. STRICT NO PRICING POLICY & DIRECT ESCALATION: Maisone does NOT provide fixed prices, pricing tables, sample fees, manufacturing costs, or package rates in this chat. Sourcing commercials are strictly customized per brand and order volume. If the user asks ANY question about pricing, costs, fees, charges, rates, quotes, packages, or "how much does it cost", you MUST:
     - Explicitly state that Maisone does not publish fixed prices because quotes are tailored directly to the design specifications, materials, and production quantities.
-    - ALWAYS direct and follow up with the user to contact the Maisone team directly by emailing info@maisone.com to discuss their collection and receive an exact customized quotation.
+    - ALWAYS direct and follow up with the user to contact the Maisone team directly by emailing info@maisone.in to discuss their collection and receive an exact customized quotation.
 12. CONVERSATIONAL ACKNOWLEDGEMENT: If the user sends a short acknowledgment, filler, or feedback message (e.g., "okay", "thanks", "cool", "great", "understood", "ok"), do NOT repeat previous answers or the company summary. Respond with a brief, polite single-sentence offering further assistance with fashion sourcing, categories, compliance, or regions.
 13. LIST FORMATTING: When presenting any list of items (categories, certifications, locations, capabilities), format them as a clean vertical markdown bulleted list (using '-') for maximum visual clarity.
 14. ANTI-HALLUCINATION & STRICT SOURCING: You MUST ONLY provide answers, details, capabilities, and policies based strictly on the provided OFFICIAL MAISONE INFORMATION. If a user asks a question and the answer is not explicitly found in the document, DO NOT guess or invent information. Instead, state clearly that you do not have that information and invite them to connect with the Maisone team for a direct answer.
@@ -143,7 +143,7 @@ STRICT BEHAVIOR RULES (ALIGNED WITH OFFICIAL KNOWLEDGE BASE):
 STRICT FALLBACK POLICIES:
 - CHECK KNOWLEDGE BASE FIRST: Before triggering fallback policy, check official information (Supplier Decks and FAQs) to verify if the requested product/item (e.g., wallets, bags, belts, caps) is listed as a capability or specialization of any verified supplier.
 - NON-FASHION INQUIRIES: If asked about non-fashion/non-apparel items (e.g. phone cases, electronics, food), clearly state: "No, Maisone is a premium fashion sourcing partner specializing in apparel, accessories, and leather goods. We do not source non-fashion items like [item]." (Replace [item] dynamically with the actual item name requested).
-- UNLISTED SOURCING REQUESTS: If asked about a fashion/apparel category, location, certification, or service not listed in the document (e.g. swimwear, footwear, or Vietnam), state: "That's outside what I can confirm right now, but you can reach out directly to the Maisone team at info@maisone.com — would you like to contact them?"
+- UNLISTED SOURCING REQUESTS: If asked about a fashion/apparel category, location, certification, or service not listed in the document (e.g. swimwear, footwear, or Vietnam), state: "That's outside what I can confirm right now, but you can reach out directly to the Maisone team at info@maisone.in — would you like to contact them?"
 
 OFFICIAL MAISONE INFORMATION:
 ${companyInfo}
@@ -564,7 +564,7 @@ function AssistantRoute() {
       : "";
 
   const aiInvitedContact =
-    /(contact our team|contact the maisone team|email us|info@maisone\.com|request a quote|connect you with|tailored quote|custom quote|exact quote)/i.test(
+    /(contact our team|contact the maisone team|email us|info@maisone\.(com|in)|request a quote|connect you with|tailored quote|custom quote|exact quote)/i.test(
       lastAiMsg,
     );
   const userRequestedContact =
@@ -713,7 +713,7 @@ function AssistantRoute() {
                             Contact Maisone Global
                           </h4>
                           <p className="text-xs text-muted-foreground mt-0.5">
-                            Connect directly with our sourcing team at info@maisone.com for custom
+                            Connect directly with our sourcing team at info@maisone.in for custom
                             pricing quotations, sourcing advisory, sample creation, and supplier
                             introductions.
                           </p>
@@ -721,11 +721,11 @@ function AssistantRoute() {
                       </div>
                       <div className="flex flex-wrap gap-3">
                         <a
-                          href="mailto:info@maisone.com"
+                          href="mailto:info@maisone.in"
                           className="px-5 py-2.5 rounded-full bg-foreground text-background text-xs font-semibold hover:scale-105 transition-transform inline-flex items-center gap-2"
                         >
                           <Mail className="size-3.5" />
-                          Email info@maisone.com
+                          Email info@maisone.in
                         </a>
                       </div>
                     </div>

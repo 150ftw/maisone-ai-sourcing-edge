@@ -12,7 +12,6 @@ import { ProductCategories } from "@/components/maisone/ProductCategories";
 import { Founders } from "@/components/maisone/Founders";
 import { ExtraMile } from "@/components/maisone/ExtraMile";
 import { Partners } from "@/components/maisone/Partners";
-import { Testimonials } from "@/components/maisone/Testimonials";
 import { Blogs } from "@/components/maisone/Blogs";
 import { TrendForecast } from "@/components/maisone/TrendForecast";
 
@@ -171,7 +170,6 @@ function Index() {
           <Founders />
           <ExtraMile />
           <Partners />
-          <Testimonials />
 
           {/* Floating AI Assistant Button */}
           <div className="fixed bottom-8 right-8 z-50 size-16">

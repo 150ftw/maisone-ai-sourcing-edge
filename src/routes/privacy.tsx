@@ -98,7 +98,7 @@ function PrivacyPage() {
 
             <section className="space-y-3 pt-4 border-t border-white/5 flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5">
-                <Mail className="size-3.5 text-electric" /> security@maisone.com
+                <Mail className="size-3.5 text-electric" /> info@maisone.in
               </span>
               <span>{t("privacyPage.securityOffice")}</span>
             </section>

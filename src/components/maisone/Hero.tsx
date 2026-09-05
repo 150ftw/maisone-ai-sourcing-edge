@@ -293,7 +293,7 @@ export function Hero() {
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <motion.a
-              href="mailto:info@maisone.com"
+              href="mailto:info@maisone.in"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-foreground text-background text-sm font-medium transition-transform"
@@ -425,7 +425,7 @@ export function Hero() {
                 {/* Bottom CTA Row */}
                 <div className="flex items-center gap-6 pt-2">
                   <motion.a
-                    href="mailto:info@maisone.com"
+                    href="mailto:info@maisone.in"
                     whileHover={{
                       scale: 1.08,
                       boxShadow: isDark

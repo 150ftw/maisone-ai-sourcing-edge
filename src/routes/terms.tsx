@@ -88,7 +88,7 @@ function TermsPage() {
 
             <section className="space-y-3 pt-4 border-t border-white/5 flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5">
-                <HelpCircle className="size-3.5 text-electric" /> legal@maisone.com
+                <HelpCircle className="size-3.5 text-electric" /> info@maisone.in
               </span>
               <span>{t("termsPage.corporateLegal")}</span>
             </section>
